@@ -1,0 +1,15 @@
+node_modules
+.env
+
+images/*
+!images/foodCategories
+images/foodCategories/*
+
+client/node_modules
+client/.env
+client/.gitignore
+client/.vscode
+client/build
+
+uploadimages/node_modules
+uploadimages/images

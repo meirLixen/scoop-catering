@@ -1,0 +1,26 @@
+{
+  "name": "taskmanager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "set HTTPS=true&& nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "jquery": "^3.6.0",
+    "mongoose": "^5.9.24",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "react-to-print": "^2.14.4",
+    "validator": "^13.1.1"
+  }
+}
