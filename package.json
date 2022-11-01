@@ -22,5 +22,8 @@
     "nodemon": "^2.0.15",
     "react-to-print": "^2.14.4",
     "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0"
   }
 }

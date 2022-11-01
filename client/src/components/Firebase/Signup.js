@@ -17,7 +17,7 @@ export default function Signup() {
   const history = useHistory()
 
   async function handleSubmit(e) {
-    //debugger
+    
 
     e.preventDefault()
     if (passwordRef.current.value.length < 6) {

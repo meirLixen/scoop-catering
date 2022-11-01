@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
-import { connect } from "react-redux";
-import { actions } from "../redux/actions/action";
-import { axios } from "axios";
+import api from "../api";
+
 const AuthContext = React.createContext();
 
 export function useAuth() {
@@ -10,34 +9,24 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }, props) {
-  const { currentUser_, setUser } = props
   const [currentUser, setCurrentUser] = useState();
-  // const [userDetails, setUserDetails] = useState();
-
-  // const [userDetails, ] = useState();
   const [userDetails, setUserDetails] = useLocalStorage("userDetails", []);
-
-
   const [loading, setLoading] = useState(true);
 
   function useLocalStorage(key, initialValue) {
-
     const [storedValue, setStoredValue] = useState(() => {
       try {
-
         const item = window.localStorage.getItem(key);
 
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
 
     const setValue = (value) => {
       try {
-
         const valueToStore =
           value instanceof Function ? value(storedValue) : value;
 
@@ -45,16 +34,14 @@ export function AuthProvider({ children }, props) {
 
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
-
   const createUser = (user) => {
-    return fetch(`https://scoopcatering.co.il/user`, {
+    return fetch(`${api.defaults.baseURL}/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,13 +52,12 @@ export function AuthProvider({ children }, props) {
         return res.json();
       })
       .then((res) => {
-        console.log(res);
         return res;
       });
   };
-  const getUserByUid = (uid) => {
 
-    return fetch(`https://scoopcatering.co.il/userByUid/${uid}`, {
+  const getUserByUid = (uid) => {
+    return fetch(`${api.defaults.baseURL}/userByUid/${uid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -82,13 +68,12 @@ export function AuthProvider({ children }, props) {
         return res.json();
       })
       .then((res) => {
-        console.log(res);
         return res;
       });
   };
 
   const updateUserPassword = (updateUser) => {
-    return fetch("http://localhost:5002/updateUserPassword/", {
+    return fetch(`${api.defaults.baseURL}/updateUserPassword/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +84,6 @@ export function AuthProvider({ children }, props) {
         return res.json();
       })
       .then((res) => {
-        console.log(res);
         return res;
       });
   };
@@ -108,8 +92,8 @@ export function AuthProvider({ children }, props) {
     const update_user = await updateUserPassword(valuse);
     console.log(update_user);
   };
+
   const createNewUser = async (valuse) => {
-    console.log(valuse);
     const user = await createUser(valuse);
     console.log(user);
   };
@@ -121,12 +105,10 @@ export function AuthProvider({ children }, props) {
   // };
 
   function signup(email, password, firstName, lastName, phoneNumber) {
-    debugger
     // auth.signOut()
     let result = auth
       .createUserWithEmailAndPassword(email, password)
       .then((v) => {
-        console.log(v.user.multiFactor.uid);
         createNewUser({
           // uid: v.user.multiFactor.uid,
           uid: v.user.uid,
@@ -141,34 +123,20 @@ export function AuthProvider({ children }, props) {
   }
 
   function login(email, password) {
-
-
-    let result = auth.signInWithEmailAndPassword(email, password)
-      .then((v) => {
-        getUserByUid(v.user.uid)
-
-          .then((item) => {
-            // props.setUser("מינדי")
-            // alert(item.myuser.firstName)
-            console.log(item.myuser.firstName)
-            setUserDetails(item.myuser)
-          })
-
-
+    let result = auth.signInWithEmailAndPassword(email, password).then((v) => {
+      getUserByUid(v.user.uid).then((item) => {
+        // props.setUser("מינדי")
+        // alert(item.myuser.firstName)
+        console.log(item.myuser.firstName);
+        setUserDetails(item.myuser);
       });
+    });
     return result;
-
-
-
-
-
-
   }
-
 
   function logout() {
     console.log("userLogin:" + currentUser.email);
-    setUserDetails([])
+    setUserDetails([]);
     return auth.signOut();
   }
 
@@ -189,7 +157,6 @@ export function AuthProvider({ children }, props) {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       // alert(user)
       setCurrentUser(user);
-
 
       setLoading(false);
     });
@@ -228,4 +195,3 @@ export function AuthProvider({ children }, props) {
 
 // })
 // export default connect(mapStateToProps, mapDispatchToProps)(AuthProvider)
-

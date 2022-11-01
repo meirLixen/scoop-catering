@@ -1,73 +1,64 @@
-
-import React, { useEffect } from 'react';
-import decorite from '../../data/imges/decorite.png'
-import $ from 'jquery'
+import React, { useEffect } from "react";
+import decorite from "../../data/imges/decorite.png";
+import $ from "jquery";
 
 // import Nuv from './Nuv';
 // import bg1 from '../../assets/img/bg1.jpg'
 // import bg3 from '../../assets/img/bg3.jpg'
 // import bg4 from '../../assets/img/bg4.jpg'
-import { ReactComponent as YourSvg } from '../../data/imges/searchIcon_Black.svg';
-import { ReactComponent as YourSvg1 } from '../../data/imges/shoppingCart.svg';
-import { ReactComponent as YourSvg2 } from '../../data/imges/shabatTimes.svg';
-import locationIcon from '../../data/imges/locationIcon.png'
-import { Container, Form, FormControl, Nav, Button, NavDropdown, Image } from "react-bootstrap"
-import background_image from '../../data/imges/backgroundImg.jpg'
-import { useTranslation } from 'react-i18next';
-import i18 from '../../i18/i18';
+import { Image } from "react-bootstrap";
+import i18 from "../../i18/i18";
 export function Section() {
-    const { t, i18n } = useTranslation();
-    let clicked = false
-    let previousClick = "empty"
-    let currentClass
-    useEffect(() => {
-        if ($) {
-            $("button").click(function () {
-                if ($(this).attr('id') == "btnOne" || $(this).attr('id') == "btnTwo" || $(this).attr('id') == "btnThree") {
-                    currentClass = "." + $(this).attr('id')
-                    if ($(this).hasClass('active')) {
-                        $(this).removeClass('active');
-                        $(currentClass).addClass('d-none');
-                        $('.left_side').removeClass('d-none');
-
-                    }
-                    else {
-                        $(this).addClass('active');
-                        $(currentClass).removeClass('d-none');
-                        $('.left_side').removeClass('d-none');
-                        if (previousClick != "empty" && previousClick != $(this).attr('id')) {
-                            $("#" + previousClick).removeClass('active');
-                            $("." + previousClick).addClass('d-none');
-                            $('.left_side').addClass('d-none');
-                        }
-                        else {
-                            $("#" + previousClick).addClass('active');
-                            $("." + previousClick).removeClass('d-none');
-                            if ($('.left_side').hasClass('d-none'))
-                                $('.left_side').romoveClass('d-none');
-                            else
-                                $('.left_side').addClass('d-none');
-                        }
-                        previousClick = $(this).attr('id')
-                        console.log(previousClick);
-                    }
-                }
-            });
-
+  let previousClick = "empty";
+  let currentClass;
+  useEffect(() => {
+    if ($) {
+      $("button").click(function () {
+        if (
+          $(this).attr("id") === "btnOne" ||
+          $(this).attr("id") === "btnTwo" ||
+          $(this).attr("id") === "btnThree"
+        ) {
+          currentClass = "." + $(this).attr("id");
+          if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+            $(currentClass).addClass("d-none");
+            $(".left_side").removeClass("d-none");
+          } else {
+            $(this).addClass("active");
+            $(currentClass).removeClass("d-none");
+            $(".left_side").removeClass("d-none");
+            if (
+              previousClick !== "empty" &&
+              previousClick !== $(this).attr("id")
+            ) {
+              $("#" + previousClick).removeClass("active");
+              $("." + previousClick).addClass("d-none");
+              $(".left_side").addClass("d-none");
+            } else {
+              $("#" + previousClick).addClass("active");
+              $("." + previousClick).removeClass("d-none");
+              if ($(".left_side").hasClass("d-none"))
+                $(".left_side").romoveClass("d-none");
+              else $(".left_side").addClass("d-none");
+            }
+            previousClick = $(this).attr("id");
+            console.log(previousClick);
+          }
         }
-
-
-
-    }, [$])
-    return (
-
-        <section >
-
-
-            <div class="container_" style={{
-                width: '100vw', height: "580px",
-            }}>
-                {/* 
+      });
+    }
+  }, [$]);
+  return (
+    <section>
+      <div
+        className="container_"
+        style={{
+          width: "100vw",
+          height: "580px",
+        }}
+      >
+        {/* 
                 <div className="searchBox btnOne bc-white centerItems flex-column d-none" style={{ width: '60%', height: "40%", zIndex: '9', position: 'absolute', left: '15%', top: "20%", opacity: "0.9" }}>
 
                     <div className="text-dark h1 " style={{ marginLeft: "9%" }}>  ?...מה אתם מחפשים  <YourSvg className="svgSize" /></div>
@@ -121,11 +112,10 @@ export function Section() {
                 </div>
  */}
 
-
-                <div class="centered_  ">{i18.t('homePageTitel')}</div>
-                {/* <div className="left_side">הזמינו אירוע 077-255-9982</div> */}
-                <Image className="decorite" src={decorite} />
-                {/* <div className="row" style={{
+        <div className="centered_  ">{i18.t("homePageTitel")}</div>
+        {/* <div className="left_side">הזמינו אירוע 077-255-9982</div> */}
+        <Image className="decorite" src={decorite} />
+        {/* <div className="row" style={{
                     width: '2.5%',
                     top: '12%',
                     left: '1.5%',
@@ -138,18 +128,9 @@ export function Section() {
                 </div>
 
  */}
-
-
-            </div>
-        </section >
-
-
-
-    );
+      </div>
+    </section>
+  );
 }
 
-export default Section
-
-
-
-
+export default Section;

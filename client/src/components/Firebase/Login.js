@@ -2,10 +2,9 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-import Modal from "../Popup/Modal";
 import useModal from '../Popup/useModal';
 export default function Login() {
-  const { isShowing, toggle } = useModal();
+  const { toggle } = useModal();
   const emailRef = useRef()
   const passwordRef = useRef()
   const { login } = useAuth()

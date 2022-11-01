@@ -11,7 +11,7 @@ router.post('/category', async (req, res) => {
     try {
         const newCategory = await category.save(function (err, category) {
             if (err) {
-                console.log(err)
+                console.error(err)
                 return err;
             }
             res.json({ status: 201, category: newCategory })
@@ -25,35 +25,30 @@ router.post('/category', async (req, res) => {
 // find and update category by id
 router.post('/categories/:id', async (req, res) => {
     const updates = Object.keys(req.body)
-    console.log("updates", updates)
     const allowedUpdates = ["name", "products"];
     const isValidOpreration = updates.every((update) => {
-        console.log("update", update)
         allowedUpdates.includes(update)
     })
     if (isValidOpreration) {
         return res.status(404).send('invalid update')
     }
     try {
-        console.log(req.body);
         const category = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
         if (!category) {
             res.status(404).send('category not found')
         }
         res.send(category)
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 })
 
 // DELETE CATEGORY
 
 router.delete('/category/:id', async (req, res) => {
-    console.log("id:" + req.params.id);
     Category.findByIdAndDelete(req.params.id, (err, category) => {
         if (err)
             res.status(400).send(err)
-        console.log("success!");
         res.status(200).send(category)
     })
 })
@@ -63,7 +58,7 @@ router.delete('/category/:id', async (req, res) => {
 router.get('/categories', async (req, res) => {
     Category.find().populate("products").then(categories => {
         if (!categories)
-            console.log(categories);
+          null  
         res.send(categories);
     })
         .catch((err) => {
@@ -72,7 +67,6 @@ router.get('/categories', async (req, res) => {
 })
 // get category by id
 router.get('/category/:id', async (req, res) => {
-    console.log(req.params.id);
     try {
         const category = await Category.findById(req.params.id)
         res.status(200).json({ message: "find category", mycategory: category })

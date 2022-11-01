@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import iamge from '../data/imges/foodCategories/shabat.png'
 import iamge1 from '../data/imges/foodCategories/mainCourses.png'
 import Carousel from 'react-bootstrap/Carousel'

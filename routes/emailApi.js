@@ -10,7 +10,7 @@ router.post('/email', async (req, res) => {
     try {
         const newEmail = await email.save(function (err, email) {
             if (err) {
-                console.log(err)
+                console.error(err)
                 return err;
             }
             res.json({ status: 201, email: email })
@@ -23,33 +23,28 @@ router.post('/email', async (req, res) => {
 // edit email
 router.post('/emails/:id', async (req, res) => {
     const updates = Object.keys(req.body)
-    console.log("updates", updates)
     const allowedUpdates = ["status"];
     const isValidOpreration = updates.every((update) => {
-        console.log("update", update)
         allowedUpdates.includes(update)
     })
     if (isValidOpreration) {
         return res.status(404).send('invalid update')
     }
     try {
-        console.log(req.body);
         const email = await Email.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
         if (!email) {
             res.status(404).send('email not found')
         }
         res.send(email)
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 })
 //delete email
 router.delete('/email/:id', async (req, res) => {
-    console.log("id:" + req.params.id);
     Email.findByIdAndDelete(req.params.id, (err, email) => {
         if (err)
             res.status(400).send(err)
-        console.log("success!");
         res.status(200).send(email)
     })
 })
@@ -59,7 +54,6 @@ router.delete('/email/:id', async (req, res) => {
 router.get('/emails', async (req, res) => {
     Email.find().then(emails => {
         if (!emails)
-            console.log(emails);
         res.send(emails);
     })
         .catch((err) => {
@@ -68,7 +62,6 @@ router.get('/emails', async (req, res) => {
 })
 // get email by id
 router.get('/email/:id', async (req, res) => {
-    console.log(req.params);
     const id = req.params.id
     Email.findById(id).then((email) => {
         if (!email) {
@@ -81,7 +74,6 @@ router.get('/email/:id', async (req, res) => {
         })
 })
 router.post('/api/sendEmail', (req, res) => {
-    console.log("send email");
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -119,15 +111,14 @@ router.post('/api/sendEmail', (req, res) => {
 
         let mail = transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                console.log(error);
+                console.error(error);
             } else {
-                console.log('Email sent: ' + info.response);
+                console.info('Email sent: ' + info.response);
             }
         });
     })
 });
 router.post('/sendEmail', (req, res) => {
-    console.log("send email");
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -162,7 +153,7 @@ router.post('/sendEmail', (req, res) => {
         if (error) {
             throw error;
         } else {
-            console.log('Email successfully sent!');
+            console.info('Email successfully sent!');
         }
     });
 
