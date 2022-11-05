@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
-import "../../App.css";
 import { connect } from "react-redux";
+import $ from "jquery";
+import { Form } from "react-bootstrap";
+
 import Footer from "../mainPage/Footer";
 import UnderFooter from "../mainPage/UnderFooter";
 import editIcon from "../../data/imges/editIcon.png";
-
 import useMediaQuery from "../../hooks/useMediaQuery";
-import { Form } from "react-bootstrap";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-
-import $ from "jquery";
 import i18 from "../../i18/i18";
+
+import "../../App.css";
+
 export function Checkout(props) {
   const { language } = props;
   const [showEditDetails, setShowEditDetails] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
-
-  // const { currentUser, logout } = useAuth()
 
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
@@ -31,11 +30,9 @@ export function Checkout(props) {
     setShowEditDetails(true);
     setShowDetails(false);
     setTimeout(() => {
-      //document.getElementById('EmailInput').value = userDetails.email
       $("#FirstNameInput").val(
         userDetails.firstName + " " + userDetails.lastName
       );
-      //$('#AddressInput').val(userDetails.orders[0].shippingAddress)
       $("#EmailInput").val(userDetails.email);
       $("#phoneInput").val(userDetails.phone);
       if (userDetails.orders && userDetails.orders[0] !== null)
@@ -53,7 +50,7 @@ export function Checkout(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -70,22 +67,20 @@ export function Checkout(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
-  function loadingUser() {
-    // currentUser ? $('#EmailInput').val(currentUser.email) : alert("vghbjnk")
-  }
+  function loadingUser() {}
+
   useEffect(() => {
     if (userDetails === [] || userDetails.email === undefined) {
       $(".Email").text("");
       $(".Name").text("");
       $(".Address").text("");
     } else if (userDetails !== []) {
-      console.log("userDetails", userDetails.email);
       $(".Email").text(userDetails.email);
       $(".Name").text(userDetails.firstName + " " + userDetails.lastName);
       if (userDetails.orders && userDetails.orders[0] !== null)
@@ -93,7 +88,6 @@ export function Checkout(props) {
     }
 
     //scroll top
-    //window.scrollTo(0, 0)
     if ($) {
       $("textarea")
         .each(function () {
@@ -112,32 +106,26 @@ export function Checkout(props) {
           $(this).attr("id") === "btnTwo" ||
           $(this).attr("id") === "btnThree"
         ) {
+          // eslint-disable-next-line
           currentClass = "." + $(this).attr("id");
           if ($(this).hasClass("active")) {
             $(this).removeClass("active");
             $(currentClass).addClass("d-none");
-            // $('.left_side').removeClass('d-none');
           } else {
             $(this).addClass("active");
             $(currentClass).removeClass("d-none");
-            // $('.left_side').removeClass('d-none');
             if (
               previousClick !== "empty" &&
               previousClick !== $(this).attr("id")
             ) {
               $("#" + previousClick).removeClass("active");
               $("." + previousClick).addClass("d-none");
-              // $('.left_side').addClass('d-none');
             } else {
               $("#" + previousClick).addClass("active");
               $("." + previousClick).removeClass("d-none");
-              // if ($('.left_side').hasClass('d-none'))
-              // $('.left_side').romoveClass('d-none');
-              // else
-              //     $('.left_side').addClass('d-none');
             }
+            // eslint-disable-next-line
             previousClick = $(this).attr("id");
-            console.log(previousClick);
           }
         }
       });
@@ -145,7 +133,6 @@ export function Checkout(props) {
   }, [$]);
   return (
     <div onScroll={() => alert("bgvf")}>
-      {/* <Search details={products} /> */}
       <div className="pageNuv" onScroll={() => alert("bgvf")}>
         {isTablet && <Hamborger history={props.history} />}
 
@@ -195,7 +182,6 @@ export function Checkout(props) {
           {i18.t("checkout")}{" "}
         </h1>
         <div className="swithDir row">
-          {/* <div className="  col-6 ml-5 p-0 swithSide overflow-auto overflow-checkout" style={{ height: '550px' }}> */}
           <div className="swithSide  mb-5 overflow-checkout col-md-8 col-sm-12">
             <div className=" bg-grey mb-5 p-3">
               <div
@@ -244,7 +230,6 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicName"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('FirstName')}</Form.Label> */}
                     <Form.Control
                       className="rounded-custom  "
                       type="text"
@@ -256,7 +241,6 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formAddress"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('address')}</Form.Label> */}
                     <Form.Control
                       className="rounded-custom  "
                       type="text"
@@ -268,7 +252,6 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicEmail"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('mailAdress')}</Form.Label> */}
                     <Form.Control
                       className="rounded-custom  "
                       type="email"
@@ -280,7 +263,6 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicPhone"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('phone')}</Form.Label> */}
                     <Form.Control
                       className="rounded-custom fontNumber "
                       type="text"
@@ -327,7 +309,6 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicName"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('FirstName')}</Form.Label> */}
                     <Form.Control className="rounded-custom  " type="text" />
                   </Form.Group>
 
@@ -335,7 +316,6 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formAddress"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('address')}</Form.Label> */}
                     <Form.Control className="rounded-custom  " type="text" />
                   </Form.Group>
 
@@ -343,7 +323,6 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicEmail"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('mailAdress')}</Form.Label> */}
                     <Form.Control className="rounded-custom  " type="email" />
                   </Form.Group>
 
@@ -351,7 +330,6 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicPhone"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('phone')}</Form.Label> */}
                     <Form.Control
                       className="rounded-custom fontNumber "
                       type="text"
@@ -393,17 +371,6 @@ export function Checkout(props) {
                 {i18.t("deliveryDetails")}{" "}
               </label>
               <hr className="hrCheckout mt-0 mb-4" />
-              {/* <div><label >{i18.t('AreaOrCity')}</label></div> */}
-              {/* <select className="w-75 rounded-custom p-1">
-                                <option></option>
-                              
-                                <option>{i18.t('BeitShemesh')}</option>
-                                <option>{i18.t('GushEtzion')}</option>
-                                <option>{i18.t('Jerusalem')}</option>
-                                <option>{i18.t('Modiin')}</option>
-                                <option>{i18.t('Raanana')}</option>
-                            </select>
- */}
 
               <div className="mt-2">
                 <label className="lableForm">{i18.t("shippingMethod")}</label>
@@ -531,7 +498,6 @@ export function Checkout(props) {
                 style={isTablet ? { width: "100%" } : { width: "100%" }}
               >
                 <div className="form-group pr-1">
-                  {/* <label htmlFor="exampleFormControlTextarea1 " className="lableForm">{i18.t('CommentsToOrder')} </label> */}
                   <textarea
                     className="w-100  fontNumber customTextarea"
                     rows={1}
@@ -544,12 +510,6 @@ export function Checkout(props) {
             </div>
 
             <div className="">
-              {/* <div className="d-flex align-items-center"> <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-                                <label className="mr-2 ml-3  mb-0" htmlFor="vehicle1 " style={{ fontSize: 'smaller' }}>{i18.t('ApprovalOfRegulations')}</label>
-                            </div>
-                            <div className="d-flex align-items-center">  <input type="checkbox" id="vehicle2" name="vehicle1" value="Bike" />
-                                <label className="mr-2 ml-3 mb-0" htmlFor="vehicle2   " style={{ fontSize: 'smaller' }}> {i18.t('SaveDetails')}</label>
-                            </div> */}
               <div className="form-check d-flex align-items-center">
                 <input
                   className="form-check-input check-height"
@@ -589,12 +549,10 @@ export function Checkout(props) {
             >
               {" "}
               {i18.t("ContinueToPay")}
-              {/* <img src={arrow_left_white} style={{ paddingRight: '5px',width: '25px'}} /> */}
             </button>
           </div>
           <div className="col-md-4 col-sm-12">
             <div className="fixedDiv ">
-              {/* <label className="    font-weight-bolder w-100 pt-1 swithSide px-3">{i18.t('OrderSummary')}</label> */}
               <div className=" bg-grey p-3">
                 <label className="  w-100 pt-1  swithSide  goldbgColor  mb-0">
                   {" "}
@@ -608,18 +566,6 @@ export function Checkout(props) {
                   </div>
                   <br />
                   <br />
-                  {/* <div className="row  pb-3">
-
-                                        <div className="col-7 swithSide">{i18.t('InterimTotal')}</div>
-                                        <div className="col-5 fontNumber">{parseFloat(total).toFixed(2)} &#8362;</div>
-
-                                    </div> */}
-                  {/* <div className="row border-bottom border-dark pb-3">
-
-                                        <div className="col-7 swithSide">{i18.t('ShippingCost')}</div>
-                                        <div className="col-5 fontNumber">{parseFloat(25).toFixed(2)} &#8362;</div>
-
-                                    </div> */}
                   <div className="row pt-2 font-weight-bold border-top border-dark pt-3">
                     <div className="col-7 swithSide">{i18.t("Total")}</div>
                     <div className="col-5 fontNumber">
@@ -629,7 +575,6 @@ export function Checkout(props) {
                       &#8362;
                     </div>
                   </div>
-                  {/* <button className="mt-5 goldButton px-3 mb-5" onClick={() => props.history.push('/Checkout')}> {i18.t('toCheckout')} &#8594; </button> */}
                 </div>
               </div>
               <button
@@ -639,7 +584,6 @@ export function Checkout(props) {
               >
                 {" "}
                 {i18.t("ContinueToPay")}
-                {/* <img src={arrow_left_white} style={{ paddingRight: '5px',width: '25px'}} /> */}
               </button>
             </div>
           </div>
@@ -653,6 +597,7 @@ export function Checkout(props) {
     </div>
   );
 }
+
 const mapStateToProps = (state) => {
   return {
     language: state.languageReducer.language,

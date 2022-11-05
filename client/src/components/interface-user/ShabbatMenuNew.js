@@ -41,7 +41,7 @@ function ShabbatMenu(props) {
 
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -55,14 +55,14 @@ function ShabbatMenu(props) {
 
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
   if (!products || !products.length) {
-    // props.getAllProducts()
+    props.getAllProducts()
   }
   if (!categories || !categories.length) {
     props.getAllCategories();

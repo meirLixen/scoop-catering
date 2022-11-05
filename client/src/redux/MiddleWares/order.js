@@ -15,7 +15,7 @@ export const getAllOrders =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
 
             reject();
           });
@@ -29,7 +29,6 @@ export const createOrder =
   (next) =>
   (action) => {
     if (action.type === "CREATE_ORDER") {
-      console.log("fgvhjk");
 
       return new Promise((resolve, reject) => {
         api
@@ -38,7 +37,7 @@ export const createOrder =
             dispatch(actions.setOrder(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -61,7 +60,7 @@ export const updateOrder =
           dispatch(actions.setOrder(res.data));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
 
       return;
@@ -84,7 +83,7 @@ export const deleteOrder =
           dispatch(actions.deleteOrderFromOrders(orderId));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       return;
     }

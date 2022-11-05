@@ -12,7 +12,7 @@ export const createProductOnOrder =
             dispatch(actions.setProductOnOrder(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -35,7 +35,7 @@ export const updateProductOnOrder =
           dispatch(actions.setProductOnOrder(res.data));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       return;
     }
@@ -53,7 +53,7 @@ export const deleteProductOnOrder =
             dispatch(actions.deleteProductFromProductsOnOrder(action.payload));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       return;
     }
@@ -73,7 +73,7 @@ export const getAllProductsOnOrder =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
       });

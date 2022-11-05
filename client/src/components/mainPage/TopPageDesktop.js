@@ -23,10 +23,6 @@ export function TopPageDesktop(props) {
   const [numItems] = useLocalStorage("numItems", 0);
   const [total] = useLocalStorage("total", 0);
   const { totalRedux } = props;
-  if (totalRedux === 0) {
-    props.setTotalRedux(total);
-  }
-
   function useLocalStorage(key, initialValue) {
     // State to store our value
     // Pass initial state function to useState so logic is only executed once
@@ -38,7 +34,7 @@ export function TopPageDesktop(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -55,12 +51,16 @@ export function TopPageDesktop(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
-
+  useEffect(() => {
+    if (totalRedux === 0) {
+      props.setTotalRedux(total);
+    }
+  });
   function goHome() {
     if (window.location.href !== " ")
       //if not home page

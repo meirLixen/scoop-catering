@@ -22,7 +22,7 @@ export function SearchResults(props) {
   const isTablet = useMediaQuery(1024);
 
   if (!props.products || !props.products.length) {
-    // props.getAllProducts()
+    props.getAllProducts()
   }
 
   const { products } = props;

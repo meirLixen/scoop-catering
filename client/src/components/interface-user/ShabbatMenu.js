@@ -25,7 +25,7 @@ import "../Popup/Modal.css";
 import "../../App.css";
 import $ from "jquery";
 import i18 from "../../i18/i18";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 import { useHistory } from "react-router-dom";
 let previousClick = "empty";
@@ -56,8 +56,6 @@ function ShabbatMenu(props) {
   const history = useHistory();
 
   async function handleLogout() {
-    setError("");
-
     try {
       await logout();
       history.push("/shop");
@@ -76,7 +74,6 @@ function ShabbatMenu(props) {
     } else {
       $(currentClass).addClass("active");
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== categoryId) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -100,7 +97,6 @@ function ShabbatMenu(props) {
       $(currentClass).addClass("active");
 
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -118,7 +114,6 @@ function ShabbatMenu(props) {
   }
 
   const deleteItem = async (id) => {
-    // console.log($('#' + id + ' ' + '.amountToBuy' + ' ' + 'input').val());
     let totalTodel;
     let less;
 
@@ -184,7 +179,8 @@ function ShabbatMenu(props) {
       $(".searchResults").addClass("d-none");
     } else {
       setSerchResults(filteredProducts);
-      if (filteredProducts === "") $(".notFound").removeClass("d-none");
+      if (!filteredProducts || !filteredProducts.length)
+        $(".notFound").removeClass("d-none");
       else $(".notFound").addClass("d-none");
     }
   }
@@ -193,6 +189,7 @@ function ShabbatMenu(props) {
     $(".inputOf_Search").val("");
     searchProduct("");
   }
+
   function useLocalStorage(key, initialValue) {
     const [storedValue, setStoredValue] = useState(() => {
       try {
@@ -200,7 +197,7 @@ function ShabbatMenu(props) {
 
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -214,15 +211,16 @@ function ShabbatMenu(props) {
 
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
   if (!products || !products.length) {
-    // props.getAllProducts()
+    props.getAllProducts();
   }
+
   if (!categories || !categories.length) {
     props.getAllCategories();
   }
@@ -353,7 +351,7 @@ function ShabbatMenu(props) {
           {categories &&
             categories.map((category, index) => (
               <a
-                key={index}
+                key={uuidv4()}
                 className=""
                 href={"#" + category.name}
                 style={{ textDecoration: "none" }}
@@ -429,7 +427,7 @@ function ShabbatMenu(props) {
           <div className="shabatMenu px-2">
             {categories &&
               categories.map((category, index) => (
-                <>
+                <React.Fragment key={uuidv4()}>
                   <div
                     id={category.name}
                     onMouseEnter={() => hoverCategory(category._id, index)}
@@ -468,7 +466,7 @@ function ShabbatMenu(props) {
                       ? serchResults
                       : category.products
                     ).map((product) => (
-                      <>
+                      <React.Fragment key={uuidv4()}>
                         <div
                           className=" productLine w-100  row  m-0  flex-nowrap    justify-content-around   p-2 mb-2"
                           id={product._id}
@@ -609,14 +607,14 @@ function ShabbatMenu(props) {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     ))}
                   </div>
                   <hr
                     className="goldColor mt-0 mb-2 w-100 row"
                     style={{ height: "2.5px", opacity: "1" }}
                   />
-                </>
+                </React.Fragment>
               ))}
           </div>
 
@@ -682,7 +680,7 @@ function ShabbatMenu(props) {
                 <div className="categoryList   d-flex flex-column  pb-5 ">
                   {categories &&
                     categories.map((category, index) => (
-                      <>
+                      <React.Fragment key={uuidv4()}>
                         <a className="text-center" href={"#" + category.name}>
                           <button
                             className={`bg-white categoryButton ${index}`}
@@ -701,7 +699,7 @@ function ShabbatMenu(props) {
                               : category.name}
                           </button>
                         </a>
-                      </>
+                      </React.Fragment>
                     ))}
                 </div>
               </div>
@@ -722,7 +720,7 @@ function ShabbatMenu(props) {
 
                 {serchResults &&
                   serchResults.map((product) => (
-                    <>
+                    <React.Fragment key={uuidv4()}>
                       <div
                         className=" productLine w-100  row    justify-content-around   p-2 mb-4"
                         id={product._id}
@@ -843,7 +841,7 @@ function ShabbatMenu(props) {
                           </div>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   ))}
               </div>
 
@@ -851,7 +849,7 @@ function ShabbatMenu(props) {
               <div className="shabatMenu ">
                 {categories &&
                   categories.map((category, index) => (
-                    <>
+                    <React.Fragment key={uuidv4()}>
                       <div
                         id={category.name}
                         onMouseEnter={() => hoverCategory(category._id, index)}
@@ -890,7 +888,7 @@ function ShabbatMenu(props) {
                           .filter((key) => key === "products")
                           .map((key, val) =>
                             category[key].map((product) => (
-                              <>
+                              <React.Fragment key={uuidv4()}>
                                 <div
                                   className=" productLine w-100  row      justify-content-around   p-2 mb-4"
                                   id={product._id}
@@ -1028,7 +1026,7 @@ function ShabbatMenu(props) {
                                     </div>
                                   </div>
                                 </div>
-                              </>
+                              </React.Fragment>
                             ))
                           )}
                       </div>
@@ -1036,7 +1034,7 @@ function ShabbatMenu(props) {
                         className="goldColor mt-0 mb-2 w-100 row"
                         style={{ height: "2.5px", opacity: "1" }}
                       />
-                    </>
+                    </React.Fragment>
                   ))}
               </div>
             </div>
@@ -1114,6 +1112,7 @@ function ShabbatMenu(props) {
                     {cart &&
                       cart.map((item) => (
                         <div
+                        key={uuidv4()}
                           className={`productItem d-flex py-2 ${side} ${item.product._id}`}
                         >
                           <div className="col-10 px-1">
@@ -1434,3 +1433,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ShabbatMenu);
 // export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

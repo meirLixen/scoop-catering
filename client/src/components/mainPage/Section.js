@@ -43,7 +43,6 @@ export function Section() {
               else $(".left_side").addClass("d-none");
             }
             previousClick = $(this).attr("id");
-            console.log(previousClick);
           }
         }
       });

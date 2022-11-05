@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "../../App.css";
 import { connect } from "react-redux";
+import { Form } from "react-bootstrap";
+import $ from "jquery";
+
 import Footer from "../mainPage/Footer";
 import UnderFooter from "../mainPage/UnderFooter";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import { Form } from "react-bootstrap";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-
-import $ from "jquery";
 import i18 from "../../i18/i18";
-export function Checkout(props) {
-  // const { currentUser, logout } = useAuth()
 
+import "../../App.css";
+
+export function Checkout(props) {
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   const [numItems] = useLocalStorage("numItems", 0);
@@ -23,17 +23,12 @@ export function Checkout(props) {
   let currentClass;
 
   function useLocalStorage(key, initialValue) {
-    // State to store our value
-    // Pass initial state function to useState so logic is only executed once
     const [storedValue, setStoredValue] = useState(() => {
       try {
-        // Get from local storage by key
         const item = window.localStorage.getItem(key);
-        // Parse stored json or if none return initialValue
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-        // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -50,15 +45,14 @@ export function Checkout(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
-  function loadingUser() {
-    // currentUser ? $('#EmailInput').val(currentUser.email) : alert("vghbjnk")
-  }
+  function loadingUser() {}
+
   useEffect(() => {
     if (userDetails !== []) {
       $("#EmailInput").val(userDetails.email);
@@ -79,29 +73,21 @@ export function Checkout(props) {
           if ($(this).hasClass("active")) {
             $(this).removeClass("active");
             $(currentClass).addClass("d-none");
-            // $('.left_side').removeClass('d-none');
           } else {
             $(this).addClass("active");
             $(currentClass).removeClass("d-none");
-            // $('.left_side').removeClass('d-none');
             if (
               previousClick !== "empty" &&
               previousClick !== $(this).attr("id")
             ) {
               $("#" + previousClick).removeClass("active");
               $("." + previousClick).addClass("d-none");
-              // $('.left_side').addClass('d-none');
             } else {
               $("#" + previousClick).addClass("active");
               $("." + previousClick).removeClass("d-none");
-              // if ($('.left_side').hasClass('d-none'))
-              // $('.left_side').romoveClass('d-none');
-              // else
-              //     $('.left_side').addClass('d-none');
             }
             // eslint-disable-next-line
             previousClick = $(this).attr("id");
-            console.log(previousClick);
           }
         }
       });
@@ -109,7 +95,6 @@ export function Checkout(props) {
   }, [$]);
   return (
     <div onScroll={() => alert("bgvf")}>
-      {/* <Search details={products} /> */}
       <div className="pageNuv" onScroll={() => alert("bgvf")}>
         {isTablet && <Hamborger history={props.history} />}
 
@@ -157,7 +142,6 @@ export function Checkout(props) {
       <div className="page_content  pt-5 offset-md-2 col-md-8  offset-sm-0 col-sm-12 ">
         <h2 className="mb-5 font-weight-bold  ">{i18.t("checkout")} </h2>
         <div className="swithDir row">
-          {/* <div className="  col-6 ml-5 p-0 swithSide overflow-auto overflow-checkout" style={{ height: '550px' }}> */}
           <div className="swithSide  mb-5 overflow-checkout col-md-6 col-sm-12">
             <label className="  w-100 pt-1 swithSide  goldbgColor px-3 ">
               {i18.t("PersonalInformation")}{" "}
@@ -238,17 +222,6 @@ export function Checkout(props) {
               {i18.t("deliveryDetails")}{" "}
             </label>
             <div className=" bg-grey p-3 mb-5">
-              {/* <div><label >{i18.t('AreaOrCity')}</label></div> */}
-              {/* <select className="w-75 rounded-custom p-1">
-                                <option></option>
-                              
-                                <option>{i18.t('BeitShemesh')}</option>
-                                <option>{i18.t('GushEtzion')}</option>
-                                <option>{i18.t('Jerusalem')}</option>
-                                <option>{i18.t('Modiin')}</option>
-                                <option>{i18.t('Raanana')}</option>
-                            </select>
- */}
               <Form.Label className="mb-2  lableForm">
                 {" "}
                 {i18.t("AreaOrCity")}
@@ -398,12 +371,6 @@ export function Checkout(props) {
             </div>
 
             <div className="">
-              {/* <div className="d-flex align-items-center"> <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-                                <label className="mr-2 ml-3  mb-0" htmlFor="vehicle1 " style={{ fontSize: 'smaller' }}>{i18.t('ApprovalOfRegulations')}</label>
-                            </div>
-                            <div className="d-flex align-items-center">  <input type="checkbox" id="vehicle2" name="vehicle1" value="Bike" />
-                                <label className="mr-2 ml-3 mb-0" htmlFor="vehicle2   " style={{ fontSize: 'smaller' }}> {i18.t('SaveDetails')}</label>
-                            </div> */}
               <div className="form-check d-flex align-items-center">
                 <input
                   className="form-check-input check-height"
@@ -443,12 +410,10 @@ export function Checkout(props) {
             >
               {" "}
               {i18.t("ContinueToPay")}
-              {/* <img src={arrow_left_white} style={{ paddingRight: '5px',width: '25px'}} /> */}
             </button>
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="fixedDiv ">
-              {/* <label className="    font-weight-bolder w-100 pt-1 swithSide px-3">{i18.t('OrderSummary')}</label> */}
               <label className="  w-100 pt-1  swithSide  goldbgColor px-3 ">
                 {" "}
                 {i18.t("OrderSummary")}{" "}
@@ -479,7 +444,6 @@ export function Checkout(props) {
                     &#8362;
                   </div>
                 </div>
-                {/* <button className="mt-5 goldButton px-3 mb-5" onClick={() => props.history.push('/Checkout')}> {i18.t('toCheckout')} &#8594; </button> */}
               </div>
               <button
                 className=" mt-5 goldButton px-3 py-2   "
@@ -488,7 +452,6 @@ export function Checkout(props) {
               >
                 {" "}
                 {i18.t("ContinueToPay")}
-                {/* <img src={arrow_left_white} style={{ paddingRight: '5px',width: '25px'}} /> */}
               </button>
             </div>
           </div>
@@ -502,6 +465,7 @@ export function Checkout(props) {
     </div>
   );
 }
+
 const mapStateToProps = (state) => {
   return {};
 };

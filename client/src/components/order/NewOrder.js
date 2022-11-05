@@ -7,9 +7,7 @@ export function NewOrder(props) {
     // const { createProduct } = props
     const handleSubmit = async (valuse) => {
 
-        console.log(props.orders);
         const order = await props.createOrder(valuse)
-        console.log(order);
     };
     return (
         <Formik

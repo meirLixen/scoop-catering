@@ -20,7 +20,6 @@ export function Hamborger(props) {
       props.history.push("/" + id);
       $(currentClass).addClass("active");
 
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
       } else {

@@ -42,7 +42,7 @@ export function ShoppingCart(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -59,7 +59,7 @@ export function ShoppingCart(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
@@ -69,7 +69,7 @@ export function ShoppingCart(props) {
 
   // const cart = JSON.parse(myStorage.cart);
   if (!products || !products.length) {
-    // props.getAllProducts()
+    props.getAllProducts()
   }
 
   const changeAmount = async (id, action) => {
@@ -114,7 +114,6 @@ export function ShoppingCart(props) {
   };
 
   const deleteItem = async (id) => {
-    // console.log($('#' + id + ' ' + '.amountToBuy' + ' ' + 'input').val());
     let totalTodel;
     let less;
 
@@ -278,6 +277,7 @@ export function ShoppingCart(props) {
                 {cart &&
                   cart.map((item) => (
                     <div
+                    key={uuidv4()}
                       className={`productItem mb-2 row justify-content-between align-items-end border-bottom border-dark py-2 ${item.product._id} `}
                     >
                       <div className="col-3 productName font-weight-bold  ">
@@ -428,3 +428,12 @@ const mapDispatchToProps = (dispatch) => ({
   setTotalRedux: (Total) => dispatch(actions.setTotalRedux(Total)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCart);
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

@@ -48,7 +48,7 @@ function ProductList(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -65,14 +65,14 @@ function ProductList(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
   if (!products || !products.length) {
-    // props.getAllProducts()
+    props.getAllProducts()
   }
   if (!categories || !categories.length) {
     props.getAllCategories();
@@ -227,6 +227,7 @@ function ProductList(props) {
                 .map((key, val) =>
                   category[key].map((product) => (
                     <div
+                    key={uuidv4()}
                       className=" productLine w-100 d-flex row   mb-4  justify-content-around align-items-center pr-1 pl-1 ml-0 pb-1 pt-1"
                       id={product._id}
                     >
@@ -616,3 +617,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
 // export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

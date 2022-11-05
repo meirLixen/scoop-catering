@@ -30,12 +30,14 @@ export function Header(props) {
   // if (totalRedux === 0) {
   //     props.setTotalRedux(total)
   // }
-  if (numItemsRedux === 0) {
-    props.setNumItemsRedux(numItems);
-  }
-  if (!cartRedux.length) {
-    props.setCartRedux(cart);
-  }
+  useEffect(() => {
+    if (numItemsRedux === 0) {
+      props.setNumItemsRedux(numItems);
+    }
+    if (!cartRedux.length) {
+      props.setCartRedux(cart);
+    }
+  });
   function useLocalStorage(key, initialValue) {
     // State to store our value
     // Pass initial state function to useState so logic is only executed once
@@ -47,7 +49,7 @@ export function Header(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -64,7 +66,7 @@ export function Header(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];

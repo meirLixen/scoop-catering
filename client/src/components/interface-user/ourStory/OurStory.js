@@ -1,17 +1,15 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import $ from "jquery";
 
 import Footer from "../../mainPage/Footer";
 import UnderFooter from "../../mainPage/UnderFooter";
-import "./ourStory.css";
-
-// import { Form, FormControl, Nav, Button, NavDropdown, Image } from "react-bootstrap";
-
 import useMediaQuery from "../../../hooks/useMediaQuery";
 import Hamborger from "../../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../../mainPage/TopPageDesktop";
-import $ from "jquery";
 import i18 from "../../../i18/i18";
+
+import "./ourStory.css";
 
 function OurStory(props) {
   const isMobile = useMediaQuery(768);
@@ -20,7 +18,7 @@ function OurStory(props) {
     if ($) {
       $("#navbarScrollingDropdown").addClass("active");
     }
-  }, [$]);
+  }, []);
 
   return (
     <div className="ourStoryPage">
@@ -45,7 +43,6 @@ function OurStory(props) {
             src={"https://scoopcatering.co.il/images/headerBgImag.png"}
           />
         )}
-        {/* <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/headerBgImag.png'} /> */}
       </div>
 
       <div className="location pt-3 text-end px-5">
@@ -55,7 +52,6 @@ function OurStory(props) {
         >
           {i18.t("ScoopCatering")}
         </div>
-        {/* <div className='d-inline'>  </div> */}
         <div className="goldColor d-inline"> /{i18.t("OurStory")} </div>
       </div>
       <div className="PageContent mb-5">
@@ -183,6 +179,7 @@ function OurStory(props) {
     </div>
   );
 }
+
 const mapStateToProps = (state) => {
   return {};
 };

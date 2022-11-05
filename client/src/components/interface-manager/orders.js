@@ -1,21 +1,16 @@
 import React, { useEffect, useState, Fragment } from "react";
-
-import { connect } from "react-redux";
-// import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-// import { Formik, Field, Select, Form } from 'formik';
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-// import BootstrapTable from 'react-bootstrap-table-next';
-// omit...
-import "../../App.css";
 import $ from "jquery";
 
-function Orders(props) {
-  // const [isAddMode, setIsAddMode] = useState(true);
+import { connect } from "react-redux";
+import { actions } from "../../redux/actions/action";
 
+import "../../App.css";
+
+function Orders(props) {
   const [show, setShow] = useState(false);
   const [idToDelete] = useState();
   const handleClose = () => setShow(false);
@@ -24,8 +19,6 @@ function Orders(props) {
   const [data, setData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [sortType] = useState("hebrewName");
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const [error, setError] = useState(null);
 
   if (!props.products || !props.products.length) {
     // props.getAllProducts()
@@ -45,8 +38,6 @@ function Orders(props) {
         available: "available",
       };
       const sortProperty = types[type];
-      // if (categoryList.length)
-      //   setCategoryList(products)
       // eslint-disable-next-line
       const sorted = [...products].sort((a, b) => {
         var regex = /^[a-zA-Z]+$/;
@@ -58,10 +49,7 @@ function Orders(props) {
             a[sortProperty] === false
           ) {
             return a[sortProperty] - b[sortProperty];
-          }
-          // if (a[sortProperty] !== "" && a[sortProperty] !== undefined && b[sortProperty] !== "" && b[sortProperty] !== undefined)
-          else if (sortProperty.match(regex)) {
-            console.log(sortProperty);
+          } else if (sortProperty.match(regex)) {
             return a[sortProperty].localeCompare(b[sortProperty]);
           } else {
             return b[sortProperty] - a[sortProperty];
@@ -100,8 +88,6 @@ function Orders(props) {
       });
       setCategoryList(list);
     }
-
-    console.log("list:::::::::::" + categoryList.length);
   };
 
   function deleteProduct() {
@@ -127,19 +113,14 @@ function Orders(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* <h1>ממשק מנהל</h1> */}
       <div className="row  rtl mt-2" style={{ height: "800px !important" }}>
-        {/* <Search details={products} /> */}
-
         <div className=" productList col-md-7 p-3 bg-light">
-          {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
               מוצרים: {categoryList.length} מוצרים
             </div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
-                {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
                 <Form.Select
                   aria-label="Default select example"
                   className="rounded-0 w-fitCon py-1"
@@ -148,7 +129,7 @@ function Orders(props) {
                 >
                   <option value="selectCategory">סינון לפי</option>
                   {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
+                    <option key={uuidv4()} value={category._id}>
                       {category.hebrewName}
                     </option>
                   ))}
@@ -194,13 +175,12 @@ function Orders(props) {
 
                 <th className=" lableForm  col-3">תאריך הזמנה</th>
                 <th className=" lableForm  col-1">אמצעי תשלום</th>
-                {/* <th className=' lableForm  col-1'>חשבונית</th> */}
               </tr>
             </thead>
 
             <tbody className="table-responsive">
               {orders.map((item, index) => (
-                <Fragment key={index}>
+                <Fragment key={uuidv4()}>
                   <tr className=" bg-white  col-12 ">
                     <td className=" border-0 col-2">208090</td>
                     <td className=" border-0 col-2">{item.userId.firstName}</td>
@@ -211,7 +191,6 @@ function Orders(props) {
                     <td className=" border-0 col-1">{item.shippingAddress}</td>
                     <td className=" border-0 col-3">{item.date}</td>
                     <td className=" border-0 col-1">{item.MethodsOfPayment}</td>
-                    {/* <td className=' border-0'>{item.createDate}</td> */}
                   </tr>
                   <tr
                     className="bg-transparent"
@@ -239,15 +218,20 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getAllProducts: () => dispatch(actions.getAllProducts()),
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
   deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
   updateProduct: (product) => dispatch(actions.updateProduct(product)),
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
   getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllOrders: () => dispatch(actions.getAllOrders()),
-
   getProductByID: (id) => dispatch(actions.getProductByID(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders);
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

@@ -24,7 +24,6 @@ class Base64 extends Component {
 
     this.props._setBase64(files.base64);
 
-    console.log(files.base64);
 
     //save in server
   }

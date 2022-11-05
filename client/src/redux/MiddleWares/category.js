@@ -13,7 +13,7 @@ export const createCategory =
             dispatch(actions.setCategory(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -39,7 +39,7 @@ export const updateCategory =
           dispatch(actions.setCategory(res.data));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       return;
     }
@@ -57,7 +57,7 @@ export const deleteCategory =
             dispatch(actions.deleteCategoryFromCategories(action.payload));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       return;
     }
@@ -77,7 +77,7 @@ export const getAllCategories =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
       });

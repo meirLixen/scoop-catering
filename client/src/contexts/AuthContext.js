@@ -90,18 +90,16 @@ export function AuthProvider({ children }, props) {
 
   const updateUser = async (valuse) => {
     const update_user = await updateUserPassword(valuse);
-    console.log(update_user);
+    console.info(update_user);
   };
 
   const createNewUser = async (valuse) => {
     const user = await createUser(valuse);
-    console.log(user);
+    console.info(user);
   };
   // const handleSubmit = async (valuse) => {
 
-  //     console.log(props.products + ":::::props.products");
   //     const product = await props.createProduct(valuse)
-  //     console.log(product);
   // };
 
   function signup(email, password, firstName, lastName, phoneNumber) {
@@ -127,7 +125,6 @@ export function AuthProvider({ children }, props) {
       getUserByUid(v.user.uid).then((item) => {
         // props.setUser("מינדי")
         // alert(item.myuser.firstName)
-        console.log(item.myuser.firstName);
         setUserDetails(item.myuser);
       });
     });
@@ -135,7 +132,6 @@ export function AuthProvider({ children }, props) {
   }
 
   function logout() {
-    console.log("userLogin:" + currentUser.email);
     setUserDetails([]);
     return auth.signOut();
   }

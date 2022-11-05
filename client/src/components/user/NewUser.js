@@ -6,9 +6,8 @@ import { actions } from "../../redux/actions/action";
 export function NewUser(props) {
   // const { createProduct } = props
   const handleSubmit = async (valuse) => {
-    console.log(props.users);
     const user = await props.createUser(valuse);
-    console.log(user);
+    console.info(user);
   };
   return (
     <Formik

@@ -13,7 +13,7 @@ export const createProduct =
             dispatch(actions.setProduct(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -36,7 +36,7 @@ export const updateProduct =
           dispatch(actions.setProduct(res.data));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       return;
     }
@@ -54,7 +54,7 @@ export const deleteProduct =
             dispatch(actions.deleteProductFromProducts(action.payload));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       return;
     }
@@ -74,7 +74,7 @@ export const copyProduct =
               // dispatch(actions.setAllProducts(res.data))
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
               reject();
             });
         resolve();
@@ -96,7 +96,7 @@ export const getAllProducts =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
       });
@@ -116,7 +116,7 @@ export const getProductByID =
             resolve(resJson.data);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
       });

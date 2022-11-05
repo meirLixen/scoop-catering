@@ -140,6 +140,7 @@ function MyCard({ list, lang }, props) {
         <Row xs={6} md={2} className="menuList">
           {list.map((item) => (
             <div
+            key={uuidv4()}
               className=" productLine w-100 d-flex row rtl  mb-4  justify-content-around align-items-center pr-1 pl-1 ml-0 pb-1 pt-1 border-left-0"
               id={item._id}
               style={{ borderRight: "8px solid #C59950" }}
@@ -225,6 +226,7 @@ function MyCard({ list, lang }, props) {
           {list &&
             list.map((item) => (
               <div
+              key={uuidv4()}
                 className=" productLine w-100 d-flex row   mb-4  justify-content-around align-items-center pr-1 pl-1 ml-0 pb-1 pt-1"
                 id={item._id}
               >
@@ -320,3 +322,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MyCard));
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

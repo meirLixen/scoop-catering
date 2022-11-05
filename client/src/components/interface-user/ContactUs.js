@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import "../../App.css";
 import { connect } from "react-redux";
+import { Form, Button } from "react-bootstrap";
+import $ from "jquery";
+// עד כאן
 import Footer from "../mainPage/Footer";
 import UnderFooter from "../mainPage/UnderFooter";
-
 import useMediaQuery from "../../hooks/useMediaQuery";
-import { Form, Button } from "react-bootstrap";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-import $ from "jquery";
 import i18 from "../../i18/i18";
 import EventBg from "../../data/imges/drinks.png";
+
+import "../../App.css";
 
 export function ContactUs(props) {
   const isMobile = useMediaQuery(768);
@@ -30,16 +31,6 @@ export function ContactUs(props) {
         {!isMobile && !isTablet && <TopPageDesktop />}
       </div>
 
-      {/* <div className="pageHeader">
-                <label >{i18.t('ContactUs')} </label>
-                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/images/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/headerBgImag.png'} />}
-            </div>
-
-            <div className='location pt-3 text-end px-5' >
-                <div className='d-inline' onClick={() => props.history.push('/')}>{i18.t('ScoopCatering')}</div>
-                <div className='goldColor d-inline'> /{i18.t('ContactUs')}     </div>
-            </div>
-             */}
       <div className="pageContent">
         <div className="pageContent EventPageContent">
           <div
@@ -199,7 +190,6 @@ export function ContactUs(props) {
                     className=" goldButton px-5 py-2 my-5"
                   >
                     {i18.t("send")}
-                    {/* &#8594; */}
                   </Button>
                   <div className="swithSide">
                     <p className="swithDir small mb-0">*{i18.t("Required")}</p>
@@ -218,6 +208,7 @@ export function ContactUs(props) {
     </>
   );
 }
+
 const mapStateToProps = (state) => {
   return {};
 };

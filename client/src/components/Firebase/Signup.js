@@ -1,43 +1,47 @@
-import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import React, { useRef, useState } from "react";
+import { Form, Button, Card, Alert } from "react-bootstrap";
+import { useAuth } from "../../hooks/useAuth";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Signup() {
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const firstNameRef = useRef()
-  const lastNameRef = useRef()
-  const phoneNumberRef = useRef()
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
+  const phoneNumberRef = useRef();
 
-  const { signup } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
+  const { signup } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   async function handleSubmit(e) {
-    
-
-    e.preventDefault()
+    e.preventDefault();
     if (passwordRef.current.value.length < 6) {
-      return setError("password must at least 6 characters")
+      return setError("password must at least 6 characters");
     }
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
+      return setError("Passwords do not match");
     }
 
     try {
-      setError("")
-      setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value, firstNameRef.current.value, lastNameRef.current.value, phoneNumberRef.current.value)
-      history.push("/shop")
+      setError("");
+      setLoading(true);
+      await signup(
+        emailRef.current.value,
+        passwordRef.current.value,
+        firstNameRef.current.value,
+        lastNameRef.current.value,
+        phoneNumberRef.current.value
+      );
+      history.push("/shop");
     } catch (e) {
       console.error(e);
-      setError("Failed to create an account")
+      setError("Failed to create an account");
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
@@ -59,7 +63,6 @@ export default function Signup() {
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group>
-
 
             <Form.Group id="firstName-confirm">
               <Form.Label>First Name</Form.Label>
@@ -86,5 +89,5 @@ export default function Signup() {
         Already have an account? <Link to="/login">Log In</Link>
       </div>
     </>
-  )
+  );
 }

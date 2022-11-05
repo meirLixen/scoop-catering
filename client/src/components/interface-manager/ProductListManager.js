@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-// import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-// import { Formik, Field, Select, Form } from 'formik';
-import Form from "react-bootstrap/Form";
-import NewProduct from "../product/NewProduct";
 import Modal from "react-bootstrap/Modal";
-// import BootstrapTable from 'react-bootstrap-table-next';
-// omit...
-import "../../App.css";
+import { connect } from "react-redux";
+import Form from "react-bootstrap/Form";
 import $ from "jquery";
-function ProductList_manager(props) {
-  // const [isAddMode, setIsAddMode] = useState(true);
 
+import { actions } from "../../redux/actions/action";
+import NewProduct from "../product/NewProduct";
+
+import "../../App.css";
+
+function ProductList_manager(props) {
   const [show, setShow] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const handleClose = () => setShow(false);
@@ -24,8 +21,6 @@ function ProductList_manager(props) {
   const [categoryList, setCategoryList] = useState([]);
   const [productToEdit] = useState();
   const [sortType, setSortType] = useState("hebrewName");
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const [error, setError] = useState(null);
 
   if (!props.products || !props.products.length) {
     // props.getAllProducts()
@@ -35,8 +30,6 @@ function ProductList_manager(props) {
     props.getAllCategories();
   }
   useEffect(() => {
-    console.log(sortType);
-    console.log(products);
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -44,8 +37,7 @@ function ProductList_manager(props) {
         available: "available",
       };
       const sortProperty = types[type];
-      // if (categoryList.length)
-      //   setCategoryList(products)
+
       // eslint-disable-next-line
       const sorted = [...products].sort((a, b) => {
         var regex = /^[a-zA-Z]+$/;
@@ -57,10 +49,7 @@ function ProductList_manager(props) {
             a[sortProperty] === false
           ) {
             return a[sortProperty] - b[sortProperty];
-          }
-          // if (a[sortProperty] !== "" && a[sortProperty] !== undefined && b[sortProperty] !== "" && b[sortProperty] !== undefined)
-          else if (sortProperty.match(regex)) {
-            console.log(sortProperty);
+          } else if (sortProperty.match(regex)) {
             return a[sortProperty].localeCompare(b[sortProperty]);
           } else {
             return b[sortProperty] - a[sortProperty];
@@ -99,21 +88,9 @@ function ProductList_manager(props) {
       });
       setCategoryList(list);
     }
-
-    console.log("list:::::::::::" + categoryList.length);
   };
 
   const editItem = async (product) => {
-    // await setProductToEdit(product)
-    // alert(productToEdit ? productToEdit._id : "jj")
-
-    // $('.newId_').val(product._id)
-    // $('.newName_').val(product.name)
-    // $('.newHebrewName_').val(product.hebrewName)
-    // $('.newDescription_').val(product.description)
-    // $('.newHebrewDescription_').val(product.hebrewDescription)
-    // $('.newPrice_').val(product.price)
-
     $("#newId").val(product._id);
     $("#newName").val(product.name);
     $("#newHebrewName").val(product.hebrewName);
@@ -131,7 +108,6 @@ function ProductList_manager(props) {
   function openDeleteMoodal(id) {
     setShow(true);
     setIdToDelete(id);
-    // console.log("toDelete: " + id);
   }
   function deleteProduct() {
     props.deleteProduct(idToDelete);
@@ -156,19 +132,14 @@ function ProductList_manager(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* <h1>ממשק מנהל</h1> */}
       <div className="row  rtl mt-2" style={{ height: "800px !important" }}>
-        {/* <Search details={products} /> */}
-
         <div className=" productList col-md-7 p-3 bg-light">
-          {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
               מוצרים: {categoryList.length} מוצרים
             </div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
-                {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
                 <Form.Select
                   aria-label="Default select example"
                   className="rounded-0 w-fitCon py-1"
@@ -177,7 +148,7 @@ function ProductList_manager(props) {
                 >
                   <option value="selectCategory">בחר קטגוריה</option>
                   {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
+                    <option key={uuidv4()} value={category._id}>
                       {category.hebrewName}
                     </option>
                   ))}
@@ -191,51 +162,6 @@ function ProductList_manager(props) {
               </div>
             </div>
           </div>
-
-          {/* <Table className='border-none' size="sm" >
-
-            <div className='row mr-4 mb-3 ltr' key={"header"}>
-              <div className='col-4  lableForm text-center pl-5'>אפשרויות</div>
-              <div className='col-2 lableForm' value="createDate" id="createDate" onClick={e => setSortType("createDate")}>עדכון אחרון</div>
-              <div className='col-2 lableForm' value="available" id="available" onClick={e => setSortType("available")}>מלאי</div>
-              <div className='col-2 lableForm' value="price" id="price" onClick={e => setSortType("price")}>מחיר</div>
-
-              <div className='col-2 lableForm' value='hebrewName' id='hebrewName' onClick={e => setSortType('hebrewName')}>שם מוצר</div>
-
-            </div>
-
-
-            <div className="overflow-auto border-0 productList-manager ltr" style={{ height: '480px' }}>
-
-              <tbody id="tableBody" >
-                {categoryList.map((item) => (
-                  <tr className='row m-auto bg-white mb-3 ' key={item._id} id={item._id}>
-                    <td className='col-4 '>
-                      <td className=' ' onClick={() => openDeleteMoodal(item._id)}><i className="fas fa-trash-alt "></i></td>
-                      <td className=''>|</td>
-                      <td className=' ' onClick={() => editItem(item)}>עדכון</td>
-
-                    </td>
-                    <td className='col-2'>{item.createDate}</td>
-                    <td className='col-2'>{item.available === true ? "במלאי" : "אזל מהמלאי"}</td>
-                    <td className='col-2'>{item.price}</td>
-
-                    <td className='col-2'>{item.hebrewName}</td>
-
-
-                  </tr>
-                ))
-                }
-              </tbody>
-
-
-            </div>
-
-          </Table>
-
-
-
-           */}
 
           <Table className="w-100">
             <thead>
@@ -281,7 +207,7 @@ function ProductList_manager(props) {
 
             <tbody className="table-responsive">
               {categoryList.map((item) => (
-                <>
+                <React.Fragment key={uuidv4()}>
                   <tr className=" bg-white   col-12">
                     <td className=" border-0 col-2">{item.hebrewName}</td>
                     <td className=" border-0 col-2">
@@ -309,7 +235,7 @@ function ProductList_manager(props) {
                     className="bg-transparent"
                     style={{ height: "15px" }}
                   ></tr>
-                </>
+                </React.Fragment>
               ))}
             </tbody>
           </Table>
@@ -318,29 +244,38 @@ function ProductList_manager(props) {
         <div className="col-md-4  NewProduct  p-3 pb-0 bg-light">
           <NewProduct product={productToEdit} />
         </div>
-        {/* <div className='col-md-4  NewProduct  p-3 pb-0 bg-light' ><AddEdit /></div> */}
       </div>
     </div>
   );
-  // }
 }
+
 const mapStateToProps = (state) => {
   return {
     products: state.productReducer.products,
     categories: state.categoryReducer.categories,
   };
 };
+
 const mapDispatchToProps = (dispatch) => ({
   getAllProducts: () => dispatch(actions.getAllProducts()),
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
   deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
   updateProduct: (product) => dispatch(actions.updateProduct(product)),
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
   getAllCategories: () => dispatch(actions.getAllCategories()),
   getProductByID: (id) => dispatch(actions.getProductByID(id)),
 });
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ProductList_manager);
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}
+

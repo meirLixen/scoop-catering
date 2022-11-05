@@ -168,7 +168,7 @@ export function Home(props) {
                     {categories &&
                       categories.length &&
                       categories.map((category, index) => (
-                        <>
+                        <React.Fragment key={uuidv4()}>
                           {index < 4 ? (
                             <div
                               className="categoryItem  col-xs-6 col-sm-4 col-md-3 item-audio  rounded  mb-3"
@@ -211,7 +211,7 @@ export function Home(props) {
                           ) : (
                             ""
                           )}
-                        </>
+                        </React.Fragment>
                       ))}
                   </div>
                 </div>
@@ -576,3 +576,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home));
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

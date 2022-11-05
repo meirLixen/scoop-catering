@@ -11,7 +11,8 @@ function OrderList(props) {
 
   useEffect(() => {
     if (!props.orders || !props.orders.length) props.getAllOrders();
-    else console.log(props.orders);
+    else {
+    }
   }, [props, props.orders]);
 
   return (
@@ -27,7 +28,7 @@ function OrderList(props) {
             //   hover
             //   condensed
             // />
-            <p>{order.status}</p>
+            <p key={uuidv4()}>{order.status}</p>
           );
         })}
     </>
@@ -45,3 +46,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
 // export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

@@ -86,6 +86,7 @@ export function Shop(props) {
             {categories &&
               categories.map((category) => (
                 <div
+                key={uuidv4()}
                   className="categoryItem  p-0 col-3 mr-3 mb-3"
                   style={{ height: "380px" }}
                 >
@@ -152,3 +153,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 // export default connect(mapStateToProps, mapDispatchToProps)(Shop);
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Shop));
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

@@ -124,7 +124,6 @@ function MenuScroll(props) {
     } else {
       $(currentClass).addClass("active");
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== categoryId) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -148,7 +147,6 @@ function MenuScroll(props) {
       $(currentClass).addClass("active");
 
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -162,7 +160,6 @@ function MenuScroll(props) {
   }
 
   const deleteItem = async (id) => {
-    // console.log($('#' + id + ' ' + '.amountToBuy' + ' ' + 'input').val());
     let totalTodel;
     let less;
 
@@ -239,7 +236,7 @@ function MenuScroll(props) {
 
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -253,7 +250,7 @@ function MenuScroll(props) {
 
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
@@ -405,7 +402,7 @@ function MenuScroll(props) {
             >
               {categories &&
                 categories.map((category, index) => (
-                  <>
+                  <React.Fragment key={uuidv4()}>
                     <a className="text-center" href={"#" + category.name}>
                       <button
                         className={`bg-white categoryButton ${index}`}
@@ -418,7 +415,7 @@ function MenuScroll(props) {
                           : category.name}
                       </button>
                     </a>
-                  </>
+                  </React.Fragment>
                 ))}
             </div>
           </div>
@@ -427,7 +424,7 @@ function MenuScroll(props) {
           <div className="shabatMenu px-4">
             {categories &&
               categories.map((category, index) => (
-                <>
+                <React.Fragment key={uuidv4()}>
                   <div
                     id={category.name}
                     onMouseEnter={() => hoverCategory(category._id, index)}
@@ -464,7 +461,7 @@ function MenuScroll(props) {
                       .filter((key) => key === "products")
                       .map((key, val) =>
                         category[key].map((product) => (
-                          <>
+                          <React.Fragment key={uuidv4()}>
                             <div
                               className=" productLine w-100  row      justify-content-between   p-2 mb-2"
                               id={product._id}
@@ -590,7 +587,7 @@ function MenuScroll(props) {
                                 </div>
                               </div>
                             </div>
-                          </>
+                          </React.Fragment>
                         ))
                       )}
                   </div>
@@ -598,7 +595,7 @@ function MenuScroll(props) {
                     className="goldColor mt-0 mb-2 w-100 row"
                     style={{ height: "2.5px", opacity: "1" }}
                   />
-                </>
+                </React.Fragment>
               ))}
           </div>
         </div>
@@ -632,6 +629,7 @@ function MenuScroll(props) {
               {cart &&
                 cart.map((item) => (
                   <div
+                    key={uuidv4()}
                     className={`productItem   align-items-end    py-2 ${side} ${item.product._id}`}
                   >
                     <div
@@ -924,3 +922,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MenuScroll);
 // export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

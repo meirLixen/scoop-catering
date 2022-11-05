@@ -29,7 +29,6 @@ export function NewProduct(props, { product }) {
   useEffect(() => {
     if ($) {
       // $(".saveProduct").on("click", function () {
-      //     console.log("save");
       //     $('#newName').val('')
       //     $('#newDescription').val('')
       //     $('#newStatus').val('')
@@ -148,7 +147,7 @@ export function NewProduct(props, { product }) {
                   className="browser-default custom-select  rounded-0"
                 >
                   {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
+                    <option key={uuidv4()} value={category._id}>
                       {category.hebrewName}
                     </option>
                   ))}
@@ -235,3 +234,12 @@ const mapDispatchToProps = (dispatch) => ({
   getAllAmounts: () => dispatch(actions.getAllAmounts()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(NewProduct);
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

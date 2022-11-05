@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -29,52 +29,53 @@ import Login from "./components/Firebase/Login";
 import PrivateRoute from "./components/Firebase/PrivateRoute";
 import UpdateProfile from "./components/Firebase/UpdateProfile";
 import MenuScroll from "./components/interface-user/MenuScroll";
+import { ProvideAuth } from "./hooks/useAuth";
+import { useAuth } from "./hooks/useAuth";
 
 import "./App.css";
 
 function App(props) {
   return (
     <Router history={history}>
-      <AuthProvider>
-        <Switch>
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <PrivateRoute path="/update-profile" component={UpdateProfile} />
-          <PrivateRoute
-            exact
-            path={["/shop", "/shop/*"]}
-            component={ShabbatMenu}
-          />
-          <PrivateRoute exact path="/" component={Home} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/login" component={Login} />
-        </Switch>
-      </AuthProvider>
+      <ProvideAuth>
+        <AuthProvider>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/update-profile" component={UpdateProfile} />
+            <Route exact path={["/shop", "/shop/*"]} component={ShabbatMenu} />
 
-      <div className="App">
-        <Switch>
-          <Route exact path="home/ProductList" component={ProductList} />
-          <Route
-            exact
-            path="/shop/relatedProducts"
-            component={RelatedProducts}
-          />
-          <Route exact path="/Nuv/" component={Nuv} />
-          <Route exact path="/OrderSummary" component={OrderSummary} />
-          <Route exact path="/manager" component={ManagerInterface} />
-          <Route exact path="/contact-us" component={ContactUs} />
-          <Route exact path="/home/ourTeam" component={OurPeeks} />
-          <Route exact path="/home/ourCustomers" component={OurCustomers} />
-          <Route exact path="/home/OurStory" component={OurStory} />
-          <Route exact path="/home/kashrut" component={Kashrut} />
-          <Route exact path="/SearchResults/*" component={SearchResults} />
-          <Route exact path="/Cart" component={ShoppingCart} />
-          <Route exact path="/Checkout" component={Checkout} />
-          <Route exact path="/Payment" component={Payment} />
-          <Route exact path="/gallery" component={Gallery} />
-          <Route exact path="/events" component={Events} />
-          <Route exact path="/menu" component={MenuScroll} />
-        </Switch>
-      </div>
+            <div className="App">
+              <Route exact path="home/ProductList" component={ProductList} />
+              <Route
+                exact
+                path="/shop/relatedProducts"
+                component={RelatedProducts}
+              />
+              <Route exact path="/Nuv/" component={Nuv} />
+              <Route exact path="/OrderSummary" component={OrderSummary} />
+              <Route exact path="/manager" component={ManagerInterface} />
+              <Route exact path="/contact-us" component={ContactUs} />
+              <Route exact path="/home/ourTeam" component={OurPeeks} />
+              <Route exact path="/home/ourCustomers" component={OurCustomers} />
+              <Route exact path="/home/OurStory" component={OurStory} />
+              <Route exact path="/home/kashrut" component={Kashrut} />
+              <Route exact path="/SearchResults/*" component={SearchResults} />
+              <Route exact path="/Cart" component={ShoppingCart} />
+              <Route exact path="/Checkout" component={Checkout} />
+              <Route exact path="/Payment" component={Payment} />
+              <Route exact path="/gallery" component={Gallery} />
+              <Route exact path="/events" component={Events} />
+              <Route exact path="/menu" component={MenuScroll} />
+            </div>
+
+            <PrivateRoutes>
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            </PrivateRoutes>
+          </Switch>
+        </AuthProvider>
+      </ProvideAuth>
     </Router>
   );
 }
@@ -92,3 +93,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+function PrivateRoutes({ children }) {
+  const auth = useAuth();
+
+  return <>{auth.user ? children : <div>not found</div>}</>;
+}

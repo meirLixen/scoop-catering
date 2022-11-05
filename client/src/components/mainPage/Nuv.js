@@ -6,7 +6,9 @@ import { Nav, Button, NavDropdown } from "react-bootstrap";
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 // import Search from '../Search';
-import ButtonGroup from "@material-ui/core/ButtonGroup";
+// import ButtonGroup from "@material-ui/core/ButtonGroup";
+import ButtonGroup from "@mui/material/ButtonGroup";
+
 import $ from "jquery";
 import { useTranslation } from "react-i18next";
 import i18 from "../../i18/i18";
@@ -42,7 +44,6 @@ export function Nuv(props) {
       props.history.push("/" + id);
       $(currentClass).addClass("active");
 
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
       } else {
@@ -158,8 +159,9 @@ export function Nuv(props) {
             {/* <Nav.Link className="active hoverLink" onClick={() => props.history.push('/OrderSummary')} >Orders </Nav.Link> */}
 
             <ButtonGroup
-              /* disableElevation */ variant="contained"
+              variant="contained"
               color="primary"
+              aria-label="outlined primary button group"
             >
               <Button
                 className="HeLanguage bg-black border-0  p-0 ml-4"

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { actions } from "../../redux/actions/action";
+import $ from "jquery";
 import { Table } from "react-bootstrap";
-// import Example from '../Example';
 import { Preview, print } from "react-html2pdf";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-//render
+
+import { connect } from "react-redux";
+import { actions } from "../../redux/actions/action";
+
 import "../../App.css";
-import $ from "jquery";
+
 function OrderSummary(props) {
   const { productsOnOrder } = props;
   const [data, setData] = useState([]);
@@ -17,13 +18,11 @@ function OrderSummary(props) {
   if (!props.productsOnOrder || !props.productsOnOrder.length) {
     props.getAllProductsOnOrder();
   }
-  console.log(productsOnOrder);
   const { categories } = props;
   if (!categories || !categories.length) {
     props.getAllCategories();
   }
   useEffect(() => {
-    // console.log(productsOnOrder[0].productId.name);
     const sortArray = (type) => {
       const types = {
         productId: "productId",
@@ -33,8 +32,6 @@ function OrderSummary(props) {
       // eslint-disable-next-line
       const sorted = [...productsOnOrder].sort((a, b) => {
         if ([sortProperty] !== "" && [sortProperty] !== undefined) {
-          console.log("::" + a[sortProperty] + b[sortProperty]);
-
           if (sortProperty === "productId") {
             return a[sortProperty].hebrewName.localeCompare(
               b[sortProperty].hebrewName
@@ -55,11 +52,6 @@ function OrderSummary(props) {
   }, []);
   // }, [props]);
 
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // } else if (!isLoaded) {
-  //   return <div>Loading...</div>;
-  // } else {
   return (
     <>
       <Tabs
@@ -71,7 +63,7 @@ function OrderSummary(props) {
         {categories &&
           categories.length &&
           categories.map((category) => (
-            <Tab eventKey={category._id} title={category.hebrewName}>
+            <Tab key={uuidv4()} eventKey={category._id} title={category.hebrewName}>
               <Preview id={"to" + category._id}>
                 <div className="m-3"> סיכום הזמנות</div>
 
@@ -91,12 +83,12 @@ function OrderSummary(props) {
                             (item) => item.productId.categoryID === category._id
                           )
                           .map((item) => (
-                            <>
+                            <React.Fragment key={uuidv4()}>
                               <tr key={item._id} id={item._id}>
                                 <td>{item.amount}</td>
                                 <td>{item.productId.hebrewName}</td>
                               </tr>
-                            </>
+                            </React.Fragment>
                           ))}
                     </tbody>
                   </Table>
@@ -113,25 +105,28 @@ function OrderSummary(props) {
             </Tab>
           ))}
       </Tabs>
-
-      {/* <Example Foo={$('.smO').text()} /> */}
     </>
   );
-  // }
 }
+
 const mapStateToProps = (state) => {
   return {
     categories: state.categoryReducer.categories,
     productsOnOrder: state.productsOnOrderReducer.productsOnOrder,
   };
 };
+
 const mapDispatchToProps = (dispatch) => ({
   getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllProductsOnOrder: () => dispatch(actions.getAllProductsOnOrder()),
-
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
-  // deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
-  // updateProduct: (product) => dispatch(actions.updateProduct(product)),
-  // copyProduct: (id) => dispatch(actions.copyProduct(id)),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary);
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}

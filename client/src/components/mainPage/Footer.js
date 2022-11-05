@@ -29,7 +29,6 @@ export function Footer() {
         return res.json();
       })
       .then((res) => {
-        console.log(res);
         return res;
       });
   }

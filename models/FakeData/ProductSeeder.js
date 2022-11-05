@@ -32,7 +32,7 @@ const handle = async () => {
   const categoryId = category._id;
 
   Array.from({ length: 10 }).forEach(() => {
-    ORDERS.push(createRandomProduct(categoryId));
+    PRODUCTS.push(createRandomProduct(categoryId));
   });
 
   await ProductModel.deleteMany({});
