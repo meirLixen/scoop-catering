@@ -7,12 +7,14 @@ import Table from "react-bootstrap/Table";
 // import { Formik, Field, Select, Form } from 'formik';
 import Form from "react-bootstrap/Form";
 import NewProduct from "../product/NewProduct";
+
+
 import Modal from "react-bootstrap/Modal";
 // import BootstrapTable from 'react-bootstrap-table-next';
 // omit...
 import "../../App.css";
 import $ from "jquery";
-function ProductList_manager(props) {
+function ProductListManager(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
 
   const [show, setShow] = useState(false);
@@ -27,15 +29,16 @@ function ProductList_manager(props) {
   // const [isLoaded, setIsLoaded] = useState(false);
   // const [error, setError] = useState(null);
 
-  if (!props.products || !props.products.length) {
-    // props.getAllProducts()
+  if (!products || !products.length) {
+    props.getAllProducts()
+  
   }
-
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-  }
+ if (!categories || !categories.length) {
+   props.getAllCategories();
+ }
   useEffect(() => {
-    console.log(sortType);
+    console.log("i am hear");
+    console.log(sortType,products);
     console.log(products);
     const sortArray = (type) => {
       const types = {
@@ -164,7 +167,7 @@ function ProductList_manager(props) {
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
-              מוצרים: {categoryList.length} מוצרים
+              מס' מוצרים: {categoryList.length} 
             </div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
@@ -317,6 +320,7 @@ function ProductList_manager(props) {
         <div className="col-md-1 p-0"></div>
         <div className="col-md-4  NewProduct  p-3 pb-0 bg-light">
           <NewProduct product={productToEdit} />
+          
         </div>
         {/* <div className='col-md-4  NewProduct  p-3 pb-0 bg-light' ><AddEdit /></div> */}
       </div>
@@ -342,5 +346,5 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProductList_manager);
+)(ProductListManager);
 // export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))

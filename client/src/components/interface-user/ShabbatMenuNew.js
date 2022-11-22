@@ -62,7 +62,7 @@ function ShabbatMenu(props) {
   }
 
   if (!products || !products.length) {
-    // props.getAllProducts()
+     props.getAllProducts()
   }
   if (!categories || !categories.length) {
     props.getAllCategories();

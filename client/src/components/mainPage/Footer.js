@@ -18,7 +18,7 @@ import $ from "jquery";
 
 export function Footer() {
   function sendingEmail(emailToSent) {
-    return fetch(`https://scoopcatering.co.il/sendEmail`, {
+    return fetch(`http://localhost:3001/sendEmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -207,7 +207,8 @@ export function Footer() {
                   <div className="col-3  text-center p-0  ">
                     <button
                       className="btn btn-danger rounded-pill pr-4 pl-4 mt-0 mb-0 w-fitCon "
-                      onClick={() => sendEmail()}
+                      //onClick={() => sendEmail()}
+                      onClick={() => alert(`${i18.t("notActiveMsg")}`)}
                       type="button"
                     >
                       {i18.t("send")}

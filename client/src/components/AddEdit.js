@@ -49,6 +49,7 @@ function AddEdit({ history, match }) {
 
   function createUser(fields, setSubmitting) {
     alert("create");
+    
     // userService.create(fields)
     //     .then(() => {
     //         alertService.success('User added', { keepAfterRouteChange: true });
@@ -61,7 +62,7 @@ function AddEdit({ history, match }) {
   }
 
   function updateUser(id, fields, setSubmitting) {
-    alert("edit");
+ console.log(fields);
     // userService.update(id, fields)
     //     .then(() => {
     //         alertService.success('User updated', { keepAfterRouteChange: true });

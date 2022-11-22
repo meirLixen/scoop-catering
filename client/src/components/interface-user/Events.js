@@ -22,6 +22,9 @@ export function Events(props) {
   useEffect(() => {
     if ($) {
       $("#events").addClass("active");
+      $(".sendEventForm").click(() => {
+        alert(`${i18.t("notActiveMsg")}`)
+      })
     }
   }, []);
   return (
@@ -221,7 +224,7 @@ export function Events(props) {
                 <Button
                   variant="primary"
                   type="submit"
-                  className=" goldButton px-5 py-2 my-5"
+                  className=" goldButton px-5 py-2 my-5 sendEventForm"
                 >
                   {i18.t("send")}
                   {/* &#8594; */}

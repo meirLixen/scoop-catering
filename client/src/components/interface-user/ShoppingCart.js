@@ -69,7 +69,7 @@ export function ShoppingCart(props) {
 
   // const cart = JSON.parse(myStorage.cart);
   if (!products || !products.length) {
-    // props.getAllProducts()
+     props.getAllProducts()
   }
 
   const changeAmount = async (id, action) => {

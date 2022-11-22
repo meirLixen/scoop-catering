@@ -22,6 +22,8 @@ import Kashrut from "./components/interface-user/Kashrut";
 import RelatedProducts from "./components/interface-user/RelatedProducts";
 import ManagerInterface from "./components/interface-manager/ManagerInterface";
 import ShabbatMenu from "./components/interface-user/ShabbatMenu";
+
+
 import Signup from "./components/Firebase/Signup";
 import { AuthProvider } from "./contexts/AuthContext";
 import Dashboard from "./components/Firebase/Dashboard";
@@ -44,6 +46,8 @@ function App(props) {
             path={["/shop", "/shop/*"]}
             component={ShabbatMenu}
           />
+         
+         
           <PrivateRoute exact path="/" component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />

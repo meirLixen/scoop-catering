@@ -11,7 +11,13 @@ import Modal from "react-bootstrap/Modal";
 // import Form from 'react-bootstrap/Form'
 
 export function NewProduct(props, { product }) {
+
+  let temp = 0
+
+  let [deletedPrices, setdeletedPrices] = useState([])
   const [show, setShow] = useState(false);
+  const [count, setCount] = useState(0);
+
 
   const handleClose = () => setShow(false);
   // const [names, setNames] = useState([]);
@@ -34,8 +40,119 @@ export function NewProduct(props, { product }) {
       //     $('#newDescription').val('')
       //     $('#newStatus').val('')
     }
-  }, [props, props.products, props.categories, props.amounts, $, product]);
+  }, []);
   // const { createProduct } = props
+  const onSubmit = async (fields) => {
+
+    console.log(fields);
+    // event.preventDefault();
+    var priceList = []
+   
+    var result = Object.entries(fields);
+    var amount = "", price = ""
+
+    let res = result.filter(item => !deletedPrices.includes(item[0]))
+
+    res.map((item, index) => {
+
+      if (res[index][0].startsWith('amountId'))
+        amount = res[index][1]
+
+      if (res[index][0].startsWith('price'))
+        price = res[index][1]
+
+      if (amount != "" && price != "") {
+        priceList[temp] = {
+          "amount": amount,
+          "price": price
+        }
+        amount = ""
+        price = ""
+        temp++;
+      }
+
+    })
+    console.log("priceList", priceList);
+    const newProduct = {
+
+      name: fields.name,
+      hebrewName: fields.hebrewName,
+      details: fields.description,
+      hebrewDetails: fields.hebrewDescription,
+      categoryID: fields.categoryId,
+      available: fields.available,
+      display: fields.display,
+      priceList: priceList
+    }
+
+
+    //const product = await props.createProduct(newProduct)
+
+    setShow(true);
+    window.setTimeout(function () {
+      setShow(false);
+    }, 5000);
+
+    // clear all input values in the form
+    document.getElementById("productForm").reset();
+
+  }
+
+  function addPrice(index) {
+    return (
+      <div className="d-flex  row align-items-center pl-2" id={"productPrice" + index}>
+
+        <div className="form-group col-6">
+          <lable className="lableForm">כמות:</lable>
+          <Field
+            as="select"
+            name={"amountId" + index}
+            id={"newAmount" + index}
+            className="browser-default custom-select  rounded-0"
+          >
+            <option value={""}>
+
+            </option>
+            {amounts.map((amount) => (
+              <option key={amount._id} value={amount._id}>
+                {amount.hebrewName}
+              </option>
+            ))}
+          </Field>
+        </div>
+
+        <div className="form-group col-4">
+          <lable className="lableForm">מחיר:</lable>
+          <Field
+            id={"newPrice" + index}
+            className="form-control rounded-0 newPrice1_"
+            type="text"
+            name={"price" + index}
+          />
+        </div>
+        <div className="col-2 mt-2">
+          <button type="button" onClick={() => removePrice("productPrice" + index)} style={{ fontSize: '19px' }}>x</button>
+        </div>
+      </div>
+
+    )
+
+  }
+  function removePrice(elemntId) {
+    debugger
+    if (elemntId) {
+      let tempArray = deletedPrices
+      const myArray = elemntId.split("productPrice");
+      const currentID = myArray[1]
+      tempArray.push("amountId" + currentID)
+      tempArray.push("price" + currentID)
+      setdeletedPrices(tempArray)
+      document.getElementById(elemntId) && document.getElementById(elemntId).remove();
+
+
+    }
+
+  }
   const handleSubmit = async (values) => {
     alert(values.name);
 
@@ -54,6 +171,7 @@ export function NewProduct(props, { product }) {
 
   return (
     <>
+    
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title></Modal.Title>
@@ -64,6 +182,7 @@ export function NewProduct(props, { product }) {
         <Modal.Footer className="d-flex justify-content-center"></Modal.Footer>
       </Modal>
       <h4 className="px-4 text-end font-weight-bold">פרטי המוצר:</h4>
+   
       <Formik
         initialValues={{
           Id: "",
@@ -71,151 +190,161 @@ export function NewProduct(props, { product }) {
           hebrewName: "",
           description: " ",
           hebrewDescription: " ",
-          price: " ",
-          category: " ",
+          categoryId: " ",
           available: false,
           display: false,
         }}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
       >
         {() => (
-          <Form className=" px-4 overflow-auto" style={{ height: "590px" }}>
-            <div className="text-end">
-              <div className="form-group">
-                <Field
-                  id="newId"
-                  className="form-control rounded-0 newId_"
-                  type="hidden"
-                  name="Id"
-                  pl
-                />
-              </div>
-              <div className="form-group">
-                <lable className="lableForm">שם מוצר:</lable>
-                <Field
-                  id="newName"
-                  className="form-control rounded-0 newName_"
-                  type="text"
-                  name="name"
-                  pl
-                />
-              </div>
-              <div className="form-group">
-                <lable className="lableForm">שם מוצר(HE):</lable>
-                <Field
-                  id="newHebrewName"
-                  className="form-control rounded-0 newHebrewName_"
-                  type="text"
-                  name="hebrewName"
-                  pl
-                />
-              </div>
+          <Form className="" style={{ height: "590px" }} id="productForm">
+            <div className=" px-4 overflow-auto" style={{ height: "560px" }}>
+              <div className="text-end">
+                <div className="form-group">
+                  <Field
+                    id="newId"
+                    className="form-control rounded-0 newId_"
+                    type="hidden"
+                    name="Id"
+                    pl
+                  />
+                </div>
 
-              <div className="form-group">
-                <lable className="lableForm">תאור מוצר:</lable>
-                <Field
-                  id="newDescription"
-                  className="form-control rounded-0 newDescription_"
-                  type="text"
-                  name="description"
-                />
-              </div>
-              <div className="form-group">
-                <lable className="lableForm">תאור מוצר(HE):</lable>
-                <Field
-                  id="newHebrewDescription"
-                  className="form-control rounded-0 newHebrewDescription_"
-                  type="text"
-                  name="hebrewDescription"
-                />
-              </div>
-              <div className="form-group">
-                <lable className="lableForm">מחיר:</lable>
-                <Field
-                  id="newPrice"
-                  className="form-control rounded-0 newPrice_"
-                  type="text"
-                  name="price"
-                />
-              </div>
+                <div className="form-group">
+                  <lable className="lableForm">שם מוצר:</lable>
+                  <Field
+                    id="newName"
+                    className="form-control rounded-0 newName_"
+                    type="text"
+                    name="name"
+                    pl
+                  />
+                </div>
+                <div className="form-group">
+                  <lable className="lableForm">שם מוצר(HE):</lable>
+                  <Field
+                    id="newHebrewName"
+                    className="form-control rounded-0 newHebrewName_"
+                    type="text"
+                    name="hebrewName"
+                    pl
+                  />
+                </div>
 
-              <div className="form-group">
-                <lable className="lableForm">קטגוריה:</lable>
-                <Field
-                  as="select"
-                  name="category"
-                  id="newCategory"
-                  className="browser-default custom-select  rounded-0"
-                >
-                  {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.hebrewName}
+                <div className="form-group">
+                  <lable className="lableForm">תאור מוצר:</lable>
+                  <Field
+                    id="newDescription"
+                    className="form-control rounded-0 newDescription_"
+                    type="text"
+                    name="description"
+                  />
+                </div>
+                <div className="form-group">
+                  <lable className="lableForm">תאור מוצר(HE):</lable>
+                  <Field
+                    id="newHebrewDescription"
+                    className="form-control rounded-0 newHebrewDescription_"
+                    type="text"
+                    name="hebrewDescription"
+                  />
+                </div>
+                {/* <div className="pricesDiv"> */}
+                <div className="d-flex  row align-items-center pl-2" id="productPrice">
+
+                  <div className="form-group col-6">
+                    <lable className="lableForm">כמות:</lable>
+                    <Field
+                      as="select"
+                      name="amountId"
+                      id="newAmount"
+                      className="browser-default custom-select  rounded-0"
+                    >
+                      <option value={""}>
+
+                      </option>
+                      {amounts.map((amount) => (
+                        <option key={amount._id} value={amount._id}>
+                          {amount.hebrewName}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+
+                  <div className="form-group col-4">
+                    <lable className="lableForm">מחיר:</lable>
+                    <Field
+                      id="newPrice"
+                      className="form-control rounded-0 newPrice_"
+                      type="text"
+                      name="price"
+                    />
+                  </div>
+
+                  <div className="col-2 mt-2">
+                    <button type="button" onClick={() => setCount(count + 1)} style={{ fontSize: '19px' }}>+</button>
+                    {/* <button type="button" onClick={()=>removePrice("productPrice")}>x</button> */}
+                  </div>
+
+                </div>
+                {/* </div> */}
+
+                {[...Array(count)].map((_, i) => addPrice(i))}
+
+
+                <div className="form-group">
+                  <lable className="lableForm">קטגוריה:</lable>
+                  <Field
+                    as="select"
+                    name="categoryId"
+                    id="newCategory"
+                    className="browser-default custom-select  rounded-0"
+                  >
+                    <option value={""}>
+
                     </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="form-group row d-flex">
-                <div className="col-5 align-items-center  d-flex">
-                  <Field
-                    type="checkbox"
-                    name="available"
-                    id="newAvailable"
-                    className="mt-1"
-                  />
-                  <lable className="mr-1 lableForm">חסר במלאי</lable>
+                    {categories.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.hebrewName}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
+                <div className="form-group row d-flex">
+                  <div className="col-5 align-items-center  d-flex">
+                    <Field
+                      type="checkbox"
+                      name="available"
+                      id="newAvailable"
+                      className="mt-1"
+                    />
+                    <lable className="mr-1 lableForm">חסר במלאי</lable>
+                  </div>
+
+                  <div className="col-6 p-0 align-items-center justify-content-center d-flex">
+                    <Field
+                      type="checkbox"
+                      name="display"
+                      id="newDisplay"
+                      className="mt-1"
+                    />
+                    <lable className="mr-1 lableForm">הסר תצוגה מהאתר</lable>
+                  </div>
                 </div>
 
-                <div className="col-6 p-0 align-items-center justify-content-center d-flex">
-                  <Field
-                    type="checkbox"
-                    name="display"
-                    id="newDisplay"
-                    className="mt-1"
-                  />
-                  <lable className="mr-1 lableForm">הסר תצוגה מהאתר</lable>
-                </div>
               </div>
-              {/* <br /> */}
-              {/* <div id="amountsAndPrices">
-                            <div className="form-group form-row">
-                                <div className='col-md-5'>
-                                    <lable>Price:</lable>
-                                    <Field id="newPrice" className="form-control" type="text" name="price" />
-                                </div>
-                                <div className='col-md-5'>
-                                    <lable>amount:</lable>
-                                    <Field id="newAmount" as="select" name="amount" className="form-control"
-
-                                        className="browser-default custom-select">
-                                        {
-                                            amounts.map((amount) => <option key={amount._id} value={amount._id}>{amount.name}
-                                            </option>)
-                                        }
-                                    </Field>
-
-                                </div>
-                                <div className='col-md-2 ' style={{ marginTop: '2%' }}>
-                                    <button type='button' onClick={newPrice}>add price</button>
-                                </div>
-
-                            </div>
-                            {prices.length !== 0 ? renderNewPrice() : <React.Fragment />}
-                        </div>
-                         */}
-              {/* <lable className="mr-1 lableForm ">קטגוריות נוספות</lable>
-
-                            <MultipleSelect list={categories} /> */}
             </div>
-
             <button
-              className="btn    goldButton "
+              className="btn goldButton "
               id="addProduct"
               type="submit"
             >
               העלה מוצר
             </button>
             {/* <button className="btn    goldButton " id="editProduct" type="submit" >עדכן מוצר</button> */}
+           
           </Form>
+        
         )}
       </Formik>
     </>

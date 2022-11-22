@@ -10,6 +10,7 @@ import ProductListManager from "./ProductListManager";
 // import { Tab, Sonnet } from 'react-bootstrap-tabs';
 import OrderSummary from "./OrderSummary";
 import Orders from "./orders";
+import UsersList from "./UsersList"
 // import Example from '../Example';
 export function ManagerInterface(props) {
   return (
@@ -35,16 +36,16 @@ export function ManagerInterface(props) {
               <Tab eventKey="orderList" title="הזמנות">
                 <Orders />
               </Tab>
-              <Tab eventKey="OrderSummary" title="סיכום הזמנות">
+              <Tab eventKey="OrderSummary" title="סיכום הזמנות" >
                 <OrderSummary />
               </Tab>
             </Tabs>
           </Tab>
-          <Tab eventKey="products" title="מוצרים">
+          <Tab eventKey="products" title="מוצרים" >
             <ProductListManager />
           </Tab>
           <Tab eventKey="users" title="משתמשים">
-            moshe
+          <UsersList />
           </Tab>
         </Tabs>
       </div>

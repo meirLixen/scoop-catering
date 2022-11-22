@@ -166,7 +166,7 @@ export const En = {
     EventOption7: "Party",
     EventOption8: "Company Event",
     EventOption9: "Camp",
-
+    notActiveMsg:"Temporarily inactive",
     //footer section
     lableInput: "Join Updates from Scoop Catering",
     successEmail: "The email was sent successfully",

@@ -38,7 +38,7 @@ export function Checkout(props) {
       //$('#AddressInput').val(userDetails.orders[0].shippingAddress)
       $("#EmailInput").val(userDetails.email);
       $("#phoneInput").val(userDetails.phone);
-      if (userDetails.orders && userDetails.orders[0] !== null)
+      if (userDetails.orders && userDetails.orders[0] && userDetails.orders[0].shippingAddress !== undefined)
         $("#AddressInput").val(userDetails.orders[0].shippingAddress);
     }, 500);
   };
@@ -88,7 +88,7 @@ export function Checkout(props) {
       console.log("userDetails", userDetails.email);
       $(".Email").text(userDetails.email);
       $(".Name").text(userDetails.firstName + " " + userDetails.lastName);
-      if (userDetails.orders && userDetails.orders[0] !== null)
+      if (userDetails.orders && userDetails.orders[0] && userDetails.orders[0].shippingAddress !== undefined)
         $(".Address").text(userDetails.orders[0].shippingAddress);
     }
 
@@ -228,9 +228,9 @@ export function Checkout(props) {
               {showDetails && (
                 <div className="userDetailsSection">
                   <div>
-                    <h5 className="font-weight-bold Name">{}</h5>
-                    <h5 className="Address">{}</h5>
-                    <h6 className="Email">{}</h6>
+                    <h5 className="font-weight-bold Name">{ }</h5>
+                    <h5 className="Address">{ }</h5>
+                    <h6 className="Email">{ }</h6>
                   </div>
                 </div>
               )}
@@ -293,10 +293,10 @@ export function Checkout(props) {
                     style={
                       language === "he"
                         ? {
-                            fontSize: "17px",
-                            width: "65%",
-                            marginRight: "auto",
-                          }
+                          fontSize: "17px",
+                          width: "65%",
+                          marginRight: "auto",
+                        }
                         : { fontSize: "17px", width: "65%", marginLeft: "auto" }
                     }
                   >
@@ -363,10 +363,10 @@ export function Checkout(props) {
                     style={
                       language === "he"
                         ? {
-                            fontSize: "17px",
-                            width: "65%",
-                            marginRight: "auto",
-                          }
+                          fontSize: "17px",
+                          width: "65%",
+                          marginRight: "auto",
+                        }
                         : { fontSize: "17px", width: "65%", marginLeft: "auto" }
                     }
                   >
@@ -480,9 +480,9 @@ export function Checkout(props) {
                 style={
                   language === "he"
                     ? {
-                        padding: "0.375rem 0.75rem 0.375rem 2.25rem",
-                        backgroundPosition: "left 0.75rem center",
-                      }
+                      padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                      backgroundPosition: "left 0.75rem center",
+                    }
                     : { backgroundPosition: "right 0.75rem center" }
                 }
                 required
@@ -506,13 +506,13 @@ export function Checkout(props) {
                 style={
                   language === "he"
                     ? {
-                        padding: "0.375rem 0.75rem 0.375rem 2.25rem",
-                        backgroundPosition: "left 0.75rem center",
-                      }
+                      padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                      backgroundPosition: "left 0.75rem center",
+                    }
                     : {
-                        padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-                        backgroundPosition: "right 0.75rem center",
-                      }
+                      padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                      backgroundPosition: "right 0.75rem center",
+                    }
                 }
                 required
               >
@@ -623,7 +623,7 @@ export function Checkout(props) {
                   <div className="row pt-2 font-weight-bold border-top border-dark pt-3">
                     <div className="col-7 swithSide">{i18.t("Total")}</div>
                     <div className="col-5 fontNumber">
-                      {(parseFloat(parseFloat(total).toFixed(2)) + 25).toFixed(
+                      {(parseFloat(parseFloat(total).toFixed(2))).toFixed(
                         2
                       )}{" "}
                       &#8362;

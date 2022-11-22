@@ -17,7 +17,7 @@ function OrderSummary(props) {
   if (!props.productsOnOrder || !props.productsOnOrder.length) {
     props.getAllProductsOnOrder();
   }
-  console.log(productsOnOrder);
+ 
   const { categories } = props;
   if (!categories || !categories.length) {
     props.getAllCategories();

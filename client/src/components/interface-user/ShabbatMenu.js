@@ -31,10 +31,11 @@ import { useHistory } from "react-router-dom";
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
+
 function ShabbatMenu(props) {
   const { isShowing, toggle } = useModal();
 
-  // const [cart, setCart] = useLocalStorage("cart", []);
+  //const [cart, setCart] = useLocalStorage("cart", []);
   const { language } = props;
   const { products } = props;
   const { categories } = props;
@@ -56,7 +57,7 @@ function ShabbatMenu(props) {
   const history = useHistory();
 
   async function handleLogout() {
-    setError("");
+    //  setError("");
 
     try {
       await logout();
@@ -123,11 +124,11 @@ function ShabbatMenu(props) {
     let less;
 
     let list = await cart.filter((x) => {
-      if (x.product._id === id) {
+      if (x.Id === id) {
         totalTodel = x.Total;
         less = x.Amount;
       }
-      return x.product._id !== id;
+      return x.Id !== id;
     });
     let currTotal =
       parseFloat(total).toFixed(2) - parseFloat(totalTodel).toFixed(2);
@@ -136,8 +137,8 @@ function ShabbatMenu(props) {
       await props.setTotalRedux(parseFloat(0).toFixed(2));
       setTotal(parseFloat(0).toFixed(2));
     } else {
-      await props.setTotalRedux(currTotal); //product.price
-      setTotal(currTotal); //product.price
+      await props.setTotalRedux(currTotal);
+      setTotal(currTotal);
     }
 
     // let less = $('#' + id + ' ' + '.amountToBuy' + ' ' + 'input').val()
@@ -184,7 +185,7 @@ function ShabbatMenu(props) {
       $(".searchResults").addClass("d-none");
     } else {
       setSerchResults(filteredProducts);
-      if (filteredProducts === "") $(".notFound").removeClass("d-none");
+      if (!filteredProducts || !filteredProducts.length) $(".notFound").removeClass("d-none");
       else $(".notFound").addClass("d-none");
     }
   }
@@ -221,11 +222,22 @@ function ShabbatMenu(props) {
   }
 
   if (!products || !products.length) {
-    // props.getAllProducts()
+    props.getAllProducts()
+
   }
   if (!categories || !categories.length) {
     props.getAllCategories();
+
   }
+  const changePrice = event => {
+    if (event.target.value != " ") {
+
+      $("#" + event.target.id + "price").text(event.target.value)
+    }
+
+  }
+
+
 
   const changeAmount = async (id, action) => {
     if (action === "minusToCart" || action === "plusToCart") {
@@ -233,25 +245,25 @@ function ShabbatMenu(props) {
         $("." + id + " " + ".amountToBuy" + " " + "input").val()
       );
       cart.map((item) => {
-        if (item.product._id === id) {
+        if (item.Id === id) {
           if (action === "plusToCart") {
             item.Amount = parseInt(item.Amount) + 1;
             setNumItems(numItems + 1);
             props.setNumItemsRedux(numItems + 1);
-            setTotal(total + 14.9); //+item.product.price
-            props.setTotalRedux(total + 14.9); //+item.product.price
+            setTotal(total + item.price);
+            props.setTotalRedux(total + item.price);
             amountTocart++;
           } else {
-            if (amountTocart !== "1") {
+            if (amountTocart !== 1) {
               item.Amount = parseInt(item.Amount) - 1;
               setNumItems(numItems - 1);
               props.setNumItemsRedux(numItems - 1);
-              setTotal(total - 14.9); //+item.product.price
-              props.setTotalRedux(total - 14.9); //+item.product.price
+              setTotal(total - item.price);
+              props.setTotalRedux(total - item.price);
               amountTocart--;
             } else deleteItem(id);
           }
-          item.Total = item.Amount * 14.9; //*item.product.price
+          item.Total = item.Amount * item.price; //*item.product.price
         }
       });
 
@@ -263,13 +275,14 @@ function ShabbatMenu(props) {
       );
       if (action === "plus") amount++;
       else {
-        if (amount !== "1") amount--;
+        if (amount !== 1) amount--;
       }
       $("#" + id + " " + ".amountToBuy" + " " + "input").val(amount);
     }
   };
 
   const AddToCart = async (product) => {
+    let currentPrice = parseInt($("#" + product._id + "price").text())
     if ($("#" + product._id + " .amountOption_select").val() === " ") {
       $("#" + product._id + " .errorSelect").removeClass("d-none");
       setTimeout(function () {
@@ -279,25 +292,28 @@ function ShabbatMenu(props) {
       let amountToAdd = parseInt(
         $("#" + product._id + " " + ".amountToBuy" + " " + "input").val()
       );
-      props.setTotalRedux(total + amountToAdd * 14.9);
-      setTotal(total + amountToAdd * 14.9); //product.price
+      props.setTotalRedux(total + amountToAdd * currentPrice);
+      setTotal(total + amountToAdd * currentPrice);
       props.setNumItemsRedux(numItems + amountToAdd);
       setNumItems(numItems + amountToAdd);
       let flag = 0;
       let shoppingCart = [];
       if (cart !== undefined) shoppingCart = cart;
       shoppingCart.map((item) => {
-        if (item.product._id === product._id) {
+        if (item.product._id === product._id && item.price === currentPrice) {
+
           item.Amount = item.Amount + amountToAdd;
-          item.Total = item.Total + amountToAdd * 14.9; //item.product.price
+          item.Total = item.Total + amountToAdd * currentPrice;
           flag = 1;
         }
       });
       if (flag === 0) {
         let newItem = {
+          Id: product._id + currentPrice,
           product: product,
           Amount: amountToAdd,
-          Total: amountToAdd * 14.9, //product.price
+          price: currentPrice,
+          Total: amountToAdd * currentPrice,
         };
         await shoppingCart.push(newItem);
       }
@@ -306,7 +322,12 @@ function ShabbatMenu(props) {
     }
   };
 
+
+
   useEffect(() => {
+
+
+
     if ($) {
       $("#shop").addClass("active");
       $("textarea")
@@ -443,12 +464,12 @@ function ShabbatMenu(props) {
                             category.name === "Salads"
                               ? appetizers
                               : category.name === "Appetizers"
-                              ? salads
-                              : category.name === "Desserts"
-                              ? desserts
-                              : category.name === "Bakery"
-                              ? bakery
-                              : salads
+                                ? salads
+                                : category.name === "Desserts"
+                                  ? desserts
+                                  : category.name === "Bakery"
+                                    ? bakery
+                                    : salads
                           }
                         />
                       </div>
@@ -463,8 +484,8 @@ function ShabbatMenu(props) {
                     </div>
 
                     {(searchWord !== undefined &&
-                    searchWord !== "" &&
-                    serchResults?.length
+                      searchWord !== "" &&
+                      serchResults?.length
                       ? serchResults
                       : category.products
                     ).map((product) => (
@@ -558,14 +579,16 @@ function ShabbatMenu(props) {
                             <div className="d-flex align-items-end col-12 mx-0 px-0 row justify-content-end h-50 mt-1">
                               <div className="col-5"></div>
                               <div className="price productPriceM text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber mb-2">
-                                14.90 &#8362;{" "}
+                                <span id={`${product._id}price`}>{product.priceList[0].price}</span>
+                                &#8362;{" "}
+
                               </div>
                             </div>
                             <div
                               className="d-flex align-items-end  row h-50 pb-1 flex-nowrap"
-                              // style={{
-                              //     justifyContent: "space-evenly",
-                              // }}
+                            // style={{
+                            //     justifyContent: "space-evenly",
+                            // }}
                             >
                               <div
                                 className="amountToBuy mx-2  goldColor d-flex  col-6 p-0  align-items-end"
@@ -797,7 +820,9 @@ function ShabbatMenu(props) {
                           <div className="d-flex col-12 mx-0 px-0 align-items-end row justify-content-end h-50 mt-1">
                             <div className="col-5"></div>
                             <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber mb-2">
-                              14.90 &#8362;{" "}
+                              <span id={`${product._id}price`}>{product.priceList[0].price}</span>
+                              &#8362;{" "}
+
                             </div>
                           </div>
 
@@ -867,12 +892,12 @@ function ShabbatMenu(props) {
                                 category.name === "Salads"
                                   ? appetizers
                                   : category.name === "Appetizers"
-                                  ? salads
-                                  : category.name === "Desserts"
-                                  ? desserts
-                                  : category.name === "Bakery"
-                                  ? bakery
-                                  : salads
+                                    ? salads
+                                    : category.name === "Desserts"
+                                      ? desserts
+                                      : category.name === "Bakery"
+                                        ? bakery
+                                        : salads
                               }
                             />
                           </div>
@@ -888,6 +913,7 @@ function ShabbatMenu(props) {
 
                         {Object.keys(category)
                           .filter((key) => key === "products")
+                          
                           .map((key, val) =>
                             category[key].map((product) => (
                               <>
@@ -945,26 +971,33 @@ function ShabbatMenu(props) {
                                         className="amountOption  pl-0 "
                                         id={product._id}
                                       >
-                                        <select
-                                          className="btn-pointer amountOption_select
+                                        {product.priceList.length > 1 ?
+                                          <select id={product._id} onChange={changePrice}
+                                            className="btn-pointer amountOption_select
                                                                         pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
-                                          aria-label=".form-select-sm example"
-                                          style={{
-                                            lineHeight: "1",
-                                            fontSize: "16px",
-                                            width: "fit-content",
-                                            fontWeight: "600 !important",
-                                          }}
-                                        >
-                                          <option value=" ">
-                                            {i18.t("selectAmount")}
-                                          </option>
+                                            aria-label=".form-select-sm example"
+                                            style={{
+                                              lineHeight: "1",
+                                              fontSize: "16px",
+                                              width: "fit-content",
+                                              fontWeight: "600 !important",
+                                            }}
+                                          >
+                                            {/* <option value=" " disabled selected>
+                                              {i18.t("selectAmount")}
+                                            </option> */}
+                                            {product.priceList.map((item) => (
+                                              <option value={item.price}>
+                                                {item.amount}
+                                              </option>
+                                            ))}
 
-                                          <option value="1">500 גר'</option>
-                                          <option value="2">חצי ליטר</option>
-                                          <option value="3">250 מל'</option>
-                                          <option value="4">6 יחידות</option>
-                                        </select>
+
+                                          </select>
+                                          :
+
+                                          <div>{product.priceList[0].amount}</div>
+                                        }
                                       </div>
                                     </div>
 
@@ -981,8 +1014,9 @@ function ShabbatMenu(props) {
                                   <div className="col-4 px-1 h-100">
                                     <div className="d-flex align-items-end col-12 mx-0 px-0 row justify-content-end h-50 mt-1">
                                       <div className="col-5"></div>
-                                      <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2">
-                                        14.90 &#8362;{" "}
+                                      <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2" >
+                                        <span id={`${product._id}price`}>{product.priceList[0].price}</span>
+                                        &#8362;{" "}
                                       </div>
                                     </div>
 
@@ -1108,13 +1142,13 @@ function ShabbatMenu(props) {
                           {/* <FontAwesomeIcon icon="fa-solid fa-cart-shopping" /> */}
                         </h6>
                       ) : (
-                        <h6>{}</h6>
+                        <h6>{ }</h6>
                       )}
                     </div>
                     {cart &&
                       cart.map((item) => (
                         <div
-                          className={`productItem d-flex py-2 ${side} ${item.product._id}`}
+                          className={`productItem d-flex py-2 ${side} ${item.Id}`}
                         >
                           <div className="col-10 px-1">
                             <div
@@ -1133,7 +1167,7 @@ function ShabbatMenu(props) {
                                 <span
                                   className=" px-1 btn-pointer"
                                   onClick={() =>
-                                    changeAmount(item.product._id, "plusToCart")
+                                    changeAmount(item.Id, "plusToCart")
                                   }
                                   style={{ fontSize: "25px", height: "27px" }}
                                 >
@@ -1141,14 +1175,14 @@ function ShabbatMenu(props) {
                                 </span>
                                 <input
                                   type="text"
-                                  defaultValue={item.Amount}
+                                  value={item.Amount}
                                   className=" text-black bg-white pt-0 pb-0    small_input_number fontNumber gold-border"
                                 />
                                 <span
                                   className=" px-1 btn-pointer"
                                   onClick={() =>
                                     changeAmount(
-                                      item.product._id,
+                                      item.Id,
                                       "minusToCart"
                                     )
                                   }
@@ -1159,14 +1193,14 @@ function ShabbatMenu(props) {
                               </div>
 
                               <div className="col-7 text-center p-0 price h6 mb-0 goldColor fontNumber">
-                                {parseFloat(14.9).toFixed(2)} &#8362;{" "}
+                                {parseFloat(item.price).toFixed(2)} &#8362;{" "}
                               </div>
                             </div>
                           </div>
                           <div className="col-2 d-flex align-items-center justify-content-end">
                             <div
                               className="col-4 d-flex align-items-end btn-pointer"
-                              onClick={() => deleteItem(item.product._id)}
+                              onClick={() => deleteItem(item.Id)}
                             >
                               {" "}
                               <img
@@ -1373,7 +1407,7 @@ function ShabbatMenu(props) {
                       {" "}
                       {i18.t("TotalProducts")}:
                     </div>
-                    <div className="col-5 text-start numItems fontNumber font-weight-bold">
+                    <div className={language == "he" ? "col-5 text-start numItems fontNumber font-weight-bold" : "col-5 text-end numItems fontNumber font-weight-bold"}>
                       {numItems}
                     </div>
                   </div>
@@ -1381,7 +1415,7 @@ function ShabbatMenu(props) {
                     <div className="col-5 swithSide font-medium px-2">
                       {i18.t("Total")}:
                     </div>
-                    <div className="col-7 text-start numItems fontNumber font-weight-bold ">
+                    <div className={language == "he" ? "col-7 text-start numItems fontNumber font-weight-bold " : "col-7 text-end numItems fontNumber font-weight-bold "}>
                       &#8362; {parseFloat(total).toFixed(2)}
                     </div>
                   </div>

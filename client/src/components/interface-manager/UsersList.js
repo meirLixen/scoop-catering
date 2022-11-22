@@ -13,14 +13,14 @@ import Modal from "react-bootstrap/Modal";
 import "../../App.css";
 import $ from "jquery";
 
-function Orders(props) {
+function UsersList(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
 
   const [show, setShow] = useState(false);
   const [idToDelete] = useState();
   const handleClose = () => setShow(false);
-  const { products, orders } = props;
-  const { categories } = props;
+  const { products, orders,users,categories} = props;
+
   const [data, setData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [sortType] = useState("hebrewName");
@@ -35,6 +35,9 @@ function Orders(props) {
   }
   if (!categories || !categories.length) {
     props.getAllCategories();
+  }
+  if (!users || !users.length) {
+    props.getAllUsers();
   }
 
   useEffect(() => {
@@ -132,11 +135,11 @@ function Orders(props) {
       <div className="row  rtl mt-2" style={{ height: "800px !important" }}>
         {/* <Search details={products} /> */}
 
-        <div className=" productList col-md-9 p-3 bg-light">
+        <div className=" productList  p-3 bg-light">
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
-             מס' הזמנות: {orders.length} 
+             מס' לקוחות: {users.length} 
             </div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
@@ -174,7 +177,7 @@ function Orders(props) {
               </div>
               <div className="col-md-6">
                 <input
-                  placeholder="חפש הזמנה"
+                  placeholder="חיפוש"
                   className="w-100 inputOf_Search bg-transparent border-0 border-bottom border-dark"
                 />
               </div>
@@ -184,64 +187,66 @@ function Orders(props) {
           <Table className="w-100">
             <thead>
               <tr className=" w-100 col-12" key={"header"}>
-                <th className=" lableForm col-2" value="orderNum" id="orderNum">
-                  מס' הזמנה
+                <th className=" lableForm col-1" value="orderNum" id="orderNum">
+                  מס'לקוח
                 </th>
 
+                <th className=" lableForm col-1" value="userName" id="userName">
+                מס' הזמנות
+                </th>
                 <th className=" lableForm col-2" value="userName" id="userName">
-                  שם לקוח
+              שם לקוח
                 </th>
-                <th className="  lableForm col-1" value="price" id="price">
+                <th className="  lableForm col-2" value="price" id="price">
                   {" "}
-                  סכום
-                </th>
-                <th
-                  className=" lableForm col-1"
-                  value="available"
-                  id="available"
-                >
-                  עיר
+                 דוא"ל
                 </th>
                 <th
                   className=" lableForm col-2"
+                  value="available"
+                  id="available"
+                >
+                  סיסמא
+                </th>
+                <th
+                  className=" lableForm col-1"
                   value="createDate"
                   id="createDate"
                 >
-                  כתובת משלוח
+                  טלפון
                 </th>
 
-                <th className=" lableForm  col-2">תאריך הזמנה</th>
-                <th className=" lableForm  col-2">אמצעי תשלום</th>
+                <th className=" lableForm  col-1">טלפון נוסף </th>
+
+                <th className=" lableForm  col-2">קוד קופון  </th>
                 {/* <th className=' lableForm  col-1'>חשבונית</th> */}
               </tr>
             </thead>
 
             <tbody className="table-responsive">
-              {orders.map((item, index) =>(
+              {users.map((item, index) =>(
                 
                 <Fragment key={index}>
                   <tr className=" bg-white  col-12 ">
-                    <td className=" border-0 col-2">208090</td>
-                    <td className=" border-0 col-2">{item.userId.firstName}</td>
-                    <td className=" border-0 col-1">
-                      {item.CostToPay} &#8362;
-                    </td>
-                    <td className=" border-0 col-1">{item.city}</td>
-                    <td className=" border-0 col-2">{item.shippingAddress}</td>
-                    <td className=" border-0 col-2">{item.date}</td>
-                    <td className=" border-0 col-2">{item.MethodsOfPayment}</td>
+                    <td className=" border-0 col-1 text-center">205</td>
+                    <td className=" border-0 col-1">{item.orders.length}</td>
+                    <td className=" border-0 col-2 text-center">{item.name?item.name:item.firstName?item.firstName+" "+item.lastName:""}</td>
+                    <td className=" border-0 col-2">{item.email}</td>
+                    <td className=" border-0 col-2">{item.password}</td>
+                    <td className=" border-0 col-1">{item.phone}</td>
+                    <td className=" border-0 col-1">{item.anotherPhone?item.anotherPhone:""}</td>
+                    
+                    <td className=" border-0 col-2">{item.codeCupon?item.codeCupon:""}</td>
+
                     {/* <td className=' border-0'>{item.createDate}</td> */}
                   </tr>
-                  <tr
-                    className="bg-transparent"
-                    style={{ height: "15px" }}
-                  ></tr>
+                 
                 </Fragment>
               ))}
             </tbody>
           </Table>
         </div>
-        <div className="col-md-3 p-0">gvbhj</div>
+        <div className="col-md-1 p-0"></div>
       </div>
     </div>
   );
@@ -253,6 +258,7 @@ const mapStateToProps = (state) => {
     products: state.productReducer.products,
     categories: state.categoryReducer.categories,
     orders: state.orderReducer.orders,
+    users:state.userReducer.users
   };
 };
 
@@ -264,9 +270,10 @@ const mapDispatchToProps = (dispatch) => ({
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
   getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllOrders: () => dispatch(actions.getAllOrders()),
+  getAllUsers: () => dispatch(actions.getAllUsers()),
 
   getProductByID: (id) => dispatch(actions.getProductByID(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Orders);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersList);
 // export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))

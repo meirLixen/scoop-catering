@@ -20,7 +20,7 @@ export function RelatedProducts(props) {
   const { products } = props;
 
   if (!products || !products.length) {
-    // props.getAllProducts()
+     props.getAllProducts()
   }
 
   useEffect(() => {

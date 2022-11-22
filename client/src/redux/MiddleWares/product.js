@@ -92,7 +92,8 @@ export const getAllProducts =
         return api
           .get("/products/")
           .then((resJson) => {
-            dispatch(actions.setAllProducts(resJson.data));
+          
+              (actions.setAllProducts(resJson.data));
             resolve();
           })
           .catch((error) => {

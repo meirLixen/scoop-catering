@@ -20,6 +20,9 @@ export function ContactUs(props) {
   useEffect(() => {
     if ($) {
       $("#contact-us").addClass("active");
+      $(".sendcontactUsForm").click(() => {
+        alert(`${i18.t("notActiveMsg")}`)
+      })
     }
   }, []);
   return (
@@ -196,7 +199,7 @@ export function ContactUs(props) {
                   <Button
                     variant="primary"
                     type="submit"
-                    className=" goldButton px-5 py-2 my-5"
+                    className=" goldButton px-5 py-2 my-5 sendcontactUsForm"
                   >
                     {i18.t("send")}
                     {/* &#8594; */}

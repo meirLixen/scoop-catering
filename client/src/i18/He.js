@@ -186,7 +186,7 @@ export const He = {
         EventOption7: 'מסיבה',
         EventOption8: 'אירוע חברה',
         EventOption9: 'קאמפ',
-
+        notActiveMsg:"זמנית לא פעיל",
         //footer section
         lableInput: 'הצטרפו לעדכונים מקייטרינג סקופ',
         successEmail: 'המייל נשלח בהצלחה',
