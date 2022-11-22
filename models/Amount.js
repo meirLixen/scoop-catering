@@ -7,6 +7,11 @@ const amountSchema = new mongoose.Schema({
     name: {
         type: String
     },
+    hebrewName:{
+        type: String
+    },
+    products: [  { type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+   
 
 })
 module.exports = mongoose.model('Amount', amountSchema)

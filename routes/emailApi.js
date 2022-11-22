@@ -74,6 +74,7 @@ router.get('/email/:id', async (req, res) => {
         })
 })
 router.post('/api/sendEmail', (req, res) => {
+    console.log("dddd");
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {

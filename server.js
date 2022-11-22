@@ -9,6 +9,8 @@ const categoryApi = require("./routes/categoryApi");
 const emailApi = require("./routes/emailApi");
 const amountApi = require("./routes/amountApi");
 const productsOnOrderApi = require("./routes/productsOnOrderApi");
+
+
 const cron = require("node-cron");
 const nodemailer = require("nodemailer");
 const fileUpload = require("express-fileupload");
@@ -38,7 +40,8 @@ app.use(
   categoryApi,
   emailApi,
   amountApi,
-  productsOnOrderApi
+  productsOnOrderApi,
+ 
 );
 
 app.use(express.json());

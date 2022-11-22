@@ -8,14 +8,11 @@ const productSchema = new mongoose.Schema({
     hebrewName: {
         type: String
     },
-    price: {
-        type: Number
-    },
-    description: {
+    details: {
 
         type: String
     },
-    hebrewDescription: {
+    hebrewDetails: {
 
         type: String
     },
@@ -40,6 +37,7 @@ const productSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+   
     priceList: [{ amount: { type: mongoose.Schema.Types.ObjectId, ref: "Amount" }, price: { type: Number } }]
 })
 module.exports = mongoose.model('Product', productSchema)

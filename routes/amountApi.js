@@ -23,7 +23,7 @@ router.post("/amount", async (req, res) => {
 // find and update amount by id
 router.post("/amounts/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["name"];
+  const allowedUpdates = ["name","hebrewName"];
   const isValidOpreration = updates.every((update) => {
     allowedUpdates.includes(update);
   });
@@ -55,7 +55,7 @@ router.delete("/amount/:id", async (req, res) => {
 
 // get all amounts
 router.get("/amounts", async (req, res) => {
-  Amount.find()
+  Amount.find().populate("products")
     .then((amounts) => {
       if (!amounts) null;
       res.send(amounts);
@@ -78,4 +78,5 @@ router.get("/amount/:id", async (req, res) => {
       res.status(500).send(err);
     });
 });
+
 module.exports = router;

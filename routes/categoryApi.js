@@ -57,6 +57,9 @@ router.delete('/category/:id', async (req, res) => {
 // get all categories
 router.get('/categories', async (req, res) => {
     Category.find().populate("products").then(categories => {
+        //Category.find().then(categories => {
+    
+
         if (!categories)
           null  
         res.send(categories);

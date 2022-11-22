@@ -21,7 +21,7 @@ router.post("/product/", async (req, res) => {
 // edit product
 router.post("/products/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["status"];
+  const allowedUpdates = ["status","priceList"];
   const isValidOpreration = updates.every((update) => {
     allowedUpdates.includes(update);
   });
@@ -98,7 +98,7 @@ router.post("/copyProduct/:id", async (req, res) => {
 
 // get all products
 router.get("/products", async (req, res) => {
-  Product.find()
+  Product.find().populate("priceList.amount")
     .then((products) => {
       if (!products) null;
       res.send(products);
