@@ -844,6 +844,13 @@ button.outSvgSize:hover {
   /* width: 70px; */
   background-color: #e3e3e3;
 }
+.productPic,.addM{
+  background-size: cover;
+  background-position: center;
+  /* background-image: url(http://localhost:3002/israeliSalad.JPG); */
+width: 140px
+}
+
 
 .productPrice {
   width: 46%;

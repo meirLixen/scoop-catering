@@ -15,12 +15,16 @@ const cron = require("node-cron");
 const nodemailer = require("nodemailer");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
-
 const bodyParser = require("body-parser");
+app.use(cors())
+var dir = path.join(__dirname, "public", "images");
+
+app.use(express.static(dir));
+
 
 require("./config/config");
 
-app.use(cors());
+;
 
 app.use(
   bodyParser.urlencoded({
@@ -123,3 +127,4 @@ mongoose
     });
   })
   .catch(console.error);
+

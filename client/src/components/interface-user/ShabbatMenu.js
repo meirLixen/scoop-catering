@@ -346,6 +346,7 @@ function ShabbatMenu(props) {
 
   return (
     <div id="myDiv">
+
       <button
         className="bg-black text-white d-none scrollTopButton"
         style={{ position: "fixed", top: "90%", left: "4%" }}
@@ -517,7 +518,8 @@ function ShabbatMenu(props) {
                                 מומלץ השבוע!
                               </p>
                             </div>
-                            <img alt="" className=" w-100" src={image1} />
+
+                            {/* <img className="w-100" src=" http://localhost:3002/israeliSalad.JPG" alt="img" /> */}
                           </div>
                           <div className="col-4 p-0 mx-1" id={product._id}>
                             <div
@@ -751,7 +753,9 @@ function ShabbatMenu(props) {
                         id={product._id}
                         style={{ maxHeight: "150px", height: "118px" }}
                       >
-                        <div className="col-2  productPic addM d-flex align-items-center   ml-3">
+                        <div className="col-2  productPic addM d-flex align-items-center   ml-3"
+                         style={!product.img || product.img == undefined ? { backgroundImage:"none"}:{ backgroundImage: `url(${"http://localhost:3002/"+product.img})` }}
+                        >
                           <div
                             className=" ml-auto bg-gold d-flex     justify-content-center align-items-center"
                             style={{
@@ -766,7 +770,10 @@ function ShabbatMenu(props) {
                               מומלץ השבוע!
                             </p>
                           </div>
-                          <img alt="" className=" w-100" src={image1} />
+                          {!product.img || product.img == undefined?
+                                    <img className="w-100" src={image1} alt="img" />
+                                  :""}
+
                         </div>
                         <div className="col-4 p-0 " id={product._id}>
                           <div className="h-75 " style={{ lineHeight: "0.99" }}>
@@ -913,7 +920,7 @@ function ShabbatMenu(props) {
 
                         {Object.keys(category)
                           .filter((key) => key === "products")
-                          
+
                           .map((key, val) =>
                             category[key].map((product) => (
                               <>
@@ -927,7 +934,8 @@ function ShabbatMenu(props) {
                                 >
                                   <div
                                     className="col-2  productPic addM d-flex align-items-center   "
-                                    style={{ width: "140px" }}
+                                    style={!product.img || product.img == undefined ? {backgroundImage:'none'}:{ backgroundImage: `url(${"http://localhost:3002/"+product.img})` }}
+
                                   >
                                     <div
                                       className=" ml-auto bg-gold d-flex     justify-content-center align-items-center"
@@ -946,11 +954,9 @@ function ShabbatMenu(props) {
                                         מומלץ השבוע!
                                       </p>
                                     </div>
-                                    <img
-                                      alt=""
-                                      className=" w-100"
-                                      src={image1}
-                                    />
+                                    {!product.img || product.img == undefined?
+                                    <img className="w-100" src={image1} alt="img" />
+                                  :""}
                                   </div>
                                   <div className="col-4 p-0 " id={product._id}>
                                     <div
