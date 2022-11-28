@@ -31,7 +31,7 @@ import { useHistory } from "react-router-dom";
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
-
+const baseURL="http://localhost:3001/"
 function ShabbatMenu(props) {
   const { isShowing, toggle } = useModal();
 
@@ -519,7 +519,7 @@ function ShabbatMenu(props) {
                               </p>
                             </div>
 
-                            {/* <img className="w-100" src=" http://localhost:3002/israeliSalad.JPG" alt="img" /> */}
+                          
                           </div>
                           <div className="col-4 p-0 mx-1" id={product._id}>
                             <div
@@ -754,7 +754,7 @@ function ShabbatMenu(props) {
                         style={{ maxHeight: "150px", height: "118px" }}
                       >
                         <div className="col-2  productPic addM d-flex align-items-center   ml-3"
-                         style={!product.img || product.img == undefined ? { backgroundImage:"none"}:{ backgroundImage: `url(${"http://localhost:3002/"+product.img})` }}
+                         style={!product.img || product.img == undefined ? { backgroundImage:"none"}:{ backgroundImage: `url(${baseURL+""+product.img})` }}
                         >
                           <div
                             className=" ml-auto bg-gold d-flex     justify-content-center align-items-center"
@@ -934,7 +934,7 @@ function ShabbatMenu(props) {
                                 >
                                   <div
                                     className="col-2  productPic addM d-flex align-items-center   "
-                                    style={!product.img || product.img == undefined ? {backgroundImage:'none'}:{ backgroundImage: `url(${"http://localhost:3002/"+product.img})` }}
+                                    style={!product.img || product.img == undefined ? {backgroundImage:'none'}:{ backgroundImage: `url(${baseURL+""+product.img})` }}
 
                                   >
                                     <div

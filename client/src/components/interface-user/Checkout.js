@@ -16,7 +16,7 @@ export function Checkout(props) {
   const { language } = props;
   const [showEditDetails, setShowEditDetails] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
-
+  const [freightCost, setFreightCost] = useState(0)
   // const { currentUser, logout } = useAuth()
 
   const isMobile = useMediaQuery(768);
@@ -78,6 +78,9 @@ export function Checkout(props) {
 
   function loadingUser() {
     // currentUser ? $('#EmailInput').val(currentUser.email) : alert("vghbjnk")
+  }
+  function setFreightCostFunc(val) {
+    setFreightCost(val)
   }
   useEffect(() => {
     if (userDetails === [] || userDetails.email === undefined) {
@@ -208,7 +211,7 @@ export function Checkout(props) {
                   </label>
                   <hr className="hrCheckout mt-0 mb-4" />
                 </div>
-                {userDetails.email !== undefined && (
+                {!showEditDetails && userDetails.email !== undefined && (
                   <div
                     className="d-flex align-items-center "
                     style={{ cursor: "pointer" }}
@@ -236,15 +239,21 @@ export function Checkout(props) {
               )}
               {showEditDetails && (
                 <Form
-                  className=" "
+                  className="col-md-8 col-sm-12 p-0  "
                   onLoad={loadingUser}
-                  style={{ width: "45%" }}
+
                 >
+
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="FirstName" id="FirstNameInput"></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="Address" id="AddressInput"></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="Email" id="EmailInput"></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="phone" id="phoneInput"></input>
+                  {/*                   
                   <Form.Group
                     className="mb-3 inputDetails"
                     controlId="formBasicName"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('FirstName')}</Form.Label> */}
+                  
                     <Form.Control
                       className="rounded-custom  "
                       type="text"
@@ -256,7 +265,7 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formAddress"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('address')}</Form.Label> */}
+                  
                     <Form.Control
                       className="rounded-custom  "
                       type="text"
@@ -268,7 +277,7 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicEmail"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('mailAdress')}</Form.Label> */}
+                  
                     <Form.Control
                       className="rounded-custom  "
                       type="email"
@@ -280,13 +289,13 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicPhone"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('phone')}</Form.Label> */}
+                   
                     <Form.Control
                       className="rounded-custom fontNumber "
                       type="text"
                       id="phoneInput"
                     />
-                  </Form.Group>
+                  </Form.Group>  */}
 
                   <button
                     className="align-items-center d-flex justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
@@ -316,19 +325,15 @@ export function Checkout(props) {
                 </Form>
               )}
               {userDetails.email === undefined && (
-                <Form style={{ width: "45%" }}>
-                  <input
-                    type="text"
-                    className="icon-rtl"
-                    placeholder="Search"
-                  />
+                <Form className="col-md-8 col-sm-12 p-0">
+
 
                   <Form.Group
                     className="mb-3 inputDetails"
                     controlId="formBasicName"
                   >
                     {/* <Form.Label className="mb-1 lableForm"> {i18.t('FirstName')}</Form.Label> */}
-                    <Form.Control className="rounded-custom  " type="text" />
+                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("name")} type="text" />
                   </Form.Group>
 
                   <Form.Group
@@ -336,7 +341,7 @@ export function Checkout(props) {
                     controlId="formAddress"
                   >
                     {/* <Form.Label className="mb-1 lableForm"> {i18.t('address')}</Form.Label> */}
-                    <Form.Control className="rounded-custom  " type="text" />
+                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("address")} type="text" />
                   </Form.Group>
 
                   <Form.Group
@@ -344,7 +349,7 @@ export function Checkout(props) {
                     controlId="formBasicEmail"
                   >
                     {/* <Form.Label className="mb-1 lableForm"> {i18.t('mailAdress')}</Form.Label> */}
-                    <Form.Control className="rounded-custom  " type="email" />
+                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("email")} type="email" />
                   </Form.Group>
 
                   <Form.Group
@@ -353,21 +358,18 @@ export function Checkout(props) {
                   >
                     {/* <Form.Label className="mb-1 lableForm"> {i18.t('phone')}</Form.Label> */}
                     <Form.Control
-                      className="rounded-custom fontNumber "
+                      className={language == "he" ? "icon-rtl" : "icon-ltr"}
                       type="text"
+                      placeholder={i18.t("phone")}
                     />
                   </Form.Group>
 
                   <button
-                    className="align-items-center d-flex justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
+                    className="align-items-center d-flex w-50 justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
                     style={
                       language === "he"
-                        ? {
-                          fontSize: "17px",
-                          width: "65%",
-                          marginRight: "auto",
-                        }
-                        : { fontSize: "17px", width: "65%", marginLeft: "auto" }
+                        ? { fontSize: "17px", marginRight: "auto", }
+                        : { fontSize: "17px", marginLeft: "auto" }
                     }
                   >
                     {i18.t("save")}{" "}
@@ -388,13 +390,14 @@ export function Checkout(props) {
             </div>
 
             <div className=" bg-grey p-3 mb-5">
-              <label className="  w-100 pt-1 swithSide  goldbgColor  mb-0">
-                {" "}
-                {i18.t("deliveryDetails")}{" "}
-              </label>
-              <hr className="hrCheckout mt-0 mb-4" />
-              {/* <div><label >{i18.t('AreaOrCity')}</label></div> */}
-              {/* <select className="w-75 rounded-custom p-1">
+              <div className="col-md-8 col-sm-12 p-0">
+                <label className="  w-100 pt-1 swithSide  goldbgColor  mb-0">
+                  {" "}
+                  {i18.t("deliveryDetails")}{" "}
+                </label>
+                <hr className="hrCheckout mt-0 mb-4" />
+                {/* <div><label >{i18.t('AreaOrCity')}</label></div> */}
+                {/* <select className="w-75 rounded-custom p-1">
                                 <option></option>
                               
                                 <option>{i18.t('BeitShemesh')}</option>
@@ -405,120 +408,122 @@ export function Checkout(props) {
                             </select>
  */}
 
-              <div className="mt-2">
-                <label className="lableForm">{i18.t("shippingMethod")}</label>
-              </div>
+                <div className="mt-2">
+                  <label className="lableForm">{i18.t("shippingMethod")}</label>
+                </div>
 
-              <div
-                className="row  justify-content-around d-flex"
-                style={isTablet ? { width: "100%" } : { width: "80%" }}
-              >
-                <button
-                  id="btnOne"
-                  className="col-3  shippingOption p-2 text-center"
+                <div
+                  className=" justify-content-between d-flex   "
+
                 >
+                  <button
+                    id="btnOne"
+                    className="col-3  shippingOption p-2 text-center"
+                  >
+                    {" "}
+                    {i18.t("shippingMethod1")}
+                  </button>
+                  <button
+                    id="btnTwo"
+                    className="col-3  shippingOption p-2 text-center"
+                  >
+                    {i18.t("shippingMethod2")}
+                  </button>
+                  <button
+                    id="btnThree"
+                    className="col-3  shippingOption p-2 text-center"
+                  >
+                    <div> {i18.t("shippingMethod3")}</div>
+                  </button>
+                </div>
+
+                <Form.Group
+                  className="my-2 row  btnThree d-none"
+                  controlId="formBasicAddress"
+                  style={{ width: "100%" }}
+                >
+                  <div className="col-6">
+                    <Form.Label className="mb-1 lableForm">
+                      {i18.t("Street")}
+                    </Form.Label>
+                    <Form.Control
+                      className="rounded-custom fontNumber"
+                      type="text"
+                    />
+                  </div>
+                  <div className="col-3">
+                    <Form.Label className="mb-1 lableForm">
+                      {i18.t("buildingNumber")}
+                    </Form.Label>
+                    <Form.Control
+                      className="rounded-custom fontNumber"
+                      type="number"
+                      min="1"
+                    />
+                  </div>
+                  <div className="col-3">
+                    <Form.Label className="mb-1 lableForm">
+                      {i18.t("ApartmentNumber")}
+                    </Form.Label>
+                    <Form.Control
+                      className="rounded-custom fontNumber"
+                      type="number"
+                      min="1"
+                    />
+                  </div>
+                </Form.Group>
+
+                <Form.Label className="mb-2  lableForm">
                   {" "}
-                  {i18.t("shippingMethod1")}
-                </button>
-                <button
-                  id="btnTwo"
-                  className="col-3  shippingOption p-2 text-center"
+                  {i18.t("AreaOrCity")}
+                </Form.Label>
+                <Form.Select
+                  onChange={(e) => setFreightCostFunc(e.target.value)}
+                  aria-label="Default select example"
+                  className="rounded-custom"
+                  style={
+                    language === "he"
+                      ? {
+                        padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                        backgroundPosition: "left 0.75rem center",
+                      }
+                      : { backgroundPosition: "right 0.75rem center" }
+                  }
+                  required
                 >
-                  {i18.t("shippingMethod2")}
-                </button>
-                <button
-                  id="btnThree"
-                  className="col-3  shippingOption p-2 text-center"
+                  <option disabled selected></option>
+
+                  <option value={50}>{i18.t("BeitShemesh")}</option>
+                  <option value={0}>{i18.t("GushEtzion")}</option>
+                  <option value={50}>{i18.t("Jerusalem")}</option>
+                  <option value={80}>{i18.t("Modiin")}</option>
+                  <option value={120}>{i18.t("Raanana")}</option>
+                </Form.Select>
+
+                <Form.Label className="mb-2  lableForm">
+                  {" "}
+                  {i18.t("Address")}
+                </Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  className="rounded-custom "
+                  style={
+                    language === "he"
+                      ? {
+                        padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                        backgroundPosition: "left 0.75rem center",
+                      }
+                      : {
+                        padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                        backgroundPosition: "right 0.75rem center",
+                      }
+                  }
+                  required
                 >
-                  <div> {i18.t("shippingMethod3")}</div>
-                </button>
+                  <option></option>
+                  <option></option>
+                </Form.Select>
               </div>
-
-              <Form.Group
-                className="my-2 row  btnThree d-none"
-                controlId="formBasicAddress"
-                style={{ width: "100%" }}
-              >
-                <div className="col-6">
-                  <Form.Label className="mb-1 lableForm">
-                    {i18.t("Street")}
-                  </Form.Label>
-                  <Form.Control
-                    className="rounded-custom fontNumber"
-                    type="text"
-                  />
-                </div>
-                <div className="col-3">
-                  <Form.Label className="mb-1 lableForm">
-                    {i18.t("buildingNumber")}
-                  </Form.Label>
-                  <Form.Control
-                    className="rounded-custom fontNumber"
-                    type="number"
-                    min="1"
-                  />
-                </div>
-                <div className="col-3">
-                  <Form.Label className="mb-1 lableForm">
-                    {i18.t("ApartmentNumber")}
-                  </Form.Label>
-                  <Form.Control
-                    className="rounded-custom fontNumber"
-                    type="number"
-                    min="1"
-                  />
-                </div>
-              </Form.Group>
-
-              <Form.Label className="mb-2  lableForm">
-                {" "}
-                {i18.t("AreaOrCity")}
-              </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                className="rounded-custom w-75"
-                style={
-                  language === "he"
-                    ? {
-                      padding: "0.375rem 0.75rem 0.375rem 2.25rem",
-                      backgroundPosition: "left 0.75rem center",
-                    }
-                    : { backgroundPosition: "right 0.75rem center" }
-                }
-                required
-              >
-                <option></option>
-
-                <option>{i18.t("BeitShemesh")}</option>
-                <option>{i18.t("GushEtzion")}</option>
-                <option>{i18.t("Jerusalem")}</option>
-                <option>{i18.t("Modiin")}</option>
-                <option>{i18.t("Raanana")}</option>
-              </Form.Select>
-
-              <Form.Label className="mb-2  lableForm">
-                {" "}
-                {i18.t("Address")}
-              </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                className="rounded-custom w-75"
-                style={
-                  language === "he"
-                    ? {
-                      padding: "0.375rem 0.75rem 0.375rem 2.25rem",
-                      backgroundPosition: "left 0.75rem center",
-                    }
-                    : {
-                      padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-                      backgroundPosition: "right 0.75rem center",
-                    }
-                }
-                required
-              >
-                <option></option>
-                <option></option>
-              </Form.Select>
             </div>
             <div className="bg-grey p-3 mb-3">
               <label className="  w-100 pt-1  swithSide  goldbgColor mb-0">
@@ -527,10 +532,10 @@ export function Checkout(props) {
               </label>
               <hr className="hrCheckout mt-0 mb-4" />
               <div
-                className="row p-2"
-                style={isTablet ? { width: "100%" } : { width: "100%" }}
+                className=" p-2"
+
               >
-                <div className="form-group pr-1">
+                <div className="form-group  ">
                   {/* <label htmlFor="exampleFormControlTextarea1 " className="lableForm">{i18.t('CommentsToOrder')} </label> */}
                   <textarea
                     className="w-100  fontNumber customTextarea"
@@ -608,22 +613,22 @@ export function Checkout(props) {
                   </div>
                   <br />
                   <br />
-                  {/* <div className="row  pb-3">
+                  <div className="row  pb-3">
 
-                                        <div className="col-7 swithSide">{i18.t('InterimTotal')}</div>
-                                        <div className="col-5 fontNumber">{parseFloat(total).toFixed(2)} &#8362;</div>
+                    <div className="col-7 swithSide font-weight-bold ">{i18.t('InterimTotal')}</div>
+                    <div className="col-5 fontNumber font-weight-bold">{parseFloat(total).toFixed(2)} &#8362;</div>
 
-                                    </div> */}
-                  {/* <div className="row border-bottom border-dark pb-3">
+                  </div>
+                  <div className="row border-bottom border-dark pb-3">
 
-                                        <div className="col-7 swithSide">{i18.t('ShippingCost')}</div>
-                                        <div className="col-5 fontNumber">{parseFloat(25).toFixed(2)} &#8362;</div>
+                    <div className="col-7 swithSide">{i18.t('ShippingCost')}</div>
+                    <div className="col-5 fontNumber">{parseFloat(freightCost).toFixed(2)} &#8362;</div>
 
-                                    </div> */}
+                  </div>
                   <div className="row pt-2 font-weight-bold border-top border-dark pt-3">
                     <div className="col-7 swithSide">{i18.t("Total")}</div>
                     <div className="col-5 fontNumber">
-                      {(parseFloat(parseFloat(total).toFixed(2))).toFixed(
+                      {(parseFloat(parseFloat((total + parseInt(freightCost))).toFixed(2))).toFixed(
                         2
                       )}{" "}
                       &#8362;

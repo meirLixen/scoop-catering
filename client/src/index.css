@@ -6,8 +6,7 @@
   font-weight: 400;
   /*(regular)*/
   font-style: normal;
-  src: url("../src/data/fonts/webfont_files/ploni-regular-aaa.woff2")
-      format("woff2"),
+  src: url("../src/data/fonts/webfont_files/ploni-regular-aaa.woff2") format("woff2"),
     url("../src/data/fonts/webfont_files/ploni-regular-aaa.woff") format("woff");
 }
 
@@ -16,8 +15,7 @@
   font-weight: 700;
   /*(bold)*/
   font-style: normal;
-  src: url("../src/data/fonts/webfont_files/ploni-bold-aaa.woff2")
-      format("woff2"),
+  src: url("../src/data/fonts/webfont_files/ploni-bold-aaa.woff2") format("woff2"),
     url("../src/data/fonts/webfont_files/ploni-bold-aaa.woff") format("woff");
 }
 
@@ -26,8 +24,7 @@
   font-weight: 600;
   /*(bold)*/
   font-style: normal;
-  src: url("../src/data/fonts/webfont_files/ploni-medium-aaa.woff2")
-      format("woff2"),
+  src: url("../src/data/fonts/webfont_files/ploni-medium-aaa.woff2") format("woff2"),
     url("../src/data/fonts/webfont_files/ploni-medium-aaa.woff") format("woff");
 }
 
@@ -76,6 +73,7 @@
     padding: 0.375rem 0.1rem 0.375rem 2.25rem !important;
     background-position: left 7rem center !important;
   }
+
   .customP {
     padding: 0.375rem 0.99rem 0.375rem 2.25rem !important;
   }
@@ -157,6 +155,7 @@ h1 {
 .rounded-custom-small {
   border-radius: 10px !important;
 }
+
 .rounded-custom {
   border-radius: 20px !important;
 }
@@ -208,7 +207,7 @@ div .EventsDiv {
 
 .btn-primary:not([disabled]):not(.disabled):active,
 .btn-primary:not([disabled]):not(.disabled).active,
-.show > .btn-primary.dropdown-toggle:active {
+.show>.btn-primary.dropdown-toggle:active {
   background-color: black !important;
 }
 
@@ -258,9 +257,11 @@ div .EventsDiv {
 button.btn-danger {
   font: bold !important;
 }
+
 .btn-pointer {
   cursor: pointer;
 }
+
 .btn-pointer option {
   cursor: pointer;
 }
@@ -597,6 +598,7 @@ button.outSvgSize:hover {
   line-height: 1;
   margin: 0.5rem 0 !important;
 }
+
 .hrCheckout {
   opacity: 1;
   width: 60px;
@@ -613,16 +615,53 @@ button.outSvgSize:hover {
   top: 4%;
   right: 3%;
 }
+
 .icon-rtl {
-  padding-right: 25px;
-  background: url("https://static.thenounproject.com/png/101791-200.png")
-    no-repeat right;
-  background-size: 20px;
+
+  background: url(data/imges/editIcon.png) no-repeat  scroll ;
+  padding-left: 30px;
+  background-size: 18px;
+  padding: 0.375rem 0.8rem 0.375rem 2.25rem !important;
+  background-position: left 0.4rem center !important;
+  border-radius: 20px !important;
+  margin-bottom: 15px;
 }
+.icon-ltr {
+  background: url(data/imges/editIcon.png) no-repeat  scroll ;
+  padding-left: 30px;
+  background-size: 18px;
+  padding: 0.375rem 2.25rem 0.375rem  0.8rem!important;
+  background-position: right 0.4rem center !important;
+  border-radius: 20px !important;
+  margin-bottom: 15px;
+}
+
+form .icon-rtl,form .icon-ltr {
+  display: block;
+  width: 100%;
+ 
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  width: 100%;
+
+}
+
+form .icon-rtl:focus,form .icon-ltr:focus {
+  /* border:none !important; */
+
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .inputDetails input {
-  padding-right: 25px;
+  /* padding-right: 25px;
   background: url(data/imges/editIcon.png) no-repeat right;
-  background-size: 20px;
+  background-size: 20px; */
   /* background-image: url(data/imges/editIcon.png) ; */
   /* display: inline-block; */
   /* background-size: 20px;
@@ -814,9 +853,11 @@ button.outSvgSize:hover {
   border-radius: 10px !important;
   box-shadow: 0 0px 4px 0 rgb(0 0 0 / 25%);
 }
+
 .incrementFont {
   font-size: 18px !important;
 }
+
 /* productList */
 .productLine {
   box-shadow: 0 0px 4px 0px rgb(0 0 0 / 25%);
@@ -844,11 +885,13 @@ button.outSvgSize:hover {
   /* width: 70px; */
   background-color: #e3e3e3;
 }
-.productPic,.addM{
+
+.productPic,
+.addM {
   background-size: cover;
   background-position: center;
   /* background-image: url(http://localhost:3002/israeliSalad.JPG); */
-width: 140px
+  width: 140px
 }
 
 
@@ -856,6 +899,7 @@ width: 140px
   width: 46%;
   font-size: 17px;
 }
+
 .productPriceM {
   font-size: 17px;
 }
@@ -983,13 +1027,11 @@ width: 140px
 
 .second input {
   /* background: transparent linear-gradient(90deg, #A38047 0%, #FFFFFF 100%) 0% 0% no-repeat padding-box; */
-  background: linear-gradient(
-    to right,
-    #ffffff 0%,
-    #a38047 20%,
-    #a38047 20%,
-    #ffffff 100%
-  );
+  background: linear-gradient(to right,
+      #ffffff 0%,
+      #a38047 20%,
+      #a38047 20%,
+      #ffffff 100%);
 }
 
 .second input::-webkit-slider-thumb {
@@ -1029,6 +1071,7 @@ width: 140px
 }
 
 @media screen and (min-width: 992px) {
+
   /* NUVSTYLE */
   .dropdown-menu {
     border: none !important;
@@ -1130,7 +1173,7 @@ width: 140px
 
 .form-control:focus {
   /* border:none !important; */
-  background: none;
+  /* background: none; */
   outline: none !important;
   box-shadow: none !important;
 }
@@ -1351,7 +1394,7 @@ width: 140px
 }
 
 .bg-grey input {
-  height: 34px;
+  height: 35px;
   /* height: 50%; */
 }
 
@@ -1517,4 +1560,10 @@ button.shippingOption:hover {
 /* checkout page */
 .userDetailsSection {
   display: flex;
+}
+@media only screen and (max-width: 760px), (min-width: 768px) and (max-width: 1024px) {
+  /* ... */
+  option {
+      width: 150px;
+  }
 }
