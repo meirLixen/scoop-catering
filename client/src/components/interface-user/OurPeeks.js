@@ -15,7 +15,10 @@ import useMediaQuery from "../../hooks/useMediaQuery";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
 import i18 from "../../i18/i18";
+import { useTranslation } from 'react-i18next';
+
 export function OurPeeks(props) {
+  const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   useEffect(() => {

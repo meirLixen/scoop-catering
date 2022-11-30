@@ -16,7 +16,7 @@ import "../../App.css";
 import $ from "jquery";
 function ProductListManager(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
-
+debugger
   const [show, setShow] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const handleClose = () => setShow(false);
@@ -44,11 +44,11 @@ function ProductListManager(props) {
       const types = {
         hebrewName: "hebrewName",
         description: "description",
-        available: "available",
+        outOfStock: "outOfStock",
       };
       const sortProperty = types[type];
-      // if (categoryList.length)
-      //   setCategoryList(products)
+       if (categoryList.length)
+       setCategoryList(products)
       // eslint-disable-next-line
       const sorted = [...products].sort((a, b) => {
         var regex = /^[a-zA-Z]+$/;
@@ -124,9 +124,9 @@ function ProductListManager(props) {
     $("#newHebrewDescription").val(product.hebrewDescription);
     $("#newPrice").val(product.price);
     $("#newCategory").val(product.categoryID);
-    $("#newAvailable").prop(
+    $("#newOutOfStock").prop(
       "checked",
-      product.available === true ? false : true
+      product.outOfStock === true ? false : true
     );
     $("#newDisplay").prop("checked", product.display === true ? false : true);
   };
@@ -200,7 +200,7 @@ function ProductListManager(props) {
             <div className='row mr-4 mb-3 ltr' key={"header"}>
               <div className='col-4  lableForm text-center pl-5'>אפשרויות</div>
               <div className='col-2 lableForm' value="createDate" id="createDate" onClick={e => setSortType("createDate")}>עדכון אחרון</div>
-              <div className='col-2 lableForm' value="available" id="available" onClick={e => setSortType("available")}>מלאי</div>
+              <div className='col-2 lableForm' value="outOfStock" id="outOfStock" onClick={e => setSortType("outOfStock")}>מלאי</div>
               <div className='col-2 lableForm' value="price" id="price" onClick={e => setSortType("price")}>מחיר</div>
 
               <div className='col-2 lableForm' value='hebrewName' id='hebrewName' onClick={e => setSortType('hebrewName')}>שם מוצר</div>
@@ -220,7 +220,7 @@ function ProductListManager(props) {
 
                     </td>
                     <td className='col-2'>{item.createDate}</td>
-                    <td className='col-2'>{item.available === true ? "במלאי" : "אזל מהמלאי"}</td>
+                    <td className='col-2'>{item.outOfStock === true ? "במלאי" : "אזל מהמלאי"}</td>
                     <td className='col-2'>{item.price}</td>
 
                     <td className='col-2'>{item.hebrewName}</td>
@@ -262,9 +262,9 @@ function ProductListManager(props) {
                 </th>
                 <th
                   className=" col-2 lableForm"
-                  value="available"
-                  id="available"
-                  onClick={(e) => setSortType("available")}
+                  value="outOfStock"
+                  id="outOfStock"
+                  onClick={(e) => setSortType("outOfStock")}
                 >
                   מלאי
                 </th>
@@ -283,7 +283,7 @@ function ProductListManager(props) {
             </thead>
 
             <tbody className="table-responsive">
-              {categoryList.map((item) => (
+              {products.map((item) => (
                 <>
                   <tr className=" bg-white   col-12">
                     <td className=" border-0 col-2">{item.hebrewName}</td>
@@ -292,7 +292,7 @@ function ProductListManager(props) {
                       &#8362;
                     </td>
                     <td className=" border-0 col-2">
-                      {item.available === true ? "במלאי" : "אזל מהמלאי"}
+                      {item.outOfStock === true ? "במלאי" : "אזל מהמלאי"}
                     </td>
                     <td className=" border-0 col-3">{item.createDate}</td>
                     <td

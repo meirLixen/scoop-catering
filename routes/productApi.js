@@ -21,7 +21,7 @@ router.post("/product/", async (req, res) => {
 // edit product
 router.post("/products/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["status","priceList"];
+  const allowedUpdates = Object.keys(new Product());
   const isValidOpreration = updates.every((update) => {
     allowedUpdates.includes(update);
   });
@@ -72,7 +72,7 @@ router.post("/copyProduct/:id", async (req, res) => {
         name: product.name,
         hebrewName: product.hebrewName,
         price: product.price,
-        available: product.available,
+        outOfStock: product.outOfStock,
         display: product.display,
         description: product.description,
         hebrewDescription: product.hebrewDescription,

@@ -47,7 +47,7 @@ export function NewProduct(props, { product }) {
     console.log(fields);
     // event.preventDefault();
     var priceList = []
-   
+
     var result = Object.entries(fields);
     var amount = "", price = ""
 
@@ -80,8 +80,9 @@ export function NewProduct(props, { product }) {
       details: fields.description,
       hebrewDetails: fields.hebrewDescription,
       categoryID: fields.categoryId,
-      available: fields.available,
+      outOfStock: fields.outOfStock,
       display: fields.display,
+      recommended: fields.recommended,
       priceList: priceList
     }
 
@@ -171,7 +172,7 @@ export function NewProduct(props, { product }) {
 
   return (
     <>
-    
+
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title></Modal.Title>
@@ -182,7 +183,7 @@ export function NewProduct(props, { product }) {
         <Modal.Footer className="d-flex justify-content-center"></Modal.Footer>
       </Modal>
       <h4 className="px-4 text-end font-weight-bold">פרטי המוצר:</h4>
-   
+
       <Formik
         initialValues={{
           Id: "",
@@ -191,8 +192,9 @@ export function NewProduct(props, { product }) {
           description: " ",
           hebrewDescription: " ",
           categoryId: " ",
-          available: false,
-          display: false,
+          outOfStock: false,
+          display: true,
+          recommended: false,
         }}
         onSubmit={onSubmit}
       >
@@ -310,30 +312,44 @@ export function NewProduct(props, { product }) {
                     ))}
                   </Field>
                 </div>
-                <div className="form-group row d-flex">
-                  <div className="col-5 align-items-center  d-flex">
+                <div className="form-group row d-flex     justify-content-around;">
+                  <div className="col-4 align-items-center  d-flex">
                     <Field
                       type="checkbox"
-                      name="available"
-                      id="newAvailable"
-                      className="mt-1"
+                      name="outOfStock"
+                      id="newOutOfStock"
+                      className=""
                     />
-                    <lable className="mr-1 lableForm">חסר במלאי</lable>
+                    <lable className="mr-1 lableForm my-0">חסר במלאי</lable>
                   </div>
 
-                  <div className="col-6 p-0 align-items-center justify-content-center d-flex">
+                  <div className="col-4 p-0 align-items-center justify-content-center d-flex">
                     <Field
                       type="checkbox"
                       name="display"
                       id="newDisplay"
-                      className="mt-1"
+                      className=""
                     />
-                    <lable className="mr-1 lableForm">הסר תצוגה מהאתר</lable>
+                    <lable className="mr-1 lableForm my-0">תצוגה באתר</lable>
                   </div>
+                  <div className="col-3 p-0 align-items-center justify-content-center d-flex">
+                    <Field
+                      type="checkbox"
+                      name="recommended"
+                      id="newRecommended"
+                      className=""
+                    />
+                    <lable className="mr-1 lableForm my-0">מומלץ</lable>
+                  </div>
+
                 </div>
 
               </div>
             </div>
+            <form action="/single" method="POST" enctype="multipart/form-data">
+              <input type="file" name="image" />
+              <button type="submit">Upload</button>
+            </form>
             <button
               className="btn goldButton "
               id="addProduct"
@@ -342,9 +358,9 @@ export function NewProduct(props, { product }) {
               העלה מוצר
             </button>
             {/* <button className="btn    goldButton " id="editProduct" type="submit" >עדכן מוצר</button> */}
-           
+
           </Form>
-        
+
         )}
       </Formik>
     </>

@@ -9,7 +9,10 @@ import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
 import $ from "jquery";
 import i18 from "../../i18/i18";
+import { useTranslation } from 'react-i18next';
+
 export function Payment(props) {
+  const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   // const products = Store.getState().productReducer.products

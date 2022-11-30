@@ -10,16 +10,21 @@ const emailApi = require("./routes/emailApi");
 const amountApi = require("./routes/amountApi");
 const productsOnOrderApi = require("./routes/productsOnOrderApi");
 
-
+const multer = require("multer");
 const cron = require("node-cron");
 const nodemailer = require("nodemailer");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 app.use(cors())
-var dir = path.join(__dirname, "public", "images");
+var products = path.join(__dirname, "public", "images","products");
+var categories = path.join(__dirname, "public", "images","categories");
+var icons = path.join(__dirname, "public", "images","icons");
 
-app.use(express.static(dir));
+app.use(express.static(products));
+app.use(express.static(categories));
+app.use(express.static(icons));
+
 
 
 require("./config/config");
@@ -93,6 +98,67 @@ cron.schedule("0 11 * * Monday", function () {
       console.log("Email successfully sent!");
     }
   });
+});
+
+const storageEngine = multer.diskStorage({
+destination: "./public/images",
+filename: (req, file, cb) => {
+  cb(null, `${Date.now()}--${file.originalname}`);
+},
+});
+
+
+
+
+
+
+//Initializing upload
+const upload = multer({
+storage: storageEngine,
+limits: { fileSize: 10000000 },
+fileFilter: (req, file, cb) => {
+  checkFileType(file, cb);
+},
+});
+
+const checkFileType = function (file, cb) {
+//Allowed ext
+const fileTypes = /jpeg|JPG|png|gif|svg/;
+
+//check ext
+const extName = fileTypes.test(path.extname(file.originalname));
+console.log(path.extname(file.originalname));
+
+const mimeType = fileTypes.test(file.mimetype);
+
+if (mimeType && extName) {
+  return cb(null, true);
+} else {
+  cb("Error: You can Upload Images Only!!");
+}
+};
+app.use(express.static('public'));
+app.post("/single", upload.single("image"), (req, res) => {
+  console.log("singlesinglesingle");
+console.log(req.file);
+if (req.file) {
+  
+  res.send("Single file uploaded successfully");
+} else {
+  res.status(404).send("Please upload a valid image");
+}
+});
+
+
+
+app.post("/multiple", upload.array("images", 5), (req, res) => {
+console.log(req.files);
+
+if (req.files) {
+  res.send("Muliple files uploaded successfully");
+} else {
+  res.status(404).send("Please upload a valid images");
+}
 });
 //end---sendMail
 // export let MSGS = {

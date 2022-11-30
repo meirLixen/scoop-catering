@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { withRouter } from "react-router-dom";
 import "../../App.css";
 import { connect } from "react-redux";
@@ -10,15 +10,16 @@ import { Button } from "react-bootstrap";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
 import $ from "jquery";
-
-import i18 from "../../i18/i18";
+import { useTranslation } from 'react-i18next';
+import i18 from "../../i18/i18"
 import EventBg from "../../data/imges/drinks.png";
 import Form from "react-bootstrap/Form";
 
 export function Events(props) {
+  const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
-
+  const { language } = props;
   useEffect(() => {
     if ($) {
       $("#events").addClass("active");
@@ -192,7 +193,7 @@ export function Events(props) {
                           id="vehicle1"
                           name="vehicle1"
                           defaultValue="Bike"
-                          checked
+                          checked="true"
                         />
                         <label
                           className="mr-2 ml-1  mb-0 lableForm"

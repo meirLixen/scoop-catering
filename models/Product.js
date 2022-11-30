@@ -19,13 +19,17 @@ const productSchema = new mongoose.Schema({
     img: {
         type: String
     },
-    available: {
+    outOfStock: {
         type: Boolean,
-        default: true
+        default: false
     },
     display: {
         type: Boolean,
         default: true
+    },
+    recommended:{
+        type: Boolean,
+        default: false
     },
     categoryID: {
         type: mongoose.Schema.Types.ObjectId, ref: "Category"

@@ -43,7 +43,7 @@ function Orders(props) {
       const types = {
         hebrewName: "hebrewName",
         description: "description",
-        available: "available",
+        outOfStock: "outOfStock",
       };
       const sortProperty = types[type];
       // if (categoryList.length)
@@ -197,8 +197,8 @@ function Orders(props) {
                 </th>
                 <th
                   className=" lableForm col-1"
-                  value="available"
-                  id="available"
+                  value="outOfStock"
+                  id="outOfStock"
                 >
                   עיר
                 </th>

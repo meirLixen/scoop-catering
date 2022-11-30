@@ -803,7 +803,13 @@ form .icon-rtl:focus,form .icon-ltr:focus {
   top: 140px;
   position: fixed;
 }
-
+.categoryImage{
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+}
 .categoryList {
   /* box-shadow: 0 3px 8px 0 rgb(0 0 0 / 8%); */
   box-shadow: 0 0px 4px 0px rgb(0 0 0 / 25%);
@@ -868,7 +874,21 @@ form .icon-rtl:focus,form .icon-ltr:focus {
 .productItem {
   border-bottom: 2px solid #c4c4c4 !important;
 }
-
+.recommended{
+ 
+  text-align: center;
+  width: 60%;
+  height: 20px;
+  position: absolute;
+  top: 0;
+}
+.outOfStock{
+  text-align: center;
+  width: 60%;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+}
 /* .productLine:hover{
 
   } */
@@ -1143,8 +1163,9 @@ form .icon-rtl:focus,form .icon-ltr:focus {
 }
 
 .lableForm {
-  font-weight: 700;
+  /* font-weight: 700; */
   font-size: 16px;
+  margin-top: 10px;
 }
 
 /* input[type=checkbox]

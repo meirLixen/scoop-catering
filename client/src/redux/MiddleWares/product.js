@@ -83,7 +83,9 @@ export const copyProduct =
     return next(action);
   };
 
-export const getAllProducts =
+
+
+  export const getAllProducts =
   ({ dispatch, getState }) =>
   (next) =>
   (action) => {
@@ -92,8 +94,7 @@ export const getAllProducts =
         return api
           .get("/products/")
           .then((resJson) => {
-          
-              (actions.setAllProducts(resJson.data));
+            dispatch(actions.setAllProducts(resJson.data));
             resolve();
           })
           .catch((error) => {
@@ -104,6 +105,14 @@ export const getAllProducts =
     }
     return next(action);
   };
+
+
+
+
+
+
+
+
 export const getProductByID =
   ({ dispatch, getState }) =>
   (next) =>

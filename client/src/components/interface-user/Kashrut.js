@@ -13,8 +13,10 @@ import TopPageDesktop from "../mainPage/TopPageDesktop";
 
 import $ from "jquery";
 import i18 from "../../i18/i18";
+import { useTranslation } from 'react-i18next';
 
 export function Kashrut(props) {
+  const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   useEffect(() => {

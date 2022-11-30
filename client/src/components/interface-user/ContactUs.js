@@ -12,8 +12,9 @@ import TopPageDesktop from "../mainPage/TopPageDesktop";
 import $ from "jquery";
 import i18 from "../../i18/i18";
 import EventBg from "../../data/imges/drinks.png";
-
+import { useTranslation } from 'react-i18next';
 export function ContactUs(props) {
+  const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
 
