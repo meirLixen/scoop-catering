@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
-import { auth } from "../firebase";
+import React, { useContext, useEffect, useState } from "react";
 import api from "../api";
+import { auth } from "../firebase";
 
 const AuthContext = React.createContext();
 
@@ -124,10 +124,8 @@ export function AuthProvider({ children }, props) {
 
   function login(email, password) {
     let result = auth.signInWithEmailAndPassword(email, password).then((v) => {
+      setCurrentUser(v.user);
       getUserByUid(v.user.uid).then((item) => {
-        // props.setUser("מינדי")
-        // alert(item.myuser.firstName)
-        console.log(item.myuser.firstName);
         setUserDetails(item.myuser);
       });
     });
@@ -155,7 +153,6 @@ export function AuthProvider({ children }, props) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      // alert(user)
       setCurrentUser(user);
 
       setLoading(false);

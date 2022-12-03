@@ -1,40 +1,39 @@
 import React from "react";
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { actions } from "./redux/actions/action";
-import Home from "./components/Home";
-import ContactUs from "./components/interface-user/ContactUs";
-import ProductList from "./components/interface-user/ProductList";
 import history from "./components/history";
-import OurPeeks from "./components/interface-user/OurPeeks";
-import OurCustomers from "./components/interface-user/OurCustomers";
-import OurStory from "./components/interface-user/ourStory/OurStory";
+import Home from "./components/Home";
+import ManagerInterface from "./components/interface-manager/ManagerInterface";
 import OrderSummary from "./components/interface-manager/OrderSummary";
-import Nuv from "./components/mainPage/Nuv";
-import SearchResults from "./components/interface-user/SearchResults";
-import ShoppingCart from "./components/interface-user/ShoppingCart";
 import Checkout from "./components/interface-user/Checkout";
-import Payment from "./components/interface-user/Payment";
+import ContactUs from "./components/interface-user/ContactUs";
 import Events from "./components/interface-user/Events";
 import Gallery from "./components/interface-user/Gallery";
 import Kashrut from "./components/interface-user/Kashrut";
+import OurCustomers from "./components/interface-user/OurCustomers";
+import OurPeeks from "./components/interface-user/OurPeeks";
+import OurStory from "./components/interface-user/ourStory/OurStory";
+import Payment from "./components/interface-user/Payment";
+import ProductList from "./components/interface-user/ProductList";
 import RelatedProducts from "./components/interface-user/RelatedProducts";
-import ManagerInterface from "./components/interface-manager/ManagerInterface";
+import SearchResults from "./components/interface-user/SearchResults";
 import ShabbatMenu from "./components/interface-user/ShabbatMenu";
+import ShoppingCart from "./components/interface-user/ShoppingCart";
+import Nuv from "./components/mainPage/Nuv";
+import { actions } from "./redux/actions/action";
 
-
-import Signup from "./components/Firebase/Signup";
-import { AuthProvider } from "./contexts/AuthContext";
 import Dashboard from "./components/Firebase/Dashboard";
 import Login from "./components/Firebase/Login";
 import PrivateRoute from "./components/Firebase/PrivateRoute";
+import Signup from "./components/Firebase/Signup";
 import UpdateProfile from "./components/Firebase/UpdateProfile";
 import MenuScroll from "./components/interface-user/MenuScroll";
+import { AuthProvider } from "./contexts/AuthContext";
 
 import "./App.css";
 
-function App(props) {
+function App() {
   return (
     <Router history={history}>
       <AuthProvider>
@@ -46,40 +45,41 @@ function App(props) {
             path={["/shop", "/shop/*"]}
             component={ShabbatMenu}
           />
-         
-         
-          <PrivateRoute exact path="/" component={Home} />
+
+          <Route exact path="/" component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
+
+          <div className="App">
+            <PrivateRoute
+              exact
+              path="/manager"
+              allowAdminOnly
+              component={ManagerInterface}
+            />
+            <Route exact path="home/ProductList" component={ProductList} />
+            <Route
+              exact
+              path="/shop/relatedProducts"
+              component={RelatedProducts}
+            />
+            <Route exact path="/Nuv/" component={Nuv} />
+            <Route exact path="/OrderSummary" component={OrderSummary} />
+            <Route exact path="/contact-us" component={ContactUs} />
+            <Route exact path="/home/ourTeam" component={OurPeeks} />
+            <Route exact path="/home/ourCustomers" component={OurCustomers} />
+            <Route exact path="/home/OurStory" component={OurStory} />
+            <Route exact path="/home/kashrut" component={Kashrut} />
+            <Route exact path="/SearchResults/*" component={SearchResults} />
+            <Route exact path="/Cart" component={ShoppingCart} />
+            <Route exact path="/Checkout" component={Checkout} />
+            <Route exact path="/Payment" component={Payment} />
+            <Route exact path="/gallery" component={Gallery} />
+            <Route exact path="/events" component={Events} />
+            <Route exact path="/menu" component={MenuScroll} />
+          </div>
         </Switch>
       </AuthProvider>
-
-      <div className="App">
-   
-        <Switch>
-          <Route exact path="home/ProductList" component={ProductList} />
-          <Route
-            exact
-            path="/shop/relatedProducts"
-            component={RelatedProducts}
-          />
-          <Route exact path="/Nuv/" component={Nuv} />
-          <Route exact path="/OrderSummary" component={OrderSummary} />
-          <Route exact path="/manager" component={ManagerInterface} />
-          <Route exact path="/contact-us" component={ContactUs} />
-          <Route exact path="/home/ourTeam" component={OurPeeks} />
-          <Route exact path="/home/ourCustomers" component={OurCustomers} />
-          <Route exact path="/home/OurStory" component={OurStory} />
-          <Route exact path="/home/kashrut" component={Kashrut} />
-          <Route exact path="/SearchResults/*" component={SearchResults} />
-          <Route exact path="/Cart" component={ShoppingCart} />
-          <Route exact path="/Checkout" component={Checkout} />
-          <Route exact path="/Payment" component={Payment} />
-          <Route exact path="/gallery" component={Gallery} />
-          <Route exact path="/events" component={Events} />
-          <Route exact path="/menu" component={MenuScroll} />
-        </Switch>
-      </div>
     </Router>
   );
 }
