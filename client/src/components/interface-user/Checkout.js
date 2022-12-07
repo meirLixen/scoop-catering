@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { connect } from "react-redux";
+import { actions } from "../../redux/actions/action";
 import Footer from "../mainPage/Footer";
 import UnderFooter from "../mainPage/UnderFooter";
 import editIcon from "../../data/imges/editIcon.png";
@@ -17,31 +18,80 @@ export function Checkout(props) {
   const [showEditDetails, setShowEditDetails] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
   const [freightCost, setFreightCost] = useState(0)
-  // const { currentUser, logout } = useAuth()
+  const [currentOrder, setCurrentOrder] = useLocalStorage("currentOrder", []);
+  const [cart] = useLocalStorage("cart", []);
+  const [citiesList] = useState(
+    [
+
+      { "cityName": "BeitShemesh", "cost": 50 },
+      { "cityName": "GushEtzion", "cost": 0 },
+      { "cityName": "Jerusalem", "cost": 50 },
+      { "cityName": "Modiin", "cost": 80 },
+      { "cityName": "Raanana", "cost": 120 }
+    ]
+  )
 
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   const [numItems] = useLocalStorage("numItems", 0);
   const [total] = useLocalStorage("total", 0);
-  const [userDetails] = useLocalStorage("userDetails", []);
+  const [userDetails, setUserDetails] = useLocalStorage("userDetails", []);
 
   let previousClick = "empty";
   let currentClass;
+  // function setShippingMethod(item) {
+  //   alert(item.target.value)
+  // }
   const EditUserDetails = () => {
     setShowEditDetails(true);
     setShowDetails(false);
     setTimeout(() => {
-      //document.getElementById('EmailInput').value = userDetails.email
-      $("#FirstNameInput").val(
-        userDetails.firstName + " " + userDetails.lastName
+
+      $("#FullNameInput").val(
+        userDetails.fullName ? userDetails.fullName : userDetails.firstName + " " + userDetails.lastName
       );
-      //$('#AddressInput').val(userDetails.orders[0].shippingAddress)
+
       $("#EmailInput").val(userDetails.email);
       $("#phoneInput").val(userDetails.phone);
-      if (userDetails.orders && userDetails.orders[0] && userDetails.orders[0].shippingAddress !== undefined)
-        $("#AddressInput").val(userDetails.orders[0].shippingAddress);
-    }, 500);
+      $("#CityInput").val(userDetails.city ? userDetails.city : "");
+      $("#AddressInput").val(userDetails.address ? userDetails.address : "");
+    }, 50);
   };
+  function back() {
+    setShowEditDetails(false);
+    setShowDetails(true);
+  }
+  const updateDetails = async () => {
+    debugger
+    let updatsFileds = {
+      "createDate": userDetails.createDate,
+      "orders": userDetails.orders,
+      "password": userDetails.password,
+      "userType": userDetails.userType,
+      "__v": userDetails.__v,
+      "_id": userDetails._id,
+      "fullName": $("#FullNameInput").val(),
+      "email": $("#EmailInput").val(),
+      "phone": $("#phoneInput").val(),
+      "city": $("#CityInput").val(),
+      "address": $("#AddressInput").val(),
+      "uid": userDetails.uid
+    }
+
+    setUserDetails(updatsFileds)
+    const res = await props.updateUser({
+      "fullName": updatsFileds.fullName,
+      "email": updatsFileds.email,
+      "phone": updatsFileds.phone,
+      "city": updatsFileds.city,
+      "address": updatsFileds.address,
+      "uid": updatsFileds.uid
+    })
+    console.log("mkmk", res);
+    console.log("res++", res);
+
+  }
+
   function useLocalStorage(key, initialValue) {
     // State to store our value
     // Pass initial state function to useState so logic is only executed once
@@ -79,24 +129,72 @@ export function Checkout(props) {
   function loadingUser() {
     // currentUser ? $('#EmailInput').val(currentUser.email) : alert("vghbjnk")
   }
-  function setFreightCostFunc(val) {
-    setFreightCost(val)
+  function setFreightCostFunc(uu) {
+    let res = $(".selectCity option:selected").attr("id")
+
+    setFreightCost(res)
+  }
+  function ContinueToPay() {
+    debugger
+
+
+    if ($("#regulations").is(':checked') && $('.shippingMethodSelect').attr('name')) {
+      let city = "", address = "", products = []
+      cart.map((item) =>
+        products.push({ "productId": item.product._id, "Amount": item.Amount })
+
+      )
+
+      if ($('.shippingMethodSelect').attr('name') === "Other") {
+        city = $("#OtherVal1 option:selected").val()
+        address = $("#OtherVal2").val()
+      }
+      else {
+        city = userDetails.city
+        address = userDetails.address
+      }
+
+
+
+
+
+
+      // MethodsOfPayment
+
+
+
+      setCurrentOrder(
+        {
+          "userId": userDetails._id,
+          "MethodsOfShipping": $('.shippingMethodSelect').attr('name'),
+          "notes": $(".CommentsToOrder").val(),
+          "numItems": numItems,
+          "interimTotal": parseFloat(total).toFixed(2),
+          "shippingCost": parseFloat(freightCost).toFixed(2),
+          "CostToPay": (parseFloat(parseFloat((total + parseInt(freightCost))).toFixed(2))).toFixed(2),
+
+          "city": city,
+          "shippingAddress": address,
+          "products": products
+        }
+      )
+
+      props.history.push("/Payment")
+    }
+    else {
+      alert("you must sign regulations")
+    }
   }
   useEffect(() => {
-    if (userDetails === [] || userDetails.email === undefined) {
-      $(".Email").text("");
-      $(".Name").text("");
-      $(".Address").text("");
-    } else if (userDetails !== []) {
-      console.log("userDetails", userDetails.email);
-      $(".Email").text(userDetails.email);
-      $(".Name").text(userDetails.firstName + " " + userDetails.lastName);
-      if (userDetails.orders && userDetails.orders[0] && userDetails.orders[0].shippingAddress !== undefined)
-        $(".Address").text(userDetails.orders[0].shippingAddress);
+    if (userDetails.city) {
+      let currentCity = citiesList.filter((city) => city.cityName === userDetails.city)
+      setFreightCost(currentCity[0].cost)
+
     }
 
-    //scroll top
-    //window.scrollTo(0, 0)
+
+
+
     if ($) {
       $("textarea")
         .each(function () {
@@ -110,12 +208,22 @@ export function Checkout(props) {
           this.style.height = this.scrollHeight + "px";
         });
       $("button").click(function () {
+        let currentID = $(this).attr("id")
+        debugger
         if (
-          $(this).attr("id") === "btnOne" ||
-          $(this).attr("id") === "btnTwo" ||
-          $(this).attr("id") === "btnThree"
+          currentID === "Pickup" ||
+          currentID === "HomeDelivery" ||
+          currentID === "Other"
         ) {
-          currentClass = "." + $(this).attr("id");
+          if(currentID === "Pickup" || currentID === "HomeDelivery" )
+          {
+            $("#OtherVal1").val("")
+            $("#OtherVal2").val("")
+          }
+          back()
+          $('.shippingMethodSelect').attr('name', currentID);
+
+          currentClass = "." + currentID
           if ($(this).hasClass("active")) {
             $(this).removeClass("active");
             $(currentClass).addClass("d-none");
@@ -126,7 +234,7 @@ export function Checkout(props) {
             // $('.left_side').removeClass('d-none');
             if (
               previousClick !== "empty" &&
-              previousClick !== $(this).attr("id")
+              previousClick !== currentID
             ) {
               $("#" + previousClick).removeClass("active");
               $("." + previousClick).addClass("d-none");
@@ -139,7 +247,7 @@ export function Checkout(props) {
               // else
               //     $('.left_side').addClass('d-none');
             }
-            previousClick = $(this).attr("id");
+            previousClick = currentID;
             console.log(previousClick);
           }
         }
@@ -148,7 +256,7 @@ export function Checkout(props) {
   }, [$]);
   return (
     <div onScroll={() => alert("bgvf")}>
-      {/* <Search details={products} /> */}
+
       <div className="pageNuv" onScroll={() => alert("bgvf")}>
         {isTablet && <Hamborger history={props.history} />}
 
@@ -163,6 +271,7 @@ export function Checkout(props) {
             className="white-arrow h4 p-1 "
             onClick={() => props.history.goBack()}
           >
+           
             <i
               className="fas fa-long-arrow-alt-right  pr-2"
               style={{ height: "fit-content" }}
@@ -190,6 +299,12 @@ export function Checkout(props) {
         >
           {i18.t("ScoopCatering")}
         </div>
+        <div
+          className="d-inline btn-pointer"
+          onClick={() => props.history.push("/shop")}
+        >
+             / {i18.t("Menu")}
+        </div>
         <div className="goldColor d-inline"> / {i18.t("checkout")} </div>
       </div>
 
@@ -198,7 +313,7 @@ export function Checkout(props) {
           {i18.t("checkout")}{" "}
         </h1>
         <div className="swithDir row">
-          {/* <div className="  col-6 ml-5 p-0 swithSide overflow-auto overflow-checkout" style={{ height: '550px' }}> */}
+
           <div className="swithSide  mb-5 overflow-checkout col-md-8 col-sm-12">
             <div className=" bg-grey mb-5 p-3">
               <div
@@ -231,9 +346,9 @@ export function Checkout(props) {
               {showDetails && (
                 <div className="userDetailsSection">
                   <div>
-                    <h5 className="font-weight-bold Name">{ }</h5>
-                    <h5 className="Address">{ }</h5>
-                    <h6 className="Email">{ }</h6>
+                    <h5 className="font-weight-bold Name">{userDetails.fullName && userDetails.fullName}</h5>
+                    <h5 className="Address">{userDetails.address && userDetails.address}  {userDetails.city && i18.t(userDetails.city)}</h5>
+                    <h6 className="Email">{userDetails.email && userDetails.email}</h6>
                   </div>
                 </div>
               )}
@@ -244,87 +359,102 @@ export function Checkout(props) {
 
                 >
 
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="FirstName" id="FirstNameInput"></input>
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="Address" id="AddressInput"></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="FullName" id="FullNameInput"></input>
+
+                  <div className="d-flex justify-content-between">
+
+                    <select
+                      id="CityInput"
+                      // class={language == "he" ? "icon-rtl col-5" : "icon-ltrcol-5"}
+                      onChange={(e) => setFreightCostFunc(e.target.id)}
+                      aria-label="Default select example"
+                      className="rounded-custom custom-select col-5 selectCity"
+                      style={
+                        language === "he"
+                          ? {
+                            padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                            backgroundPosition: "left 0.75rem center",
+                          }
+                          : { backgroundPosition: "right 0.75rem center" }
+                      }
+                      required
+                    >
+                      <option disabled selected></option>
+                      {citiesList.map((city) =>
+                        <option value={city.cityName} id={city.cost} className={city.cityName}>{i18.t(city.cityName)}</option>
+                      )}
+                    </select>
+                    {/* <input type="text"  placeholder={i18.t("AreaOrCity")} id="CityInput"></input> */}
+                    <input type="text" class={language == "he" ? "icon-rtl col-6" : "icon-ltr col-5"} placeholder="Address" id="AddressInput"></input>
+                  </div>
+
                   <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="Email" id="EmailInput"></input>
                   <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="phone" id="phoneInput"></input>
-                  {/*                   
-                  <Form.Group
-                    className="mb-3 inputDetails"
-                    controlId="formBasicName"
-                  >
-                  
-                    <Form.Control
-                      className="rounded-custom  "
-                      type="text"
-                      id="FirstNameInput"
-                    />
-                  </Form.Group>
 
-                  <Form.Group
-                    className="mb-3 inputDetails"
-                    controlId="formAddress"
-                  >
-                  
-                    <Form.Control
-                      className="rounded-custom  "
-                      type="text"
-                      id="AddressInput"
-                    />
-                  </Form.Group>
+                  <div className="d-flex     justify-content-between">
 
-                  <Form.Group
-                    className="mb-3 inputDetails"
-                    controlId="formBasicEmail"
-                  >
-                  
-                    <Form.Control
-                      className="rounded-custom  "
-                      type="email"
-                      id="EmailInput"
-                    />
-                  </Form.Group>
+                    <button
+                      onClick={back}
+                      className=" col-5 align-items-center d-flex justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
+                      style={
+                        language === "he"
+                          ? {
+                            fontSize: "17px"
+                          }
+                          : { fontSize: "17px" }
+                      }
+                    >
 
-                  <Form.Group
-                    className="mb-3 inputDetails"
-                    controlId="formBasicPhone"
-                  >
-                   
-                    <Form.Control
-                      className="rounded-custom fontNumber "
-                      type="text"
-                      id="phoneInput"
-                    />
-                  </Form.Group>  */}
+                      {language === "he" ? (
 
-                  <button
-                    className="align-items-center d-flex justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
-                    style={
-                      language === "he"
-                        ? {
-                          fontSize: "17px",
-                          width: "65%",
-                          marginRight: "auto",
-                        }
-                        : { fontSize: "17px", width: "65%", marginLeft: "auto" }
-                    }
-                  >
-                    {i18.t("update")}{" "}
-                    {language === "he" ? (
-                      <i
-                        className="fas fa-solid fa-arrow-left mr-3"
-                        style={{ fontSize: "17px" }}
-                      ></i>
-                    ) : (
-                      <i
-                        className="fas fa-solid fa-arrow-right ml-3"
-                        style={{ fontSize: "17px" }}
-                      ></i>
-                    )}
-                  </button>
+                        <i
+                          className="fas fa-solid fa-arrow-right ml-3"
+                          style={{ fontSize: "17px" }}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fas fa-solid fa-arrow-left mr-3"
+                          style={{ fontSize: "17px" }}
+                        ></i>
+                      )}
+                      {i18.t("back")}{" "}
+                    </button>
+
+
+
+                    <button
+                      onClick={updateDetails}
+                      className="col-5 align-items-center d-flex justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
+                      style={
+                        language === "he"
+                          ? {
+                            fontSize: "17px"
+                          }
+                          : { fontSize: "17px" }
+                      }
+                    >
+                      {i18.t("update")}{" "}
+                      {language === "he" ? (
+                        <i
+                          className="fas fa-solid fa-arrow-left mr-3"
+                          style={{ fontSize: "17px" }}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fas fa-solid fa-arrow-right ml-3"
+                          style={{ fontSize: "17px" }}
+                        ></i>
+                      )}
+                    </button>
+
+
+
+
+                  </div>
+
                 </Form>
               )}
-              {userDetails.email === undefined && (
+              {/* {userDetails.email === undefined && (
                 <Form className="col-md-8 col-sm-12 p-0">
 
 
@@ -332,7 +462,7 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicName"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('FirstName')}</Form.Label> */}
+
                     <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("name")} type="text" />
                   </Form.Group>
 
@@ -340,7 +470,7 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formAddress"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('address')}</Form.Label> */}
+
                     <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("address")} type="text" />
                   </Form.Group>
 
@@ -348,7 +478,7 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicEmail"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('mailAdress')}</Form.Label> */}
+
                     <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("email")} type="email" />
                   </Form.Group>
 
@@ -356,7 +486,7 @@ export function Checkout(props) {
                     className="mb-3 inputDetails"
                     controlId="formBasicPhone"
                   >
-                    {/* <Form.Label className="mb-1 lableForm"> {i18.t('phone')}</Form.Label> */}
+
                     <Form.Control
                       className={language == "he" ? "icon-rtl" : "icon-ltr"}
                       type="text"
@@ -386,7 +516,7 @@ export function Checkout(props) {
                     )}
                   </button>
                 </Form>
-              )}
+              )} */}
             </div>
 
             <div className=" bg-grey p-3 mb-5">
@@ -396,49 +526,46 @@ export function Checkout(props) {
                   {i18.t("deliveryDetails")}{" "}
                 </label>
                 <hr className="hrCheckout mt-0 mb-4" />
-                {/* <div><label >{i18.t('AreaOrCity')}</label></div> */}
-                {/* <select className="w-75 rounded-custom p-1">
-                                <option></option>
-                              
-                                <option>{i18.t('BeitShemesh')}</option>
-                                <option>{i18.t('GushEtzion')}</option>
-                                <option>{i18.t('Jerusalem')}</option>
-                                <option>{i18.t('Modiin')}</option>
-                                <option>{i18.t('Raanana')}</option>
-                            </select>
- */}
+
 
                 <div className="mt-2">
                   <label className="lableForm">{i18.t("shippingMethod")}</label>
                 </div>
 
                 <div
-                  className=" justify-content-between d-flex   "
+                  className=" justify-content-between d-flex   shippingMethodSelect" name=""
 
                 >
                   <button
-                    id="btnOne"
+
+                    id="Pickup"
                     className="col-3  shippingOption p-2 text-center"
+
                   >
                     {" "}
                     {i18.t("shippingMethod1")}
                   </button>
                   <button
-                    id="btnTwo"
+
+
+                    id="HomeDelivery"
                     className="col-3  shippingOption p-2 text-center"
+
                   >
                     {i18.t("shippingMethod2")}
                   </button>
                   <button
-                    id="btnThree"
+
+                    id="Other"
                     className="col-3  shippingOption p-2 text-center"
+
                   >
                     <div> {i18.t("shippingMethod3")}</div>
                   </button>
                 </div>
-
+                {/* 
                 <Form.Group
-                  className="my-2 row  btnThree d-none"
+                  className="my-2 row  "
                   controlId="formBasicAddress"
                   style={{ width: "100%" }}
                 >
@@ -471,16 +598,17 @@ export function Checkout(props) {
                       min="1"
                     />
                   </div>
-                </Form.Group>
+                </Form.Group> */}
 
-                <Form.Label className="mb-2  lableForm">
+                <Form.Label className="mb-2  lableForm Other d-none">
                   {" "}
-                  {i18.t("AreaOrCity")}
+                  *{i18.t("AreaOrCity")}
                 </Form.Label>
                 <Form.Select
-                  onChange={(e) => setFreightCostFunc(e.target.value)}
+                  onChange={(e) => setFreightCostFunc(e.target.id)}
                   aria-label="Default select example"
-                  className="rounded-custom"
+                  className="rounded-custom Other d-none selectCity "
+                  id="OtherVal1"
                   style={
                     language === "he"
                       ? {
@@ -493,18 +621,23 @@ export function Checkout(props) {
                 >
                   <option disabled selected></option>
 
-                  <option value={50}>{i18.t("BeitShemesh")}</option>
-                  <option value={0}>{i18.t("GushEtzion")}</option>
-                  <option value={50}>{i18.t("Jerusalem")}</option>
-                  <option value={80}>{i18.t("Modiin")}</option>
-                  <option value={120}>{i18.t("Raanana")}</option>
+                  {citiesList.map((city) =>
+                    <option value={city.cityName} id={city.cost} className={city.cityName}>{i18.t(city.cityName)}</option>
+                  )}
                 </Form.Select>
 
-                <Form.Label className="mb-2  lableForm">
+                <Form.Label className="mb-2  lableForm Other d-none">
                   {" "}
-                  {i18.t("Address")}
+                  *{i18.t("Address")}
                 </Form.Label>
-                <Form.Select
+                <Form.Control
+                  className="rounded-custom Other d-none "
+                  type="text"
+                  placeholder={i18.t("AddressPlaceholder")}
+                  id="OtherVal2"
+
+                />
+                {/* <Form.Select
                   aria-label="Default select example"
                   className="rounded-custom "
                   style={
@@ -523,6 +656,8 @@ export function Checkout(props) {
                   <option></option>
                   <option></option>
                 </Form.Select>
+               */}
+
               </div>
             </div>
             <div className="bg-grey p-3 mb-3">
@@ -536,9 +671,9 @@ export function Checkout(props) {
 
               >
                 <div className="form-group  ">
-                  {/* <label htmlFor="exampleFormControlTextarea1 " className="lableForm">{i18.t('CommentsToOrder')} </label> */}
+
                   <textarea
-                    className="w-100  fontNumber customTextarea"
+                    className="w-100  fontNumber customTextarea CommentsToOrder"
                     rows={1}
                     maxLength="250"
                     ng-trim="false"
@@ -549,18 +684,13 @@ export function Checkout(props) {
             </div>
 
             <div className="">
-              {/* <div className="d-flex align-items-center"> <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-                                <label className="mr-2 ml-3  mb-0" htmlFor="vehicle1 " style={{ fontSize: 'smaller' }}>{i18.t('ApprovalOfRegulations')}</label>
-                            </div>
-                            <div className="d-flex align-items-center">  <input type="checkbox" id="vehicle2" name="vehicle1" value="Bike" />
-                                <label className="mr-2 ml-3 mb-0" htmlFor="vehicle2   " style={{ fontSize: 'smaller' }}> {i18.t('SaveDetails')}</label>
-                            </div> */}
+
               <div className="form-check d-flex align-items-center">
                 <input
-                  className="form-check-input check-height"
+                  className="form-check-input check-height regulations1"
                   type="checkbox"
-                  defaultValue=""
-                  id="flexCheckDefault"
+
+                  id="regulations"
                 />
                 <u
                   className="form-check-label mr-4 "
@@ -588,18 +718,19 @@ export function Checkout(props) {
             </div>
 
             <button
+             type="submit"
               className=" mt-5 goldButton px-3 py-2   "
               style={isMobile ? { display: "none" } : { display: "block" }}
-              onClick={() => props.history.push("/Payment")}
+              onClick={ContinueToPay}
             >
               {" "}
               {i18.t("ContinueToPay")}
-              {/* <img src={arrow_left_white} style={{ paddingRight: '5px',width: '25px'}} /> */}
+
             </button>
           </div>
           <div className="col-md-4 col-sm-12">
             <div className="fixedDiv ">
-              {/* <label className="    font-weight-bolder w-100 pt-1 swithSide px-3">{i18.t('OrderSummary')}</label> */}
+
               <div className=" bg-grey p-3">
                 <label className="  w-100 pt-1  swithSide  goldbgColor  mb-0">
                   {" "}
@@ -634,17 +765,18 @@ export function Checkout(props) {
                       &#8362;
                     </div>
                   </div>
-                  {/* <button className="mt-5 goldButton px-3 mb-5" onClick={() => props.history.push('/Checkout')}> {i18.t('toCheckout')} &#8594; </button> */}
+
                 </div>
               </div>
               <button
+              type="submit"
                 className=" mt-5 goldButton px-3 py-2   "
                 style={isMobile ? { display: "block" } : { display: "none" }}
-                onClick={() => props.history.push("/Payment")}
+                 onClick={ContinueToPay}
               >
                 {" "}
                 {i18.t("ContinueToPay")}
-                {/* <img src={arrow_left_white} style={{ paddingRight: '5px',width: '25px'}} /> */}
+
               </button>
             </div>
           </div>
@@ -664,5 +796,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  updateUser: (user) => dispatch(actions.updateUser(user)),
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

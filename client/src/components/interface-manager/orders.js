@@ -28,17 +28,20 @@ function Orders(props) {
   // const [error, setError] = useState(null);
 
   if (!props.products || !props.products.length) {
-     props.getAllProducts()
+    props.getAllProducts()
   }
   if (!props.orders || !props.orders.length) {
     props.getAllOrders();
+
   }
   if (!categories || !categories.length) {
     props.getAllCategories();
   }
 
   useEffect(() => {
-  
+
+
+
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -136,7 +139,7 @@ function Orders(props) {
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
-             מס' הזמנות: {orders.length} 
+              מס' הזמנות: {orders.filter(order => order.status !== 'done').length}
             </div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
@@ -148,28 +151,28 @@ function Orders(props) {
                   onChange={(e) => changeCategory(e)}
                 >
                   <option value="selectCategory">סינון לפי</option>
-                    <option>
-                     מס' הזמנה
-                    </option>
-                    <option>
-                     שם לקוח
-                    </option>
-                    <option >
-                     סכום
-                    </option>
-                    <option >
-                     עיר
-                    </option>
-                    <option >
+                  <option>
+                    מס' הזמנה
+                  </option>
+                  <option>
+                    שם לקוח
+                  </option>
+                  <option >
+                    סכום
+                  </option>
+                  <option >
+                    עיר
+                  </option>
+                  <option >
                     כתובת משלוח
-                    </option>
-                    <option>
-                     תאירך הזמנה
-                    </option>
-                    <option >
-                     אמצעי תשלום
-                    </option>
-                  
+                  </option>
+                  <option>
+                    תאירך הזמנה
+                  </option>
+                  <option >
+                    אמצעי תשלום
+                  </option>
+
                 </Form.Select>
               </div>
               <div className="col-md-6">
@@ -217,12 +220,12 @@ function Orders(props) {
             </thead>
 
             <tbody className="table-responsive">
-              {orders.map((item, index) =>(
-                
+              {orders.map((item, index) => item.status !== 'done' && (
+
                 <Fragment key={index}>
                   <tr className=" bg-white  col-12 ">
                     <td className=" border-0 col-2">208090</td>
-                    <td className=" border-0 col-2">{item.userId.firstName}</td>
+                    <td className=" border-0 col-2">{item.userId.fullName}</td>
                     <td className=" border-0 col-1">
                       {item.CostToPay} &#8362;
                     </td>

@@ -15,14 +15,24 @@ const orderSchema = new mongoose.Schema({
     numItems: {
         type: String
     },
+    shippingCost: {
+        type: String
+    },
     CostToPay: {
         type: String
+    },
+    MethodsOfShipping: {
+        type: String,
+        enum: ['Pickup', 'HomeDelivery', 'Other']
     },
     city: {
         type: String
     },
     shippingAddress: {
         type: String
+    },
+    notes: {
+        type: String,
     },
     status: {
         type: String,

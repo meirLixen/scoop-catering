@@ -9,7 +9,7 @@ const categoryApi = require("./routes/categoryApi");
 const emailApi = require("./routes/emailApi");
 const amountApi = require("./routes/amountApi");
 const productsOnOrderApi = require("./routes/productsOnOrderApi");
-
+const axios = require('axios');
 const multer = require("multer");
 const cron = require("node-cron");
 const nodemailer = require("nodemailer");
@@ -70,6 +70,18 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
+function updateOrders() {
+  console.log("update orders every sunday with done status");
+  axios.get('http://localhost:3001/api/orders/updateStatus')
+    .then(response => {
+      console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+cron.schedule("0 5 * * sunday", function () {
+  updateOrders()
+  })
 
 //sendMail
 let transporter = nodemailer.createTransport({

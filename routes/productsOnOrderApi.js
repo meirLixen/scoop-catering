@@ -25,7 +25,7 @@ router.post("/productOnOrder", async (req, res) => {
 // edit productsOnOrder
 router.post("/productsOnOrder/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["amount"];
+  const allowedUpdates = Object.keys(new ProductsOnOrder());
   const isValidOpreration = updates.every((update) => {
     allowedUpdates.includes(update);
   });

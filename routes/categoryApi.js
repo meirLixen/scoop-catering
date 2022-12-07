@@ -25,7 +25,7 @@ router.post('/category', async (req, res) => {
 // find and update category by id
 router.post('/categories/:id', async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ["name", "products"];
+    const allowedUpdates = Object.keys(new Category());
     const isValidOpreration = updates.every((update) => {
         allowedUpdates.includes(update)
     })

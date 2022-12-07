@@ -7,8 +7,8 @@ export default function Signup() {
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
-  const firstNameRef = useRef()
-  const lastNameRef = useRef()
+  const fullNameRef = useRef()
+
   const phoneNumberRef = useRef()
 
   const { signup } = useAuth()
@@ -30,7 +30,7 @@ export default function Signup() {
     try {
       setError("")
       setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value, firstNameRef.current.value, lastNameRef.current.value, phoneNumberRef.current.value)
+      await signup(emailRef.current.value, passwordRef.current.value, fullNameRef.current.value, phoneNumberRef.current.value)
       history.push("/shop")
     } catch (e) {
       console.error(e);
@@ -59,16 +59,9 @@ export default function Signup() {
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group>
-
-
-            <Form.Group id="firstName-confirm">
-              <Form.Label>First Name</Form.Label>
-              <Form.Control type="text" ref={firstNameRef} required />
-            </Form.Group>
-
             <Form.Group id="lastName-confirm">
-              <Form.Label>Last Name </Form.Label>
-              <Form.Control type="text" ref={lastNameRef} required />
+              <Form.Label>Full Name </Form.Label>
+              <Form.Control type="text" ref={fullNameRef} required />
             </Form.Group>
 
             <Form.Group id="phoneNumber-confirm">

@@ -15,13 +15,13 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     },
-    firstName: {
+
+    fullName: {
         type: String,
 
     },
-    lastName: {
-        type: String,
-
+    city: {
+        type: String
     },
     address: {
         type: String

@@ -23,7 +23,7 @@ router.post("/amount", async (req, res) => {
 // find and update amount by id
 router.post("/amounts/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["name","hebrewName"];
+  const allowedUpdates = Object.keys(new Amount());
   const isValidOpreration = updates.every((update) => {
     allowedUpdates.includes(update);
   });

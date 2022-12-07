@@ -5,6 +5,7 @@ import { getAllOrders, createOrder, deleteOrder } from './order'
 import { getAllCategories } from './category'
 import { getAllAmounts } from './amount'
 import { getAllProductsOnOrder } from "./productOnOrder";
+import {updateUser} from "./user"
 // import { setSearchWord } from './searchWord';
 
 
@@ -20,6 +21,7 @@ const AppMiddleware = [
 
     getAllUsers,
     createUser,
+    updateUser,
 
 
     getAllOrders,

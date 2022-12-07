@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import "../../App.css";
 import { connect } from "react-redux";
@@ -189,11 +189,12 @@ export function Events(props) {
                     <div className="col-6 row ">
                       <div className="d-flex align-items-center col-6">
                         <input
+                          className="mt-2"
                           type="radio"
                           id="vehicle1"
                           name="vehicle1"
                           defaultValue="Bike"
-                          checked="true"
+                          checked
                         />
                         <label
                           className="mr-2 ml-1  mb-0 lableForm"
@@ -205,6 +206,7 @@ export function Events(props) {
                       <div className="d-flex align-items-center  col-6">
                         {" "}
                         <input
+                         className="mt-2"
                           type="radio"
                           id="vehicle2"
                           name="vehicle1"

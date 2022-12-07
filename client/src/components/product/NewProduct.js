@@ -312,8 +312,8 @@ export function NewProduct(props, { product }) {
                     ))}
                   </Field>
                 </div>
-                <div className="form-group row d-flex     justify-content-around;">
-                  <div className="col-4 align-items-center  d-flex">
+                <div className="form-group row d-flex     justify-content-around; mr-1">
+                  <div className="col-4 align-items-center  d-flex p-0">
                     <Field
                       type="checkbox"
                       name="outOfStock"
@@ -323,7 +323,7 @@ export function NewProduct(props, { product }) {
                     <lable className="mr-1 lableForm my-0">חסר במלאי</lable>
                   </div>
 
-                  <div className="col-4 p-0 align-items-center justify-content-center d-flex">
+                  <div className="col-5 p-0 align-items-center justify-content-center d-flex">
                     <Field
                       type="checkbox"
                       name="display"
@@ -332,7 +332,7 @@ export function NewProduct(props, { product }) {
                     />
                     <lable className="mr-1 lableForm my-0">תצוגה באתר</lable>
                   </div>
-                  <div className="col-3 p-0 align-items-center justify-content-center d-flex">
+                  <div className="col-2 p-0 align-items-center justify-content-center d-flex">
                     <Field
                       type="checkbox"
                       name="recommended"

@@ -98,6 +98,7 @@ router.post("/copyProduct/:id", async (req, res) => {
 
 // get all products
 router.get("/products", async (req, res) => {
+  // console.log("get all products");
   Product.find().populate("priceList.amount")
     .then((products) => {
       if (!products) null;

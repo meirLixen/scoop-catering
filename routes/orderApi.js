@@ -51,7 +51,7 @@ router.post("/order/:userId", async (req, res) => {
 // edit order
 router.post("/orders/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["status", "products"];
+  const allowedUpdates = Object.keys(new Order());
   const isValidOpreration = updates.every((update) => {
     allowedUpdates.includes(update);
   });
@@ -71,6 +71,27 @@ router.post("/orders/:id", async (req, res) => {
     console.error(err);
   }
 });
+
+
+
+
+router.get("/orders/updateStatus", async (req,res) => {
+  console.log("updateStatus.......");
+  try {
+    const result = await Order.updateMany({}, { status: 'done' });
+   
+    if (!result) {
+      res.status(404).send("order not found");
+    }
+    res.send(result);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+
+
+// await Test.updateMany({}, { location: 'Florida' });
 
 //delete order (delete order from user)
 router.delete("/order/:id", async (req, res) => {

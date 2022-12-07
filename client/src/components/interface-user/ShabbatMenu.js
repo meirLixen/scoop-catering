@@ -45,18 +45,16 @@ function ShabbatMenu(props) {
   const [align] = useState("");
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
-
   const [searchResults, setSearchResults] = useState();
   const [searchWord, setSearchWord] = useState();
-
   const [cart, setCart] = useLocalStorage("cart", []);
   const [numItems, setNumItems] = useLocalStorage("numItems", 0);
   const [total, setTotal] = useLocalStorage("total", 0);
   const { totalRedux, numItemsRedux, cartRedux } = props;
   const [setError] = useState("");
-
   const { currentUser, logout } = useAuth();
   const history = useHistory();
+
   if (!products || !products.length) {
     props.getAllProducts()
 
@@ -76,7 +74,20 @@ function ShabbatMenu(props) {
       setError("Failed to log out");
     }
   }
+  function goToCheckout() {
+    if (numItems === 0) {
+      alert("add products to cart")
+    } else {
+      if (currentUser) {
+        props.history.push("/Checkout")
+      }
 
+      else {
+        alert("you must sign in before")
+        scrollTopFunc()
+      }
+    }
+  }
   function scrollTopFunc() {
     window.scrollTo(0, 0);
   }
@@ -165,7 +176,7 @@ function ShabbatMenu(props) {
   };
 
   function searchProduct(searchWord_) {
-  
+
     scrollTopFunc();
     //  let searchWord_ = e.target.value
 
@@ -476,21 +487,7 @@ function ShabbatMenu(props) {
                       <div className="  w-100 categoryImage"
                         style={!category.picUrl || category.picUrl === undefined ? { backgroundImage: `url(${baseURL + "salads.png"})` } : { backgroundImage: `url(${baseURL + "" + category.picUrl})` }}
                       >
-                        {/* <img
-                          alt=""
-                          className="h-100 w-100"
-                          src={
-                            category.name === "Salads"
-                              ? appetizers
-                              : category.name === "Appetizers"
-                                ? salads
-                                : category.name === "Desserts"
-                                  ? desserts
-                                  : category.name === "Bakery"
-                                    ? bakery
-                                    : salads
-                          }
-                        /> */}
+
                       </div>
 
                       <div className="d-flex align-items-center m-3 ">
@@ -517,9 +514,11 @@ function ShabbatMenu(props) {
                             height: "118px",
                           }}
                         >
-                          <div className="col-3  productPic d-flex align-items-center px-2  ">
-
+                          <div className="col-3  productPic d-flex align-items-center px-2  "
+                            style={!product.img || product.img == undefined ? { backgroundImage: "none" } : { backgroundImage: `url(${baseURL + "" + product.img})` }}
+                          >
                             {product.recommended &&
+
                               <div
                                 className=" ml-auto bg-gold d-flex   recommended  justify-content-center align-items-center"
                                 style={language === "he" ? { right: "0px" } : { left: "0px" }}
@@ -568,15 +567,19 @@ function ShabbatMenu(props) {
                                   ? product.hebrewName
                                   : product.name}
                               </div>
-                              <span className="productDetails" style={{ fontSize: "18px" }}>
+
+                              {/* <span className="productDetails" style={{ fontSize: "18px" }}>
                                 {language === "he"
                                   ? product.hebrewDetails
                                   : product.details
                                 }
                               </span>
+ */}
+
+
                               <div
                                 className="amountOption  pl-0  mt-1"
-                                style={{ fontWeight: '500' }}
+                                style={{ fontWeight: '600' }}
                                 id={product._id}
                               >
                                 {product.priceList.length > 1 ?
@@ -672,7 +675,7 @@ function ShabbatMenu(props) {
 
                               <div
                                 onClick={() => AddToCart(product)}
-                                className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 py-1 px-4 mx-1 roundButton"
+                                className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 py-1   roundButton"
                                 style={{
                                   height: "fit-content",
                                   width: "fit-content",
@@ -853,7 +856,7 @@ function ShabbatMenu(props) {
                             </span>
                             <div
                               className="amountOption  pl-0 mt-1"
-                              style={{ fontWeight: '500' }}
+                              style={{ fontWeight: '600' }}
                               id={product._id}
                             >
                               {product.priceList.length > 1 ?
@@ -1075,7 +1078,7 @@ function ShabbatMenu(props) {
 
                                       <div
                                         className="amountOption  pl-0  mt-1"
-                                        style={{ fontWeight: '500' }}
+                                        style={{ fontWeight: '600' }}
                                         id={product._id}
                                       >
                                         {product.priceList.length > 1 ?
@@ -1444,7 +1447,7 @@ function ShabbatMenu(props) {
                   >
                     <div className="row d-flex px-0">
                       <div className="product_Pic col-4 d-flex align-items-center px-2">
-                        {/* <div className=' ml-auto bg-gold d-flex     justify-content-center align-items-center' style={{ width: '60%', height: '15px', position: 'absolute', top: 0, right: '1px' }}><p className='m-0 ' style={{ fontSize: '0.4rem' }}> {i18.t("recommended")}</p></div> */}
+                        {/* <div className=' ml-auto bg-gold d-flex justify-content-center align-items-center' style={{ width: '60%', height: '15px', position: 'absolute', top: 0, right: '1px' }}><p className='m-0 ' style={{ fontSize: '0.4rem' }}> {i18.t("recommended")}</p></div> */}
 
                         <img alt="" className=" w-100 " src={image1} />
                       </div>
@@ -1542,7 +1545,7 @@ function ShabbatMenu(props) {
                 <button
                   className=" d-block col-12 actionSection rounded-custom-small
                                  customShadow text-white bg-gold px-3 py-1 ml-0 w-100 border-0"
-                  onClick={() => props.history.push("/Checkout")}
+                  onClick={() => goToCheckout()}
                 >
                   {i18.t("continueToPayment")}{" "}
                   {language === "he" ? (

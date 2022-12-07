@@ -104,7 +104,7 @@ export function AuthProvider({ children }, props) {
   //     console.log(product);
   // };
 
-  function signup(email, password, firstName, lastName, phoneNumber) {
+  function signup(email, password, fullName, phoneNumber) {
     // auth.signOut()
     let result = auth
       .createUserWithEmailAndPassword(email, password)
@@ -114,8 +114,7 @@ export function AuthProvider({ children }, props) {
           uid: v.user.uid,
           email: email,
           password: password,
-          firstName: firstName,
-          lastName: lastName,
+          fullName: fullName,
           phone: phoneNumber,
         });
       });
@@ -127,7 +126,7 @@ export function AuthProvider({ children }, props) {
       getUserByUid(v.user.uid).then((item) => {
         // props.setUser("מינדי")
         // alert(item.myuser.firstName)
-        console.log(item.myuser.firstName);
+        console.log(item.myuser.fullName);
         setUserDetails(item.myuser);
       });
     });

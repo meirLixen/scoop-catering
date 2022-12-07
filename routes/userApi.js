@@ -12,7 +12,7 @@ router.post("/user", async (req, res) => {
         console.error(err);
         return err;
       }
-      res.json({ status: 201, user: user });
+      res.json({ status: 201, user: newUser });
     });
   } catch (err) {
     res.json({ status: 500, error: err });
@@ -22,7 +22,7 @@ router.post("/user", async (req, res) => {
 // find and update user by uid
 router.post("/users/:uid", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ["name", "age", "email"];
+  const allowedUpdates = Object.keys(new User());
   const isValidOpreration = updates.every((update) => {
     allowedUpdates.includes(update);
   });
@@ -30,7 +30,24 @@ router.post("/users/:uid", async (req, res) => {
     return res.status(404).send("invalid update");
   }
   try {
-    const user = await User.findByIdAndUpdate(req.params.uid, req.body, {
+    const user = await User.findOneAndUpdate({ uid: req.params.uid }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!user) {
+      res.status(404).send("user not found");
+    }
+    res.send(user);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+
+router.post("/updateUserDetails", async (req, res) => {
+
+  try {
+    const user = await User.findOneAndUpdate({ uid: req.body.uid }, req.body, {
       new: true,
       runValidators: true,
     });
@@ -88,8 +105,8 @@ router.get("/user/:id", async (req, res) => {
 
 router.get("/userByUid/:uid", async (req, res) => {
   try {
-    const user = await User.findOne({ uid: req.params.uid }).populate("orders");
-    res.status(200).json({ message: "find user", myuser: user });
+    const myuser = await User.findOne({ uid: req.params.uid }).populate("orders");
+    res.status(200).json({ message: "find user", myuser: myuser });
   } catch (error) {
     res.status(400).send("error");
   }

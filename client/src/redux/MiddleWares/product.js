@@ -42,6 +42,10 @@ export const updateProduct =
     }
     return next(action);
   };
+
+
+
+  
 export const deleteProduct =
   ({ dispatch, getState }) =>
   (next) =>

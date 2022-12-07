@@ -46,6 +46,32 @@ export const createUser =
     return next(action);
   };
 
+  export const updateUser =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action) => {
+    if (action.type === "UPDATE_USER") {
+      let uid;
+      if (action.payload !== undefined) {
+        uid = action.payload.uid;
+      }
+      api
+        .post(`/users/${uid}`, action.payload)
+        .then((res) => {
+          dispatch(actions.setProduct(res.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return;
+    }
+    return next(action);
+  };
+
+
+
+
+
 export const updateUserPassword =
   ({ dispatch, getState }) =>
   (next) =>

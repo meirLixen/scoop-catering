@@ -230,7 +230,7 @@ function UsersList(props) {
                   <tr className=" bg-white  col-12 ">
                     <td className=" border-0 col-1 text-center">205</td>
                     <td className=" border-0 col-1">{item.orders.length}</td>
-                    <td className=" border-0 col-2 text-center">{item.name?item.name:item.firstName?item.firstName+" "+item.lastName:""}</td>
+                    <td className=" border-0 col-2 text-center">{item.fullName?item.fullName:item.name?item.name:item.firstName?item.firstName+" "+item.lastName:""}</td>
                     <td className=" border-0 col-2">{item.email}</td>
                     <td className=" border-0 col-2">{item.password}</td>
                     <td className=" border-0 col-1">{item.phone}</td>

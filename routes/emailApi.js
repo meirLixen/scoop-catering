@@ -23,7 +23,7 @@ router.post('/email', async (req, res) => {
 // edit email
 router.post('/emails/:id', async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ["status"];
+    const allowedUpdates = Object.keys(new Email());
     const isValidOpreration = updates.every((update) => {
         allowedUpdates.includes(update)
     })

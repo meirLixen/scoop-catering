@@ -154,10 +154,12 @@ h1 {
 
 .rounded-custom-small {
   border-radius: 10px !important;
+ 
 }
 
 .rounded-custom {
   border-radius: 20px !important;
+  height: 35px!important;
 }
 
 .customShadow {
@@ -618,7 +620,7 @@ button.outSvgSize:hover {
 
 .icon-rtl {
 
-  background: url(data/imges/editIcon.png) no-repeat  scroll ;
+  background: url(data/imges/editIcon.png) no-repeat scroll;
   padding-left: 30px;
   background-size: 18px;
   padding: 0.375rem 0.8rem 0.375rem 2.25rem !important;
@@ -626,20 +628,42 @@ button.outSvgSize:hover {
   border-radius: 20px !important;
   margin-bottom: 15px;
 }
+select:invalid { color: #999; }
+.custom-select {
+  display: block;
+  width: 100%;
+
+  -moz-padding-start: calc(0.75rem - 3px);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  /* background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'  fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e); */
+  background-repeat: no-repeat;
+
+  background-size: 16px 12px;
+  border: 1px solid #ced4da;
+
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  appearance: none;
+}
+
 .icon-ltr {
-  background: url(data/imges/editIcon.png) no-repeat  scroll ;
+  background: url(data/imges/editIcon.png) no-repeat scroll;
   padding-left: 30px;
   background-size: 18px;
-  padding: 0.375rem 2.25rem 0.375rem  0.8rem!important;
+  padding: 0.375rem 2.25rem 0.375rem 0.8rem !important;
   background-position: right 0.4rem center !important;
   border-radius: 20px !important;
   margin-bottom: 15px;
 }
 
-form .icon-rtl,form .icon-ltr {
+form .icon-rtl,
+form .icon-ltr {
   display: block;
   width: 100%;
- 
+
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -651,26 +675,15 @@ form .icon-rtl,form .icon-ltr {
 
 }
 
-form .icon-rtl:focus,form .icon-ltr:focus {
+form .icon-rtl:focus,
+form .icon-ltr:focus {
   /* border:none !important; */
 
   outline: none !important;
   box-shadow: none !important;
 }
 
-.inputDetails input {
-  /* padding-right: 25px;
-  background: url(data/imges/editIcon.png) no-repeat right;
-  background-size: 20px; */
-  /* background-image: url(data/imges/editIcon.png) ; */
-  /* display: inline-block; */
-  /* background-size: 20px;
- 
-  background-repeat: no-repeat;
-  background-position: 4% 50%;
-  vertical-align: middle;
-  padding: 0.375rem 0.75rem 0.375rem 1.95rem !important;  */
-}
+
 
 .lineInput {
   outline: 0;
@@ -803,13 +816,15 @@ form .icon-rtl:focus,form .icon-ltr:focus {
   top: 140px;
   position: fixed;
 }
-.categoryImage{
+
+.categoryImage {
   height: 100px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  
+
 }
+
 .categoryList {
   /* box-shadow: 0 3px 8px 0 rgb(0 0 0 / 8%); */
   box-shadow: 0 0px 4px 0px rgb(0 0 0 / 25%);
@@ -874,21 +889,24 @@ form .icon-rtl:focus,form .icon-ltr:focus {
 .productItem {
   border-bottom: 2px solid #c4c4c4 !important;
 }
-.recommended{
- 
+
+.recommended {
+
   text-align: center;
   width: 60%;
   height: 20px;
   position: absolute;
   top: 0;
 }
-.outOfStock{
+
+.outOfStock {
   text-align: center;
   width: 60%;
   height: 20px;
   position: absolute;
   top: 50%;
 }
+
 /* .productLine:hover{
 
   } */
@@ -1001,7 +1019,7 @@ form .icon-rtl:focus,form .icon-ltr:focus {
 }
 
 .field input {
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
   height: 13px;
   width: 100%;
   border-radius: 7px;
@@ -1010,7 +1028,7 @@ form .icon-rtl:focus,form .icon-ltr:focus {
 }
 
 .field input::-webkit-slider-thumb {
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
   border: none;
   height: 30px;
   width: 30px;
@@ -1020,7 +1038,7 @@ form .icon-rtl:focus,form .icon-ltr:focus {
 }
 
 .field input::-moz-range-thumb {
-  -moz-appearance: none;
+  /* -moz-appearance: none; */
   border: none;
   height: 30px;
   width: 30px;
@@ -1166,6 +1184,7 @@ form .icon-rtl:focus,form .icon-ltr:focus {
   /* font-weight: 700; */
   font-size: 16px;
   margin-top: 10px;
+  font-weight: 500;
 }
 
 /* input[type=checkbox]
@@ -1582,9 +1601,12 @@ button.shippingOption:hover {
 .userDetailsSection {
   display: flex;
 }
-@media only screen and (max-width: 760px), (min-width: 768px) and (max-width: 1024px) {
+
+@media only screen and (max-width: 760px),
+(min-width: 768px) and (max-width: 1024px) {
+
   /* ... */
   option {
-      width: 150px;
+    width: 150px;
   }
 }
