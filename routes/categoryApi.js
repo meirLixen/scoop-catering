@@ -44,8 +44,7 @@ router.post("/categories/:id", async (req, res) => {
   }
 });
 
-// DELETE CATEGORY
-
+// delete category
 router.delete("/category/:id", async (req, res) => {
   Category.findByIdAndDelete(req.params.id, (err, category) => {
     if (err) res.status(400).send(err);
@@ -72,6 +71,7 @@ router.get("/categories", async (req, res) => {
       res.status(500).send(err);
     });
 });
+
 // get category by id
 router.get("/category/:id", async (req, res) => {
   try {

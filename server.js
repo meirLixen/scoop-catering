@@ -16,15 +16,17 @@ const nodemailer = require("nodemailer");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 const products = path.join(__dirname, "public", "images", "products");
 const categories = path.join(__dirname, "public", "images", "categories");
 const icons = path.join(__dirname, "public", "images", "icons");
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.static(products));
 app.use(express.static(categories));
 app.use(express.static(icons));
+app.use(cookieParser());
 
 require("./config/config");
 
@@ -91,7 +93,7 @@ cron.schedule("0 11 * * Monday", function () {
     if (error) {
       throw error;
     } else {
-      console.log("Email successfully sent!");
+      console.error("Email successfully sent!");
     }
   });
 });
@@ -118,7 +120,6 @@ const checkFileType = function (file, cb) {
 
   //check ext
   const extName = fileTypes.test(path.extname(file.originalname));
-  console.log(path.extname(file.originalname));
 
   const mimeType = fileTypes.test(file.mimetype);
 

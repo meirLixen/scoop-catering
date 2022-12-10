@@ -40,100 +40,104 @@ export function AuthProvider({ children }, props) {
     return [storedValue, setValue];
   }
 
-  const createUser = (user) => {
-    return fetch(`${api.defaults.baseURL}/user`, {
+  const createUser = async (user) => {
+    const authorizationHeader = authHeaderBuilder(user.idToken);
+
+    const response = await api(`${api.defaults.baseURL}/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...authorizationHeader,
       },
-      body: JSON.stringify(user),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        return res;
-      });
+      data: user,
+    });
+
+    const resUser = response.data?.user;
+    if (!resUser) {
+      alert("error");
+    }
   };
 
-  const getUserByUid = (uid) => {
-    return fetch(`${api.defaults.baseURL}/userByUid/${uid}`, {
+  const authHeaderBuilder = (token) => {
+    return { Authorization: `Bearer ${token}` };
+  };
+
+  const setAuthCookieByServer = async (FBUser) => {
+    const user = FBUser?.user?.uid ? FBUser.user : FBUser;
+    const uid = user.uid;
+    const idToken = await user.getIdToken(uid);
+
+    const authorizationHeader = authHeaderBuilder(idToken);
+
+    const isOk = await api(`${api.defaults.baseURL}/auth/setAuthCookie`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...authorizationHeader,
+      },
+    });
+
+    return isOk;
+  };
+
+  const getUserByUid = async (uid) => {
+    const response = await api(`${api.defaults.baseURL}/userByUid/${uid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
       async: false,
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        return res;
-      });
+    });
+    return response.data;
   };
 
-  const updateUserPassword = (updateUser) => {
-    return fetch(`${api.defaults.baseURL}/updateUserPassword/`, {
+  const updateUserPassword = async (updateUser) => {
+    const response = await api(`${api.defaults.baseURL}/updateUserPassword/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updateUser),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        return res;
-      });
+      data: updateUser,
+    });
+
+    return response.data;
   };
 
-  const updateUser = async (valuse) => {
-    const update_user = await updateUserPassword(valuse);
+  const updateUser = async (values) => {
+    const update_user = await updateUserPassword(values);
     console.log(update_user);
   };
 
-  const createNewUser = async (valuse) => {
-    const user = await createUser(valuse);
-    console.log(user);
-  };
-  // const handleSubmit = async (valuse) => {
+  async function signup(email, password, firstName, lastName, phoneNumber) {
+    const result = await auth.createUserWithEmailAndPassword(email, password);
 
-  //     console.log(props.products + ":::::props.products");
-  //     const product = await props.createProduct(valuse)
-  //     console.log(product);
-  // };
+    const idToken = await result.user.getIdToken();
 
-  function signup(email, password, firstName, lastName, phoneNumber) {
-    // auth.signOut()
-    let result = auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((v) => {
-        createNewUser({
-          // uid: v.user.multiFactor.uid,
-          uid: v.user.uid,
-          email: email,
-          password: password,
-          firstName: firstName,
-          lastName: lastName,
-          phone: phoneNumber,
-        });
-      });
+    createUser({
+      idToken,
+      uid: result.user.uid,
+      email: email,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phoneNumber,
+    });
+
     return result;
   }
 
-  function login(email, password) {
-    let result = auth.signInWithEmailAndPassword(email, password).then((v) => {
-      setCurrentUser(v.user);
-      getUserByUid(v.user.uid).then((item) => {
-        setUserDetails(item.myuser);
-      });
-    });
-    return result;
+  async function login(email, password) {
+    let FBUser = await auth.signInWithEmailAndPassword(email, password);
+    const SVUser = await getUserByUid(FBUser.user?._delegate?.uid);
+    const isOk = await setAuthCookieByServer(FBUser);
+
+    setCurrentUser(FBUser.user);
+    setUserDetails(SVUser.myuser);
+
+    return FBUser;
   }
 
   function logout() {
-    console.log("userLogin:" + currentUser.email);
     setUserDetails([]);
     return auth.signOut();
   }
@@ -152,8 +156,12 @@ export function AuthProvider({ children }, props) {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+    const unsubscribe = auth.onAuthStateChanged((res) => {
+      const user = res?.multiFactor?.user;
+      if (user) {
+        setAuthCookieByServer(user);
+        setCurrentUser(user);
+      }
 
       setLoading(false);
     });
@@ -178,17 +186,3 @@ export function AuthProvider({ children }, props) {
     </AuthContext.Provider>
   );
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-
-//     currentUser_: state.userReducer.currentUser_
-
-//   };
-// }
-// const mapDispatchToProps = (dispatch) => ({
-
-//   setUser: (user) => dispatch(actions.setUser(user))
-
-// })
-// export default connect(mapStateToProps, mapDispatchToProps)(AuthProvider)

@@ -1,3 +1,6 @@
+/**
+ * @source https://firebase.google.com/docs/database/admin/start/
+ */
 const admin = require("firebase-admin");
 
 // Fetch the service account key JSON file contents
@@ -18,5 +21,5 @@ const FBAuth = admin.auth();
 module.exports = FBAuth;
 // var ref = db.ref("restricted_access/secret_document");
 // ref.once("value", function (snapshot) {
-//   console.log(snapshot.val());
+//   console.info(snapshot.val());
 // });

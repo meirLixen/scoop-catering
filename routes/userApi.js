@@ -1,18 +1,39 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const { userMiddleware, getToken } = require("../middleware/user");
 
 // API USER:
 
+// Set token cookie by server
+router.post("/auth/setAuthCookie", (req, res) => {
+  const token = getToken(req);
+  if (!token) {
+    res.status(404).send("not found");
+  }
+  res.cookie("token", token, { maxAge: 900000, httpOnly: false });
+  res.status(200).send("ok");
+});
+
 // add user
-router.post("/user", async (req, res) => {
+router.post("/user", userMiddleware, async (req, res) => {
+  const FBUser = req.user;
+  const bodyUser = req.body;
+
+  if (FBUser.uid !== bodyUser.uid) {
+    return res.status(403).send({
+      data: null,
+      err: { message: "error" },
+    });
+  }
+
   const user = new User(req.body);
   try {
-    const newUser = await user.save(function (err, user) {
+    await user.save(function (err, newUser) {
       if (err) {
         console.error(err);
         return err;
       }
-      res.json({ status: 201, user: user });
+      res.json({ status: 201, user: newUser });
     });
   } catch (err) {
     res.json({ status: 500, error: err });
@@ -20,7 +41,7 @@ router.post("/user", async (req, res) => {
 });
 
 // find and update user by uid
-router.post("/users/:uid", async (req, res) => {
+router.post("/users/:uid", userMiddleware, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["name", "age", "email"];
   const isValidOpreration = updates.every((update) => {
@@ -42,6 +63,7 @@ router.post("/users/:uid", async (req, res) => {
     console.error(err);
   }
 });
+
 //update password of user
 router.patch("/updateUserPassword", async (req, res) => {
   try {
@@ -55,8 +77,8 @@ router.patch("/updateUserPassword", async (req, res) => {
     res.status(400).send(error);
   }
 });
-// DELETE USER
 
+// DELETE USER
 router.delete("/user/:id", async (req, res) => {
   User.findByIdAndDelete(req.params.id, (err, user) => {
     if (err) res.status(400).send(err);
@@ -76,6 +98,7 @@ router.get("/users", async (req, res) => {
       res.status(500).send(err);
     });
 });
+
 // get user by id
 router.get("/user/:id", async (req, res) => {
   try {
@@ -87,6 +110,7 @@ router.get("/user/:id", async (req, res) => {
 });
 
 router.get("/userByUid/:uid", async (req, res) => {
+  console.log(req.params);
   try {
     const user = await User.findOne({ uid: req.params.uid }).populate("orders");
     res.status(200).json({ message: "find user", myuser: user });
