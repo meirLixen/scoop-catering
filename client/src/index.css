@@ -29,21 +29,21 @@
 }
 
 #root {
-  --rem-size: 16px;
+  --rem-size: 18px;
   width: 100%;
   height: 100%;
 }
 
 @media (max-width: 375px) {
   #root {
-    font-size: 0.5 * 16px !important;
+    font-size: 0.5 * 18px !important;
   }
 }
 
 /* tablet */
 @media (min-width: 376px) and (max-width: 819px) {
   #root {
-    font-size: 0.7 * 16px !important;
+    font-size: 0.7 * 18px !important;
   }
 
   .minus,
@@ -81,13 +81,13 @@
 
 @media (min-width: 820px) and (max-width: 1024px) {
   #root {
-    font-size: 0.9 * 16px !important;
+    font-size: 0.9 * 18px !important;
   }
 }
 
 @media (min-width: 1024px) {
   #root {
-    font-size: 16px !important;
+    font-size: 18px !important;
   }
 }
 
@@ -140,8 +140,8 @@ body {
   font-weight: 400 !important;
   font-size: 3em;
   /* font-family: 'Rubik', sans-serif !important; */
-  font-family: "Ploni", sans-serif;
-  font-size: 18px !important;
+  font-family: "Ploni", sans-serif !important;
+  font-size: 1rem !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -154,12 +154,12 @@ h1 {
 
 .rounded-custom-small {
   border-radius: 10px !important;
- 
+
 }
 
 .rounded-custom {
   border-radius: 20px !important;
-  height: 35px!important;
+  height: 35px !important;
 }
 
 .customShadow {
@@ -628,7 +628,11 @@ button.outSvgSize:hover {
   border-radius: 20px !important;
   margin-bottom: 15px;
 }
-select:invalid { color: #999; }
+
+select:invalid {
+  color: #999;
+}
+
 .custom-select {
   display: block;
   width: 100%;
@@ -889,7 +893,9 @@ form .icon-ltr:focus {
 .productItem {
   border-bottom: 2px solid #c4c4c4 !important;
 }
-
+/* .productName {
+  font-size: 1.5rem;
+} */
 .recommended {
 
   text-align: center;
@@ -1182,7 +1188,7 @@ form .icon-ltr:focus {
 
 .lableForm {
   /* font-weight: 700; */
-  font-size: 16px;
+  font-size: 17px;
   margin-top: 10px;
   font-weight: 500;
 }
@@ -1289,7 +1295,9 @@ form .icon-ltr:focus {
   align-items: center;
   flex-direction: column;
 }
-
+a .categoryButton{
+  font-size: 16px!important;
+}
 .categoryButton {
   margin: auto;
   width: 100%;
@@ -1347,13 +1355,24 @@ form .icon-ltr:focus {
 .categoryItem img {
   vertical-align: bottom;
 }
-
+.goldButtonShop{
+  font-weight: 400 !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    font-family: "Ploni", "Dosis", sans-serif !important;
+    background-color: #c39957 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
 .goldButton {
   border: none !important;
   background-color: #c39957 !important;
   color: #ffffff !important;
   border-radius: 1.5rem !important;
   font-weight: 400 !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-family: "Ploni", "Dosis", sans-serif !important;
 }
 
 .goldButton_ {
@@ -1364,6 +1383,13 @@ form .icon-ltr:focus {
   border-radius: 10px !important;
   font-weight: 400 !important;
 }
+
+/* button {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  font-family: "Ploni", "Dosis", sans-serif !important;
+} */
 
 .goldButton_:hover {
   background: black !important;
@@ -1376,6 +1402,7 @@ form .icon-ltr:focus {
 .roundButton {
   border-radius: 1.5rem !important;
   cursor: pointer;
+  font-family: "Ploni", "Dosis", sans-serif !important;
 }
 
 .bg-gold {
@@ -1397,6 +1424,9 @@ form .icon-ltr:focus {
 
 .smallFont {
   font-size: 1rem;
+}
+small{
+  font-size: 1rem !important;
 }
 
 .white-arrow {
@@ -1529,7 +1559,7 @@ overflow-x: hidden;
 
 /* checkout page */
 .shippingOption {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   height: 80px;
   border: 1px solid #ced4da;
   background-color: #fff !important;

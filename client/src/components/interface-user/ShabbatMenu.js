@@ -21,13 +21,14 @@ import deleteIcom from "../../data/imges/delete.png";
 import Modal from "../Popup/Modal";
 import useModal from "../Popup/useModal";
 import "../Popup/Modal.css";
-
+import Payment from "./Payment";
 import "../../App.css";
 import $ from "jquery";
 import i18 from "../../i18/i18";
 import { useAuth } from "../../contexts/AuthContext";
 
 import { useHistory } from "react-router-dom";
+
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
@@ -35,7 +36,7 @@ const baseURL = "http://localhost:3001/"
 function ShabbatMenu(props) {
 
   const { isShowing, toggle } = useModal();
-
+  const [currentOrder, setCurrentOrder] = useLocalStorage("currentOrder", []);
   //const [cart, setCart] = useLocalStorage("cart", []);
   const { language } = props;
   const { products } = props;
@@ -79,6 +80,10 @@ function ShabbatMenu(props) {
       alert("add products to cart")
     } else {
       if (currentUser) {
+        let orderComment = $("#orderComment").val()
+        setCurrentOrder({
+          "notes":orderComment
+        })
         props.history.push("/Checkout")
       }
 
@@ -560,7 +565,7 @@ function ShabbatMenu(props) {
                             >
                               <div
                                 className="productName font-weight-bold  mb-1"
-                                style={{ fontSize: "21px" }}
+                                style={{ fontSize: "1.5rem" }}
                               >
                                 {" "}
                                 {language === "he"
@@ -579,7 +584,7 @@ function ShabbatMenu(props) {
 
                               <div
                                 className="amountOption  pl-0  mt-1"
-                                style={{ fontWeight: '600' }}
+                                style={{ fontWeight: '600', fontSize: '17px' }}
                                 id={product._id}
                               >
                                 {product.priceList.length > 1 ?
@@ -841,7 +846,7 @@ function ShabbatMenu(props) {
                           <div className="h-75 " style={{ lineHeight: "0.99" }}>
                             <div
                               className="productName font-weight-bold mb-1 "
-                              style={{ fontSize: "21px" }}
+                              style={{ fontSize: "1.5rem" }}
                             >
                               {" "}
                               {language === "he"
@@ -856,7 +861,7 @@ function ShabbatMenu(props) {
                             </span>
                             <div
                               className="amountOption  pl-0 mt-1"
-                              style={{ fontWeight: '600' }}
+                              style={{ fontWeight: '600', fontSize: '17px' }}
                               id={product._id}
                             >
                               {product.priceList.length > 1 ?
@@ -1062,7 +1067,7 @@ function ShabbatMenu(props) {
                                     >
                                       <div
                                         className="productName font-weight-bold  mb-1"
-                                        style={{ fontSize: "21px" }}
+                                        style={{ fontSize: "1.5rem" }}
                                       >
                                         {" "}
                                         {language === "he"
@@ -1078,7 +1083,7 @@ function ShabbatMenu(props) {
 
                                       <div
                                         className="amountOption  pl-0  mt-1"
-                                        style={{ fontWeight: '600' }}
+                                        style={{ fontWeight: '600', fontSize: '17px' }}
                                         id={product._id}
                                       >
                                         {product.priceList.length > 1 ?
@@ -1508,6 +1513,7 @@ function ShabbatMenu(props) {
                       src={commentIcon}
                     />
                     <textarea
+                      id="orderComment"
                       className="  m-auto w94    customTextarea "
                       rows={1}
                       maxLength="250"
@@ -1528,7 +1534,7 @@ function ShabbatMenu(props) {
                       {" "}
                       {i18.t("TotalProducts")}:
                     </div>
-                    <div className={language == "he" ? "col-5 text-start numItems fontNumber font-weight-bold" : "col-5 text-end numItems fontNumber font-weight-bold"}>
+                    <div className={language == "he" ? "col-5 text-start numItems  font-weight-bold" : "col-5 text-end numItems  font-weight-bold"}>
                       {numItems}
                     </div>
                   </div>
@@ -1536,26 +1542,27 @@ function ShabbatMenu(props) {
                     <div className="col-5 swithSide font-medium px-2">
                       {i18.t("Total")}:
                     </div>
-                    <div className={language == "he" ? "col-7 text-start numItems fontNumber font-weight-bold " : "col-7 text-end numItems fontNumber font-weight-bold "}>
+                    <div className={language == "he" ? "col-7 text-start numItems  font-weight-bold " : "col-7 text-end numItems  font-weight-bold "}>
                       &#8362; {parseFloat(total).toFixed(2)}
                     </div>
                   </div>
                 </div>
 
                 <button
-                  className=" d-block col-12 actionSection rounded-custom-small
-                                 customShadow text-white bg-gold px-3 py-1 ml-0 w-100 border-0"
+                  className=" d-flex     justify-content-center
+                  align-items-center col-12 actionSection rounded-custom-small
+                                 customShadow  px-3 py-2 ml-0 w-100 goldButtonShop"
                   onClick={() => goToCheckout()}
                 >
-                  {i18.t("continueToPayment")}{" "}
+                  <div> {i18.t("continueToPayment")}{" "}</div>
                   {language === "he" ? (
                     <i
-                      className="fas fa-solid fa-arrow-left mr-2"
+                      className="fas fa-solid fa-arrow-left mr-3"
                       style={{ fontSize: "17px" }}
                     ></i>
                   ) : (
                     <i
-                      className="fas fa-solid fa-arrow-right ml-2"
+                      className="fas fa-solid fa-arrow-right ml-3"
                       style={{ fontSize: "17px" }}
                     ></i>
                   )}{" "}

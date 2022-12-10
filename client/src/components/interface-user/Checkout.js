@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import "../../App.css";
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
@@ -39,9 +40,8 @@ export function Checkout(props) {
 
   let previousClick = "empty";
   let currentClass;
-  // function setShippingMethod(item) {
-  //   alert(item.target.value)
-  // }
+  
+
   const EditUserDetails = () => {
     setShowEditDetails(true);
     setShowDetails(false);
@@ -141,7 +141,7 @@ export function Checkout(props) {
     if ($("#regulations").is(':checked') && $('.shippingMethodSelect').attr('name')) {
       let city = "", address = "", products = []
       cart.map((item) =>
-        products.push({ "productId": item.product._id, "Amount": item.Amount })
+        products.push({ "productId": item.product._id, "amount": item.Amount })
 
       )
 
@@ -161,13 +161,13 @@ export function Checkout(props) {
 
       // MethodsOfPayment
 
-
+      let moreNotes = currentOrder.notes
 
       setCurrentOrder(
         {
           "userId": userDetails._id,
           "MethodsOfShipping": $('.shippingMethodSelect').attr('name'),
-          "notes": $(".CommentsToOrder").val(),
+          "notes": moreNotes + " : " + $(".CommentsToOrder").val(),
           "numItems": numItems,
           "interimTotal": parseFloat(total).toFixed(2),
           "shippingCost": parseFloat(freightCost).toFixed(2),
@@ -215,8 +215,7 @@ export function Checkout(props) {
           currentID === "HomeDelivery" ||
           currentID === "Other"
         ) {
-          if(currentID === "Pickup" || currentID === "HomeDelivery" )
-          {
+          if (currentID === "Pickup" || currentID === "HomeDelivery") {
             $("#OtherVal1").val("")
             $("#OtherVal2").val("")
           }
@@ -271,7 +270,7 @@ export function Checkout(props) {
             className="white-arrow h4 p-1 "
             onClick={() => props.history.goBack()}
           >
-           
+
             <i
               className="fas fa-long-arrow-alt-right  pr-2"
               style={{ height: "fit-content" }}
@@ -303,7 +302,7 @@ export function Checkout(props) {
           className="d-inline btn-pointer"
           onClick={() => props.history.push("/shop")}
         >
-             / {i18.t("Menu")}
+          / {i18.t("Menu")}
         </div>
         <div className="goldColor d-inline"> / {i18.t("checkout")} </div>
       </div>
@@ -314,7 +313,7 @@ export function Checkout(props) {
         </h1>
         <div className="swithDir row">
 
-          <div className="swithSide  mb-5 overflow-checkout col-md-8 col-sm-12">
+          <div className="swithSide   overflow-checkout col-md-8 col-sm-12">
             <div className=" bg-grey mb-5 p-3">
               <div
                 className="justify-content-between"
@@ -574,7 +573,7 @@ export function Checkout(props) {
                       {i18.t("Street")}
                     </Form.Label>
                     <Form.Control
-                      className="rounded-custom fontNumber"
+                      className="rounded-custom  "
                       type="text"
                     />
                   </div>
@@ -583,7 +582,7 @@ export function Checkout(props) {
                       {i18.t("buildingNumber")}
                     </Form.Label>
                     <Form.Control
-                      className="rounded-custom fontNumber"
+                      className="rounded-custom  "
                       type="number"
                       min="1"
                     />
@@ -593,7 +592,7 @@ export function Checkout(props) {
                       {i18.t("ApartmentNumber")}
                     </Form.Label>
                     <Form.Control
-                      className="rounded-custom fontNumber"
+                      className="rounded-custom  "
                       type="number"
                       min="1"
                     />
@@ -673,7 +672,7 @@ export function Checkout(props) {
                 <div className="form-group  ">
 
                   <textarea
-                    className="w-100  fontNumber customTextarea CommentsToOrder"
+                    className="w-100    customTextarea CommentsToOrder"
                     rows={1}
                     maxLength="250"
                     ng-trim="false"
@@ -692,13 +691,18 @@ export function Checkout(props) {
 
                   id="regulations"
                 />
-                <u
+                 <span
                   className="form-check-label mr-4 "
                   htmlFor="flexCheckDefault"
                   style={{ fontSize: "smaller" }}
                 >
                   {i18.t("ApprovalOfRegulations")}
-                </u>
+                  <a target="_blank" style={{color:"black"}} href="/policy">
+                 {i18.t("Policy")}
+                </a>
+                </span>
+                 
+               
               </div>
               <div className="form-check d-flex align-items-center">
                 <input
@@ -717,16 +721,16 @@ export function Checkout(props) {
               </div>
             </div>
 
-            <button
+            {/* <button
              type="submit"
               className=" mt-5 goldButton px-3 py-2   "
-              style={isMobile ? { display: "none" } : { display: "block" }}
+              style={isMobile ? { display: "block" } : { display: "block" }}
               onClick={ContinueToPay}
             >
               {" "}
               {i18.t("ContinueToPay")}
 
-            </button>
+            </button> */}
           </div>
           <div className="col-md-4 col-sm-12">
             <div className="fixedDiv ">
@@ -737,47 +741,60 @@ export function Checkout(props) {
                   {i18.t("OrderSummary")}{" "}
                 </label>
                 <hr className="hrCheckout mt-0 mb-4" />
-                <div className=" p-3 mb-5 ">
+                <div className=" p-3 mb-2 ">
                   <div className="row ">
                     <div className="col-7 swithSide">{i18.t("Items")}</div>
-                    <div className="col-5 numItems fontNumber">{numItems}</div>
+                    <div className="col-5 numItems  " style={{ textAlign: "end" }}>{numItems}</div>
                   </div>
                   <br />
                   <br />
                   <div className="row  pb-3">
 
                     <div className="col-7 swithSide font-weight-bold ">{i18.t('InterimTotal')}</div>
-                    <div className="col-5 fontNumber font-weight-bold">{parseFloat(total).toFixed(2)} &#8362;</div>
+                    <div className="col-5   font-weight-bold" style={{ textAlign: "end" }}>{parseFloat(total).toFixed(2)} &#8362;</div>
 
                   </div>
-                  <div className="row border-bottom border-dark pb-3">
+                  <div className="row border-bottom border-dark pb-3" style={{ fontWeight: '500' }}>
 
                     <div className="col-7 swithSide">{i18.t('ShippingCost')}</div>
-                    <div className="col-5 fontNumber">{parseFloat(freightCost).toFixed(2)} &#8362;</div>
+                    <div className="col-5  " style={{ textAlign: "end" }}>{parseFloat(freightCost).toFixed(2)} &#8362;</div>
 
                   </div>
                   <div className="row pt-2 font-weight-bold border-top border-dark pt-3">
                     <div className="col-7 swithSide">{i18.t("Total")}</div>
-                    <div className="col-5 fontNumber">
+                    <div className="col-5  " style={{ textAlign: "end" }}>
                       {(parseFloat(parseFloat((total + parseInt(freightCost))).toFixed(2))).toFixed(
                         2
                       )}{" "}
                       &#8362;
                     </div>
                   </div>
+                  <button
+                    type="submit"
+                    className=" mt-5 goldButton px-4 py-2 d-flex  m-auto   justify-content-center
+                align-items-center  "
+
+                    onClick={ContinueToPay}
+                  >
+                    <div>{" "}
+                      {i18.t("ContinueToPay")}</div>
+
+                    {language === "he" ? (
+                      <i
+                        className="fas fa-solid fa-arrow-left mr-3"
+                        style={{ fontSize: "17px" }}
+                      ></i>
+                    ) : (
+                      <i
+                        className="fas fa-solid fa-arrow-right ml-3"
+                        style={{ fontSize: "17px" }}
+                      ></i>
+                    )}{" "}
+                  </button>
 
                 </div>
               </div>
-              <button
-              type="submit"
-                className=" mt-5 goldButton px-3 py-2   "
-                style={isMobile ? { display: "block" } : { display: "none" }}
-                 onClick={ContinueToPay}
-              >
-                {" "}
-                {i18.t("ContinueToPay")}
 
-              </button>
             </div>
           </div>
         </div>

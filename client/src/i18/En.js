@@ -134,10 +134,11 @@ export const En = {
     ActivateCoupon: "Activate",
     ActivateCode: "Activate",
     CommentsToOrder: "Comments to order",
-    ApprovalOfRegulations: "Approval of regulations: Prepare regulations",
+    ApprovalOfRegulations: "Approval",
     SaveDetails: "Save details for next time",
     save: "save",
     ContinueToPay: "To Payment",
+    CreditCardMessage:`Enter valid CreditCard Number!`,
     // payment page
     FormOfPayment: "Form of payment",
     CardNumber: "Card Number",

@@ -9,18 +9,21 @@ router.post("/order/:userId", async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.userId });
     const newOrder = new Order({
+
       date: Date.now(),
       userId: req.params.userId,
       numItems: req.body.numItems,
+      shippingCost:req.body.shippingCost,
       CostToPay: req.body.CostToPay,
-      shippingAddress: req.body.shippingAddress,
+      MethodsOfShipping: req.body.MethodsOfShipping,
       city: req.body.city,
+      shippingAddress: req.body.shippingAddress,
+      notes:req.body.notes,
       status: req.body.status,
       MethodsOfPayment: req.body.MethodsOfPayment,
       products: req.body.products,
     });
     await newOrder.save();
-
     await user.orders.push(newOrder);
     await user.save();
     let productOnOrder;

@@ -150,11 +150,11 @@ export const He = {
         ActivateCoupon: 'הפעל קופון',
         ActivateCode: 'הפעל קוד',
         CommentsToOrder: 'הערות להזמנה',
-        ApprovalOfRegulations: 'אישור תקנון',
+        ApprovalOfRegulations: 'אישור',
         SaveDetails: 'אישור כתובת למשלוח',
         save:'שמור',
-        ContinueToPay: 'המשך לתשלום',
-
+        ContinueToPay: 'לתשלום',
+        CreditCardMessage:'הכנס מספר כרטיס אשראי תקין',
         // payment page
         FormOfPayment: 'אמצעי תשלום',
         CardNumber: 'מספר כרטיס',
@@ -229,7 +229,7 @@ export const He = {
         InformationAndArticles: 'מידע ומאמרים',
         location: 'יישוב מיצד',
         Copyright: 'כל הזכויות שמורות לסקופ קייטרינג',
-        Policy: 'תקנון האתר',
+        Policy: ' תקנון ',
 
 
 
