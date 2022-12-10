@@ -13,7 +13,7 @@ export const createCategory =
             dispatch(actions.setCategory(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -31,15 +31,12 @@ export const updateCategory =
         category = action.payload._id;
       }
       api
-        .post(
-          `/categories/${category}`,
-          action.payload
-        )
+        .post(`/categories/${category}`, action.payload)
         .then((res) => {
           dispatch(actions.setCategory(res.data));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       return;
     }
@@ -51,19 +48,19 @@ export const deleteCategory =
   (action) => {
     if (action.type === "DELETE_CATEGORY") {
       if (action.payload !== undefined)
-      api
+        api
           .delete(`/category/${action.payload}`)
           .then((res) => {
             dispatch(actions.deleteCategoryFromCategories(action.payload));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       return;
     }
     return next(action);
   };
- 
+
 export const getAllCategories =
   ({ dispatch, getState }) =>
   (next) =>
@@ -77,7 +74,7 @@ export const getAllCategories =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
       });

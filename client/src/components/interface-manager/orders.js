@@ -1,17 +1,17 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 // import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
+import { actions } from "../../redux/actions/action";
 // import { Formik, Field, Select, Form } from 'formik';
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 // import BootstrapTable from 'react-bootstrap-table-next';
 // omit...
-import "../../App.css";
 import $ from "jquery";
+import "../../App.css";
 
 function Orders(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
@@ -28,7 +28,7 @@ function Orders(props) {
   // const [error, setError] = useState(null);
 
   if (!props.products || !props.products.length) {
-     props.getAllProducts()
+    props.getAllProducts();
   }
   if (!props.orders || !props.orders.length) {
     props.getAllOrders();
@@ -38,7 +38,6 @@ function Orders(props) {
   }
 
   useEffect(() => {
-  
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -62,7 +61,6 @@ function Orders(props) {
           }
           // if (a[sortProperty] !== "" && a[sortProperty] !== undefined && b[sortProperty] !== "" && b[sortProperty] !== undefined)
           else if (sortProperty.match(regex)) {
-            console.log(sortProperty);
             return a[sortProperty].localeCompare(b[sortProperty]);
           } else {
             return b[sortProperty] - a[sortProperty];
@@ -101,8 +99,6 @@ function Orders(props) {
       });
       setCategoryList(list);
     }
-
-    console.log("list:::::::::::" + categoryList.length);
   };
 
   function deleteProduct() {
@@ -135,9 +131,7 @@ function Orders(props) {
         <div className=" productList col-md-9 p-3 bg-light">
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
-            <div className="col-6  text-end">
-             מס' הזמנות: {orders.length} 
-            </div>
+            <div className="col-6  text-end">מס' הזמנות: {orders.length}</div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
                 {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
@@ -148,28 +142,13 @@ function Orders(props) {
                   onChange={(e) => changeCategory(e)}
                 >
                   <option value="selectCategory">סינון לפי</option>
-                    <option>
-                     מס' הזמנה
-                    </option>
-                    <option>
-                     שם לקוח
-                    </option>
-                    <option >
-                     סכום
-                    </option>
-                    <option >
-                     עיר
-                    </option>
-                    <option >
-                    כתובת משלוח
-                    </option>
-                    <option>
-                     תאירך הזמנה
-                    </option>
-                    <option >
-                     אמצעי תשלום
-                    </option>
-                  
+                  <option>מס' הזמנה</option>
+                  <option>שם לקוח</option>
+                  <option>סכום</option>
+                  <option>עיר</option>
+                  <option>כתובת משלוח</option>
+                  <option>תאירך הזמנה</option>
+                  <option>אמצעי תשלום</option>
                 </Form.Select>
               </div>
               <div className="col-md-6">
@@ -217,8 +196,7 @@ function Orders(props) {
             </thead>
 
             <tbody className="table-responsive">
-              {orders.map((item, index) =>(
-                
+              {orders.map((item, index) => (
                 <Fragment key={index}>
                   <tr className=" bg-white  col-12 ">
                     <td className=" border-0 col-2">208090</td>

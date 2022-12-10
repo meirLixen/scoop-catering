@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "../../App.css";
 import { connect } from "react-redux";
+import "../../App.css";
+import editIcon from "../../data/imges/editIcon.png";
 import Footer from "../mainPage/Footer";
 import UnderFooter from "../mainPage/UnderFooter";
-import editIcon from "../../data/imges/editIcon.png";
 
-import useMediaQuery from "../../hooks/useMediaQuery";
 import { Form } from "react-bootstrap";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
 
@@ -16,7 +16,7 @@ export function Checkout(props) {
   const { language } = props;
   const [showEditDetails, setShowEditDetails] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
-  const [freightCost, setFreightCost] = useState(0)
+  const [freightCost, setFreightCost] = useState(0);
   // const { currentUser, logout } = useAuth()
 
   const isMobile = useMediaQuery(768);
@@ -38,7 +38,11 @@ export function Checkout(props) {
       //$('#AddressInput').val(userDetails.orders[0].shippingAddress)
       $("#EmailInput").val(userDetails.email);
       $("#phoneInput").val(userDetails.phone);
-      if (userDetails.orders && userDetails.orders[0] && userDetails.orders[0].shippingAddress !== undefined)
+      if (
+        userDetails.orders &&
+        userDetails.orders[0] &&
+        userDetails.orders[0].shippingAddress !== undefined
+      )
         $("#AddressInput").val(userDetails.orders[0].shippingAddress);
     }, 500);
   };
@@ -53,7 +57,7 @@ export function Checkout(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -70,7 +74,7 @@ export function Checkout(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
@@ -80,7 +84,7 @@ export function Checkout(props) {
     // currentUser ? $('#EmailInput').val(currentUser.email) : alert("vghbjnk")
   }
   function setFreightCostFunc(val) {
-    setFreightCost(val)
+    setFreightCost(val);
   }
   useEffect(() => {
     if (userDetails === [] || userDetails.email === undefined) {
@@ -88,10 +92,13 @@ export function Checkout(props) {
       $(".Name").text("");
       $(".Address").text("");
     } else if (userDetails !== []) {
-      console.log("userDetails", userDetails.email);
       $(".Email").text(userDetails.email);
       $(".Name").text(userDetails.firstName + " " + userDetails.lastName);
-      if (userDetails.orders && userDetails.orders[0] && userDetails.orders[0].shippingAddress !== undefined)
+      if (
+        userDetails.orders &&
+        userDetails.orders[0] &&
+        userDetails.orders[0].shippingAddress !== undefined
+      )
         $(".Address").text(userDetails.orders[0].shippingAddress);
     }
 
@@ -140,7 +147,6 @@ export function Checkout(props) {
               //     $('.left_side').addClass('d-none');
             }
             previousClick = $(this).attr("id");
-            console.log(previousClick);
           }
         }
       });
@@ -231,23 +237,38 @@ export function Checkout(props) {
               {showDetails && (
                 <div className="userDetailsSection">
                   <div>
-                    <h5 className="font-weight-bold Name">{ }</h5>
-                    <h5 className="Address">{ }</h5>
-                    <h6 className="Email">{ }</h6>
+                    <h5 className="font-weight-bold Name">{}</h5>
+                    <h5 className="Address">{}</h5>
+                    <h6 className="Email">{}</h6>
                   </div>
                 </div>
               )}
               {showEditDetails && (
-                <Form
-                  className="col-md-8 col-sm-12 p-0  "
-                  onLoad={loadingUser}
-
-                >
-
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="FirstName" id="FirstNameInput"></input>
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="Address" id="AddressInput"></input>
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="Email" id="EmailInput"></input>
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="phone" id="phoneInput"></input>
+                <Form className="col-md-8 col-sm-12 p-0  " onLoad={loadingUser}>
+                  <input
+                    type="text"
+                    class={language == "he" ? "icon-rtl" : "icon-ltr"}
+                    placeholder="FirstName"
+                    id="FirstNameInput"
+                  ></input>
+                  <input
+                    type="text"
+                    class={language == "he" ? "icon-rtl" : "icon-ltr"}
+                    placeholder="Address"
+                    id="AddressInput"
+                  ></input>
+                  <input
+                    type="text"
+                    class={language == "he" ? "icon-rtl" : "icon-ltr"}
+                    placeholder="Email"
+                    id="EmailInput"
+                  ></input>
+                  <input
+                    type="text"
+                    class={language == "he" ? "icon-rtl" : "icon-ltr"}
+                    placeholder="phone"
+                    id="phoneInput"
+                  ></input>
                   {/*                   
                   <Form.Group
                     className="mb-3 inputDetails"
@@ -302,10 +323,10 @@ export function Checkout(props) {
                     style={
                       language === "he"
                         ? {
-                          fontSize: "17px",
-                          width: "65%",
-                          marginRight: "auto",
-                        }
+                            fontSize: "17px",
+                            width: "65%",
+                            marginRight: "auto",
+                          }
                         : { fontSize: "17px", width: "65%", marginLeft: "auto" }
                     }
                   >
@@ -326,14 +347,16 @@ export function Checkout(props) {
               )}
               {userDetails.email === undefined && (
                 <Form className="col-md-8 col-sm-12 p-0">
-
-
                   <Form.Group
                     className="mb-3 inputDetails"
                     controlId="formBasicName"
                   >
                     {/* <Form.Label className="mb-1 lableForm"> {i18.t('FirstName')}</Form.Label> */}
-                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("name")} type="text" />
+                    <Form.Control
+                      className={language == "he" ? "icon-rtl" : "icon-ltr"}
+                      placeholder={i18.t("name")}
+                      type="text"
+                    />
                   </Form.Group>
 
                   <Form.Group
@@ -341,7 +364,11 @@ export function Checkout(props) {
                     controlId="formAddress"
                   >
                     {/* <Form.Label className="mb-1 lableForm"> {i18.t('address')}</Form.Label> */}
-                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("address")} type="text" />
+                    <Form.Control
+                      className={language == "he" ? "icon-rtl" : "icon-ltr"}
+                      placeholder={i18.t("address")}
+                      type="text"
+                    />
                   </Form.Group>
 
                   <Form.Group
@@ -349,7 +376,11 @@ export function Checkout(props) {
                     controlId="formBasicEmail"
                   >
                     {/* <Form.Label className="mb-1 lableForm"> {i18.t('mailAdress')}</Form.Label> */}
-                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("email")} type="email" />
+                    <Form.Control
+                      className={language == "he" ? "icon-rtl" : "icon-ltr"}
+                      placeholder={i18.t("email")}
+                      type="email"
+                    />
                   </Form.Group>
 
                   <Form.Group
@@ -368,7 +399,7 @@ export function Checkout(props) {
                     className="align-items-center d-flex w-50 justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
                     style={
                       language === "he"
-                        ? { fontSize: "17px", marginRight: "auto", }
+                        ? { fontSize: "17px", marginRight: "auto" }
                         : { fontSize: "17px", marginLeft: "auto" }
                     }
                   >
@@ -412,10 +443,7 @@ export function Checkout(props) {
                   <label className="lableForm">{i18.t("shippingMethod")}</label>
                 </div>
 
-                <div
-                  className=" justify-content-between d-flex   "
-
-                >
+                <div className=" justify-content-between d-flex   ">
                   <button
                     id="btnOne"
                     className="col-3  shippingOption p-2 text-center"
@@ -484,9 +512,9 @@ export function Checkout(props) {
                   style={
                     language === "he"
                       ? {
-                        padding: "0.375rem 0.75rem 0.375rem 2.25rem",
-                        backgroundPosition: "left 0.75rem center",
-                      }
+                          padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                          backgroundPosition: "left 0.75rem center",
+                        }
                       : { backgroundPosition: "right 0.75rem center" }
                   }
                   required
@@ -510,13 +538,13 @@ export function Checkout(props) {
                   style={
                     language === "he"
                       ? {
-                        padding: "0.375rem 0.75rem 0.375rem 2.25rem",
-                        backgroundPosition: "left 0.75rem center",
-                      }
+                          padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                          backgroundPosition: "left 0.75rem center",
+                        }
                       : {
-                        padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-                        backgroundPosition: "right 0.75rem center",
-                      }
+                          padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                          backgroundPosition: "right 0.75rem center",
+                        }
                   }
                   required
                 >
@@ -531,10 +559,7 @@ export function Checkout(props) {
                 {i18.t("CommentsToOrder")}{" "}
               </label>
               <hr className="hrCheckout mt-0 mb-4" />
-              <div
-                className=" p-2"
-
-              >
+              <div className=" p-2">
                 <div className="form-group  ">
                   {/* <label htmlFor="exampleFormControlTextarea1 " className="lableForm">{i18.t('CommentsToOrder')} </label> */}
                   <textarea
@@ -614,23 +639,27 @@ export function Checkout(props) {
                   <br />
                   <br />
                   <div className="row  pb-3">
-
-                    <div className="col-7 swithSide font-weight-bold ">{i18.t('InterimTotal')}</div>
-                    <div className="col-5 fontNumber font-weight-bold">{parseFloat(total).toFixed(2)} &#8362;</div>
-
+                    <div className="col-7 swithSide font-weight-bold ">
+                      {i18.t("InterimTotal")}
+                    </div>
+                    <div className="col-5 fontNumber font-weight-bold">
+                      {parseFloat(total).toFixed(2)} &#8362;
+                    </div>
                   </div>
                   <div className="row border-bottom border-dark pb-3">
-
-                    <div className="col-7 swithSide">{i18.t('ShippingCost')}</div>
-                    <div className="col-5 fontNumber">{parseFloat(freightCost).toFixed(2)} &#8362;</div>
-
+                    <div className="col-7 swithSide">
+                      {i18.t("ShippingCost")}
+                    </div>
+                    <div className="col-5 fontNumber">
+                      {parseFloat(freightCost).toFixed(2)} &#8362;
+                    </div>
                   </div>
                   <div className="row pt-2 font-weight-bold border-top border-dark pt-3">
                     <div className="col-7 swithSide">{i18.t("Total")}</div>
                     <div className="col-5 fontNumber">
-                      {(parseFloat(parseFloat((total + parseInt(freightCost))).toFixed(2))).toFixed(
-                        2
-                      )}{" "}
+                      {parseFloat(
+                        parseFloat(total + parseInt(freightCost)).toFixed(2)
+                      ).toFixed(2)}{" "}
                       &#8362;
                     </div>
                   </div>

@@ -1,13 +1,12 @@
+import { Field, Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form, Field } from "formik";
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 // import  {createUser} from '../../redux/MiddleWares/user'
 export function NewUser(props) {
   // const { createProduct } = props
-  const handleSubmit = async (valuse) => {
-    console.log(props.users);
-    const user = await props.createUser(valuse);
+  const handleSubmit = async (values) => {
+    const user = await props.createUser(values);
     console.log(user);
   };
   return (

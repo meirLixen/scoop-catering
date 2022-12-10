@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "../../App.css";
 import { connect } from "react-redux";
+import "../../App.css";
 import { actions } from "../../redux/actions/action";
 // import Search from '../Search';
-import Footer from "../mainPage/Footer";
-import UnderFooter from "../mainPage/UnderFooter";
+import arrow_left_white from "../../data/imges/arrow-left-white.png";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import i18 from "../../i18/i18";
+import Footer from "../mainPage/Footer";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-import arrow_left_white from "../../data/imges/arrow-left-white.png";
-import i18 from "../../i18/i18";
+import UnderFooter from "../mainPage/UnderFooter";
 
 import $ from "jquery";
 export function ShoppingCart(props) {
@@ -42,7 +42,7 @@ export function ShoppingCart(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -59,7 +59,7 @@ export function ShoppingCart(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
@@ -69,7 +69,7 @@ export function ShoppingCart(props) {
 
   // const cart = JSON.parse(myStorage.cart);
   if (!products || !products.length) {
-     props.getAllProducts()
+    props.getAllProducts();
   }
 
   const changeAmount = async (id, action) => {
@@ -114,7 +114,6 @@ export function ShoppingCart(props) {
   };
 
   const deleteItem = async (id) => {
-    // console.log($('#' + id + ' ' + '.amountToBuy' + ' ' + 'input').val());
     let totalTodel;
     let less;
 

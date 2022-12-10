@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
 
-import { Formik, Form, Field } from "formik";
+import { Field, Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 // import { Form } from 'react-bootstrap';
-import "../../App.css";
 import $ from "jquery";
 import Modal from "react-bootstrap/Modal";
+import "../../App.css";
 
 // import Form from 'react-bootstrap/Form'
 
 export function NewProduct(props, { product }) {
+  let temp = 0;
 
-  let temp = 0
-
-  let [deletedPrices, setdeletedPrices] = useState([])
+  let [deletedPrices, setdeletedPrices] = useState([]);
   const [show, setShow] = useState(false);
   const [count, setCount] = useState(0);
-
 
   const handleClose = () => setShow(false);
   // const [names, setNames] = useState([]);
@@ -35,7 +33,6 @@ export function NewProduct(props, { product }) {
   useEffect(() => {
     if ($) {
       // $(".saveProduct").on("click", function () {
-      //     console.log("save");
       //     $('#newName').val('')
       //     $('#newDescription').val('')
       //     $('#newStatus').val('')
@@ -43,38 +40,31 @@ export function NewProduct(props, { product }) {
   }, []);
   // const { createProduct } = props
   const onSubmit = async (fields) => {
-
-    console.log(fields);
     // event.preventDefault();
-    var priceList = []
+    var priceList = [];
 
     var result = Object.entries(fields);
-    var amount = "", price = ""
+    var amount = "",
+      price = "";
 
-    let res = result.filter(item => !deletedPrices.includes(item[0]))
+    let res = result.filter((item) => !deletedPrices.includes(item[0]));
 
     res.map((item, index) => {
+      if (res[index][0].startsWith("amountId")) amount = res[index][1];
 
-      if (res[index][0].startsWith('amountId'))
-        amount = res[index][1]
-
-      if (res[index][0].startsWith('price'))
-        price = res[index][1]
+      if (res[index][0].startsWith("price")) price = res[index][1];
 
       if (amount != "" && price != "") {
         priceList[temp] = {
-          "amount": amount,
-          "price": price
-        }
-        amount = ""
-        price = ""
+          amount: amount,
+          price: price,
+        };
+        amount = "";
+        price = "";
         temp++;
       }
-
-    })
-    console.log("priceList", priceList);
+    });
     const newProduct = {
-
       name: fields.name,
       hebrewName: fields.hebrewName,
       details: fields.description,
@@ -83,9 +73,8 @@ export function NewProduct(props, { product }) {
       outOfStock: fields.outOfStock,
       display: fields.display,
       recommended: fields.recommended,
-      priceList: priceList
-    }
-
+      priceList: priceList,
+    };
 
     //const product = await props.createProduct(newProduct)
 
@@ -96,13 +85,14 @@ export function NewProduct(props, { product }) {
 
     // clear all input values in the form
     document.getElementById("productForm").reset();
-
-  }
+  };
 
   function addPrice(index) {
     return (
-      <div className="d-flex  row align-items-center pl-2" id={"productPrice" + index}>
-
+      <div
+        className="d-flex  row align-items-center pl-2"
+        id={"productPrice" + index}
+      >
         <div className="form-group col-6">
           <lable className="lableForm">כמות:</lable>
           <Field
@@ -111,9 +101,7 @@ export function NewProduct(props, { product }) {
             id={"newAmount" + index}
             className="browser-default custom-select  rounded-0"
           >
-            <option value={""}>
-
-            </option>
+            <option value={""}></option>
             {amounts.map((amount) => (
               <option key={amount._id} value={amount._id}>
                 {amount.hebrewName}
@@ -132,27 +120,29 @@ export function NewProduct(props, { product }) {
           />
         </div>
         <div className="col-2 mt-2">
-          <button type="button" onClick={() => removePrice("productPrice" + index)} style={{ fontSize: '19px' }}>x</button>
+          <button
+            type="button"
+            onClick={() => removePrice("productPrice" + index)}
+            style={{ fontSize: "19px" }}
+          >
+            x
+          </button>
         </div>
       </div>
-
-    )
-
+    );
   }
   function removePrice(elemntId) {
-    debugger
+    debugger;
     if (elemntId) {
-      let tempArray = deletedPrices
+      let tempArray = deletedPrices;
       const myArray = elemntId.split("productPrice");
-      const currentID = myArray[1]
-      tempArray.push("amountId" + currentID)
-      tempArray.push("price" + currentID)
-      setdeletedPrices(tempArray)
-      document.getElementById(elemntId) && document.getElementById(elemntId).remove();
-
-
+      const currentID = myArray[1];
+      tempArray.push("amountId" + currentID);
+      tempArray.push("price" + currentID);
+      setdeletedPrices(tempArray);
+      document.getElementById(elemntId) &&
+        document.getElementById(elemntId).remove();
     }
-
   }
   const handleSubmit = async (values) => {
     alert(values.name);
@@ -172,7 +162,6 @@ export function NewProduct(props, { product }) {
 
   return (
     <>
-
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title></Modal.Title>
@@ -252,8 +241,10 @@ export function NewProduct(props, { product }) {
                   />
                 </div>
                 {/* <div className="pricesDiv"> */}
-                <div className="d-flex  row align-items-center pl-2" id="productPrice">
-
+                <div
+                  className="d-flex  row align-items-center pl-2"
+                  id="productPrice"
+                >
                   <div className="form-group col-6">
                     <lable className="lableForm">כמות:</lable>
                     <Field
@@ -262,9 +253,7 @@ export function NewProduct(props, { product }) {
                       id="newAmount"
                       className="browser-default custom-select  rounded-0"
                     >
-                      <option value={""}>
-
-                      </option>
+                      <option value={""}></option>
                       {amounts.map((amount) => (
                         <option key={amount._id} value={amount._id}>
                           {amount.hebrewName}
@@ -284,15 +273,19 @@ export function NewProduct(props, { product }) {
                   </div>
 
                   <div className="col-2 mt-2">
-                    <button type="button" onClick={() => setCount(count + 1)} style={{ fontSize: '19px' }}>+</button>
+                    <button
+                      type="button"
+                      onClick={() => setCount(count + 1)}
+                      style={{ fontSize: "19px" }}
+                    >
+                      +
+                    </button>
                     {/* <button type="button" onClick={()=>removePrice("productPrice")}>x</button> */}
                   </div>
-
                 </div>
                 {/* </div> */}
 
                 {[...Array(count)].map((_, i) => addPrice(i))}
-
 
                 <div className="form-group">
                   <lable className="lableForm">קטגוריה:</lable>
@@ -302,9 +295,7 @@ export function NewProduct(props, { product }) {
                     id="newCategory"
                     className="browser-default custom-select  rounded-0"
                   >
-                    <option value={""}>
-
-                    </option>
+                    <option value={""}></option>
                     {categories.map((category) => (
                       <option key={category._id} value={category._id}>
                         {category.hebrewName}
@@ -341,26 +332,18 @@ export function NewProduct(props, { product }) {
                     />
                     <lable className="mr-1 lableForm my-0">מומלץ</lable>
                   </div>
-
                 </div>
-
               </div>
             </div>
             <form action="/single" method="POST" enctype="multipart/form-data">
               <input type="file" name="image" />
               <button type="submit">Upload</button>
             </form>
-            <button
-              className="btn goldButton "
-              id="addProduct"
-              type="submit"
-            >
+            <button className="btn goldButton " id="addProduct" type="submit">
               העלה מוצר
             </button>
             {/* <button className="btn    goldButton " id="editProduct" type="submit" >עדכן מוצר</button> */}
-
           </Form>
-
         )}
       </Formik>
     </>

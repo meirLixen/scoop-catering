@@ -1,5 +1,5 @@
-import { actions } from "../actions/action";
 import api from "../../api";
+import { actions } from "../actions/action";
 
 export const createProduct =
   ({ dispatch, getState }) =>
@@ -13,7 +13,7 @@ export const createProduct =
             dispatch(actions.setProduct(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -36,7 +36,7 @@ export const updateProduct =
           dispatch(actions.setProduct(res.data));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       return;
     }
@@ -54,7 +54,7 @@ export const deleteProduct =
             dispatch(actions.deleteProductFromProducts(action.payload));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       return;
     }
@@ -74,7 +74,7 @@ export const copyProduct =
               // dispatch(actions.setAllProducts(res.data))
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
               reject();
             });
         resolve();
@@ -83,9 +83,7 @@ export const copyProduct =
     return next(action);
   };
 
-
-
-  export const getAllProducts =
+export const getAllProducts =
   ({ dispatch, getState }) =>
   (next) =>
   (action) => {
@@ -98,20 +96,13 @@ export const copyProduct =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
       });
     }
     return next(action);
   };
-
-
-
-
-
-
-
 
 export const getProductByID =
   ({ dispatch, getState }) =>
@@ -126,7 +117,7 @@ export const getProductByID =
             resolve(resJson.data);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
       });

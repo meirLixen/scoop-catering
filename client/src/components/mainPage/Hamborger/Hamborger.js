@@ -1,8 +1,8 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import $ from "jquery";
 import React, { useEffect } from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { connect } from "react-redux";
-import "bootstrap/dist/css/bootstrap.min.css";
-import $ from "jquery";
 import i18 from "../../../i18/i18";
 
 // import './hamborger.css';
@@ -20,7 +20,6 @@ export function Hamborger(props) {
       props.history.push("/" + id);
       $(currentClass).addClass("active");
 
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
       } else {

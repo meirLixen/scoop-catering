@@ -1,39 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 // import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
-import StickyBox from "react-sticky-box";
 import { Button } from "react-bootstrap";
+import StickyBox from "react-sticky-box";
+import { actions } from "../../redux/actions/action";
 // import Search from '../Search'
+import commentIcon from "../../data/imges/comment.png";
+import deleteIcom from "../../data/imges/delete.png";
+import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
 import headerBgImag from "../../data/imges/headerBgImag.png";
+import searchIcom_ from "../../data/imges/searchIcom_.png";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-import useMediaQuery from "../../hooks/useMediaQuery";
-import salads from "../../data/imges/foodCategories/Pictures/fishh.png";
-import appetizers from "../../data/imges/foodCategories/Pictures/shabbat.png";
-import bakery from "../../data/imges/foodCategories/Pictures/bakery.png";
-import commentIcon from "../../data/imges/comment.png";
-import searchIcom_ from "../../data/imges/searchIcom_.png";
-import desserts from "../../data/imges/foodCategories/Pictures/desserts.png";
-import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
-import deleteIcom from "../../data/imges/delete.png";
 
 import Modal from "../Popup/Modal";
-import useModal from "../Popup/useModal";
 import "../Popup/Modal.css";
+import useModal from "../Popup/useModal";
 
-import "../../App.css";
 import $ from "jquery";
-import i18 from "../../i18/i18";
+import "../../App.css";
 import { useAuth } from "../../contexts/AuthContext";
+import i18 from "../../i18/i18";
 
 import { useHistory } from "react-router-dom";
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
-const baseURL = "http://localhost:3001/"
+const baseURL = "http://localhost:3001/";
 function ShabbatMenu(props) {
-
   const { isShowing, toggle } = useModal();
 
   //const [cart, setCart] = useLocalStorage("cart", []);
@@ -58,12 +53,10 @@ function ShabbatMenu(props) {
   const { currentUser, logout } = useAuth();
   const history = useHistory();
   if (!products || !products.length) {
-    props.getAllProducts()
-
+    props.getAllProducts();
   }
   if (!categories || !categories.length) {
     props.getAllCategories();
-
   }
 
   async function handleLogout() {
@@ -87,7 +80,6 @@ function ShabbatMenu(props) {
     } else {
       $(currentClass).addClass("active");
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== categoryId) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -111,7 +103,6 @@ function ShabbatMenu(props) {
       $(currentClass).addClass("active");
 
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -129,7 +120,6 @@ function ShabbatMenu(props) {
   }
 
   const deleteItem = async (id) => {
-    // console.log($('#' + id + ' ' + '.amountToBuy' + ' ' + 'input').val());
     let totalTodel;
     let less;
 
@@ -165,7 +155,6 @@ function ShabbatMenu(props) {
   };
 
   function searchProduct(searchWord_) {
-  
     scrollTopFunc();
     //  let searchWord_ = e.target.value
 
@@ -187,22 +176,17 @@ function ShabbatMenu(props) {
             product.hebrewName.toLowerCase().includes(searchWord_.toLowerCase())
           );
       });
-    console.log(filteredProducts, "filteredProducts");
     let div = document.getElementById("xxl");
     div.scrollTop -= 590;
     if (searchWord_ === "") {
-      console.log("empty results");
       setSearchResults([]);
       $(".shabatMenu").removeClass("d-none");
       $(".searchResults").addClass("d-none");
     } else {
-      console.log("full results");
       setSearchResults(filteredProducts);
-      console.log("SerchResults", searchResults);
-      if (filteredProducts && !filteredProducts || !filteredProducts.length)
+      if ((filteredProducts && !filteredProducts) || !filteredProducts.length)
         $(".notFound").removeClass("d-none");
-      else
-        $(".notFound").addClass("d-none");
+      else $(".notFound").addClass("d-none");
     }
   }
 
@@ -217,7 +201,7 @@ function ShabbatMenu(props) {
 
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -231,22 +215,17 @@ function ShabbatMenu(props) {
 
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
-
-  const changePrice = event => {
+  const changePrice = (event) => {
     if (event.target.value != " ") {
-
-      $("#" + event.target.id + "price").text(event.target.value)
+      $("#" + event.target.id + "price").text(event.target.value);
     }
-
-  }
-
-
+  };
 
   const changeAmount = async (id, action) => {
     if (action === "minusToCart" || action === "plusToCart") {
@@ -292,7 +271,7 @@ function ShabbatMenu(props) {
 
   const AddToCart = async (product) => {
     if (!product.outOfStock) {
-      let currentPrice = parseInt($("#" + product._id + "price").text())
+      let currentPrice = parseInt($("#" + product._id + "price").text());
       if ($("#" + product._id + " .amountOption_select").val() === " ") {
         $("#" + product._id + " .errorSelect").removeClass("d-none");
         setTimeout(function () {
@@ -311,7 +290,6 @@ function ShabbatMenu(props) {
         if (cart !== undefined) shoppingCart = cart;
         shoppingCart.map((item) => {
           if (item.product._id === product._id && item.price === currentPrice) {
-
             item.Amount = item.Amount + amountToAdd;
             item.Total = item.Total + amountToAdd * currentPrice;
             flag = 1;
@@ -333,12 +311,7 @@ function ShabbatMenu(props) {
     }
   };
 
-
-
   useEffect(() => {
-
-
-
     if ($) {
       $("#shop").addClass("active");
       $("textarea")
@@ -357,7 +330,6 @@ function ShabbatMenu(props) {
 
   return (
     <div id="myDiv">
-
       <button
         className="bg-black text-white d-none scrollTopButton"
         style={{ position: "fixed", top: "90%", left: "4%" }}
@@ -371,7 +343,6 @@ function ShabbatMenu(props) {
       </div>
 
       {/* //הוספתי */}
-
 
       {isTablet && (
         <nav
@@ -408,7 +379,6 @@ function ShabbatMenu(props) {
             ))}
         </nav>
       )}
-
 
       {/* //הוספתי סיום*/}
       <div className="pageNuvMenu ">
@@ -449,7 +419,6 @@ function ShabbatMenu(props) {
               <img style={{ width: "15px" }} src={searchIcom_} />
             </div>
           </div>
-
         </div>
       )}
 
@@ -473,8 +442,21 @@ function ShabbatMenu(props) {
                     onMouseEnter={() => hoverCategory(category._id, index)}
                   >
                     <div>
-                      <div className="  w-100 categoryImage"
-                        style={!category.picUrl || category.picUrl === undefined ? { backgroundImage: `url(${baseURL + "salads.png"})` } : { backgroundImage: `url(${baseURL + "" + category.picUrl})` }}
+                      <div
+                        className="  w-100 categoryImage"
+                        style={
+                          !category.picUrl || category.picUrl === undefined
+                            ? {
+                                backgroundImage: `url(${
+                                  baseURL + "salads.png"
+                                })`,
+                              }
+                            : {
+                                backgroundImage: `url(${
+                                  baseURL + "" + category.picUrl
+                                })`,
+                              }
+                        }
                       >
                         {/* <img
                           alt=""
@@ -503,188 +485,209 @@ function ShabbatMenu(props) {
                     </div>
 
                     {(searchWord !== undefined &&
-                      searchWord !== "" &&
-                      searchResults.length
+                    searchWord !== "" &&
+                    searchResults.length
                       ? searchResults
                       : category.products
-                    ).map((product) => product.display && (
-                      <>
-                        <div
-                          className=" productLine w-100  row  m-0  flex-nowrap    justify-content-around   p-2 mb-2"
-                          id={product._id}
-                          style={{
-                            maxHeight: "150px",
-                            height: "118px",
-                          }}
-                        >
-                          <div className="col-3  productPic d-flex align-items-center px-2  ">
-
-                            {product.recommended &&
-                              <div
-                                className=" ml-auto bg-gold d-flex   recommended  justify-content-center align-items-center"
-                                style={language === "he" ? { right: "0px" } : { left: "0px" }}
-
-                              >
-                                <p
-                                  className="m-0 "
-                                  style={{ fontSize: "0.6rem" }}
-                                >
-                                  {i18.t("recommended")}
-                                </p>
-                              </div>
-                            }
-
-                            {product.outOfStock &&
-                              <div
-                                className=" ml-auto bg-black text-white outOfStock d-flex  justify-content-center align-items-center"
-                                style={language === "he" ? { right: "0px" } : { left: "0px" }}
-
-                              >
-                                <p
-                                  className="m-0 "
-                                  style={{ fontSize: "0.6rem" }}
-                                >
-                                  {i18.t("outOfStock")}
-                                </p>
-                              </div>
-                            }
-
-
-                            {!product.img || product.img == undefined ?
-                              <img className="w-100" src={image1} alt="img" />
-                              : ""}
-                          </div>
-                          <div className="col-4 p-0 " id={product._id}>
+                    ).map(
+                      (product) =>
+                        product.display && (
+                          <>
                             <div
-                              className="h-75 "
-                              style={{ lineHeight: "0.99" }}
+                              className=" productLine w-100  row  m-0  flex-nowrap    justify-content-around   p-2 mb-2"
+                              id={product._id}
+                              style={{
+                                maxHeight: "150px",
+                                height: "118px",
+                              }}
                             >
-                              <div
-                                className="productName font-weight-bold  mb-1"
-                                style={{ fontSize: "21px" }}
-                              >
-                                {" "}
-                                {language === "he"
-                                  ? product.hebrewName
-                                  : product.name}
-                              </div>
-                              <span className="productDetails" style={{ fontSize: "18px" }}>
-                                {language === "he"
-                                  ? product.hebrewDetails
-                                  : product.details
-                                }
-                              </span>
-                              <div
-                                className="amountOption  pl-0  mt-1"
-                                style={{ fontWeight: '500' }}
-                                id={product._id}
-                              >
-                                {product.priceList.length > 1 ?
-                                  <select id={product._id} onChange={changePrice}
-                                    className="btn-pointer amountOption_select
-                                                                        pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
-                                    aria-label=".form-select-sm example"
-                                    style={{
-                                      lineHeight: "1",
-                                      fontSize: "16px",
-                                      width: "fit-content",
-                                      fontWeight: "600 !important",
-                                    }}
+                              <div className="col-3  productPic d-flex align-items-center px-2  ">
+                                {product.recommended && (
+                                  <div
+                                    className=" ml-auto bg-gold d-flex   recommended  justify-content-center align-items-center"
+                                    style={
+                                      language === "he"
+                                        ? { right: "0px" }
+                                        : { left: "0px" }
+                                    }
                                   >
-                                    {/* <option value=" " disabled selected>
+                                    <p
+                                      className="m-0 "
+                                      style={{ fontSize: "0.6rem" }}
+                                    >
+                                      {i18.t("recommended")}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {product.outOfStock && (
+                                  <div
+                                    className=" ml-auto bg-black text-white outOfStock d-flex  justify-content-center align-items-center"
+                                    style={
+                                      language === "he"
+                                        ? { right: "0px" }
+                                        : { left: "0px" }
+                                    }
+                                  >
+                                    <p
+                                      className="m-0 "
+                                      style={{ fontSize: "0.6rem" }}
+                                    >
+                                      {i18.t("outOfStock")}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {!product.img || product.img == undefined ? (
+                                  <img
+                                    className="w-100"
+                                    src={image1}
+                                    alt="img"
+                                  />
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                              <div className="col-4 p-0 " id={product._id}>
+                                <div
+                                  className="h-75 "
+                                  style={{ lineHeight: "0.99" }}
+                                >
+                                  <div
+                                    className="productName font-weight-bold  mb-1"
+                                    style={{ fontSize: "21px" }}
+                                  >
+                                    {" "}
+                                    {language === "he"
+                                      ? product.hebrewName
+                                      : product.name}
+                                  </div>
+                                  <span
+                                    className="productDetails"
+                                    style={{ fontSize: "18px" }}
+                                  >
+                                    {language === "he"
+                                      ? product.hebrewDetails
+                                      : product.details}
+                                  </span>
+                                  <div
+                                    className="amountOption  pl-0  mt-1"
+                                    style={{ fontWeight: "500" }}
+                                    id={product._id}
+                                  >
+                                    {product.priceList.length > 1 ? (
+                                      <select
+                                        id={product._id}
+                                        onChange={changePrice}
+                                        className="btn-pointer amountOption_select
+                                                                        pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
+                                        aria-label=".form-select-sm example"
+                                        style={{
+                                          lineHeight: "1",
+                                          fontSize: "16px",
+                                          width: "fit-content",
+                                          fontWeight: "600 !important",
+                                        }}
+                                      >
+                                        {/* <option value=" " disabled selected>
                                               {i18.t("selectAmount")}
                                             </option> */}
-                                    {product.priceList.map((item) => (
-                                      <option value={item.price}>
-                                        {
-                                          language === "he"
-                                            ? item.amount && item.amount.hebrewName
-                                            : item.amount && item.amount.name}
-                                      </option>
-                                    ))}
+                                        {product.priceList.map((item) => (
+                                          <option value={item.price}>
+                                            {language === "he"
+                                              ? item.amount &&
+                                                item.amount.hebrewName
+                                              : item.amount && item.amount.name}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    ) : (
+                                      <div>
+                                        {language === "he"
+                                          ? product.priceList[0] &&
+                                            product.priceList[0].amount &&
+                                            product.priceList[0].amount
+                                              .hebrewName
+                                          : product.priceList[0] &&
+                                            product.priceList[0].amount &&
+                                            product.priceList[0].amount.name}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
 
-
-                                  </select>
-                                  :
-
-                                  <div>{language === "he"
-                                    ?
-                                    product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.hebrewName
-                                    :
-                                    product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.name}</div>
-
-                                }
-                              </div>
-                            </div>
-
-                            <div
-                              className="row d-flex align-items-end  h-25 pb-2 d-none errorSelect"
-                              style={{ fontSize: "xx-small" }}
-                            >
-                              <h6 className="" style={{ color: "red" }}>
-                                * יש לבחור כמות או אופציה
-                              </h6>
-                            </div>
-                          </div>
-                          <div className="col-1"></div>
-                          <div className="col-4 px-1 h-100">
-                            <div className="d-flex align-items-end col-12 mx-0 px-0 row justify-content-end h-50 mt-1">
-                              <div className="col-5"></div>
-                              <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2" >
-                                <span id={`${product._id}price`}>{product.priceList[0] && product.priceList[0].price}</span>
-                                &#8362;{" "}
-                              </div>
-                            </div>
-                            <div
-                              className="d-flex align-items-end  row h-50 pb-1 flex-nowrap"
-                            // style={{
-                            //     justifyContent: "space-evenly",
-                            // }}
-                            >
-                              <div
-                                className="amountToBuy mx-2  goldColor d-flex  col-6 p-0  align-items-end"
-                                style={{
-                                  width: "fit-content",
-                                }}
-                              >
-                                <span
-                                  className="plus"
-                                  onClick={() =>
-                                    changeAmount(product._id, "plus")
-                                  }
+                                <div
+                                  className="row d-flex align-items-end  h-25 pb-2 d-none errorSelect"
+                                  style={{ fontSize: "xx-small" }}
                                 >
-                                  +
-                                </span>
-                                <input
-                                  type="text"
-                                  defaultValue="1"
-                                  className=" text-black bg-white pt-0 pb-0   mt-2 input_number fontNumber gold-border"
-                                />
-                                <span
-                                  className="minus"
-                                  onClick={() =>
-                                    changeAmount(product._id, "minus")
-                                  }
-                                >
-                                  -
-                                </span>
+                                  <h6 className="" style={{ color: "red" }}>
+                                    * יש לבחור כמות או אופציה
+                                  </h6>
+                                </div>
                               </div>
+                              <div className="col-1"></div>
+                              <div className="col-4 px-1 h-100">
+                                <div className="d-flex align-items-end col-12 mx-0 px-0 row justify-content-end h-50 mt-1">
+                                  <div className="col-5"></div>
+                                  <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2">
+                                    <span id={`${product._id}price`}>
+                                      {product.priceList[0] &&
+                                        product.priceList[0].price}
+                                    </span>
+                                    &#8362;{" "}
+                                  </div>
+                                </div>
+                                <div
+                                  className="d-flex align-items-end  row h-50 pb-1 flex-nowrap"
+                                  // style={{
+                                  //     justifyContent: "space-evenly",
+                                  // }}
+                                >
+                                  <div
+                                    className="amountToBuy mx-2  goldColor d-flex  col-6 p-0  align-items-end"
+                                    style={{
+                                      width: "fit-content",
+                                    }}
+                                  >
+                                    <span
+                                      className="plus"
+                                      onClick={() =>
+                                        changeAmount(product._id, "plus")
+                                      }
+                                    >
+                                      +
+                                    </span>
+                                    <input
+                                      type="text"
+                                      defaultValue="1"
+                                      className=" text-black bg-white pt-0 pb-0   mt-2 input_number fontNumber gold-border"
+                                    />
+                                    <span
+                                      className="minus"
+                                      onClick={() =>
+                                        changeAmount(product._id, "minus")
+                                      }
+                                    >
+                                      -
+                                    </span>
+                                  </div>
 
-                              <div
-                                onClick={() => AddToCart(product)}
-                                className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 py-1 px-4 mx-1 roundButton"
-                                style={{
-                                  height: "fit-content",
-                                  width: "fit-content",
-                                }}
-                              >
-                                {i18.t("addToCart")}
+                                  <div
+                                    onClick={() => AddToCart(product)}
+                                    className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 py-1 px-4 mx-1 roundButton"
+                                    style={{
+                                      height: "fit-content",
+                                      width: "fit-content",
+                                    }}
+                                  >
+                                    {i18.t("addToCart")}
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </>
-                    ))}
+                          </>
+                        )
+                    )}
                   </div>
                   <hr
                     className="goldColor mt-0 mb-2 w-100 row"
@@ -696,8 +699,11 @@ function ShabbatMenu(props) {
 
           <div className="searchResults d-none mt-1">
             <h4 className="swithSide notFound">
-              <span className=" "> {i18.t("notFoundResults")}</span> {searchWord}{" "}
-              <button className="mx-2" onClick={clearSearch}>x</button>
+              <span className=" "> {i18.t("notFoundResults")}</span>{" "}
+              {searchWord}{" "}
+              <button className="mx-2" onClick={clearSearch}>
+                x
+              </button>
             </h4>
           </div>
         </div>
@@ -791,174 +797,208 @@ function ShabbatMenu(props) {
               <div className="searchResults d-none mt-1">
                 <h4 className="swithSide notFound">
                   <span className=" "> {i18.t("notFoundResults")}</span>{" "}
-                  {searchWord} <button className="mx-2" onClick={clearSearch}>x</button>
+                  {searchWord}{" "}
+                  <button className="mx-2" onClick={clearSearch}>
+                    x
+                  </button>
                 </h4>
                 {/* searchResults */}
                 {searchResults &&
-                  searchResults.map((product) => product.display && (
-                    <>
-                      <div
-                        className=" productLine w-100  row    justify-content-around   p-2 mb-4"
-                        id={product._id}
-                        style={{ maxHeight: "150px", height: "118px" }}
-                      >
-                        <div className="col-2  productPic addM d-flex align-items-center   ml-3"
-                          style={!product.img || product.img == undefined ? { backgroundImage: "none" } : { backgroundImage: `url(${baseURL + "" + product.img})` }}
-                        >
-                          {product.recommended &&
+                  searchResults.map(
+                    (product) =>
+                      product.display && (
+                        <>
+                          <div
+                            className=" productLine w-100  row    justify-content-around   p-2 mb-4"
+                            id={product._id}
+                            style={{ maxHeight: "150px", height: "118px" }}
+                          >
                             <div
-                              className=" ml-auto bg-gold d-flex recommended justify-content-center align-items-center"
-                              style={language === "he" ? { right: "0px" } : { left: "0px" }}
-                            >
-                              <p className="m-0 " style={{ fontSize: "0.6rem" }}>
-                                {i18.t("recommended")}
-                              </p>
-                            </div>
-                          }
-                          {product.outOfStock &&
-                            <div
-                              className=" ml-auto bg-black text-white outOfStock d-flex  justify-content-center align-items-center"
-                              style={language === "he" ? { right: "0px" } : { left: "0px" }}
-
-                            >
-                              <p
-                                className="m-0 "
-                                style={{ fontSize: "0.6rem" }}
-                              >
-                                {i18.t("outOfStock")}
-                              </p>
-                            </div>
-                          }
-                          {!product.img || product.img == undefined ?
-                            <img className="w-100" src={image1} alt="img" />
-                            : ""}
-
-                        </div>
-                        <div className="col-4 p-0 " id={product._id}>
-                          <div className="h-75 " style={{ lineHeight: "0.99" }}>
-                            <div
-                              className="productName font-weight-bold mb-1 "
-                              style={{ fontSize: "21px" }}
-                            >
-                              {" "}
-                              {language === "he"
-                                ? product.hebrewName
-                                : product.name}
-                            </div>
-                            <span className="productDetails" style={{ fontSize: "17px" }}>
-                              {language === "he"
-                                ? product.hebrewDetails
-                                : product.details
+                              className="col-2  productPic addM d-flex align-items-center   ml-3"
+                              style={
+                                !product.img || product.img == undefined
+                                  ? { backgroundImage: "none" }
+                                  : {
+                                      backgroundImage: `url(${
+                                        baseURL + "" + product.img
+                                      })`,
+                                    }
                               }
-                            </span>
-                            <div
-                              className="amountOption  pl-0 mt-1"
-                              style={{ fontWeight: '500' }}
-                              id={product._id}
                             >
-                              {product.priceList.length > 1 ?
-
-                                <select id={product._id} onChange={changePrice}
-                                  className="btn-pointer amountOption_select
-                                                                        pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
-                                  aria-label=".form-select-sm example"
-                                  style={{
-                                    lineHeight: "1",
-                                    fontSize: "16px",
-                                    width: "fit-content",
-                                    fontWeight: "600 !important",
-                                  }}
+                              {product.recommended && (
+                                <div
+                                  className=" ml-auto bg-gold d-flex recommended justify-content-center align-items-center"
+                                  style={
+                                    language === "he"
+                                      ? { right: "0px" }
+                                      : { left: "0px" }
+                                  }
                                 >
-                                  {/* <option value=" " disabled selected>
+                                  <p
+                                    className="m-0 "
+                                    style={{ fontSize: "0.6rem" }}
+                                  >
+                                    {i18.t("recommended")}
+                                  </p>
+                                </div>
+                              )}
+                              {product.outOfStock && (
+                                <div
+                                  className=" ml-auto bg-black text-white outOfStock d-flex  justify-content-center align-items-center"
+                                  style={
+                                    language === "he"
+                                      ? { right: "0px" }
+                                      : { left: "0px" }
+                                  }
+                                >
+                                  <p
+                                    className="m-0 "
+                                    style={{ fontSize: "0.6rem" }}
+                                  >
+                                    {i18.t("outOfStock")}
+                                  </p>
+                                </div>
+                              )}
+                              {!product.img || product.img == undefined ? (
+                                <img className="w-100" src={image1} alt="img" />
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            <div className="col-4 p-0 " id={product._id}>
+                              <div
+                                className="h-75 "
+                                style={{ lineHeight: "0.99" }}
+                              >
+                                <div
+                                  className="productName font-weight-bold mb-1 "
+                                  style={{ fontSize: "21px" }}
+                                >
+                                  {" "}
+                                  {language === "he"
+                                    ? product.hebrewName
+                                    : product.name}
+                                </div>
+                                <span
+                                  className="productDetails"
+                                  style={{ fontSize: "17px" }}
+                                >
+                                  {language === "he"
+                                    ? product.hebrewDetails
+                                    : product.details}
+                                </span>
+                                <div
+                                  className="amountOption  pl-0 mt-1"
+                                  style={{ fontWeight: "500" }}
+                                  id={product._id}
+                                >
+                                  {product.priceList.length > 1 ? (
+                                    <select
+                                      id={product._id}
+                                      onChange={changePrice}
+                                      className="btn-pointer amountOption_select
+                                                                        pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
+                                      aria-label=".form-select-sm example"
+                                      style={{
+                                        lineHeight: "1",
+                                        fontSize: "16px",
+                                        width: "fit-content",
+                                        fontWeight: "600 !important",
+                                      }}
+                                    >
+                                      {/* <option value=" " disabled selected>
                                               {i18.t("selectAmount")}
                                             </option> */}
-                                  {product.priceList.map((item) => (
-                                    <option value={item.price}>
-                                      {
-                                        language === "he"
-                                          ? item.amount && item.amount.hebrewName
-                                          : item.amount && item.amount.name}
-                                    </option>
-                                  ))}
+                                      {product.priceList.map((item) => (
+                                        <option value={item.price}>
+                                          {language === "he"
+                                            ? item.amount &&
+                                              item.amount.hebrewName
+                                            : item.amount && item.amount.name}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  ) : (
+                                    <div>
+                                      {language === "he"
+                                        ? product.priceList[0] &&
+                                          product.priceList[0].amount &&
+                                          product.priceList[0].amount.hebrewName
+                                        : product.priceList[0] &&
+                                          product.priceList[0].amount &&
+                                          product.priceList[0].amount.name}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
 
-
-                                </select>
-                                :
-
-                                <div>{language === "he"
-                                  ?
-                                  product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.hebrewName
-                                  :
-                                  product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.name}</div>
-                              }
-                            </div>
-
-                          </div>
-
-                          <div
-                            className="row d-flex align-items-end  h-25 pb-2 d-none errorSelect"
-                            style={{ fontSize: "xx-small" }}
-                          >
-                            <h6 className="" style={{ color: "red" }}>
-                              * יש לבחור כמות או אופציה
-                            </h6>
-                          </div>
-                        </div>
-                        <div className="col-1"></div>
-                        <div className="col-4 px-1 h-100">
-                          <div className="d-flex col-12 mx-0 px-0 align-items-end row justify-content-end h-50 mt-1">
-                            <div className="col-5"></div>
-                            <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber mb-2">
-                              <span id={`${product._id}price`}>{product.priceList[0] && product.priceList[0].price}</span>
-                              &#8362;{" "}
-
-                            </div>
-                          </div>
-
-                          <div className="d-flex align-items-end  row justify-content-end  h-50 pb-1 flex-nowrap">
-                            <div
-                              className="amountToBuy mx-2 goldColor d-flex  col-6 p-0  align-items-end"
-                              style={{ width: "fit-content" }}
-                            >
-                              <span
-                                className="plus "
-                                onClick={() =>
-                                  changeAmount(product._id, "plus")
-                                }
+                              <div
+                                className="row d-flex align-items-end  h-25 pb-2 d-none errorSelect"
+                                style={{ fontSize: "xx-small" }}
                               >
-                                +
-                              </span>
-                              <input
-                                type="text"
-                                defaultValue="1"
-                                className=" text-black bg-white pt-0 pb-0  m-1 mt-2 input_number fontNumber gold-border"
-                              />
-                              <span
-                                className="minus"
-                                onClick={() =>
-                                  changeAmount(product._id, "minus")
-                                }
-                              >
-                                -
-                              </span>
+                                <h6 className="" style={{ color: "red" }}>
+                                  * יש לבחור כמות או אופציה
+                                </h6>
+                              </div>
                             </div>
+                            <div className="col-1"></div>
+                            <div className="col-4 px-1 h-100">
+                              <div className="d-flex col-12 mx-0 px-0 align-items-end row justify-content-end h-50 mt-1">
+                                <div className="col-5"></div>
+                                <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber mb-2">
+                                  <span id={`${product._id}price`}>
+                                    {product.priceList[0] &&
+                                      product.priceList[0].price}
+                                  </span>
+                                  &#8362;{" "}
+                                </div>
+                              </div>
 
-                            <div
-                              onClick={() => AddToCart(product)}
-                              className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 px-4 mx-1 py-2 roundButton"
-                              style={{
-                                height: "fit-content",
-                                width: "fit-content",
-                              }}
-                            >
-                              {i18.t("addToCart")}
-                              <div className=""></div>
+                              <div className="d-flex align-items-end  row justify-content-end  h-50 pb-1 flex-nowrap">
+                                <div
+                                  className="amountToBuy mx-2 goldColor d-flex  col-6 p-0  align-items-end"
+                                  style={{ width: "fit-content" }}
+                                >
+                                  <span
+                                    className="plus "
+                                    onClick={() =>
+                                      changeAmount(product._id, "plus")
+                                    }
+                                  >
+                                    +
+                                  </span>
+                                  <input
+                                    type="text"
+                                    defaultValue="1"
+                                    className=" text-black bg-white pt-0 pb-0  m-1 mt-2 input_number fontNumber gold-border"
+                                  />
+                                  <span
+                                    className="minus"
+                                    onClick={() =>
+                                      changeAmount(product._id, "minus")
+                                    }
+                                  >
+                                    -
+                                  </span>
+                                </div>
+
+                                <div
+                                  onClick={() => AddToCart(product)}
+                                  className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 px-4 mx-1 py-2 roundButton"
+                                  style={{
+                                    height: "fit-content",
+                                    width: "fit-content",
+                                  }}
+                                >
+                                  {i18.t("addToCart")}
+                                  <div className=""></div>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </>
-                  ))}
+                        </>
+                      )
+                  )}
               </div>
 
               {/* <div className='shabatMenu overflow-auto pb-3 sidColumn' style={{ height: '590px' }} onScroll={myFunction}> */}
@@ -971,9 +1011,21 @@ function ShabbatMenu(props) {
                         onMouseEnter={() => hoverCategory(category._id, index)}
                       >
                         <div>
-                          <div className="  w-100 categoryImage"
-
-                            style={!category.picUrl || category.picUrl === undefined ? { backgroundImage: `url(${baseURL + "salads.png"})` } : { backgroundImage: `url(${baseURL + "" + category.picUrl})` }}
+                          <div
+                            className="  w-100 categoryImage"
+                            style={
+                              !category.picUrl || category.picUrl === undefined
+                                ? {
+                                    backgroundImage: `url(${
+                                      baseURL + "salads.png"
+                                    })`,
+                                  }
+                                : {
+                                    backgroundImage: `url(${
+                                      baseURL + "" + category.picUrl
+                                    })`,
+                                  }
+                            }
                           >
                             {/* <img
                               alt=""
@@ -1005,182 +1057,231 @@ function ShabbatMenu(props) {
                           .filter((key) => key === "products")
 
                           .map((key, val) =>
-                            category[key].map((product) => product.display && (
-
-                              <>
-                                <div
-                                  className=" productLine w-100  row      justify-content-around   p-2 mb-4"
-                                  id={product._id}
-                                  style={{
-                                    maxHeight: "150px",
-                                    height: "118px",
-                                  }}
-                                >
-                                  <div
-                                    className="col-2  productPic addM d-flex align-items-center   "
-                                    style={!product.img || product.img == undefined ? { backgroundImage: 'none' } : { backgroundImage: `url(${baseURL + "" + product.img})` }}
-
-                                  >
-                                    {product.recommended &&
-                                      <div
-                                        className=" ml-auto bg-gold d-flex  recommended   justify-content-center align-items-center"
-                                        style={language === "he" ? { right: "0px" } : { left: "0px" }}
-                                      >
-                                        <p
-                                          className="m-0 "
-                                          style={{ fontSize: "0.6rem" }}
-                                        >
-                                          {i18.t("recommended")}
-                                        </p>
-                                      </div>
-                                    }
-                                    {product.outOfStock &&
-                                      <div
-                                        className=" ml-auto bg-black text-white outOfStock d-flex  justify-content-center align-items-center"
-                                        style={language === "he" ? { right: "0px" } : { left: "0px" }}
-
-                                      >
-                                        <p
-                                          className="m-0 "
-                                          style={{ fontSize: "0.6rem" }}
-                                        >
-                                          {i18.t("outOfStock")}
-                                        </p>
-                                      </div>
-                                    }
-                                    {!product.img || product.img == undefined ?
-                                      <img className="w-100" src={image1} alt="img" />
-                                      : ""}
-                                  </div>
-                                  <div className="col-4 p-0 " id={product._id}>
+                            category[key].map(
+                              (product) =>
+                                product.display && (
+                                  <>
                                     <div
-                                      className="h-75 "
-                                      style={{ lineHeight: "0.99" }}
+                                      className=" productLine w-100  row      justify-content-around   p-2 mb-4"
+                                      id={product._id}
+                                      style={{
+                                        maxHeight: "150px",
+                                        height: "118px",
+                                      }}
                                     >
                                       <div
-                                        className="productName font-weight-bold  mb-1"
-                                        style={{ fontSize: "21px" }}
-                                      >
-                                        {" "}
-                                        {language === "he"
-                                          ? product.hebrewName
-                                          : product.name}
-                                      </div>
-                                      <span className="productDetails" style={{ fontSize: "18px" }}>
-                                        {language === "he"
-                                          ? product.hebrewDetails
-                                          : product.details
+                                        className="col-2  productPic addM d-flex align-items-center   "
+                                        style={
+                                          !product.img ||
+                                          product.img == undefined
+                                            ? { backgroundImage: "none" }
+                                            : {
+                                                backgroundImage: `url(${
+                                                  baseURL + "" + product.img
+                                                })`,
+                                              }
                                         }
-                                      </span>
-
+                                      >
+                                        {product.recommended && (
+                                          <div
+                                            className=" ml-auto bg-gold d-flex  recommended   justify-content-center align-items-center"
+                                            style={
+                                              language === "he"
+                                                ? { right: "0px" }
+                                                : { left: "0px" }
+                                            }
+                                          >
+                                            <p
+                                              className="m-0 "
+                                              style={{ fontSize: "0.6rem" }}
+                                            >
+                                              {i18.t("recommended")}
+                                            </p>
+                                          </div>
+                                        )}
+                                        {product.outOfStock && (
+                                          <div
+                                            className=" ml-auto bg-black text-white outOfStock d-flex  justify-content-center align-items-center"
+                                            style={
+                                              language === "he"
+                                                ? { right: "0px" }
+                                                : { left: "0px" }
+                                            }
+                                          >
+                                            <p
+                                              className="m-0 "
+                                              style={{ fontSize: "0.6rem" }}
+                                            >
+                                              {i18.t("outOfStock")}
+                                            </p>
+                                          </div>
+                                        )}
+                                        {!product.img ||
+                                        product.img == undefined ? (
+                                          <img
+                                            className="w-100"
+                                            src={image1}
+                                            alt="img"
+                                          />
+                                        ) : (
+                                          ""
+                                        )}
+                                      </div>
                                       <div
-                                        className="amountOption  pl-0  mt-1"
-                                        style={{ fontWeight: '500' }}
+                                        className="col-4 p-0 "
                                         id={product._id}
                                       >
-                                        {product.priceList.length > 1 ?
-                                          // selectAmountbasic
-                                          <select id={product._id} onChange={changePrice}
-                                            className="btn-pointer amountOption_select
-                                                                        pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
-                                            aria-label=".form-select-sm example"
-                                            style={{
-                                              lineHeight: "1",
-                                              fontSize: "16px",
-                                              width: "fit-content",
-                                              fontWeight: "600 !important",
-                                            }}
+                                        <div
+                                          className="h-75 "
+                                          style={{ lineHeight: "0.99" }}
+                                        >
+                                          <div
+                                            className="productName font-weight-bold  mb-1"
+                                            style={{ fontSize: "21px" }}
                                           >
-                                            {/* <option value=" " disabled selected>
+                                            {" "}
+                                            {language === "he"
+                                              ? product.hebrewName
+                                              : product.name}
+                                          </div>
+                                          <span
+                                            className="productDetails"
+                                            style={{ fontSize: "18px" }}
+                                          >
+                                            {language === "he"
+                                              ? product.hebrewDetails
+                                              : product.details}
+                                          </span>
+
+                                          <div
+                                            className="amountOption  pl-0  mt-1"
+                                            style={{ fontWeight: "500" }}
+                                            id={product._id}
+                                          >
+                                            {product.priceList.length > 1 ? (
+                                              // selectAmountbasic
+                                              <select
+                                                id={product._id}
+                                                onChange={changePrice}
+                                                className="btn-pointer amountOption_select
+                                                                        pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
+                                                aria-label=".form-select-sm example"
+                                                style={{
+                                                  lineHeight: "1",
+                                                  fontSize: "16px",
+                                                  width: "fit-content",
+                                                  fontWeight: "600 !important",
+                                                }}
+                                              >
+                                                {/* <option value=" " disabled selected>
                                               {i18.t("selectAmount")}
                                             </option> */}
-                                            {product.priceList.map((item) => (
-                                              <option value={item.price}>
-                                                {
-                                                  language === "he"
-                                                    ? item.amount && item.amount.hebrewName
-                                                    : item.amount && item.amount.name}
-                                              </option>
-                                            ))}
+                                                {product.priceList.map(
+                                                  (item) => (
+                                                    <option value={item.price}>
+                                                      {language === "he"
+                                                        ? item.amount &&
+                                                          item.amount.hebrewName
+                                                        : item.amount &&
+                                                          item.amount.name}
+                                                    </option>
+                                                  )
+                                                )}
+                                              </select>
+                                            ) : (
+                                              <div>
+                                                {language === "he"
+                                                  ? product.priceList[0] &&
+                                                    product.priceList[0]
+                                                      .amount &&
+                                                    product.priceList[0].amount
+                                                      .hebrewName
+                                                  : product.priceList[0] &&
+                                                    product.priceList[0]
+                                                      .amount &&
+                                                    product.priceList[0].amount
+                                                      .name}
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
 
-
-                                          </select>
-                                          :
-
-                                          <div>{
-                                            language === "he"
-                                              ? product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.hebrewName
-                                              : product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.name
-
-                                          }</div>
-                                        }
-                                      </div>
-
-                                    </div>
-
-                                    <div
-                                      className="row d-flex align-items-end  h-25 pb-2 d-none errorSelect"
-                                      style={{ fontSize: "xx-small" }}
-                                    >
-                                      <h6 className="" style={{ color: "red" }}>
-                                        * יש לבחור כמות או אופציה
-                                      </h6>
-                                    </div>
-                                  </div>
-                                  <div className="col-1"></div>
-                                  <div className="col-4 px-1 h-100">
-                                    <div className="d-flex align-items-end col-12 mx-0 px-0 row justify-content-end h-50 mt-1">
-                                      <div className="col-5"></div>
-                                      <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2" >
-                                        <span id={`${product._id}price`}>{product.priceList[0] && product.priceList[0].price}</span>
-                                        &#8362;{" "}
-                                      </div>
-                                    </div>
-
-                                    <div className="d-flex align-items-end  row justify-content-end  h-50 pb-1 flex-nowrap">
-                                      <div
-                                        className="amountToBuy mx-2 goldColor d-flex  col-6 p-0  align-items-end"
-                                        style={{ width: "fit-content" }}
-                                      >
-                                        <span
-                                          className="plus "
-                                          onClick={() =>
-                                            changeAmount(product._id, "plus")
-                                          }
+                                        <div
+                                          className="row d-flex align-items-end  h-25 pb-2 d-none errorSelect"
+                                          style={{ fontSize: "xx-small" }}
                                         >
-                                          +
-                                        </span>
-                                        <input
-                                          type="text"
-                                          defaultValue="1"
-                                          className=" text-black bg-white pt-0 pb-0  m-1 mt-2 input_number fontNumber gold-border"
-                                        />
-                                        <span
-                                          className="minus"
-                                          onClick={() =>
-                                            changeAmount(product._id, "minus")
-                                          }
-                                        >
-                                          -
-                                        </span>
+                                          <h6
+                                            className=""
+                                            style={{ color: "red" }}
+                                          >
+                                            * יש לבחור כמות או אופציה
+                                          </h6>
+                                        </div>
                                       </div>
+                                      <div className="col-1"></div>
+                                      <div className="col-4 px-1 h-100">
+                                        <div className="d-flex align-items-end col-12 mx-0 px-0 row justify-content-end h-50 mt-1">
+                                          <div className="col-5"></div>
+                                          <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2">
+                                            <span id={`${product._id}price`}>
+                                              {product.priceList[0] &&
+                                                product.priceList[0].price}
+                                            </span>
+                                            &#8362;{" "}
+                                          </div>
+                                        </div>
 
-                                      <div
-                                        onClick={() => AddToCart(product)}
-                                        className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 px-4 mx-1 py-2 roundButton"
-                                        style={{
-                                          height: "fit-content",
-                                          width: "fit-content",
-                                        }}
-                                      >
-                                        {i18.t("addToCart")}
-                                        <div className=""></div>
+                                        <div className="d-flex align-items-end  row justify-content-end  h-50 pb-1 flex-nowrap">
+                                          <div
+                                            className="amountToBuy mx-2 goldColor d-flex  col-6 p-0  align-items-end"
+                                            style={{ width: "fit-content" }}
+                                          >
+                                            <span
+                                              className="plus "
+                                              onClick={() =>
+                                                changeAmount(
+                                                  product._id,
+                                                  "plus"
+                                                )
+                                              }
+                                            >
+                                              +
+                                            </span>
+                                            <input
+                                              type="text"
+                                              defaultValue="1"
+                                              className=" text-black bg-white pt-0 pb-0  m-1 mt-2 input_number fontNumber gold-border"
+                                            />
+                                            <span
+                                              className="minus"
+                                              onClick={() =>
+                                                changeAmount(
+                                                  product._id,
+                                                  "minus"
+                                                )
+                                              }
+                                            >
+                                              -
+                                            </span>
+                                          </div>
+
+                                          <div
+                                            onClick={() => AddToCart(product)}
+                                            className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 px-4 mx-1 py-2 roundButton"
+                                            style={{
+                                              height: "fit-content",
+                                              width: "fit-content",
+                                            }}
+                                          >
+                                            {i18.t("addToCart")}
+                                            <div className=""></div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </div>
-                              </>
-                            ))
+                                  </>
+                                )
+                            )
                           )}
                       </div>
                       <hr
@@ -1188,7 +1289,6 @@ function ShabbatMenu(props) {
                         style={{ height: "2.5px", opacity: "1" }}
                       />
                     </>
-
                   ))}
               </div>
             </div>
@@ -1260,7 +1360,7 @@ function ShabbatMenu(props) {
                           {/* <FontAwesomeIcon icon="fa-solid fa-cart-shopping" /> */}
                         </h6>
                       ) : (
-                        <h6>{ }</h6>
+                        <h6>{}</h6>
                       )}
                     </div>
                     {cart &&
@@ -1299,10 +1399,7 @@ function ShabbatMenu(props) {
                                 <span
                                   className=" px-1 btn-pointer"
                                   onClick={() =>
-                                    changeAmount(
-                                      item.Id,
-                                      "minusToCart"
-                                    )
+                                    changeAmount(item.Id, "minusToCart")
                                   }
                                   style={{ fontSize: "25px", height: "27px" }}
                                 >
@@ -1525,7 +1622,13 @@ function ShabbatMenu(props) {
                       {" "}
                       {i18.t("TotalProducts")}:
                     </div>
-                    <div className={language == "he" ? "col-5 text-start numItems fontNumber font-weight-bold" : "col-5 text-end numItems fontNumber font-weight-bold"}>
+                    <div
+                      className={
+                        language == "he"
+                          ? "col-5 text-start numItems fontNumber font-weight-bold"
+                          : "col-5 text-end numItems fontNumber font-weight-bold"
+                      }
+                    >
                       {numItems}
                     </div>
                   </div>
@@ -1533,7 +1636,13 @@ function ShabbatMenu(props) {
                     <div className="col-5 swithSide font-medium px-2">
                       {i18.t("Total")}:
                     </div>
-                    <div className={language == "he" ? "col-7 text-start numItems fontNumber font-weight-bold " : "col-7 text-end numItems fontNumber font-weight-bold "}>
+                    <div
+                      className={
+                        language == "he"
+                          ? "col-7 text-start numItems fontNumber font-weight-bold "
+                          : "col-7 text-end numItems fontNumber font-weight-bold "
+                      }
+                    >
                       &#8362; {parseFloat(total).toFixed(2)}
                     </div>
                   </div>

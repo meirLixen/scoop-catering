@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "../../App.css";
-import { connect } from "react-redux";
-import Footer from "../mainPage/Footer";
-import UnderFooter from "../mainPage/UnderFooter";
-import useMediaQuery from "../../hooks/useMediaQuery";
 import { Form } from "react-bootstrap";
+import { connect } from "react-redux";
+import "../../App.css";
+import useMediaQuery from "../../hooks/useMediaQuery";
+import Footer from "../mainPage/Footer";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
+import UnderFooter from "../mainPage/UnderFooter";
 
 import $ from "jquery";
 import i18 from "../../i18/i18";
@@ -33,7 +33,7 @@ export function Checkout(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -50,7 +50,7 @@ export function Checkout(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
@@ -101,7 +101,6 @@ export function Checkout(props) {
             }
             // eslint-disable-next-line
             previousClick = $(this).attr("id");
-            console.log(previousClick);
           }
         }
       });

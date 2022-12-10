@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 import Carousel from "../Carousel_";
 // import Search from '../Search'
+import $ from "jquery";
+import "../../App.css";
+import Cart from "../../data/imges/cart.png";
+import useMediaQuery from "../../hooks/useMediaQuery";
+import i18 from "../../i18/i18";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-import useMediaQuery from "../../hooks/useMediaQuery";
-import Cart from "../../data/imges/cart.png";
-import "../../App.css";
-import $ from "jquery";
-import i18 from "../../i18/i18";
 function ProductList(props) {
   const url = window.location.href;
 
@@ -48,7 +48,7 @@ function ProductList(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -65,14 +65,14 @@ function ProductList(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
   if (!products || !products.length) {
-     props.getAllProducts()
+    props.getAllProducts();
   }
   if (!categories || !categories.length) {
     props.getAllCategories();

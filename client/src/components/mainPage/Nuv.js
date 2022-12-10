@@ -1,7 +1,7 @@
 import React from "react";
-import "./../../App.css";
+import { Button, Nav, NavDropdown } from "react-bootstrap";
 import img1 from "../../data/imges/galeryImag.png";
-import { Nav, Button, NavDropdown } from "react-bootstrap";
+import "./../../App.css";
 
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import i18 from "../../i18/i18";
 
 import Navbar from "react-bootstrap/Navbar";
-import { useEffect } from "react";
 let previousClick = "empty";
 let currentClass;
 export function Nuv(props) {
@@ -42,7 +41,6 @@ export function Nuv(props) {
       props.history.push("/" + id);
       $(currentClass).addClass("active");
 
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
       } else {

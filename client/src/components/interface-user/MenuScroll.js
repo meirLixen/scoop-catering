@@ -4,20 +4,20 @@ import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 
 // import Search from '../Search'
-import salads from "../../data/imges/foodCategories/Pictures/fishh.png";
-import appetizers from "../../data/imges/foodCategories/Pictures/shabbat.png";
-import bakery from "../../data/imges/foodCategories/Pictures/bakery.png";
 import commentIcon from "../../data/imges/comment.png";
-import searchIcom_ from "../../data/imges/searchIcom_.png";
-import desserts from "../../data/imges/foodCategories/Pictures/desserts.png";
-import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
 import deleteIcom from "../../data/imges/delete.png";
+import bakery from "../../data/imges/foodCategories/Pictures/bakery.png";
+import desserts from "../../data/imges/foodCategories/Pictures/desserts.png";
+import salads from "../../data/imges/foodCategories/Pictures/fishh.png";
+import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
+import appetizers from "../../data/imges/foodCategories/Pictures/shabbat.png";
+import searchIcom_ from "../../data/imges/searchIcom_.png";
 
-import useModal from "../Popup/useModal";
 import "../Popup/Modal.css";
+import useModal from "../Popup/useModal";
 
-import "../../App.css";
 import $ from "jquery";
+import "../../App.css";
 import i18 from "../../i18/i18";
 let previousClick = "empty";
 let previousClickIndex;
@@ -124,7 +124,6 @@ function MenuScroll(props) {
     } else {
       $(currentClass).addClass("active");
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== categoryId) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -148,7 +147,6 @@ function MenuScroll(props) {
       $(currentClass).addClass("active");
 
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -162,7 +160,6 @@ function MenuScroll(props) {
   }
 
   const deleteItem = async (id) => {
-    // console.log($('#' + id + ' ' + '.amountToBuy' + ' ' + 'input').val());
     let totalTodel;
     let less;
 
@@ -239,7 +236,7 @@ function MenuScroll(props) {
 
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -253,14 +250,14 @@ function MenuScroll(props) {
 
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
   }
 
   if (!products || !products.length) {
-     props.getAllProducts()
+    props.getAllProducts();
   }
   if (!categories || !categories.length) {
     props.getAllCategories();

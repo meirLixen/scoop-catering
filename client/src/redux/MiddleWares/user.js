@@ -14,7 +14,7 @@ export const getAllUsers =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
 
             reject();
           });
@@ -28,8 +28,6 @@ export const createUser =
   (next) =>
   (action) => {
     if (action.type === "CREATE_USER") {
-      console.log("fgvhjk");
-
       return new Promise((resolve, reject) => {
         api
           .post("/user/", action.payload)
@@ -37,7 +35,7 @@ export const createUser =
             dispatch(actions.setUser(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -51,8 +49,6 @@ export const updateUserPassword =
   (next) =>
   (action) => {
     if (action.type === "UPDATE_USER_PASSWORD") {
-      console.log("updateUserPassword");
-
       return new Promise((resolve, reject) => {
         api
           .post("/updateUserPassword/", action.payload)
@@ -60,7 +56,7 @@ export const updateUserPassword =
             dispatch(actions.setUser(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
