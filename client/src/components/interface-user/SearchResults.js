@@ -1,29 +1,25 @@
 import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
-import "../../App.css";
 import { connect } from "react-redux";
+import "../../App.css";
 import { actions } from "../../redux/actions/action";
 // import Search from '../Search';
 import Footer from "../mainPage/Footer";
 import UnderFooter from "../mainPage/UnderFooter";
 
+import $ from "jquery";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import i18 from "../../i18/i18";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
 import Scroll from "../Scroll";
 import SearchList from "../SearchList";
-import $ from "jquery";
-import i18 from "../../i18/i18";
 
 export function SearchResults(props) {
   const { language } = props;
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
-
-  if (!props.products || !props.products.length) {
-     props.getAllProducts()
-  }
 
   const { products } = props;
   const { searchWord } = props;
@@ -136,7 +132,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
   setSearchWord: (word) => dispatch(actions.setSearchWord(word)),
 });
 

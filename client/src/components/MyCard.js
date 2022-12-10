@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import ".././App.css";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { actions } from "../redux/actions/action";
-import Cart from "../data/imges/cart.png";
 import { Row } from "react-grid-system";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import ".././App.css";
+import Cart from "../data/imges/cart.png";
+import { actions } from "../redux/actions/action";
 // import { Card, CardHeader, CardTitle, CardSubtitle, CardActions, CardContent } from "@react-md/card"
 import $ from "jquery";
 // import {
@@ -315,7 +315,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
   setSearchWord: (word) => dispatch(actions.setSearchWord(word)),
 });
 

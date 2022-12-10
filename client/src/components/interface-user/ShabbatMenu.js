@@ -1,40 +1,37 @@
+import $ from "jquery";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-// import { withRouter } from 'react-router-dom';
 import { Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import StickyBox from "react-sticky-box";
-import { actions } from "../../redux/actions/action";
-// import Search from '../Search'
+import "../../App.css";
+import { useAuth } from "../../contexts/AuthContext";
 import commentIcon from "../../data/imges/comment.png";
 import deleteIcom from "../../data/imges/delete.png";
 import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
 import headerBgImag from "../../data/imges/headerBgImag.png";
 import searchIcom_ from "../../data/imges/searchIcom_.png";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import i18 from "../../i18/i18";
+import { actions } from "../../redux/actions/action";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-
 import Modal from "../Popup/Modal";
 import "../Popup/Modal.css";
 import useModal from "../Popup/useModal";
 
-import $ from "jquery";
-import "../../App.css";
-import { useAuth } from "../../contexts/AuthContext";
-import i18 from "../../i18/i18";
-
-import { useHistory } from "react-router-dom";
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
 const baseURL = "http://localhost:3001/";
+
 function ShabbatMenu(props) {
   const { isShowing, toggle } = useModal();
 
-  //const [cart, setCart] = useLocalStorage("cart", []);
   const { language } = props;
   const { products } = props;
   const { categories } = props;
+
   let filteredProducts = [];
   const [side] = useState("");
   const [align] = useState("");
@@ -52,16 +49,8 @@ function ShabbatMenu(props) {
 
   const { currentUser, logout } = useAuth();
   const history = useHistory();
-  if (!products || !products.length) {
-    props.getAllProducts();
-  }
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-  }
 
   async function handleLogout() {
-    //  setError("");
-
     try {
       await logout();
       history.push("/shop");
@@ -194,6 +183,7 @@ function ShabbatMenu(props) {
     $(".inputOf_Search").val("");
     searchProduct("");
   }
+
   function useLocalStorage(key, initialValue) {
     const [storedValue, setStoredValue] = useState(() => {
       try {
@@ -1674,6 +1664,7 @@ function ShabbatMenu(props) {
     </div>
   );
 }
+
 const mapStateToProps = (state) => {
   return {
     products: state.productReducer.products,
@@ -1685,13 +1676,12 @@ const mapStateToProps = (state) => {
     currentUser_: state.userReducer.currentUser_,
   };
 };
+
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   setCartRedux: (x) => dispatch(actions.setCartRedux(x)),
   setNumItemsRedux: (x) => dispatch(actions.setNumItemsRedux(x)),
   setTotalRedux: (Total) => dispatch(actions.setTotalRedux(Total)),
   setUser: (user) => dispatch(actions.setUser(user)),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(ShabbatMenu);
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))

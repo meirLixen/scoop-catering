@@ -214,7 +214,6 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
   setLanguage: (lan) => dispatch(actions.setLanguage(lan)),
   setCartRedux: (x) => dispatch(actions.setCartRedux(x)),
   setNumItemsRedux: (NumItems) => dispatch(actions.setNumItemsRedux(NumItems)),

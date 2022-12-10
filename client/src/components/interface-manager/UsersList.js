@@ -27,14 +27,8 @@ function UsersList(props) {
   // const [isLoaded, setIsLoaded] = useState(false);
   // const [error, setError] = useState(null);
 
-  if (!props.products || !props.products.length) {
-    props.getAllProducts();
-  }
   if (!props.orders || !props.orders.length) {
     props.getAllOrders();
-  }
-  if (!categories || !categories.length) {
-    props.getAllCategories();
   }
   if (!users || !users.length) {
     props.getAllUsers();
@@ -250,17 +244,12 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
   deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
   updateProduct: (product) => dispatch(actions.updateProduct(product)),
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllOrders: () => dispatch(actions.getAllOrders()),
   getAllUsers: () => dispatch(actions.getAllUsers()),
-
   getProductByID: (id) => dispatch(actions.getProductByID(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersList);
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))

@@ -19,9 +19,7 @@ function OrderSummary(props) {
   }
 
   const { categories } = props;
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-  }
+
   useEffect(() => {
     const sortArray = (type) => {
       const types = {
@@ -123,12 +121,6 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllProductsOnOrder: () => dispatch(actions.getAllProductsOnOrder()),
-
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
-  // deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
-  // updateProduct: (product) => dispatch(actions.updateProduct(product)),
-  // copyProduct: (id) => dispatch(actions.copyProduct(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary);

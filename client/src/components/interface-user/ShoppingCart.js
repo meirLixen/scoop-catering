@@ -65,13 +65,6 @@ export function ShoppingCart(props) {
     return [storedValue, setValue];
   }
 
-  // const myStorage = window.localStorage;
-
-  // const cart = JSON.parse(myStorage.cart);
-  if (!products || !products.length) {
-    props.getAllProducts();
-  }
-
   const changeAmount = async (id, action) => {
     let amountTocart = parseInt(
       $("." + id + " " + ".Am" + " " + "input").val()
@@ -421,7 +414,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
   setCartRedux: (x) => dispatch(actions.setCartRedux(x)),
   setNumItemsRedux: (NumItems) => dispatch(actions.setNumItemsRedux(NumItems)),
   setTotalRedux: (Total) => dispatch(actions.setTotalRedux(Total)),

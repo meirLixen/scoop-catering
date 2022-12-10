@@ -1,27 +1,22 @@
 import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
-import "../../App.css";
 import { connect } from "react-redux";
-import { actions } from "../../redux/actions/action";
+import "../../App.css";
 import Footer from "../mainPage/Footer";
 import UnderFooter from "../mainPage/UnderFooter";
 
+import $ from "jquery";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import i18 from "../../i18/i18";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-import $ from "jquery";
-import i18 from "../../i18/i18";
 
 export function RelatedProducts(props) {
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
 
   const { products } = props;
-
-  if (!products || !products.length) {
-     props.getAllProducts()
-  }
 
   useEffect(() => {
     if ($) {
@@ -88,9 +83,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(
   mapStateToProps,

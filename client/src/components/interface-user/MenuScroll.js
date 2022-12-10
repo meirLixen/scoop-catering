@@ -256,13 +256,6 @@ function MenuScroll(props) {
     return [storedValue, setValue];
   }
 
-  if (!products || !products.length) {
-    props.getAllProducts();
-  }
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-  }
-
   const changeAmount = async (id, action) => {
     if (action === "minusToCart" || action === "plusToCart") {
       let amountTocart = parseInt(
@@ -912,12 +905,9 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   setCartRedux: (x) => dispatch(actions.setCartRedux(x)),
   setNumItemsRedux: (x) => dispatch(actions.setNumItemsRedux(x)),
   setTotalRedux: (Total) => dispatch(actions.setTotalRedux(Total)),
   setUser: (user) => dispatch(actions.setUser(user)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MenuScroll);
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))

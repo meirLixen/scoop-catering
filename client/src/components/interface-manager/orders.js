@@ -27,14 +27,8 @@ function Orders(props) {
   // const [isLoaded, setIsLoaded] = useState(false);
   // const [error, setError] = useState(null);
 
-  if (!props.products || !props.products.length) {
-    props.getAllProducts();
-  }
   if (!props.orders || !props.orders.length) {
     props.getAllOrders();
-  }
-  if (!categories || !categories.length) {
-    props.getAllCategories();
   }
 
   useEffect(() => {
@@ -235,12 +229,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
   deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
   updateProduct: (product) => dispatch(actions.updateProduct(product)),
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllOrders: () => dispatch(actions.getAllOrders()),
 
   getProductByID: (id) => dispatch(actions.getProductByID(id)),

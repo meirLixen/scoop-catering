@@ -187,7 +187,6 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
   setLanguage: (lan) => dispatch(actions.setLanguage(lan)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Nuv);

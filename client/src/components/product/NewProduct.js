@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Field, Form, Formik } from "formik";
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 // import { Form } from 'react-bootstrap';
-import $ from "jquery";
 import Modal from "react-bootstrap/Modal";
 import "../../App.css";
 
@@ -23,21 +22,11 @@ export function NewProduct(props, { product }) {
   // const [checked, setChecked] = useState(true);
   const { categories } = props;
   const { amounts } = props;
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-  }
+
   if (!amounts || !amounts.length) {
     props.getAllAmounts();
   }
 
-  useEffect(() => {
-    if ($) {
-      // $(".saveProduct").on("click", function () {
-      //     $('#newName').val('')
-      //     $('#newDescription').val('')
-      //     $('#newStatus').val('')
-    }
-  }, []);
   // const { createProduct } = props
   const onSubmit = async (fields) => {
     // event.preventDefault();
@@ -359,7 +348,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   createProduct: (product) => dispatch(actions.createProduct(product)),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllAmounts: () => dispatch(actions.getAllAmounts()),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(NewProduct);
