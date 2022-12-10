@@ -1,22 +1,15 @@
+import $ from "jquery";
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-// import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
 import { Button } from "react-bootstrap";
-import Table from "react-bootstrap/Table";
-// import { Formik, Field, Select, Form } from 'formik';
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import Table from "react-bootstrap/Table";
+import { connect } from "react-redux";
+import "../../App.css";
+import { actions } from "../../redux/actions/action";
 import NewProduct from "../product/NewProduct";
 
-
-import Modal from "react-bootstrap/Modal";
-// import BootstrapTable from 'react-bootstrap-table-next';
-// omit...
-import "../../App.css";
-import $ from "jquery";
 function ProductListManager(props) {
-  // const [isAddMode, setIsAddMode] = useState(true);
-debugger
   const [show, setShow] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const handleClose = () => setShow(false);
@@ -26,20 +19,8 @@ debugger
   const [categoryList, setCategoryList] = useState([]);
   const [productToEdit] = useState();
   const [sortType, setSortType] = useState("hebrewName");
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const [error, setError] = useState(null);
 
-  if (!products || !products.length) {
-    props.getAllProducts()
-  
-  }
- if (!categories || !categories.length) {
-   props.getAllCategories();
- }
   useEffect(() => {
-    console.log("i am hear");
-    console.log(sortType,products);
-    console.log(products);
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -47,8 +28,7 @@ debugger
         outOfStock: "outOfStock",
       };
       const sortProperty = types[type];
-       if (categoryList.length)
-       setCategoryList(products)
+      if (categoryList.length) setCategoryList(products);
       // eslint-disable-next-line
       const sorted = [...products].sort((a, b) => {
         var regex = /^[a-zA-Z]+$/;
@@ -63,7 +43,6 @@ debugger
           }
           // if (a[sortProperty] !== "" && a[sortProperty] !== undefined && b[sortProperty] !== "" && b[sortProperty] !== undefined)
           else if (sortProperty.match(regex)) {
-            console.log(sortProperty);
             return a[sortProperty].localeCompare(b[sortProperty]);
           } else {
             return b[sortProperty] - a[sortProperty];
@@ -102,8 +81,6 @@ debugger
       });
       setCategoryList(list);
     }
-
-    console.log("list:::::::::::" + categoryList.length);
   };
 
   const editItem = async (product) => {
@@ -134,7 +111,6 @@ debugger
   function openDeleteMoodal(id) {
     setShow(true);
     setIdToDelete(id);
-    // console.log("toDelete: " + id);
   }
   function deleteProduct() {
     props.deleteProduct(idToDelete);
@@ -167,7 +143,7 @@ debugger
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
-              מס' מוצרים: {categoryList.length} 
+              מס' מוצרים: {categoryList.length}
             </div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
@@ -320,7 +296,6 @@ debugger
         <div className="col-md-1 p-0"></div>
         <div className="col-md-4  NewProduct  p-3 pb-0 bg-light">
           <NewProduct product={productToEdit} />
-          
         </div>
         {/* <div className='col-md-4  NewProduct  p-3 pb-0 bg-light' ><AddEdit /></div> */}
       </div>
@@ -335,16 +310,9 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
   deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
   updateProduct: (product) => dispatch(actions.updateProduct(product)),
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getProductByID: (id) => dispatch(actions.getProductByID(id)),
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductListManager);
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))
+export default connect(mapStateToProps, mapDispatchToProps)(ProductListManager);

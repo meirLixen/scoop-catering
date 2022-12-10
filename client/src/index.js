@@ -1,22 +1,23 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 // import 'mdbreact/dist/css/mdb.css';
-import GeneralModal from "./components/GeneralModal"
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
-import store from "./redux/store";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
+import App from "./App";
+import { AuthProvider } from "./contexts/AuthContext";
+import store from "./redux/store";
+import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App /> 
-   
+      <AuthProvider>
+        <App />{" "}
+      </AuthProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,25 +1,18 @@
-import React, { useEffect, useState, Fragment } from "react";
-
-import { connect } from "react-redux";
-// import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
+import $ from "jquery";
+import React, { Fragment, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import Table from "react-bootstrap/Table";
-// import { Formik, Field, Select, Form } from 'formik';
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-// import BootstrapTable from 'react-bootstrap-table-next';
-// omit...
+import Table from "react-bootstrap/Table";
+import { connect } from "react-redux";
 import "../../App.css";
-import $ from "jquery";
+import { actions } from "../../redux/actions/action";
 
 function UsersList(props) {
-  // const [isAddMode, setIsAddMode] = useState(true);
-
   const [show, setShow] = useState(false);
   const [idToDelete] = useState();
   const handleClose = () => setShow(false);
-  const { products, orders,users,categories} = props;
+  const { products, orders, users, categories } = props;
 
   const [data, setData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
@@ -27,21 +20,14 @@ function UsersList(props) {
   // const [isLoaded, setIsLoaded] = useState(false);
   // const [error, setError] = useState(null);
 
-  if (!props.products || !props.products.length) {
-     props.getAllProducts()
-  }
   if (!props.orders || !props.orders.length) {
     props.getAllOrders();
-  }
-  if (!categories || !categories.length) {
-    props.getAllCategories();
   }
   if (!users || !users.length) {
     props.getAllUsers();
   }
 
   useEffect(() => {
-  
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -65,7 +51,6 @@ function UsersList(props) {
           }
           // if (a[sortProperty] !== "" && a[sortProperty] !== undefined && b[sortProperty] !== "" && b[sortProperty] !== undefined)
           else if (sortProperty.match(regex)) {
-            console.log(sortProperty);
             return a[sortProperty].localeCompare(b[sortProperty]);
           } else {
             return b[sortProperty] - a[sortProperty];
@@ -104,8 +89,6 @@ function UsersList(props) {
       });
       setCategoryList(list);
     }
-
-    console.log("list:::::::::::" + categoryList.length);
   };
 
   function deleteProduct() {
@@ -138,9 +121,7 @@ function UsersList(props) {
         <div className=" productList  p-3 bg-light">
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
-            <div className="col-6  text-end">
-             מס' לקוחות: {users.length} 
-            </div>
+            <div className="col-6  text-end">מס' לקוחות: {users.length}</div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
                 {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
@@ -151,28 +132,13 @@ function UsersList(props) {
                   onChange={(e) => changeCategory(e)}
                 >
                   <option value="selectCategory">סינון לפי</option>
-                    <option>
-                     מס' הזמנה
-                    </option>
-                    <option>
-                     שם לקוח
-                    </option>
-                    <option >
-                     סכום
-                    </option>
-                    <option >
-                     עיר
-                    </option>
-                    <option >
-                    כתובת משלוח
-                    </option>
-                    <option>
-                     תאירך הזמנה
-                    </option>
-                    <option >
-                     אמצעי תשלום
-                    </option>
-                  
+                  <option>מס' הזמנה</option>
+                  <option>שם לקוח</option>
+                  <option>סכום</option>
+                  <option>עיר</option>
+                  <option>כתובת משלוח</option>
+                  <option>תאירך הזמנה</option>
+                  <option>אמצעי תשלום</option>
                 </Form.Select>
               </div>
               <div className="col-md-6">
@@ -192,14 +158,14 @@ function UsersList(props) {
                 </th>
 
                 <th className=" lableForm col-1" value="userName" id="userName">
-                מס' הזמנות
+                  מס' הזמנות
                 </th>
                 <th className=" lableForm col-2" value="userName" id="userName">
-              שם לקוח
+                  שם לקוח
                 </th>
                 <th className="  lableForm col-2" value="price" id="price">
                   {" "}
-                 דוא"ל
+                  דוא"ל
                 </th>
                 <th
                   className=" lableForm col-2"
@@ -218,29 +184,39 @@ function UsersList(props) {
 
                 <th className=" lableForm  col-1">טלפון נוסף </th>
 
-                <th className=" lableForm  col-2">קוד קופון  </th>
+                <th className=" lableForm  col-2">קוד קופון </th>
                 {/* <th className=' lableForm  col-1'>חשבונית</th> */}
               </tr>
             </thead>
 
             <tbody className="table-responsive">
-              {users.map((item, index) =>(
-                
+              {users.map((item, index) => (
                 <Fragment key={index}>
                   <tr className=" bg-white  col-12 ">
                     <td className=" border-0 col-1 text-center">205</td>
                     <td className=" border-0 col-1">{item.orders.length}</td>
-                    <td className=" border-0 col-2 text-center">{item.fullName?item.fullName:item.name?item.name:item.firstName?item.firstName+" "+item.lastName:""}</td>
+                    <td className=" border-0 col-2 text-center">
+                      {item.fullName
+                        ? item.fullName
+                        : item.name
+                        ? item.name
+                        : item.firstName
+                        ? item.firstName + " " + item.lastName
+                        : ""}
+                    </td>
                     <td className=" border-0 col-2">{item.email}</td>
                     <td className=" border-0 col-2">{item.password}</td>
                     <td className=" border-0 col-1">{item.phone}</td>
-                    <td className=" border-0 col-1">{item.anotherPhone?item.anotherPhone:""}</td>
-                    
-                    <td className=" border-0 col-2">{item.codeCupon?item.codeCupon:""}</td>
+                    <td className=" border-0 col-1">
+                      {item.anotherPhone ? item.anotherPhone : ""}
+                    </td>
+
+                    <td className=" border-0 col-2">
+                      {item.codeCupon ? item.codeCupon : ""}
+                    </td>
 
                     {/* <td className=' border-0'>{item.createDate}</td> */}
                   </tr>
-                 
                 </Fragment>
               ))}
             </tbody>
@@ -258,22 +234,17 @@ const mapStateToProps = (state) => {
     products: state.productReducer.products,
     categories: state.categoryReducer.categories,
     orders: state.orderReducer.orders,
-    users:state.userReducer.users
+    users: state.userReducer.users,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
   deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
   updateProduct: (product) => dispatch(actions.updateProduct(product)),
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllOrders: () => dispatch(actions.getAllOrders()),
   getAllUsers: () => dispatch(actions.getAllUsers()),
-
   getProductByID: (id) => dispatch(actions.getProductByID(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersList);
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))

@@ -1,32 +1,33 @@
-import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
-import useModal from '../Popup/useModal';
+import React, { useRef, useState } from "react";
+import { Alert, Button, Card, Form } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import useModal from "../Popup/useModal";
+
 export default function Login() {
   const { toggle } = useModal();
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const { login } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { login } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      setError("")
-      setLoading(true)
-      await login(emailRef.current.value, passwordRef.current.value)
+      setError("");
+      setLoading(true);
+      await login(emailRef.current.value, passwordRef.current.value);
 
-      history.push("/shop")
-
-    } catch {
-      setError("Failed to log in")
+      history.push("/shop");
+    } catch (err) {
+      console.error("err: ", err);
+      setError("Failed to log in");
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
@@ -44,7 +45,12 @@ export default function Login() {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" ref={passwordRef} required />
             </Form.Group>
-            <Button disabled={loading} onClick={toggle} className="w-100 mt-3" type="submit">
+            <Button
+              disabled={loading}
+              onClick={toggle}
+              className="w-100 mt-3"
+              type="submit"
+            >
               Log In
             </Button>
           </Form>
@@ -57,5 +63,5 @@ export default function Login() {
         Need an account? <Link to="/signup">Sign Up</Link>
       </div>
     </>
-  )
+  );
 }

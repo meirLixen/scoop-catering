@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import Nuv from "./Nuv";
-import Header from "../interface-user/Header";
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
+import Header from "../interface-user/Header";
+import Nuv from "./Nuv";
 // import Search from '../Search';
 import { Image } from "react-bootstrap";
 import logo from "../../data/imges/logo.png";
@@ -14,8 +14,8 @@ import underLogo from "../../data/imges/underLogo.png";
 import $ from "jquery";
 import i18 from "../../i18/i18";
 // import searchIcon from '../data/imges/searchIcon.svg'
-import { ReactComponent as YourSvg } from "../../data/imges/searchIcon.svg";
 import { withRouter } from "react-router-dom";
+import { ReactComponent as YourSvg } from "../../data/imges/searchIcon.svg";
 
 export function TopPageDesktop(props) {
   const { language } = props;
@@ -38,7 +38,7 @@ export function TopPageDesktop(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -55,7 +55,7 @@ export function TopPageDesktop(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];

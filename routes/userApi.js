@@ -1,13 +1,29 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const { userMiddleware } = require("../middleware/user");
 
 // API USER:
 
+// Set token cookie by server
+router.post("/auth/setAuthCookie", userMiddleware, (req, res) => {
+  res.status(200).send("ok");
+});
+
 // add user
-router.post("/user", async (req, res) => {
-  const user = new User(req.body);
+router.post("/user", userMiddleware, async (req, res) => {
+  const FBUser = req.user;
+  const bodyUser = req.body;
+
+  if (FBUser.uid !== bodyUser.uid) {
+    return res.status(403).send({
+      data: null,
+      err: { message: "error" },
+    });
+  }
+
+  const user = new User(bodyUser);
   try {
-    const newUser = await user.save(function (err, user) {
+    await user.save(function (err, newUser) {
       if (err) {
         console.error(err);
         return err;
@@ -20,7 +36,7 @@ router.post("/user", async (req, res) => {
 });
 
 // find and update user by uid
-router.post("/users/:uid", async (req, res) => {
+router.post("/users/:uid", userMiddleware, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = Object.keys(new User());
   const isValidOpreration = updates.every((update) => {
@@ -59,8 +75,9 @@ router.post("/updateUserDetails", async (req, res) => {
     console.error(err);
   }
 });
+
 //update password of user
-router.patch("/updateUserPassword", async (req, res) => {
+router.patch("/updateUserPassword", userMiddleware, async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       { email: req.body.email },
@@ -72,9 +89,9 @@ router.patch("/updateUserPassword", async (req, res) => {
     res.status(400).send(error);
   }
 });
-// DELETE USER
 
-router.delete("/user/:id", async (req, res) => {
+// DELETE USER
+router.delete("/user/:id", userMiddleware, async (req, res) => {
   User.findByIdAndDelete(req.params.id, (err, user) => {
     if (err) res.status(400).send(err);
     res.status(200).send(user);
@@ -93,6 +110,7 @@ router.get("/users", async (req, res) => {
       res.status(500).send(err);
     });
 });
+
 // get user by id
 router.get("/user/:id", async (req, res) => {
   try {

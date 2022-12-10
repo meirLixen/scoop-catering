@@ -47,7 +47,7 @@ export function Header(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -64,7 +64,7 @@ export function Header(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
@@ -214,7 +214,6 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
   setLanguage: (lan) => dispatch(actions.setLanguage(lan)),
   setCartRedux: (x) => dispatch(actions.setCartRedux(x)),
   setNumItemsRedux: (NumItems) => dispatch(actions.setNumItemsRedux(NumItems)),

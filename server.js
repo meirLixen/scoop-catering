@@ -16,20 +16,19 @@ const nodemailer = require("nodemailer");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-app.use(cors())
-var products = path.join(__dirname, "public", "images","products");
-var categories = path.join(__dirname, "public", "images","categories");
-var icons = path.join(__dirname, "public", "images","icons");
+const cookieParser = require("cookie-parser");
 
+const products = path.join(__dirname, "public", "images", "products");
+const categories = path.join(__dirname, "public", "images", "categories");
+const icons = path.join(__dirname, "public", "images", "icons");
+
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.static(products));
 app.use(express.static(categories));
 app.use(express.static(icons));
-
-
+app.use(cookieParser());
 
 require("./config/config");
-
-;
 
 app.use(
   bodyParser.urlencoded({
@@ -49,8 +48,7 @@ app.use(
   categoryApi,
   emailApi,
   amountApi,
-  productsOnOrderApi,
- 
+  productsOnOrderApi
 );
 
 app.use(express.json());
@@ -107,89 +105,58 @@ cron.schedule("0 11 * * Monday", function () {
     if (error) {
       throw error;
     } else {
-      console.log("Email successfully sent!");
+      console.error("Email successfully sent!");
     }
   });
 });
 
 const storageEngine = multer.diskStorage({
-destination: "./public/images",
-filename: (req, file, cb) => {
-  cb(null, `${Date.now()}--${file.originalname}`);
-},
+  destination: "./public/images",
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}--${file.originalname}`);
+  },
 });
-
-
-
-
-
 
 //Initializing upload
 const upload = multer({
-storage: storageEngine,
-limits: { fileSize: 10000000 },
-fileFilter: (req, file, cb) => {
-  checkFileType(file, cb);
-},
+  storage: storageEngine,
+  limits: { fileSize: 10000000 },
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  },
 });
 
 const checkFileType = function (file, cb) {
-//Allowed ext
-const fileTypes = /jpeg|JPG|png|gif|svg/;
+  //Allowed ext
+  const fileTypes = /jpeg|JPG|png|gif|svg/;
 
-//check ext
-const extName = fileTypes.test(path.extname(file.originalname));
-console.log(path.extname(file.originalname));
+  //check ext
+  const extName = fileTypes.test(path.extname(file.originalname));
 
-const mimeType = fileTypes.test(file.mimetype);
+  const mimeType = fileTypes.test(file.mimetype);
 
-if (mimeType && extName) {
-  return cb(null, true);
-} else {
-  cb("Error: You can Upload Images Only!!");
-}
+  if (mimeType && extName) {
+    return cb(null, true);
+  } else {
+    cb("Error: You can Upload Images Only!!");
+  }
 };
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.post("/single", upload.single("image"), (req, res) => {
-  console.log("singlesinglesingle");
-console.log(req.file);
-if (req.file) {
-  
-  res.send("Single file uploaded successfully");
-} else {
-  res.status(404).send("Please upload a valid image");
-}
+  if (req.file) {
+    res.send("Single file uploaded successfully");
+  } else {
+    res.status(404).send("Please upload a valid image");
+  }
 });
-
-
 
 app.post("/multiple", upload.array("images", 5), (req, res) => {
-console.log(req.files);
-
-if (req.files) {
-  res.send("Muliple files uploaded successfully");
-} else {
-  res.status(404).send("Please upload a valid images");
-}
+  if (req.files) {
+    res.send("Muliple files uploaded successfully");
+  } else {
+    res.status(404).send("Please upload a valid images");
+  }
 });
-//end---sendMail
-// export let MSGS = {
-//     'key': {
-//         en: 'קוד',
-//         he: "code",
-
-//     }
-// }
-
-// let LANG = localStorage.getItem('LANG');
-// if (!LANG || LANG == '' || LANG == 'undefined') {
-//     LANG = 'he';
-//     localStorage.setItem('LANG', 'he');
-// }
-
-// export const findword = (word) => {
-//     return MSGS[key].LANG
-// }
 
 mongoose
   .connect(process.env.DB_CONNECT, {
@@ -205,4 +172,3 @@ mongoose
     });
   })
   .catch(console.error);
-

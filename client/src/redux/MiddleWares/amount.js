@@ -1,5 +1,5 @@
-import { actions } from "../actions/action";
 import api from "../../api";
+import { actions } from "../actions/action";
 
 export const createAmount =
   ({ dispatch, getState }) =>
@@ -13,7 +13,7 @@ export const createAmount =
             dispatch(actions.setAmount(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -36,7 +36,7 @@ export const updateAmount =
           dispatch(actions.setAmount(res.data));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       return;
     }
@@ -54,7 +54,7 @@ export const deleteAmount =
             dispatch(actions.deleteAmountFromAmounts(action.payload));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       return;
     }
@@ -74,7 +74,7 @@ export const getAllAmounts =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
       });

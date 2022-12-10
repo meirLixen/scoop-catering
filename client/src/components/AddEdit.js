@@ -1,6 +1,6 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 // import { userService, alertService } from '@/_services';
@@ -49,7 +49,7 @@ function AddEdit({ history, match }) {
 
   function createUser(fields, setSubmitting) {
     alert("create");
-    
+
     // userService.create(fields)
     //     .then(() => {
     //         alertService.success('User added', { keepAfterRouteChange: true });
@@ -62,7 +62,6 @@ function AddEdit({ history, match }) {
   }
 
   function updateUser(id, fields, setSubmitting) {
- console.log(fields);
     // userService.update(id, fields)
     //     .then(() => {
     //         alertService.success('User updated', { keepAfterRouteChange: true });
