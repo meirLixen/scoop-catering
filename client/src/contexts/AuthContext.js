@@ -137,9 +137,24 @@ export function AuthProvider({ children }, props) {
     return FBUser;
   }
 
-  function logout() {
+  async function logout() {
+    let user;
+
     setUserDetails([]);
-    return auth.signOut();
+    await auth.signOut();
+
+    try {
+      let userDetails = window.localStorage.getItem("userDetails");
+      userDetails = JSON.parse(userDetails);
+      const userUid = userDetails.uid;
+      user = await getUserByUid(userUid);
+    } catch (error) {
+      console.error(error);
+    }
+
+    console.log(user);
+
+    return window.location.replace("/");
   }
 
   function resetPassword(email) {

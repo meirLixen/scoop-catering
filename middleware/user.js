@@ -13,6 +13,8 @@ async function userMiddleware(req, res, next) {
   const userUid = await FBAuth.verifyIdToken(token);
 
   if (!userUid || !userUid.uid) {
+    res.cookie("token", "");
+
     return res.status(403).send({
       data: null,
       err: { message: "token not valid" },
@@ -21,6 +23,7 @@ async function userMiddleware(req, res, next) {
 
   const user = await FBAuth.getUser(userUid.uid);
 
+  res.cookie("token", token, { maxAge: 900000, httpOnly: false });
   req.user = user;
 
   next();

@@ -1,16 +1,11 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const { userMiddleware, getToken } = require("../middleware/user");
+const { userMiddleware } = require("../middleware/user");
 
 // API USER:
 
 // Set token cookie by server
-router.post("/auth/setAuthCookie", (req, res) => {
-  const token = getToken(req);
-  if (!token) {
-    res.status(404).send("not found");
-  }
-  res.cookie("token", token, { maxAge: 900000, httpOnly: false });
+router.post("/auth/setAuthCookie", userMiddleware, (req, res) => {
   res.status(200).send("ok");
 });
 
