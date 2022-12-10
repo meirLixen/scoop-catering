@@ -26,7 +26,7 @@ router.post("/user", userMiddleware, async (req, res) => {
     });
   }
 
-  const user = new User(req.body);
+  const user = new User(bodyUser);
   try {
     await user.save(function (err, newUser) {
       if (err) {
@@ -65,7 +65,7 @@ router.post("/users/:uid", userMiddleware, async (req, res) => {
 });
 
 //update password of user
-router.patch("/updateUserPassword", async (req, res) => {
+router.patch("/updateUserPassword", userMiddleware, async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       { email: req.body.email },
@@ -79,7 +79,7 @@ router.patch("/updateUserPassword", async (req, res) => {
 });
 
 // DELETE USER
-router.delete("/user/:id", async (req, res) => {
+router.delete("/user/:id", userMiddleware, async (req, res) => {
   User.findByIdAndDelete(req.params.id, (err, user) => {
     if (err) res.status(400).send(err);
     res.status(200).send(user);
@@ -110,7 +110,6 @@ router.get("/user/:id", async (req, res) => {
 });
 
 router.get("/userByUid/:uid", async (req, res) => {
-  console.log(req.params);
   try {
     const user = await User.findOne({ uid: req.params.uid }).populate("orders");
     res.status(200).json({ message: "find user", myuser: user });

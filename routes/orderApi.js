@@ -2,10 +2,12 @@ const router = require("express").Router();
 const Order = require("../models/Order");
 const User = require("../models/User");
 const ProductsOnOrder = require("../models/ProductsOnOrder");
+const { userMiddleware } = require("../middleware/user");
+
 // API ORDER
 
 // add order (add order to user)
-router.post("/order/:userId", async (req, res) => {
+router.post("/order/:userId", userMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.userId });
     const newOrder = new Order({
@@ -49,7 +51,7 @@ router.post("/order/:userId", async (req, res) => {
 });
 
 // edit order
-router.post("/orders/:id", async (req, res) => {
+router.post("/orders/:id", userMiddleware, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["status", "products"];
   const isValidOpreration = updates.every((update) => {
@@ -73,7 +75,7 @@ router.post("/orders/:id", async (req, res) => {
 });
 
 //delete order (delete order from user)
-router.delete("/order/:id", async (req, res) => {
+router.delete("/order/:id", userMiddleware, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
 
@@ -105,6 +107,7 @@ router.get("/orders", async (req, res) => {
       res.status(404).send(err);
     });
 });
+
 // get order by id
 router.get("/order/:id", async (req, res) => {
   const id = req.params.id;
@@ -124,4 +127,5 @@ router.get("/order/:id", async (req, res) => {
     });
   console.error("feild3");
 });
+
 module.exports = router;

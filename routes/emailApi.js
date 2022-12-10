@@ -61,6 +61,7 @@ router.get("/emails", async (req, res) => {
       res.status(500).send(err);
     });
 });
+
 // get email by id
 router.get("/email/:id", async (req, res) => {
   const id = req.params.id;
@@ -75,6 +76,7 @@ router.get("/email/:id", async (req, res) => {
       res.status(500).send(err);
     });
 });
+
 router.post("/api/sendEmail", (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
@@ -120,6 +122,7 @@ router.post("/api/sendEmail", (req, res) => {
     });
   });
 });
+
 router.post("/sendEmail", (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",

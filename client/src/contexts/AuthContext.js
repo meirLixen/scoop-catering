@@ -129,7 +129,7 @@ export function AuthProvider({ children }, props) {
   async function login(email, password) {
     let FBUser = await auth.signInWithEmailAndPassword(email, password);
     const SVUser = await getUserByUid(FBUser.user?._delegate?.uid);
-    const isOk = await setAuthCookieByServer(FBUser);
+    await setAuthCookieByServer(FBUser);
 
     setCurrentUser(FBUser.user);
     setUserDetails(SVUser.myuser);
