@@ -162,6 +162,11 @@ h1 {
   height: 35px !important;
 }
 
+.rounded-input {
+  border-radius: 20px !important;
+
+}
+
 .customShadow {
   box-shadow: 0 0px 4px 0px rgb(0 0 0 / 25%) !important;
 }
@@ -770,8 +775,11 @@ form .icon-ltr:focus {
 
 .gold-border {
   border: 1px solid #c59950 !important;
+  
 }
-
+.gold-border:focus-visible{
+  outline: none !important;
+}
 .goldColorWithShadow {
   color: #c59950 !important;
   text-shadow: 2px 2px 2px black;
@@ -893,6 +901,7 @@ form .icon-ltr:focus {
 .productItem {
   border-bottom: 2px solid #c4c4c4 !important;
 }
+
 /* .productName {
   font-size: 1.5rem;
 } */
@@ -1295,9 +1304,11 @@ form .icon-ltr:focus {
   align-items: center;
   flex-direction: column;
 }
-a .categoryButton{
-  font-size: 16px!important;
+
+a .categoryButton {
+  font-size: 16px !important;
 }
+
 .categoryButton {
   margin: auto;
   width: 100%;
@@ -1355,15 +1366,17 @@ a .categoryButton{
 .categoryItem img {
   vertical-align: bottom;
 }
-.goldButtonShop{
+
+.goldButtonShop {
   font-weight: 400 !important;
-    font-size: 18px !important;
-    line-height: 1 !important;
-    font-family: "Ploni", "Dosis", sans-serif !important;
-    background-color: #c39957 !important;
-    color: #ffffff !important;
-    border: none !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-family: "Ploni", "Dosis", sans-serif !important;
+  background-color: #c39957 !important;
+  color: #ffffff !important;
+  border: none !important;
 }
+
 .goldButton {
   border: none !important;
   background-color: #c39957 !important;
@@ -1410,6 +1423,11 @@ a .categoryButton{
   color: white;
 }
 
+.goldbg {
+  background-color: #c39957 !important;
+
+}
+
 .mr61 {
   margin-right: 61%;
 }
@@ -1425,7 +1443,8 @@ a .categoryButton{
 .smallFont {
   font-size: 1rem;
 }
-small{
+
+small {
   font-size: 1rem !important;
 }
 
@@ -1472,7 +1491,10 @@ small{
   background-color: #c39957 !important;
   border-color: #c39957 !important;
 }
-
+#newOutOfStock:checked{
+  background-color: #c39957 !important;
+  border-color: #c39957 !important;
+}
 .check-height {
   height: 60% !important;
 }
@@ -1519,11 +1541,42 @@ small{
   /* border-radius: 20px; */
 }
 
+
+.customOverflow::-webkit-scrollbar {
+  width: 5px !important;
+}
+
 .inputOf_Search::-webkit-search-cancel-button {
   position: relative;
   right: 20px;
 }
 
+
+/* managerInterface */
+.hiddenFileInput>input {
+  height: 100%;
+  width: 100;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.hiddenFileInput {
+  border: 1px solid #ccc;
+  width: 120px !important;
+  height: 100px;
+  background-color: #e3e3e3;
+  display: inline-block;
+  overflow: hidden;
+  cursor: pointer;
+  background: center center no-repeat;
+  background-size: 100%;
+  margin-right: 30%;
+
+}
+.errorInput{
+  color: red;
+  font-size: 15px;
+}
 /* 
 
 

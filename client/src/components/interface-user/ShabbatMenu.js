@@ -665,7 +665,8 @@ function ShabbatMenu(props) {
                                 </span>
                                 <input
                                   type="text"
-                                  defaultValue="1"
+                                  // defaultValue="1"
+                                  value={1}
                                   className=" text-black bg-white pt-0 pb-0   mt-2 input_number fontNumber gold-border"
                                 />
                                 <span
@@ -938,7 +939,8 @@ function ShabbatMenu(props) {
                               </span>
                               <input
                                 type="text"
-                                defaultValue="1"
+                                // defaultValue="1"
+                                value={1}
                                 className=" text-black bg-white pt-0 pb-0  m-1 mt-2 input_number fontNumber gold-border"
                               />
                               <span
@@ -1160,7 +1162,8 @@ function ShabbatMenu(props) {
                                         </span>
                                         <input
                                           type="text"
-                                          defaultValue="1"
+                                          // defaultValue="1"
+                                          value={1}
                                           className=" text-black bg-white pt-0 pb-0  m-1 mt-2 input_number fontNumber gold-border"
                                         />
                                         <span
@@ -1212,7 +1215,7 @@ function ShabbatMenu(props) {
               <div className="  px-1 sidColumn col-12">
                 <div className=" mt-1 mb-3 actionSection col-12 p-0">
                   <div className="py-2 col-12 text-center font-weight-bold_ incrementFont">
-                    {i18.t("hello")},
+                    {i18.t("hello")},{" "}
                     {currentUser ? (
                       <>
                         {/* <a className='px-2 text-black' onClick={() => props.history.push('/login')} href=""> התחבר </a> */}
@@ -1377,7 +1380,8 @@ function ShabbatMenu(props) {
                             </span>
                             <input
                               type="text"
-                              defaultValue="1"
+                              // defaultValue="1"
+                              value={1}
                               className="AmountInput p-0 text-black bg-white    m-1 my-0 small_input_number fontNumber gold-border"
                             />
                             <span
@@ -1428,7 +1432,8 @@ function ShabbatMenu(props) {
                             </span>
                             <input
                               type="text"
-                              defaultValue="1"
+                              // defaultValue="1"
+                              value={1}
                               className="AmountInput p-0 text-black bg-white    m-1 my-0 small_input_number fontNumber gold-border"
                             />
                             <span
@@ -1478,7 +1483,8 @@ function ShabbatMenu(props) {
                             </span>
                             <input
                               type="text"
-                              defaultValue="1"
+                              // defaultValue="1"
+                              value={1}
                               className="AmountInput p-0 text-black bg-white    m-1 my-0 small_input_number fontNumber gold-border"
                             />
                             <span

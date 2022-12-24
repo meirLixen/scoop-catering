@@ -206,7 +206,7 @@ function UsersList(props) {
                   value="outOfStock"
                   id="outOfStock"
                 >
-                  סיסמא
+                  סיסמה
                 </th>
                 <th
                   className=" lableForm col-1"

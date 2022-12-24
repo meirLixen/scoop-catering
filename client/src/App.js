@@ -25,6 +25,7 @@ import { actions } from "./redux/actions/action";
 import Policy from "./components/interface-user/policy";
 import Dashboard from "./components/Firebase/Dashboard";
 import Login from "./components/Firebase/Login";
+import forgotPassword from "./components/Firebase/ForgotPassword"
 import PrivateRoute from "./components/Firebase/PrivateRoute";
 import Signup from "./components/Firebase/Signup";
 import UpdateProfile from "./components/Firebase/UpdateProfile";
@@ -49,6 +50,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
+          <Route path="/forgot-password" component={forgotPassword} />
 
           <div className="App">
             <PrivateRoute

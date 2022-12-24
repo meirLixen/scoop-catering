@@ -73,7 +73,7 @@ function OrderSummary(props) {
           categories.map((category) => (
             <Tab eventKey={category._id} title={category.hebrewName}>
               <Preview id={"to" + category._id}>
-                <div className="m-3"> סיכום הזמנות</div>
+                <div className="m-3"> סיכום הזמנות : {category.hebrewName}</div>
 
                 <div className="col-md-12 productList ">
                   <Table bordered hover size="sm" className="w-50 m-auto">
@@ -85,8 +85,8 @@ function OrderSummary(props) {
                     </thead>
 
                     <tbody id="tableBody">
-                      {data &&
-                        data
+                      {productsOnOrder &&
+                        productsOnOrder
                           .filter(
                             (item) => item.productId.categoryID === category._id
                           )

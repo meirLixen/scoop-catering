@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 export function Payment(props) {
   const [creditCardDetails, setCreditCardDetails] = useLocalStorage("creditCardDetails", []);
   const [yearList, setYearList] = useState([]);
-  const [monthList] = useState(["Janaury", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+  const [monthList] = useState(["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"])
   const now = new Date;
 
   const { t, i18n } = useTranslation();
@@ -106,7 +106,7 @@ export function Payment(props) {
         "shippingAddress": currentOrder.shippingAddress,
         "products": currentOrder.products
       }
-      let CardNumber=$("#CardNumber").val()
+      let CardNumber = $("#CardNumber").val()
       validateCreditCard(CardNumber)
 
       setCreditCardDetails({
@@ -120,7 +120,7 @@ export function Payment(props) {
       })
 
       // if(creditCardDetails)//if the payment success
-     // const order = await props.createOrder(newOrder)
+      // const order = await props.createOrder(newOrder)
       // else{
       //   alert("somthing wrong")
       // }
@@ -128,9 +128,9 @@ export function Payment(props) {
   }
   useEffect(() => {
     if (yearList) {
-      let tempList = [], min = now.getFullYear() - 50
-      let max = now.getFullYear() + 11
-      for (let i = 1950; i < max; i++)
+      let tempList = [], min = now.getFullYear()
+      let max = now.getFullYear() + 14
+      for (let i = min; i < max; i++)
         tempList.push(i)
       setYearList(tempList)
     }
@@ -233,15 +233,15 @@ export function Payment(props) {
                         inputmode="numeric"
                         pattern="[0-9\s]{13,19}"
                         autocomplete="cc-number"
-                        maxLength="19"
+                        maxLength="21"
                         placeholder=""
                         required
                         onChange={(e) => CharacterPrevention(e)}
-                       
+
                         id="CardNumber"
                       />
-                      <span  className={errorMessage!==""?"px-2 small":"d-none"} style={{
-                        
+                      <span className={errorMessage !== "" ? "px-2 small" : "d-none"} style={{
+
                         color: 'red',
                       }}>{i18.t(errorMessage)}</span>
                     </Form.Group>
@@ -276,7 +276,13 @@ export function Payment(props) {
                           >
                             <option value="" disabled selected >{i18.t("Month")}</option>
                             {monthList && monthList.map((month, index) =>
-                              <option value={index + 1}>{i18.t(month)}</option>
+                           
+                              <option value={index + 1}>{month}</option>
+                            
+                           
+
+                            
+                             
 
 
                             )}

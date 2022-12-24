@@ -40,7 +40,7 @@ export function Checkout(props) {
 
   let previousClick = "empty";
   let currentClass;
-  
+
 
   const EditUserDetails = () => {
     setShowEditDetails(true);
@@ -61,8 +61,8 @@ export function Checkout(props) {
     setShowEditDetails(false);
     setShowDetails(true);
   }
-  const updateDetails = async () => {
-    debugger
+  const updateDetails = async (e) => {
+    e.preventDefault();
     let updatsFileds = {
       "createDate": userDetails.createDate,
       "orders": userDetails.orders,
@@ -89,7 +89,7 @@ export function Checkout(props) {
     })
     console.log("mkmk", res);
     console.log("res++", res);
-
+    back()
   }
 
   function useLocalStorage(key, initialValue) {
@@ -134,6 +134,11 @@ export function Checkout(props) {
 
     setFreightCost(res)
   }
+  function checkAddress() {
+    if (!userDetails.address || !userDetails.city) {
+      alert("you must edit address in the Editing personal details")
+    }
+  }
   function ContinueToPay() {
     debugger
 
@@ -150,8 +155,13 @@ export function Checkout(props) {
         address = $("#OtherVal2").val()
       }
       else {
-        city = userDetails.city
-        address = userDetails.address
+
+
+
+        city = userDetails.city && userDetails.city
+        address = userDetails.address && userDetails.address
+
+
       }
 
 
@@ -178,8 +188,13 @@ export function Checkout(props) {
           "products": products
         }
       )
+      if ($('.shippingMethodSelect').attr('name') === "HomeDelivery" && !userDetails.address || !userDetails.city) {
+        alert("you must edit address in the Editing personal details")
+      }
+      else {
+        props.history.push("/Payment")
+      }
 
-      props.history.push("/Payment")
     }
     else {
       alert("you must sign regulations")
@@ -345,7 +360,7 @@ export function Checkout(props) {
               {showDetails && (
                 <div className="userDetailsSection">
                   <div>
-                    <h5 className="font-weight-bold Name">{userDetails.fullName && userDetails.fullName}</h5>
+                    <h5 className="font-weight-bold Name">{userDetails.fullName ? userDetails.fullName : userDetails.firstName + " " + userDetails.lastName}</h5>
                     <h5 className="Address">{userDetails.address && userDetails.address}  {userDetails.city && i18.t(userDetails.city)}</h5>
                     <h6 className="Email">{userDetails.email && userDetails.email}</h6>
                   </div>
@@ -358,7 +373,7 @@ export function Checkout(props) {
 
                 >
 
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="FullName" id="FullNameInput"></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("FullName")} id="FullNameInput"></input>
 
                   <div className="d-flex justify-content-between">
 
@@ -384,11 +399,11 @@ export function Checkout(props) {
                       )}
                     </select>
                     {/* <input type="text"  placeholder={i18.t("AreaOrCity")} id="CityInput"></input> */}
-                    <input type="text" class={language == "he" ? "icon-rtl col-6" : "icon-ltr col-5"} placeholder="Address" id="AddressInput"></input>
+                    <input type="text" class={language == "he" ? "icon-rtl col-6" : "icon-ltr col-5"} placeholder={i18.t("Address")} id="AddressInput"></input>
                   </div>
 
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="Email" id="EmailInput"></input>
-                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder="phone" id="phoneInput"></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("email")} id="EmailInput"></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("phone")} id="phoneInput"></input>
 
                   <div className="d-flex     justify-content-between">
 
@@ -548,6 +563,7 @@ export function Checkout(props) {
 
 
                     id="HomeDelivery"
+                    onClick={checkAddress}
                     className="col-3  shippingOption p-2 text-center"
 
                   >
@@ -684,27 +700,27 @@ export function Checkout(props) {
 
             <div className="">
 
-              <div className="form-check d-flex align-items-center">
+              <div className="form-check d-flex ">
                 <input
                   className="form-check-input check-height regulations1"
                   type="checkbox"
 
                   id="regulations"
                 />
-                 <span
+                <span
                   className="form-check-label mr-4 "
                   htmlFor="flexCheckDefault"
                   style={{ fontSize: "smaller" }}
                 >
-                  {i18.t("ApprovalOfRegulations")}
-                  <a target="_blank" style={{color:"black"}} href="/policy">
-                 {i18.t("Policy")}
-                </a>
+                  {i18.t("ApprovalOfRegulations")} {" "}
+                  <a target="_blank" style={{ color: "black" }} href="/policy">
+                    {i18.t("Policy")}
+                  </a>
                 </span>
-                 
-               
+
+
               </div>
-              <div className="form-check d-flex align-items-center">
+              <div className="form-check d-flex ">
                 <input
                   className="form-check-input check-height"
                   type="checkbox"
