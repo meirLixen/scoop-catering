@@ -1,27 +1,24 @@
+import $ from "jquery";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-// import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
-
-// import Search from '../Search'
-import salads from "../../data/imges/foodCategories/Pictures/fishh.png";
-import appetizers from "../../data/imges/foodCategories/Pictures/shabbat.png";
-import bakery from "../../data/imges/foodCategories/Pictures/bakery.png";
-import commentIcon from "../../data/imges/comment.png";
-import searchIcom_ from "../../data/imges/searchIcom_.png";
-import desserts from "../../data/imges/foodCategories/Pictures/desserts.png";
-import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
-import deleteIcom from "../../data/imges/delete.png";
-
-import useModal from "../Popup/useModal";
-import "../Popup/Modal.css";
-
 import "../../App.css";
-import $ from "jquery";
+import commentIcon from "../../data/imges/comment.png";
+import deleteIcom from "../../data/imges/delete.png";
+import bakery from "../../data/imges/foodCategories/Pictures/bakery.png";
+import desserts from "../../data/imges/foodCategories/Pictures/desserts.png";
+import salads from "../../data/imges/foodCategories/Pictures/fishh.png";
+import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
+import appetizers from "../../data/imges/foodCategories/Pictures/shabbat.png";
+import searchIcom_ from "../../data/imges/searchIcom_.png";
 import i18 from "../../i18/i18";
+import { actions } from "../../redux/actions/action";
+import "../Popup/Modal.css";
+import useModal from "../Popup/useModal";
+
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
+
 function MenuScroll(props) {
   const { toggle } = useModal();
 
@@ -124,7 +121,6 @@ function MenuScroll(props) {
     } else {
       $(currentClass).addClass("active");
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== categoryId) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -148,7 +144,6 @@ function MenuScroll(props) {
       $(currentClass).addClass("active");
 
       $("." + (index - 1)).addClass("removeBottom");
-      console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
@@ -162,7 +157,6 @@ function MenuScroll(props) {
   }
 
   const deleteItem = async (id) => {
-    // console.log($('#' + id + ' ' + '.amountToBuy' + ' ' + 'input').val());
     let totalTodel;
     let less;
 
@@ -239,7 +233,7 @@ function MenuScroll(props) {
 
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -253,17 +247,10 @@ function MenuScroll(props) {
 
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];
-  }
-
-  if (!products || !products.length) {
-     props.getAllProducts()
-  }
-  if (!categories || !categories.length) {
-    props.getAllCategories();
   }
 
   const changeAmount = async (id, action) => {
@@ -915,12 +902,9 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   setCartRedux: (x) => dispatch(actions.setCartRedux(x)),
   setNumItemsRedux: (x) => dispatch(actions.setNumItemsRedux(x)),
   setTotalRedux: (Total) => dispatch(actions.setTotalRedux(Total)),
   setUser: (user) => dispatch(actions.setUser(user)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MenuScroll);
-// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductList))

@@ -1,17 +1,12 @@
-import React, { useEffect, useState, Fragment } from "react";
-
-import { connect } from "react-redux";
-// import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
+import $ from "jquery";
+import React, { Fragment, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import Table from "react-bootstrap/Table";
-// import { Formik, Field, Select, Form } from 'formik';
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-// import BootstrapTable from 'react-bootstrap-table-next';
-// omit...
+import Table from "react-bootstrap/Table";
+import { connect } from "react-redux";
 import "../../App.css";
-import $ from "jquery";
+import { actions } from "../../redux/actions/action";
 
 function Orders(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
@@ -27,21 +22,11 @@ function Orders(props) {
   // const [isLoaded, setIsLoaded] = useState(false);
   // const [error, setError] = useState(null);
 
-  if (!props.products || !props.products.length) {
-    props.getAllProducts()
-  }
   if (!props.orders || !props.orders.length) {
     props.getAllOrders();
-
-  }
-  if (!categories || !categories.length) {
-    props.getAllCategories();
   }
 
   useEffect(() => {
-
-
-
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -65,7 +50,6 @@ function Orders(props) {
           }
           // if (a[sortProperty] !== "" && a[sortProperty] !== undefined && b[sortProperty] !== "" && b[sortProperty] !== undefined)
           else if (sortProperty.match(regex)) {
-            console.log(sortProperty);
             return a[sortProperty].localeCompare(b[sortProperty]);
           } else {
             return b[sortProperty] - a[sortProperty];
@@ -104,8 +88,6 @@ function Orders(props) {
       });
       setCategoryList(list);
     }
-
-    console.log("list:::::::::::" + categoryList.length);
   };
 
   function deleteProduct() {
@@ -139,8 +121,10 @@ function Orders(props) {
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
-              מס' הזמנות: {orders.filter(order => order.status !== 'done').length}
+              מס' הזמנות:{" "}
+              {orders.filter((order) => order.status !== "done").length}
             </div>
+            <div className="col-6  text-end">מס' הזמנות: {orders.length}</div>
             <div className="col-6 text-start row d-flex">
               <div className="col-md-6">
                 {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
@@ -151,28 +135,13 @@ function Orders(props) {
                   onChange={(e) => changeCategory(e)}
                 >
                   <option value="selectCategory">סינון לפי</option>
-                  <option>
-                    מס' הזמנה
-                  </option>
-                  <option>
-                    שם לקוח
-                  </option>
-                  <option >
-                    סכום
-                  </option>
-                  <option >
-                    עיר
-                  </option>
-                  <option >
-                    כתובת משלוח
-                  </option>
-                  <option>
-                    תאירך הזמנה
-                  </option>
-                  <option >
-                    אמצעי תשלום
-                  </option>
-
+                  <option>מס' הזמנה</option>
+                  <option>שם לקוח</option>
+                  <option>סכום</option>
+                  <option>עיר</option>
+                  <option>כתובת משלוח</option>
+                  <option>תאירך הזמנה</option>
+                  <option>אמצעי תשלום</option>
                 </Form.Select>
               </div>
               <div className="col-md-6">
@@ -220,27 +189,35 @@ function Orders(props) {
             </thead>
 
             <tbody className="table-responsive">
-              {orders.map((item, index) => item.status !== 'done' && (
-
-                <Fragment key={index}>
-                  <tr className=" bg-white  col-12 ">
-                    <td className=" border-0 col-2">208090</td>
-                    <td className=" border-0 col-2">{item.userId.fullName}</td>
-                    <td className=" border-0 col-1">
-                      {item.CostToPay} &#8362;
-                    </td>
-                    <td className=" border-0 col-1">{item.city}</td>
-                    <td className=" border-0 col-2">{item.shippingAddress}</td>
-                    <td className=" border-0 col-2">{item.date}</td>
-                    <td className=" border-0 col-2">{item.MethodsOfPayment}</td>
-                    {/* <td className=' border-0'>{item.createDate}</td> */}
-                  </tr>
-                  <tr
-                    className="bg-transparent"
-                    style={{ height: "15px" }}
-                  ></tr>
-                </Fragment>
-              ))}
+              {orders.map(
+                (item, index) =>
+                  item.status !== "done" && (
+                    <Fragment key={index}>
+                      <tr className=" bg-white  col-12 ">
+                        <td className=" border-0 col-2">208090</td>
+                        <td className=" border-0 col-2">
+                          {item.userId.fullName}
+                        </td>
+                        <td className=" border-0 col-1">
+                          {item.CostToPay} &#8362;
+                        </td>
+                        <td className=" border-0 col-1">{item.city}</td>
+                        <td className=" border-0 col-2">
+                          {item.shippingAddress}
+                        </td>
+                        <td className=" border-0 col-2">{item.date}</td>
+                        <td className=" border-0 col-2">
+                          {item.MethodsOfPayment}
+                        </td>
+                        {/* <td className=' border-0'>{item.createDate}</td> */}
+                      </tr>
+                      <tr
+                        className="bg-transparent"
+                        style={{ height: "15px" }}
+                      ></tr>
+                    </Fragment>
+                  )
+              )}
             </tbody>
           </Table>
         </div>
@@ -260,12 +237,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
   deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
   updateProduct: (product) => dispatch(actions.updateProduct(product)),
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllOrders: () => dispatch(actions.getAllOrders()),
 
   getProductByID: (id) => dispatch(actions.getProductByID(id)),

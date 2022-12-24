@@ -1,6 +1,6 @@
+import $ from "jquery";
 import React, { useEffect } from "react";
 import decorite from "../../data/imges/decorite.png";
-import $ from "jquery";
 
 // import Nuv from './Nuv';
 // import bg1 from '../../assets/img/bg1.jpg'
@@ -43,7 +43,6 @@ export function Section() {
               else $(".left_side").addClass("d-none");
             }
             previousClick = $(this).attr("id");
-            console.log(previousClick);
           }
         }
       });

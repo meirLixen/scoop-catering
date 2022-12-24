@@ -1,17 +1,14 @@
 import React from "react";
-import { connect } from "react-redux";
-import { actions } from "../../redux/actions/action";
-// import { Form } from 'react-bootstrap';
-import "../../App.css";
-import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-// import Sonnet from 'react-bootstrap/Sonnet'
-import ProductListManager from "./ProductListManager";
-// import { Tab, Sonnet } from 'react-bootstrap-tabs';
-import OrderSummary from "./OrderSummary";
+import Tabs from "react-bootstrap/Tabs";
+import { connect } from "react-redux";
+import "../../App.css";
+import { actions } from "../../redux/actions/action";
 import Orders from "./orders";
-import UsersList from "./UsersList"
-// import Example from '../Example';
+import OrderSummary from "./OrderSummary";
+import ProductListManager from "./ProductListManager";
+import UsersList from "./UsersList";
+
 export function ManagerInterface(props) {
   return (
     <>
@@ -36,22 +33,23 @@ export function ManagerInterface(props) {
               <Tab eventKey="orderList" title="הזמנות">
                 <Orders />
               </Tab>
-              <Tab eventKey="OrderSummary" title="סיכום הזמנות" >
+              <Tab eventKey="OrderSummary" title="סיכום הזמנות">
                 <OrderSummary />
               </Tab>
             </Tabs>
           </Tab>
-          <Tab eventKey="products" title="מוצרים" >
+          <Tab eventKey="products" title="מוצרים">
             <ProductListManager />
           </Tab>
           <Tab eventKey="users" title="משתמשים">
-          <UsersList />
+            <UsersList />
           </Tab>
         </Tabs>
       </div>
     </>
   );
 }
+
 const mapStateToProps = (state) => {
   return {
     products: state.productReducer.products,
@@ -62,7 +60,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   createProduct: (product) => dispatch(actions.createProduct(product)),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllAmounts: () => dispatch(actions.getAllAmounts()),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(ManagerInterface);

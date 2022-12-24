@@ -1,10 +1,11 @@
 const router = require("express").Router();
+const { userMiddleware } = require("../middleware/user");
 const ProductsOnOrder = require("../models/ProductsOnOrder");
 
 // API ProductsOnOrder:
 
 //add ProductsOnOrder
-router.post("/productOnOrder", async (req, res) => {
+router.post("/productOnOrder", userMiddleware, async (req, res) => {
   const productsOnOrder = new ProductsOnOrder(req.body);
   try {
     const newProductsOnOrder = await productsOnOrder.save(function (
@@ -23,7 +24,7 @@ router.post("/productOnOrder", async (req, res) => {
 });
 
 // edit productsOnOrder
-router.post("/productsOnOrder/:id", async (req, res) => {
+router.post("/productsOnOrder/:id", userMiddleware, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = Object.keys(new ProductsOnOrder());
   const isValidOpreration = updates.every((update) => {
@@ -48,7 +49,7 @@ router.post("/productsOnOrder/:id", async (req, res) => {
 });
 
 //delete productsOnOrder
-router.delete("/productsOnOrder/:id", async (req, res) => {
+router.delete("/productsOnOrder/:id", userMiddleware, async (req, res) => {
   ProductsOnOrder.findByIdAndDelete(req.params.id, (err, productsOnOrder) => {
     if (err) res.status(400).send(err);
     res.status(200).send(productsOnOrder);

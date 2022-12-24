@@ -1,23 +1,23 @@
+import $ from "jquery";
 import React, { useEffect, useState } from "react";
-import validator from 'validator'
-import "../../App.css";
+import { Form } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
+import validator from 'validator';
+import "../../App.css";
+import useMediaQuery from "../../hooks/useMediaQuery";
+import i18 from "../../i18/i18";
 import { actions } from "../../redux/actions/action";
 import Footer from "../mainPage/Footer";
-import UnderFooter from "../mainPage/UnderFooter";
-import useMediaQuery from "../../hooks/useMediaQuery";
-import { Form } from "react-bootstrap";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-import $ from "jquery";
-import i18 from "../../i18/i18";
-import { useTranslation } from 'react-i18next';
+import UnderFooter from "../mainPage/UnderFooter";
 
 export function Payment(props) {
   const [creditCardDetails, setCreditCardDetails] = useLocalStorage("creditCardDetails", []);
   const [yearList, setYearList] = useState([]);
   const [monthList] = useState(["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"])
-  const now = new Date;
+  const now = new Date();
 
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery(768);
@@ -52,7 +52,7 @@ export function Payment(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.log(error);
+        console.error(error);
         return initialValue;
       }
     });
@@ -69,7 +69,7 @@ export function Payment(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.log(error);
+        console.error(error);
       }
     };
     return [storedValue, setValue];

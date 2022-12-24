@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from "react";
-import axios from 'axios'
-import { Formik, Form, Field } from "formik";
+import axios from 'axios';
+import { Field, Form, Formik } from "formik";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 // import { Form } from 'react-bootstrap';
-import "../../App.css";
-import $ from "jquery";
 import Modal from "react-bootstrap/Modal";
 import api from "../../api";
-import * as Yup from 'yup';
+import "../../App.css";
 
 // import Form from 'react-bootstrap/Form'
 
 export function NewProduct(props, { product }) {
+  let temp = 0;
 
-  let temp = 0
-
-  let [deletedPrices, setdeletedPrices] = useState([])
+  let [deletedPrices, setdeletedPrices] = useState([]);
   const [show, setShow] = useState(false);
   const [count, setCount] = useState(0);
-
 
   const handleClose = () => setShow(false);
   // const [names, setNames] = useState([]);
@@ -27,60 +23,37 @@ export function NewProduct(props, { product }) {
   // const [checked, setChecked] = useState(true);
   const { categories } = props;
   const { amounts } = props;
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-  }
+
   if (!amounts || !amounts.length) {
     props.getAllAmounts();
   }
 
-  useEffect(() => {
-    if ($) {
-      // $(".saveProduct").on("click", function () {
-      //     console.log("save");
-      //     $('#newName').val('')
-      //     $('#newDescription').val('')
-      //     $('#newStatus').val('')
-    }
-  }, []);
   // const { createProduct } = props
   const onSubmit = async (fields) => {
-    debugger
-
-    console.log(fields);
     // event.preventDefault();
-    var priceList = []
+    var priceList = [];
 
     var result = Object.entries(fields);
-    var amount = "", price = ""
+    var amount = "",
+      price = "";
 
-    let res = result.filter(item => !deletedPrices.includes(item[0]))
+    let res = result.filter((item) => !deletedPrices.includes(item[0]));
 
     res.map((item, index) => {
+      if (res[index][0].startsWith("amountId")) amount = res[index][1];
 
-      if (res[index][0].startsWith('amountId'))
-        amount = res[index][1]
-
-      if (res[index][0].startsWith('price'))
-        price = res[index][1]
+      if (res[index][0].startsWith("price")) price = res[index][1];
 
       if (amount != "" && price != "") {
         priceList[temp] = {
-          "amount": amount,
-          "price": price
-        }
-        amount = ""
-        price = ""
+          amount: amount,
+          price: price,
+        };
+        amount = "";
+        price = "";
         temp++;
       }
-
-    })
-    console.log("priceList", priceList);
-
-
-
-
-
+    });
     const newProduct = {
       name: fields.name,
       hebrewName: fields.hebrewName,
@@ -125,8 +98,10 @@ export function NewProduct(props, { product }) {
 
   function addPrice(index) {
     return (
-      <div className="d-flex  row align-items-center pl-2" id={"productPrice" + index}>
-
+      <div
+        className="d-flex  row align-items-center pl-2"
+        id={"productPrice" + index}
+      >
         <div className="form-group col-6">
           <lable className="lableForm">כמות:</lable>
           <Field
@@ -135,9 +110,7 @@ export function NewProduct(props, { product }) {
             id={"newAmount" + index}
             className="browser-default custom-select  rounded-0"
           >
-            <option value={""}>
-
-            </option>
+            <option value={""}></option>
             {amounts.map((amount) => (
               <option key={amount._id} value={amount._id}>
                 {amount.hebrewName}
@@ -156,27 +129,28 @@ export function NewProduct(props, { product }) {
           />
         </div>
         <div className="col-2 mt-2">
-          <button type="button" onClick={() => removePrice("productPrice" + index)} style={{ fontSize: '19px' }}>x</button>
+          <button
+            type="button"
+            onClick={() => removePrice("productPrice" + index)}
+            style={{ fontSize: "19px" }}
+          >
+            x
+          </button>
         </div>
       </div>
-
-    )
-
+    );
   }
   function removePrice(elemntId) {
-    debugger
     if (elemntId) {
-      let tempArray = deletedPrices
+      let tempArray = deletedPrices;
       const myArray = elemntId.split("productPrice");
-      const currentID = myArray[1]
-      tempArray.push("amountId" + currentID)
-      tempArray.push("price" + currentID)
-      setdeletedPrices(tempArray)
-      document.getElementById(elemntId) && document.getElementById(elemntId).remove();
-
-
+      const currentID = myArray[1];
+      tempArray.push("amountId" + currentID);
+      tempArray.push("price" + currentID);
+      setdeletedPrices(tempArray);
+      document.getElementById(elemntId) &&
+        document.getElementById(elemntId).remove();
     }
-
   }
   const handleSubmit = async (values) => {
     alert(values.name);
@@ -315,8 +289,10 @@ export function NewProduct(props, { product }) {
                   />
                 </div>
                 {/* <div className="pricesDiv"> */}
-                <div className="d-flex  row align-items-center pl-2" id="productPrice">
-
+                <div
+                  className="d-flex  row align-items-center pl-2"
+                  id="productPrice"
+                >
                   <div className="form-group col-6">
                     <lable className="lableForm">כמות:</lable>
                     <Field
@@ -325,9 +301,7 @@ export function NewProduct(props, { product }) {
                       id="newAmount"
                       className="browser-default custom-select  rounded-0"
                     >
-                      <option value={""}>
-
-                      </option>
+                      <option value={""}></option>
                       {amounts.map((amount) => (
                         <option key={amount._id} value={amount._id}>
                           {amount.hebrewName}
@@ -347,15 +321,19 @@ export function NewProduct(props, { product }) {
                   </div>
 
                   <div className="col-2 mt-2">
-                    <button type="button" onClick={() => setCount(count + 1)} style={{ fontSize: '19px' }}>+</button>
+                    <button
+                      type="button"
+                      onClick={() => setCount(count + 1)}
+                      style={{ fontSize: "19px" }}
+                    >
+                      +
+                    </button>
                     {/* <button type="button" onClick={()=>removePrice("productPrice")}>x</button> */}
                   </div>
-
                 </div>
                 {/* </div> */}
 
                 {[...Array(count)].map((_, i) => addPrice(i))}
-
 
                 <div className="form-group">
                   <lable className="lableForm">קטגוריה:</lable>
@@ -365,9 +343,7 @@ export function NewProduct(props, { product }) {
                     id="newCategory"
                     className="browser-default custom-select  rounded-0"
                   >
-                    <option value={""}>
-
-                    </option>
+                    <option value={""}></option>
                     {categories.map((category) => (
                       <option key={category._id} value={category._id}>
                         {category.hebrewName}
@@ -404,7 +380,6 @@ export function NewProduct(props, { product }) {
                     />
                     <lable className="mr-1 lableForm my-0">מומלץ</lable>
                   </div>
-
                 </div>
 
                 <span className="hiddenFileInput" style={{ backgroundImage: `url(${image})` }}>
@@ -425,9 +400,7 @@ export function NewProduct(props, { product }) {
 
 
             {/* <button className="btn    goldButton " id="editProduct" type="submit" >עדכן מוצר</button> */}
-
           </Form>
-
         )}
       </Formik>
     </>
@@ -443,7 +416,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   createProduct: (product) => dispatch(actions.createProduct(product)),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllAmounts: () => dispatch(actions.getAllAmounts()),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(NewProduct);

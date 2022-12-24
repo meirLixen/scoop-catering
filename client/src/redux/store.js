@@ -1,12 +1,13 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from "redux";
 
-import AppReducers from './reducers/AppReducers';
-import AppMiddleware from './MiddleWares/AppMiddleware'
+import AppMiddleware from "./MiddleWares/AppMiddleware";
+import AppReducers from "./reducers/AppReducers";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(AppReducers, composeEnhancers(applyMiddleware(...AppMiddleware))
-
+const store = createStore(
+  AppReducers,
+  composeEnhancers(applyMiddleware(...AppMiddleware))
 );
 
 window.store = store;

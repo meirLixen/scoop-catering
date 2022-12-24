@@ -18,23 +18,20 @@ const UploadImage = require("./routes/upload")
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+const cookieParser = require("cookie-parser");
 
-app.use(cors())
-var products = path.join(__dirname, "public", "images", "products");
-var categories = path.join(__dirname, "public", "images", "categories");
-var icons = path.join(__dirname, "public", "images", "icons");
+const products = path.join(__dirname, "public", "images", "products");
+const categories = path.join(__dirname, "public", "images", "categories");
+const icons = path.join(__dirname, "public", "images", "icons");
 
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.static(products));
 app.use(express.static(categories));
 app.use(express.static(icons));
-
-
+app.use(cookieParser());
 
 require("./config/config");
-
-
-
-
 
 app.use(
   bodyParser.urlencoded({
@@ -119,36 +116,13 @@ cron.schedule("0 11 * * Monday", function () {
     if (error) {
       throw error;
     } else {
-      console.log("Email successfully sent!");
+      console.error("Email successfully sent!");
     }
   });
 });
 
 
 app.use(express.static('public'));
-
-
-
-
-
-//end---sendMail
-// export let MSGS = {
-//     'key': {
-//         en: 'קוד',
-//         he: "code",
-
-//     }
-// }
-
-// let LANG = localStorage.getItem('LANG');
-// if (!LANG || LANG == '' || LANG == 'undefined') {
-//     LANG = 'he';
-//     localStorage.setItem('LANG', 'he');
-// }
-
-// export const findword = (word) => {
-//     return MSGS[key].LANG
-// }
 
 mongoose
   .connect(process.env.DB_CONNECT, {
@@ -164,4 +138,3 @@ mongoose
     });
   })
   .catch(console.error);
-

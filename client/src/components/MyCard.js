@@ -1,18 +1,13 @@
-import React, { useState } from "react";
-import ".././App.css";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { actions } from "../redux/actions/action";
-import Cart from "../data/imges/cart.png";
-import { Row } from "react-grid-system";
-// import { Card, CardHeader, CardTitle, CardSubtitle, CardActions, CardContent } from "@react-md/card"
 import $ from "jquery";
-// import {
-//     Card, CardImg, CardText, CardBody,
-//     CardTitle, CardSubtitle
-// } from 'reactstrap';
-
+import React, { useState } from "react";
+import { Row } from "react-grid-system";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import ".././App.css";
+import Cart from "../data/imges/cart.png";
 import i18 from "../i18/i18";
+import { actions } from "../redux/actions/action";
+
 function MyCard({ list, lang }, props) {
   const [cart, setCart] = useLocalStorage("cart", []);
   const [numItems, setNumItems] = useLocalStorage("numItems", 0);
@@ -315,7 +310,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
   setSearchWord: (word) => dispatch(actions.setSearchWord(word)),
 });
 

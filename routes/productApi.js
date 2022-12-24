@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Product = require("../models/Product");
 const Category = require("../models/Category");
+
 // API PRODUCT:
 
 //add product
@@ -98,8 +99,8 @@ router.post("/copyProduct/:id", async (req, res) => {
 
 // get all products
 router.get("/products", async (req, res) => {
-  // console.log("get all products");
-  Product.find().populate("priceList.amount")
+  Product.find()
+    .populate("priceList.amount")
     .then((products) => {
       if (!products) null;
       res.send(products);

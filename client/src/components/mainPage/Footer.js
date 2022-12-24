@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import locationIcon from "../../data/imges/locationIcon.png";
+import $ from "jquery";
+import React from "react";
+import { Image } from "react-bootstrap";
+import api from "../../api";
+import allVectorSmart from "../../data/imges/allVectorSmart.png";
 import emailIcon from "../../data/imges/emailIcon.png";
+import locationIcon from "../../data/imges/locationIcon.png";
 import phoneIcon from "../../data/imges/phoneIcon.png";
 import VectorSmart from "../../data/imges/VectorSmart.png";
-import allVectorSmart from "../../data/imges/allVectorSmart.png";
-
 import i18 from "../../i18/i18";
-import { Image } from "react-bootstrap";
-import $ from "jquery";
 
 // <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -18,7 +18,7 @@ import $ from "jquery";
 
 export function Footer() {
   function sendingEmail(emailToSent) {
-    return fetch(`http://localhost:3001/sendEmail`, {
+    return api(`http://localhost:3001/sendEmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,6 @@ export function Footer() {
         return res.json();
       })
       .then((res) => {
-        console.log(res);
         return res;
       });
   }

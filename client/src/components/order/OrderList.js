@@ -11,7 +11,6 @@ function OrderList(props) {
 
   useEffect(() => {
     if (!props.orders || !props.orders.length) props.getAllOrders();
-    else console.log(props.orders);
   }, [props, props.orders]);
 
   return (

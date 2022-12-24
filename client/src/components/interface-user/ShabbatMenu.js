@@ -1,31 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 // import { withRouter } from 'react-router-dom';
-import { actions } from "../../redux/actions/action";
-import StickyBox from "react-sticky-box";
 import { Button } from "react-bootstrap";
+import StickyBox from "react-sticky-box";
+import { actions } from "../../redux/actions/action";
 // import Search from '../Search'
+import commentIcon from "../../data/imges/comment.png";
+import deleteIcom from "../../data/imges/delete.png";
+import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
 import headerBgImag from "../../data/imges/headerBgImag.png";
+import searchIcom_ from "../../data/imges/searchIcom_.png";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-import useMediaQuery from "../../hooks/useMediaQuery";
-import salads from "../../data/imges/foodCategories/Pictures/fishh.png";
-import appetizers from "../../data/imges/foodCategories/Pictures/shabbat.png";
-import bakery from "../../data/imges/foodCategories/Pictures/bakery.png";
-import commentIcon from "../../data/imges/comment.png";
-import searchIcom_ from "../../data/imges/searchIcom_.png";
-import desserts from "../../data/imges/foodCategories/Pictures/desserts.png";
-import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
-import deleteIcom from "../../data/imges/delete.png";
 
-import Modal from "../Popup/Modal";
-import useModal from "../Popup/useModal";
-import "../Popup/Modal.css";
-import Payment from "./Payment";
-import "../../App.css";
 import $ from "jquery";
-import i18 from "../../i18/i18";
+import "../../App.css";
 import { useAuth } from "../../contexts/AuthContext";
+import i18 from "../../i18/i18";
+import Modal from "../Popup/Modal";
+import "../Popup/Modal.css";
+import useModal from "../Popup/useModal";
 
 import { useHistory } from "react-router-dom";
 

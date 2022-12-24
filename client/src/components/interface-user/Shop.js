@@ -1,29 +1,20 @@
+import $ from "jquery";
 import React, { useEffect } from "react";
-import "../../App.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
-import { actions } from "../../redux/actions/action";
-// import Search from '../Search';
-import Footer from "../mainPage/Footer";
-import UnderFooter from "../mainPage/UnderFooter";
-
+import "../../App.css";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import i18 from "../../i18/i18";
+import Footer from "../mainPage/Footer";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-
-import $ from "jquery";
-import i18 from "../../i18/i18";
+import UnderFooter from "../mainPage/UnderFooter";
 
 export function Shop(props) {
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
-  // const products = Store.getState().productReducer.products
   const { language } = props;
   const { categories } = props;
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-  }
 
   useEffect(() => {
     if ($) {
@@ -35,9 +26,9 @@ export function Shop(props) {
       });
     }
   }, [props, language]);
+
   return (
     <>
-      {/* <Search details={products} /> */}
       <div className="pageNuv">
         {isTablet && <Hamborger history={props.history} />}
 
@@ -140,6 +131,7 @@ export function Shop(props) {
     </>
   );
 }
+
 const mapStateToProps = (state) => {
   return {
     categories: state.categoryReducer.categories,
@@ -147,8 +139,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getAllCategories: () => dispatch(actions.getAllCategories()),
-});
-// export default connect(mapStateToProps, mapDispatchToProps)(Shop);
+const mapDispatchToProps = (dispatch) => ({});
+
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Shop));

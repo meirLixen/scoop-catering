@@ -1,5 +1,5 @@
+import api from "../../api";
 import { actions } from "../actions/action";
-import api from '../../api'
 
 export const getAllEmails =
   ({ dispatch, getState }) =>
@@ -14,7 +14,7 @@ export const getAllEmails =
             resolve();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
 
             reject();
           });
@@ -35,7 +35,7 @@ export const createEmail =
             dispatch(actions.setEmail(res.data));
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             reject();
           });
         resolve();
@@ -58,7 +58,7 @@ export const updateEmail =
           dispatch(actions.setEmail(res.data));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
 
       return;
@@ -81,7 +81,7 @@ export const deleteEmail =
           dispatch(actions.deleteEmailFromEmails(emailId));
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
       return;
     }

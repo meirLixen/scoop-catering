@@ -1,27 +1,26 @@
 import React, { useEffect } from "react";
 // import { Card, Button, Alert } from "react-bootstrap"
 
-import Section from "./mainPage/Section";
-import Footer from "./mainPage/Footer";
-import UnderFooter from "./mainPage/UnderFooter";
 import { connect } from "react-redux";
-import { actions } from "../redux/actions/action";
 import background_image from "../data/imges/EventsImage_.png";
+import Footer from "./mainPage/Footer";
+import Section from "./mainPage/Section";
+import UnderFooter from "./mainPage/UnderFooter";
 
-import img1 from "../data/imges/imgG.png";
-import img3 from "../data/imges/img3.png";
-import Rectangle from "../data/imges/Rectangle.jpg";
+import $ from "jquery";
+import { withRouter } from "react-router-dom";
 import blog1 from "../data/imges/blog1.png";
 import blog2 from "../data/imges/blog2.png";
 import blog3 from "../data/imges/blog3.png";
-import $ from "jquery";
-import { withRouter } from "react-router-dom";
+import img3 from "../data/imges/img3.png";
+import img1 from "../data/imges/imgG.png";
+import Rectangle from "../data/imges/Rectangle.jpg";
 
+import { Row } from "react-grid-system";
 import useMediaQuery from "../hooks/useMediaQuery";
+import i18 from "../i18/i18";
 import Hamborger from "./mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "./mainPage/TopPageDesktop";
-import i18 from "../i18/i18";
-import { Row } from "react-grid-system";
 
 export function Home(props) {
   const isMobile = useMediaQuery(768);
@@ -30,13 +29,6 @@ export function Home(props) {
   const { categories } = props;
 
   useEffect(() => {
-    if (!categories || !categories.length) {
-      props.getAllCategories();
-    }
-  }, []);
-
-  useEffect(() => {
-    // alert('Not available at the moment, the site is running only !! \n אינו זמין כרגע ,האתר בהרצה בלבד!!')
     if ($) {
       $(".categoryHover").mouseover(function () {
         $(this).find(".categoryTitle").removeClass("d-none");
@@ -571,8 +563,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getAllCategories: () => dispatch(actions.getAllCategories()),
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home));

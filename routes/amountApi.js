@@ -45,7 +45,6 @@ router.post("/amounts/:id", async (req, res) => {
 });
 
 // DELETE amount
-
 router.delete("/amount/:id", async (req, res) => {
   amount.findByIdAndDelete(req.params.id, (err, amount) => {
     if (err) res.status(400).send(err);
@@ -55,7 +54,8 @@ router.delete("/amount/:id", async (req, res) => {
 
 // get all amounts
 router.get("/amounts", async (req, res) => {
-  Amount.find().populate("products")
+  Amount.find()
+    .populate("products")
     .then((amounts) => {
       if (!amounts) null;
       res.send(amounts);
@@ -64,6 +64,7 @@ router.get("/amounts", async (req, res) => {
       res.status(500).send(err);
     });
 });
+
 // get amount by id
 router.get("/amount/:id", async (req, res) => {
   const id = req.params.id;

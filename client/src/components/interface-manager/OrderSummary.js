@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { actions } from "../../redux/actions/action";
-import { Table } from "react-bootstrap";
-// import Example from '../Example';
-import { Preview, print } from "react-html2pdf";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-//render
-import "../../App.css";
 import $ from "jquery";
+import React, { useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import { Preview, print } from "react-html2pdf";
+import { connect } from "react-redux";
+import "../../App.css";
+import { actions } from "../../redux/actions/action";
+
 function OrderSummary(props) {
   const { productsOnOrder } = props;
   const [data, setData] = useState([]);
@@ -17,13 +16,10 @@ function OrderSummary(props) {
   if (!props.productsOnOrder || !props.productsOnOrder.length) {
     props.getAllProductsOnOrder();
   }
- 
+
   const { categories } = props;
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-  }
+
   useEffect(() => {
-    // console.log(productsOnOrder[0].productId.name);
     const sortArray = (type) => {
       const types = {
         productId: "productId",
@@ -33,8 +29,6 @@ function OrderSummary(props) {
       // eslint-disable-next-line
       const sorted = [...productsOnOrder].sort((a, b) => {
         if ([sortProperty] !== "" && [sortProperty] !== undefined) {
-          console.log("::" + a[sortProperty] + b[sortProperty]);
-
           if (sortProperty === "productId") {
             return a[sortProperty].hebrewName.localeCompare(
               b[sortProperty].hebrewName
@@ -126,12 +120,6 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllProductsOnOrder: () => dispatch(actions.getAllProductsOnOrder()),
-
-  // createProduct: (product) => dispatch(actions.createProduct(product)),
-  // deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
-  // updateProduct: (product) => dispatch(actions.updateProduct(product)),
-  // copyProduct: (id) => dispatch(actions.copyProduct(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary);
