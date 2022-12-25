@@ -3,19 +3,22 @@ import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
+import validator from 'validator';
 import "../../App.css";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import i18 from "../../i18/i18";
+import { actions } from "../../redux/actions/action";
 import Footer from "../mainPage/Footer";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
 import UnderFooter from "../mainPage/UnderFooter";
 
 export function Payment(props) {
-  const [creditCardDetails,setCreditCardDetails] = useLocalStorage("creditCardDetails", []);
+  const [creditCardDetails, setCreditCardDetails] = useLocalStorage("creditCardDetails", []);
   const [yearList, setYearList] = useState([]);
-  const [monthList] = useState(["Janaury", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
-  const now = new Date;
+  const [monthList] = useState(["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"])
+  const now = new Date();
+
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
@@ -24,7 +27,19 @@ export function Payment(props) {
   const [total] = useLocalStorage("total", 0);
   const [currentOrder, setCurrentOrder] = useLocalStorage("currentOrder", []);
 
+  const [errorMessage, setErrorMessage] = useState("")
 
+  const validateCreditCard = (value) => {
+
+    if (validator.isCreditCard(value)) {
+      setErrorMessage("")
+    } else {
+      setErrorMessage("CreditCardMessage")
+      setTimeout(function () {
+        setErrorMessage("")
+      }, 3000);
+    }
+  }
 
   function useLocalStorage(key, initialValue) {
     // State to store our value
@@ -65,11 +80,57 @@ export function Payment(props) {
       .replace(/[^0-9.]/g, "")
       .replace(/(\..*)\./g, "$1");
   }
+  const MakePayment = async () => {
+    debugger
+    let MethodsOfPayment = ""
+    if ($("#CardNumber").val()) {
+      MethodsOfPayment = "credit card"
+    }
+    else {
+      MethodsOfPayment = $("#paymentSelect").val()
+    }
+    if (MethodsOfPayment === "") {
+      alert("you must pay before")
+    }
+    else {
+      const newOrder = {
+        "userId": currentOrder.userId,
+        "MethodsOfShipping": currentOrder.MethodsOfShipping,
+        "notes": currentOrder.notes,
+        "numItems": currentOrder.numItems,
+        "interimTotal": currentOrder.interimTotal,
+        "shippingCost": currentOrder.shippingCost,
+        "CostToPay": currentOrder.CostToPay,
+        "MethodsOfPayment": MethodsOfPayment,
+        "city": currentOrder.city,
+        "shippingAddress": currentOrder.shippingAddress,
+        "products": currentOrder.products
+      }
+      let CardNumber = $("#CardNumber").val()
+      validateCreditCard(CardNumber)
+
+      setCreditCardDetails({
+        "CardNumber": CardNumber,
+        "ExpirationYear": $("#ExpirationYear").val(),
+        "ExpirationMonth": $("#ExpirationMonth").val(),
+        "CVV": $("#CVV").val(),
+        "Id": $("#IdCardHolder").val(),
+        "PaymentsNumber": $("#PaymentsNumberId").val()
+
+      })
+
+      // if(creditCardDetails)//if the payment success
+      // const order = await props.createOrder(newOrder)
+      // else{
+      //   alert("somthing wrong")
+      // }
+    }
+  }
   useEffect(() => {
     if (yearList) {
-      let tempList = [], min = now.getFullYear() - 50
-      let max = now.getFullYear() + 11
-      for (let i = 1950; i < max; i++)
+      let tempList = [], min = now.getFullYear()
+      let max = now.getFullYear() + 14
+      for (let i = min; i < max; i++)
         tempList.push(i)
       setYearList(tempList)
     }
@@ -146,7 +207,7 @@ export function Payment(props) {
       //     : { width: "65%"}
       // }
       >
-        <h1 className="swithSide mb-5 font-weight-bold  ml-5 " style={{ color: "#c59950" }}>
+        <h1 className="swithSide mb-5 font-weight-bold" style={{ color: "#c59950" }}>
           {i18.t("FormOfPayment")}{" "}
         </h1>
 
@@ -172,11 +233,17 @@ export function Payment(props) {
                         inputmode="numeric"
                         pattern="[0-9\s]{13,19}"
                         autocomplete="cc-number"
-                        maxLength="19"
+                        maxLength="21"
                         placeholder=""
                         required
                         onChange={(e) => CharacterPrevention(e)}
+
+                        id="CardNumber"
                       />
+                      <span className={errorMessage !== "" ? "px-2 small" : "d-none"} style={{
+
+                        color: 'red',
+                      }}>{i18.t(errorMessage)}</span>
                     </Form.Group>
 
 
@@ -189,7 +256,7 @@ export function Payment(props) {
                             *{i18.t("Expiration")}{" "}
                           </Form.Label>
                           <Form.Select
-
+                            id="ExpirationMonth"
                             // onChange={(e) => setFreightCostFunc(e.target.id)}
                             aria-label="Default  example"
                             className="rounded-custom    "
@@ -208,8 +275,14 @@ export function Payment(props) {
                             required
                           >
                             <option value="" disabled selected >{i18.t("Month")}</option>
-                            {monthList && monthList.map((month,index) =>
-                              <option value={index+1}>{i18.t(month)}</option>
+                            {monthList && monthList.map((month, index) =>
+                           
+                              <option value={index + 1}>{month}</option>
+                            
+                           
+
+                            
+                             
 
 
                             )}
@@ -232,7 +305,7 @@ export function Payment(props) {
                           </Form.Label>
                           <Form.Select
 
-
+                            id="ExpirationYear"
                             // onChange={(e) => setFreightCostFunc(e.target.id)}
                             aria-label="Default  example"
                             className="rounded-custom    "
@@ -270,6 +343,7 @@ export function Payment(props) {
                           *{i18.t("CVV")}
                         </Form.Label>
                         <Form.Control
+                          id="CVV"
                           className="rounded-custom fontNumber"
                           maxLength="3"
                           type="text"
@@ -289,6 +363,7 @@ export function Payment(props) {
                         *{i18.t("Id")}
                       </Form.Label>
                       <Form.Control
+                        id="IdCardHolder"
                         className="rounded-custom fontNumber"
                         minLength="8"
                         maxLength="9"
@@ -351,7 +426,7 @@ export function Payment(props) {
                       // onChange={(e) => setFreightCostFunc(e.target.id)}
                       aria-label="Default select example"
                       className="rounded-custom    "
-
+                      id="paymentSelect"
                       style={
                         language === "he"
                           ? {
@@ -376,7 +451,7 @@ export function Payment(props) {
                     <p className="lableForm">
                       <span style={{ fontWeight: 'bold' }}>{i18.t("AdditionalPayment_2")}{" "}</span>
                       {i18.t("AdditionalPayment_1")}{" "}
-                      <span className="fontNumber lableForm">054-290-2590</span>
+                      <span className=" lableForm">054-290-2590</span>
                     </p>
 
                   </div>
@@ -386,9 +461,9 @@ export function Payment(props) {
 
                   </label>
                   <div className=" bg-grey p-3 mb-4">
-                    <div className="d-flex pt-2  justify-content-between">
-                      <div className="col-7 swithSide p-0" style={{ fontWeight: 'bold' }}>  {i18.t("TotalPayment")}</div>
-                      <div className="col-5  fontNumber font-weight-bold_ " style={language === "he" ? { textAlign: "end" } : { textAlign: "end" }}>
+                    <div className="d-flex pt-2  justify-content-between     align-items-center" style={{ fontSize: '18px' }}>
+                      <div className="col-7 swithSide p-0  mt-0" style={{ fontWeight: 'bold' }}>  {i18.t("TotalPayment")}</div>
+                      <div className="col-5    " style={{ textAlign: "end", fontWeight: 'bold' }}>
                         {currentOrder.CostToPay}{" "}
                         &#8362;
                       </div>
@@ -396,11 +471,24 @@ export function Payment(props) {
                   </div>
 
                   <button
+                    onClick={MakePayment}
                     type="submit"
-                    className="d-block    goldButton px-3 py-2 mb-5"
+                    className="d-flex     justify-content-center
+                    align-items-center   goldButton px-3 py-2 mb-5"
                     style={language === "he" ? { marginRight: "auto" } : { marginLeft: "auto" }}
                   >
-                    {i18.t("MakePayment")}
+                    <div>{i18.t("MakePayment")}{""}</div>
+                    {language === "he" ? (
+                      <i
+                        className="fas fa-solid fa-arrow-left mr-3"
+                        style={{ fontSize: "17px" }}
+                      ></i>
+                    ) : (
+                      <i
+                        className="fas fa-solid fa-arrow-right ml-3"
+                        style={{ fontSize: "17px" }}
+                      ></i>
+                    )}{" "}
                     {/* <img src={arrow_left_white} style={{ paddingRight: '5px', width: '25px' }} /> */}
                   </button>
                 </div>
@@ -424,5 +512,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  createOrder: (order) => dispatch(actions.createOrder(order)),
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);

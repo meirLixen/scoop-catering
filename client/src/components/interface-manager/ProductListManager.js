@@ -10,6 +10,8 @@ import { actions } from "../../redux/actions/action";
 import NewProduct from "../product/NewProduct";
 
 function ProductListManager(props) {
+  // const [isAddMode, setIsAddMode] = useState(true);
+
   const [show, setShow] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const handleClose = () => setShow(false);
@@ -28,7 +30,8 @@ function ProductListManager(props) {
         outOfStock: "outOfStock",
       };
       const sortProperty = types[type];
-      if (categoryList.length) setCategoryList(products);
+      if (categoryList.length)
+        setCategoryList(products)
       // eslint-disable-next-line
       const sorted = [...products].sort((a, b) => {
         var regex = /^[a-zA-Z]+$/;
@@ -84,16 +87,6 @@ function ProductListManager(props) {
   };
 
   const editItem = async (product) => {
-    // await setProductToEdit(product)
-    // alert(productToEdit ? productToEdit._id : "jj")
-
-    // $('.newId_').val(product._id)
-    // $('.newName_').val(product.name)
-    // $('.newHebrewName_').val(product.hebrewName)
-    // $('.newDescription_').val(product.description)
-    // $('.newHebrewDescription_').val(product.hebrewDescription)
-    // $('.newPrice_').val(product.price)
-
     $("#newId").val(product._id);
     $("#newName").val(product.name);
     $("#newHebrewName").val(product.hebrewName);
@@ -103,9 +96,10 @@ function ProductListManager(props) {
     $("#newCategory").val(product.categoryID);
     $("#newOutOfStock").prop(
       "checked",
-      product.outOfStock === true ? false : true
+      product.outOfStock === true ? true : false
     );
-    $("#newDisplay").prop("checked", product.display === true ? false : true);
+    $("#newDisplay").prop("checked", product.display);
+    $("#newRecommended").prop("checked", product.recommended === true ? true : false)
   };
 
   function openDeleteMoodal(id) {
@@ -118,7 +112,7 @@ function ProductListManager(props) {
   }
 
   return (
-    <div className="container   pb-0">
+    <div className="container px-0  pb-0">
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton className="rtl">
           <Modal.Title></Modal.Title>
@@ -136,21 +130,21 @@ function ProductListManager(props) {
         </Modal.Footer>
       </Modal>
       {/* <h1>ממשק מנהל</h1> */}
-      <div className="row  rtl mt-2" style={{ height: "800px !important" }}>
+      <div className="d-flex     justify-content-between rtl mt-2" style={{ height: "800px !important" }}>
         {/* <Search details={products} /> */}
 
         <div className=" productList col-md-7 p-3 bg-light">
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
-              מס' מוצרים: {categoryList.length}
+              מס' מוצרים: {products.length}
             </div>
-            <div className="col-6 text-start row d-flex">
-              <div className="col-md-6">
+            <div className="col-6 text-start row d-flex justify-content-between ">
+              <div className="col-md-6 p-0">
                 {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
                 <Form.Select
                   aria-label="Default select example"
-                  className="rounded-0 w-fitCon py-1"
+                  className="rounded-0  py-1"
                   required
                   onChange={(e) => changeCategory(e)}
                 >
@@ -162,7 +156,7 @@ function ProductListManager(props) {
                   ))}
                 </Form.Select>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-5 p-0">
                 <input
                   placeholder="חפש מוצר"
                   className="w-100 inputOf_Search bg-transparent border-0 border-bottom border-dark"
@@ -236,14 +230,14 @@ function ProductListManager(props) {
                   {" "}
                   מחיר
                 </th>
-                <th
+                {/* <th
                   className=" col-2 lableForm"
                   value="outOfStock"
                   id="outOfStock"
                   onClick={(e) => setSortType("outOfStock")}
                 >
                   מלאי
-                </th>
+                </th> */}
                 <th
                   className="col-3 lableForm"
                   value="createDate"
@@ -263,14 +257,36 @@ function ProductListManager(props) {
                 <>
                   <tr className=" bg-white   col-12">
                     <td className=" border-0 col-2">{item.hebrewName}</td>
-                    <td className=" border-0 col-2">
-                      {parseFloat(item.price ? item.price : 0).toFixed(2)}{" "}
-                      &#8362;
-                    </td>
-                    <td className=" border-0 col-2">
+                    {item.priceList.length > 1 ?
+
+
+                      <td className=" border-0 col-2">
+
+
+                        {/* {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0)}{" "} */}
+                        {item.priceList.map((price) => 
+                         parseFloat(price.price)+
+                         "/"
+                        )}
+                         &#8362;
+
+                      </td>
+
+
+
+                      :
+                      <td className=" border-0 col-2">
+                        {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0).toFixed(1)}{" "}
+                        &#8362;
+                      </td>
+                    }
+                    {/* <td className=" border-0 col-2">
                       {item.outOfStock === true ? "במלאי" : "אזל מהמלאי"}
-                    </td>
-                    <td className=" border-0 col-3">{item.createDate}</td>
+                    </td> */}
+                    <td className=" border-0 col-3">{
+                    
+                    item.createDate.toString().split('T')[0]
+                    }</td>
                     <td
                       className="border-0 bg-transparent col-1"
                       onClick={() => openDeleteMoodal(item._id)}
@@ -281,7 +297,7 @@ function ProductListManager(props) {
                       className="border-0 bg-transparent col-1"
                       onClick={() => editItem(item)}
                     >
-                      ערוך
+                       <i className="fas fa-edit "></i>
                     </td>
                   </tr>
                   <tr
@@ -293,7 +309,7 @@ function ProductListManager(props) {
             </tbody>
           </Table>
         </div>
-        <div className="col-md-1 p-0"></div>
+        {/* <div className="col-md-1 p-0"></div> */}
         <div className="col-md-4  NewProduct  p-3 pb-0 bg-light">
           <NewProduct product={productToEdit} />
         </div>

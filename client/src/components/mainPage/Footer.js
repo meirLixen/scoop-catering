@@ -256,7 +256,7 @@ export function Footer() {
               </div>
             </div>
 
-            <div className=" col-md-3 mb-4 p-0 mr-3">
+            <div className=" col-md-4 mb-4 p-0 mr-3">
               {i18.t("CompanyEmail")}
               <div className="d-inline rounded-circle iconBorder mx-3">
                 <Image

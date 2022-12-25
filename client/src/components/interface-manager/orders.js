@@ -221,7 +221,7 @@ function Orders(props) {
             </tbody>
           </Table>
         </div>
-        <div className="col-md-3 p-0">gvbhj</div>
+        <div className="col-md-3 p-0">עריכת הזמנה:</div>
       </div>
     </div>
   );

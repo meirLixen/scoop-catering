@@ -13,9 +13,12 @@ const axios = require('axios');
 const multer = require("multer");
 const cron = require("node-cron");
 const nodemailer = require("nodemailer");
-const fileUpload = require("express-fileupload");
+
+const UploadImage = require("./routes/upload")
 const cors = require("cors");
 const bodyParser = require("body-parser");
+
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 const cookieParser = require("cookie-parser");
 
 const products = path.join(__dirname, "public", "images", "products");
@@ -38,7 +41,8 @@ app.use(
 
 app.use(bodyParser.json());
 app.use("/images", express.static(__dirname + "/images"));
-app.use("/api/upload", require("./routes/api/upload"));
+
+
 
 app.use(
   "/api/",
@@ -48,11 +52,12 @@ app.use(
   categoryApi,
   emailApi,
   amountApi,
-  productsOnOrderApi
+  productsOnOrderApi,
+  UploadImage
 );
 
 app.use(express.json());
-app.use(fileUpload());
+
 app.use(express.static(path.join(__dirname, "client/build")));
 
 app.get("*", (req, res) => {
@@ -76,10 +81,16 @@ function updateOrders() {
     }).catch(error => {
       console.log(error);
     });
-  }
+    axios.delete('http://localhost:3001/api/deleteAllProductsOnOrder')
+    .then(response => {
+      console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    });
+}
 cron.schedule("0 5 * * sunday", function () {
   updateOrders()
-  })
+})
 
 //sendMail
 let transporter = nodemailer.createTransport({
@@ -110,53 +121,8 @@ cron.schedule("0 11 * * Monday", function () {
   });
 });
 
-const storageEngine = multer.diskStorage({
-  destination: "./public/images",
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}--${file.originalname}`);
-  },
-});
 
-//Initializing upload
-const upload = multer({
-  storage: storageEngine,
-  limits: { fileSize: 10000000 },
-  fileFilter: (req, file, cb) => {
-    checkFileType(file, cb);
-  },
-});
-
-const checkFileType = function (file, cb) {
-  //Allowed ext
-  const fileTypes = /jpeg|JPG|png|gif|svg/;
-
-  //check ext
-  const extName = fileTypes.test(path.extname(file.originalname));
-
-  const mimeType = fileTypes.test(file.mimetype);
-
-  if (mimeType && extName) {
-    return cb(null, true);
-  } else {
-    cb("Error: You can Upload Images Only!!");
-  }
-};
-app.use(express.static("public"));
-app.post("/single", upload.single("image"), (req, res) => {
-  if (req.file) {
-    res.send("Single file uploaded successfully");
-  } else {
-    res.status(404).send("Please upload a valid image");
-  }
-});
-
-app.post("/multiple", upload.array("images", 5), (req, res) => {
-  if (req.files) {
-    res.send("Muliple files uploaded successfully");
-  } else {
-    res.status(404).send("Please upload a valid images");
-  }
-});
+app.use(express.static('public'));
 
 mongoose
   .connect(process.env.DB_CONNECT, {

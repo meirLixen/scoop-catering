@@ -1,9 +1,13 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
+import { connect } from "react-redux";
+import { actions } from "../../redux/actions/action";
 import { useAuth } from "../../contexts/AuthContext"
 import { Link } from "react-router-dom"
-
-export default function ForgotPassword() {
+import i18 from "../../i18/i18";
+import { useTranslation } from 'react-i18next';
+export  function ForgotPassword(props) {
+  const { language } = props;
   const emailRef = useRef()
   const { resetPassword } = useAuth()
   const [error, setError] = useState("")
@@ -18,9 +22,9 @@ export default function ForgotPassword() {
       setError("")
       setLoading(true)
       await resetPassword(emailRef.current.value)
-      setMessage("Check your inbox for further instructions")
+      setMessage(language!=="he"?"Check your inbox for further instructions":"בדוק את תיבת הדואר הנכנס שלך להנחיות נוספות")
     } catch {
-      setError("Failed to reset password")
+      setError(language!=="he"?"Failed to reset password":"איפוס סיסמה נכשל")
     }
 
     setLoading(false)
@@ -30,26 +34,36 @@ export default function ForgotPassword() {
     <>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Password Reset</h2>
+          <h2 className="text-center mb-4">{i18.t("PasswordReset")} {""}</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           {message && <Alert variant="success">{message}</Alert>}
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} className={language == "he" && "rtl"}>
             <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" ref={emailRef} required />
+              <Form.Label>{""}</Form.Label>
+              <Form.Control className="rounded-input" type="email" ref={emailRef} required placeholder={i18.t("emailConnect")}  />
             </Form.Group>
-            <Button disabled={loading} className="w-100 mt-3" type="submit">
-              Reset Password
+            <Button disabled={loading} className="w-100 mt-3 rounded-input text-black goldbg border-0" type="submit">
+            {i18.t("resetPassword")} {""}
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-            <Link to="/login">Login</Link>
+            <Link to="/login" className="text-black">{i18.t("login")} {""}</Link>
           </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Need an account? <Link to="/signup">Sign Up</Link>
+      {i18.t("NeedAnAccount")} {""} <Link to="/signup" className="text-black">{i18.t("signUp")} {""}</Link>
       </div>
     </>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    language: state.languageReducer.language,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+ 
+});
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

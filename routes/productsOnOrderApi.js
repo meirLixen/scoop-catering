@@ -56,6 +56,16 @@ router.delete("/productsOnOrder/:id", userMiddleware, async (req, res) => {
   });
 });
 
+// deleteAll productsOnOrder
+router.delete("/deleteAllProductsOnOrder", async (req, res) => {
+  console.log("vghbj");
+  ProductsOnOrder.deleteMany({})
+    .then( res.send("deleted all ProductsOnOrder"))
+    .catch((err) => {
+      res.status(500).send(err);
+    })
+})
+// ProductsOnOrder.({})
 // get all productsOnOrder
 router.get("/productsOnOrder", async (req, res) => {
   ProductsOnOrder.find()

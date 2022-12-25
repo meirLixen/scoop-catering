@@ -1,9 +1,14 @@
+import axios from 'axios';
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import { connect } from "react-redux";
-import "../../App.css";
 import { actions } from "../../redux/actions/action";
+// import { Form } from 'react-bootstrap';
+import Modal from "react-bootstrap/Modal";
+import api from "../../api";
+import "../../App.css";
+
+// import Form from 'react-bootstrap/Form'
 
 export function NewProduct(props, { product }) {
   let temp = 0;
@@ -59,7 +64,9 @@ export function NewProduct(props, { product }) {
       display: fields.display,
       recommended: fields.recommended,
       priceList: priceList,
-    };
+      img: file && file.name
+    }
+
 
     //const product = await props.createProduct(newProduct)
 
@@ -70,7 +77,24 @@ export function NewProduct(props, { product }) {
 
     // clear all input values in the form
     document.getElementById("productForm").reset();
-  };
+
+    if (file !== null) {
+      const formData = new FormData();
+      formData.append("photo", file);
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      }
+      api
+        .post("/upload/", formData, config).then((response) => {
+          console.log('Image Uploaded Successfully!!', response);
+          // alert('Image Uploaded Successfully!!')
+        }).catch((err) => {
+          console.log('err ', err);
+        })
+    }
+  }
 
   function addPrice(index) {
     return (
@@ -143,9 +167,45 @@ export function NewProduct(props, { product }) {
     }, 5000);
     // alert("added successfully")
   };
+  const [file, setFile] = useState(null);
+  const [image, setImage] = useState('http://localhost:3001/image1.png');
+ 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("photo", file);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
+    }
+    const url = "http://localhost:3001/upload"
+
+    axios.post(url, formData, config).then((response) => {
+      console.log('response upload', response);
+      alert('Image Uploaded Successfully!!')
+    }).catch((err) => {
+      console.log('err ', err);
+    })
+
+
+  };
+
+  const onInputChange = async (e) => {
+    setFile(e.target.files[0]);
+    setImage(URL.createObjectURL(e.target.files[0]))
+
+  };
+
 
   return (
     <>
+      {/* <form onSubmit={onFormSubmit}>
+        <h1>Simaple File Upload</h1>
+        <input type="file" name="photo" onChange={onInputChange} />
+        <button type="submit" >Upload</button>
+      </form> */}
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title></Modal.Title>
@@ -169,11 +229,12 @@ export function NewProduct(props, { product }) {
           display: true,
           recommended: false,
         }}
+       
         onSubmit={onSubmit}
       >
         {() => (
           <Form className="" style={{ height: "590px" }} id="productForm">
-            <div className=" px-4 overflow-auto" style={{ height: "560px" }}>
+            <div className="  overflow-auto customOverflow" style={{ height: "560px" }}>
               <div className="text-end">
                 <div className="form-group">
                   <Field
@@ -183,6 +244,7 @@ export function NewProduct(props, { product }) {
                     name="Id"
                     pl
                   />
+                  
                 </div>
 
                 <div className="form-group">
@@ -193,7 +255,9 @@ export function NewProduct(props, { product }) {
                     type="text"
                     name="name"
                     pl
+                    
                   />
+                   
                 </div>
                 <div className="form-group">
                   <lable className="lableForm">שם מוצר(HE):</lable>
@@ -287,7 +351,7 @@ export function NewProduct(props, { product }) {
                     ))}
                   </Field>
                 </div>
-                <div className="form-group row d-flex     justify-content-around; mr-1">
+                <div className="form-group row d-flex      mr-1">
                   <div className="col-4 align-items-center  d-flex p-0">
                     <Field
                       type="checkbox"
@@ -298,7 +362,7 @@ export function NewProduct(props, { product }) {
                     <lable className="mr-1 lableForm my-0">חסר במלאי</lable>
                   </div>
 
-                  <div className="col-5 p-0 align-items-center justify-content-center d-flex">
+                  <div className="col-4 ml-4 p-0 align-items-center justify-content-center d-flex">
                     <Field
                       type="checkbox"
                       name="display"
@@ -317,15 +381,24 @@ export function NewProduct(props, { product }) {
                     <lable className="mr-1 lableForm my-0">מומלץ</lable>
                   </div>
                 </div>
+
+                <span className="hiddenFileInput" style={{ backgroundImage: `url(${image})` }}>
+
+
+                  <input type="file" name="photo" onChange={onInputChange} />
+                </span>
+
               </div>
+              <button
+                className="btn goldButton "
+                id="addProduct"
+                type="submit"
+              >
+                העלה מוצר
+              </button>
             </div>
-            <form action="/single" method="POST" enctype="multipart/form-data">
-              <input type="file" name="image" />
-              <button type="submit">Upload</button>
-            </form>
-            <button className="btn goldButton " id="addProduct" type="submit">
-              העלה מוצר
-            </button>
+
+
             {/* <button className="btn    goldButton " id="editProduct" type="submit" >עדכן מוצר</button> */}
           </Form>
         )}

@@ -1,30 +1,36 @@
-import $ from "jquery";
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+
+import "../../App.css";
 import { connect } from "react-redux";
-import editIcon from "../../data/imges/editIcon.png";
-import useMediaQuery from "../../hooks/useMediaQuery";
-import i18 from "../../i18/i18";
 import { actions } from "../../redux/actions/action";
 import Footer from "../mainPage/Footer";
+import UnderFooter from "../mainPage/UnderFooter";
+import editIcon from "../../data/imges/editIcon.png";
+
+import useMediaQuery from "../../hooks/useMediaQuery";
+import { Form } from "react-bootstrap";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-import UnderFooter from "../mainPage/UnderFooter";
 
+import $ from "jquery";
+import i18 from "../../i18/i18";
 export function Checkout(props) {
   const { language } = props;
   const [showEditDetails, setShowEditDetails] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
-  const [freightCost, setFreightCost] = useState(0);
+  const [freightCost, setFreightCost] = useState(0)
   const [currentOrder, setCurrentOrder] = useLocalStorage("currentOrder", []);
   const [cart] = useLocalStorage("cart", []);
-  const [citiesList] = useState([
-    { cityName: "BeitShemesh", cost: 50 },
-    { cityName: "GushEtzion", cost: 0 },
-    { cityName: "Jerusalem", cost: 50 },
-    { cityName: "Modiin", cost: 80 },
-    { cityName: "Raanana", cost: 120 },
-  ]);
+  const [citiesList] = useState(
+    [
+
+      { "cityName": "BeitShemesh", "cost": 50 },
+      { "cityName": "GushEtzion", "cost": 0 },
+      { "cityName": "Jerusalem", "cost": 50 },
+      { "cityName": "Modiin", "cost": 80 },
+      { "cityName": "Raanana", "cost": 120 }
+    ]
+  )
 
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
@@ -34,17 +40,15 @@ export function Checkout(props) {
 
   let previousClick = "empty";
   let currentClass;
-  // function setShippingMethod(item) {
-  //   alert(item.target.value)
-  // }
+
+
   const EditUserDetails = () => {
     setShowEditDetails(true);
     setShowDetails(false);
     setTimeout(() => {
+
       $("#FullNameInput").val(
-        userDetails.fullName
-          ? userDetails.fullName
-          : userDetails.firstName + " " + userDetails.lastName
+        userDetails.fullName ? userDetails.fullName : userDetails.firstName + " " + userDetails.lastName
       );
 
       $("#EmailInput").val(userDetails.email);
@@ -57,32 +61,36 @@ export function Checkout(props) {
     setShowEditDetails(false);
     setShowDetails(true);
   }
-  const updateDetails = async () => {
+  const updateDetails = async (e) => {
+    e.preventDefault();
     let updatsFileds = {
-      createDate: userDetails.createDate,
-      orders: userDetails.orders,
-      password: userDetails.password,
-      userType: userDetails.userType,
-      __v: userDetails.__v,
-      _id: userDetails._id,
-      fullName: $("#FullNameInput").val(),
-      email: $("#EmailInput").val(),
-      phone: $("#phoneInput").val(),
-      city: $("#CityInput").val(),
-      address: $("#AddressInput").val(),
-      uid: userDetails.uid,
-    };
+      "createDate": userDetails.createDate,
+      "orders": userDetails.orders,
+      "password": userDetails.password,
+      "userType": userDetails.userType,
+      "__v": userDetails.__v,
+      "_id": userDetails._id,
+      "fullName": $("#FullNameInput").val(),
+      "email": $("#EmailInput").val(),
+      "phone": $("#phoneInput").val(),
+      "city": $("#CityInput").val(),
+      "address": $("#AddressInput").val(),
+      "uid": userDetails.uid
+    }
 
-    setUserDetails(updatsFileds);
+    setUserDetails(updatsFileds)
     const res = await props.updateUser({
-      fullName: updatsFileds.fullName,
-      email: updatsFileds.email,
-      phone: updatsFileds.phone,
-      city: updatsFileds.city,
-      address: updatsFileds.address,
-      uid: updatsFileds.uid,
-    });
-  };
+      "fullName": updatsFileds.fullName,
+      "email": updatsFileds.email,
+      "phone": updatsFileds.phone,
+      "city": updatsFileds.city,
+      "address": updatsFileds.address,
+      "uid": updatsFileds.uid
+    })
+    console.log("mkmk", res);
+    console.log("res++", res);
+    back()
+  }
 
   function useLocalStorage(key, initialValue) {
     // State to store our value
@@ -95,7 +103,7 @@ export function Checkout(props) {
         return item ? JSON.parse(item) : initialValue;
       } catch (error) {
         // If error also return initialValue
-        console.error(error);
+        console.log(error);
         return initialValue;
       }
     });
@@ -112,7 +120,7 @@ export function Checkout(props) {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
         // A more advanced implementation would handle the error case
-        console.error(error);
+        console.log(error);
       }
     };
     return [storedValue, setValue];
@@ -122,60 +130,85 @@ export function Checkout(props) {
     // currentUser ? $('#EmailInput').val(currentUser.email) : alert("vghbjnk")
   }
   function setFreightCostFunc(uu) {
-    let res = $(".selectCity option:selected").attr("id");
+    let res = $(".selectCity option:selected").attr("id")
 
-    setFreightCost(res);
+    setFreightCost(res)
+  }
+  function checkAddress() {
+    if (!userDetails.address || !userDetails.city) {
+      alert("you must edit address in the Editing personal details")
+    }
   }
   function ContinueToPay() {
-    if (
-      $("#regulations").is(":checked") &&
-      $(".shippingMethodSelect").attr("name")
-    ) {
-      let city = "",
-        address = "",
-        products = [];
-      cart.map((item) =>
-        products.push({ productId: item.product._id, Amount: item.Amount })
-      );
+    debugger
 
-      if ($(".shippingMethodSelect").attr("name") === "Other") {
-        city = $("#OtherVal1 option:selected").val();
-        address = $("#OtherVal2").val();
-      } else {
-        city = userDetails.city;
-        address = userDetails.address;
+
+    if ($("#regulations").is(':checked') && $('.shippingMethodSelect').attr('name')) {
+      let city = "", address = "", products = []
+      cart.map((item) =>
+        products.push({ "productId": item.product._id, "amount": item.Amount })
+
+      )
+
+      if ($('.shippingMethodSelect').attr('name') === "Other") {
+        city = $("#OtherVal1 option:selected").val()
+        address = $("#OtherVal2").val()
       }
+      else {
+
+
+
+        city = userDetails.city && userDetails.city
+        address = userDetails.address && userDetails.address
+
+
+      }
+
+
+
+
+
 
       // MethodsOfPayment
 
-      setCurrentOrder({
-        userId: userDetails._id,
-        MethodsOfShipping: $(".shippingMethodSelect").attr("name"),
-        notes: $(".CommentsToOrder").val(),
-        numItems: numItems,
-        interimTotal: parseFloat(total).toFixed(2),
-        shippingCost: parseFloat(freightCost).toFixed(2),
-        CostToPay: parseFloat(
-          parseFloat(total + parseInt(freightCost)).toFixed(2)
-        ).toFixed(2),
+      let moreNotes = currentOrder.notes
 
-        city: city,
-        shippingAddress: address,
-        products: products,
-      });
+      setCurrentOrder(
+        {
+          "userId": userDetails._id,
+          "MethodsOfShipping": $('.shippingMethodSelect').attr('name'),
+          "notes": moreNotes + " : " + $(".CommentsToOrder").val(),
+          "numItems": numItems,
+          "interimTotal": parseFloat(total).toFixed(2),
+          "shippingCost": parseFloat(freightCost).toFixed(2),
+          "CostToPay": (parseFloat(parseFloat((total + parseInt(freightCost))).toFixed(2))).toFixed(2),
 
-      props.history.push("/Payment");
-    } else {
-      alert("you must sign regulations");
+          "city": city,
+          "shippingAddress": address,
+          "products": products
+        }
+      )
+      if ($('.shippingMethodSelect').attr('name') === "HomeDelivery" && !userDetails.address || !userDetails.city) {
+        alert("you must edit address in the Editing personal details")
+      }
+      else {
+        props.history.push("/Payment")
+      }
+
+    }
+    else {
+      alert("you must sign regulations")
     }
   }
   useEffect(() => {
     if (userDetails.city) {
-      let currentCity = citiesList.filter(
-        (city) => city.cityName === userDetails.city
-      );
-      setFreightCost(currentCity[0].cost);
+      let currentCity = citiesList.filter((city) => city.cityName === userDetails.city)
+      setFreightCost(currentCity[0].cost)
+
     }
+
+
+
 
     if ($) {
       $("textarea")
@@ -190,21 +223,21 @@ export function Checkout(props) {
           this.style.height = this.scrollHeight + "px";
         });
       $("button").click(function () {
-        let currentID = $(this).attr("id");
-
+        let currentID = $(this).attr("id")
+        debugger
         if (
           currentID === "Pickup" ||
           currentID === "HomeDelivery" ||
           currentID === "Other"
         ) {
           if (currentID === "Pickup" || currentID === "HomeDelivery") {
-            $("#OtherVal1").val("");
-            $("#OtherVal2").val("");
+            $("#OtherVal1").val("")
+            $("#OtherVal2").val("")
           }
-          back();
-          $(".shippingMethodSelect").attr("name", currentID);
+          back()
+          $('.shippingMethodSelect').attr('name', currentID);
 
-          currentClass = "." + currentID;
+          currentClass = "." + currentID
           if ($(this).hasClass("active")) {
             $(this).removeClass("active");
             $(currentClass).addClass("d-none");
@@ -213,7 +246,10 @@ export function Checkout(props) {
             $(this).addClass("active");
             $(currentClass).removeClass("d-none");
             // $('.left_side').removeClass('d-none');
-            if (previousClick !== "empty" && previousClick !== currentID) {
+            if (
+              previousClick !== "empty" &&
+              previousClick !== currentID
+            ) {
               $("#" + previousClick).removeClass("active");
               $("." + previousClick).addClass("d-none");
               // $('.left_side').addClass('d-none');
@@ -226,6 +262,7 @@ export function Checkout(props) {
               //     $('.left_side').addClass('d-none');
             }
             previousClick = currentID;
+            console.log(previousClick);
           }
         }
       });
@@ -233,6 +270,7 @@ export function Checkout(props) {
   }, [$]);
   return (
     <div onScroll={() => alert("bgvf")}>
+
       <div className="pageNuv" onScroll={() => alert("bgvf")}>
         {isTablet && <Hamborger history={props.history} />}
 
@@ -247,6 +285,7 @@ export function Checkout(props) {
             className="white-arrow h4 p-1 "
             onClick={() => props.history.goBack()}
           >
+
             <i
               className="fas fa-long-arrow-alt-right  pr-2"
               style={{ height: "fit-content" }}
@@ -288,7 +327,8 @@ export function Checkout(props) {
           {i18.t("checkout")}{" "}
         </h1>
         <div className="swithDir row">
-          <div className="swithSide  mb-5 overflow-checkout col-md-8 col-sm-12">
+
+          <div className="swithSide   overflow-checkout col-md-8 col-sm-12">
             <div className=" bg-grey mb-5 p-3">
               <div
                 className="justify-content-between"
@@ -320,29 +360,23 @@ export function Checkout(props) {
               {showDetails && (
                 <div className="userDetailsSection">
                   <div>
-                    <h5 className="font-weight-bold Name">
-                      {userDetails.fullName && userDetails.fullName}
-                    </h5>
-                    <h5 className="Address">
-                      {userDetails.address && userDetails.address}{" "}
-                      {userDetails.city && i18.t(userDetails.city)}
-                    </h5>
-                    <h6 className="Email">
-                      {userDetails.email && userDetails.email}
-                    </h6>
+                    <h5 className="font-weight-bold Name">{userDetails.fullName ? userDetails.fullName : userDetails.firstName + " " + userDetails.lastName}</h5>
+                    <h5 className="Address">{userDetails.address && userDetails.address}  {userDetails.city && i18.t(userDetails.city)}</h5>
+                    <h6 className="Email">{userDetails.email && userDetails.email}</h6>
                   </div>
                 </div>
               )}
               {showEditDetails && (
-                <Form className="col-md-8 col-sm-12 p-0  " onLoad={loadingUser}>
-                  <input
-                    type="text"
-                    class={language == "he" ? "icon-rtl" : "icon-ltr"}
-                    placeholder="FullName"
-                    id="FullNameInput"
-                  ></input>
+                <Form
+                  className="col-md-8 col-sm-12 p-0  "
+                  onLoad={loadingUser}
+
+                >
+
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("FullName")} id="FullNameInput"></input>
 
                   <div className="d-flex justify-content-between">
+
                     <select
                       id="CityInput"
                       // class={language == "he" ? "icon-rtl col-5" : "icon-ltrcol-5"}
@@ -352,61 +386,41 @@ export function Checkout(props) {
                       style={
                         language === "he"
                           ? {
-                              padding: "0.375rem 0.75rem 0.375rem 2.25rem",
-                              backgroundPosition: "left 0.75rem center",
-                            }
+                            padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                            backgroundPosition: "left 0.75rem center",
+                          }
                           : { backgroundPosition: "right 0.75rem center" }
                       }
                       required
                     >
                       <option disabled selected></option>
-                      {citiesList.map((city) => (
-                        <option
-                          value={city.cityName}
-                          id={city.cost}
-                          className={city.cityName}
-                        >
-                          {i18.t(city.cityName)}
-                        </option>
-                      ))}
+                      {citiesList.map((city) =>
+                        <option value={city.cityName} id={city.cost} className={city.cityName}>{i18.t(city.cityName)}</option>
+                      )}
                     </select>
                     {/* <input type="text"  placeholder={i18.t("AreaOrCity")} id="CityInput"></input> */}
-                    <input
-                      type="text"
-                      class={
-                        language == "he" ? "icon-rtl col-6" : "icon-ltr col-5"
-                      }
-                      placeholder="Address"
-                      id="AddressInput"
-                    ></input>
+                    <input type="text" class={language == "he" ? "icon-rtl col-6" : "icon-ltr col-5"} placeholder={i18.t("Address")} id="AddressInput"></input>
                   </div>
 
-                  <input
-                    type="text"
-                    class={language == "he" ? "icon-rtl" : "icon-ltr"}
-                    placeholder="Email"
-                    id="EmailInput"
-                  ></input>
-                  <input
-                    type="text"
-                    class={language == "he" ? "icon-rtl" : "icon-ltr"}
-                    placeholder="phone"
-                    id="phoneInput"
-                  ></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("email")} id="EmailInput"></input>
+                  <input type="text" class={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("phone")} id="phoneInput"></input>
 
                   <div className="d-flex     justify-content-between">
+
                     <button
                       onClick={back}
                       className=" col-5 align-items-center d-flex justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
                       style={
                         language === "he"
                           ? {
-                              fontSize: "17px",
-                            }
+                            fontSize: "17px"
+                          }
                           : { fontSize: "17px" }
                       }
                     >
+
                       {language === "he" ? (
+
                         <i
                           className="fas fa-solid fa-arrow-right ml-3"
                           style={{ fontSize: "17px" }}
@@ -420,14 +434,16 @@ export function Checkout(props) {
                       {i18.t("back")}{" "}
                     </button>
 
+
+
                     <button
                       onClick={updateDetails}
                       className="col-5 align-items-center d-flex justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
                       style={
                         language === "he"
                           ? {
-                              fontSize: "17px",
-                            }
+                            fontSize: "17px"
+                          }
                           : { fontSize: "17px" }
                       }
                     >
@@ -444,9 +460,77 @@ export function Checkout(props) {
                         ></i>
                       )}
                     </button>
+
+
+
+
                   </div>
+
                 </Form>
               )}
+              {/* {userDetails.email === undefined && (
+                <Form className="col-md-8 col-sm-12 p-0">
+
+
+                  <Form.Group
+                    className="mb-3 inputDetails"
+                    controlId="formBasicName"
+                  >
+
+                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("name")} type="text" />
+                  </Form.Group>
+
+                  <Form.Group
+                    className="mb-3 inputDetails"
+                    controlId="formAddress"
+                  >
+
+                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("address")} type="text" />
+                  </Form.Group>
+
+                  <Form.Group
+                    className="mb-3 inputDetails"
+                    controlId="formBasicEmail"
+                  >
+
+                    <Form.Control className={language == "he" ? "icon-rtl" : "icon-ltr"} placeholder={i18.t("email")} type="email" />
+                  </Form.Group>
+
+                  <Form.Group
+                    className="mb-3 inputDetails"
+                    controlId="formBasicPhone"
+                  >
+
+                    <Form.Control
+                      className={language == "he" ? "icon-rtl" : "icon-ltr"}
+                      type="text"
+                      placeholder={i18.t("phone")}
+                    />
+                  </Form.Group>
+
+                  <button
+                    className="align-items-center d-flex w-50 justify-content-center actionSection rounded-custom customShadow text-white bg-gold  border-0 goldButton"
+                    style={
+                      language === "he"
+                        ? { fontSize: "17px", marginRight: "auto", }
+                        : { fontSize: "17px", marginLeft: "auto" }
+                    }
+                  >
+                    {i18.t("save")}{" "}
+                    {language === "he" ? (
+                      <i
+                        className="fas fa-solid fa-arrow-left mr-3"
+                        style={{ fontSize: "17px" }}
+                      ></i>
+                    ) : (
+                      <i
+                        className="fas fa-solid fa-arrow-right ml-3"
+                        style={{ fontSize: "17px" }}
+                      ></i>
+                    )}
+                  </button>
+                </Form>
+              )} */}
             </div>
 
             <div className=" bg-grey p-3 mb-5">
@@ -457,34 +541,79 @@ export function Checkout(props) {
                 </label>
                 <hr className="hrCheckout mt-0 mb-4" />
 
+
                 <div className="mt-2">
                   <label className="lableForm">{i18.t("shippingMethod")}</label>
                 </div>
 
                 <div
-                  className=" justify-content-between d-flex   shippingMethodSelect"
-                  name=""
+                  className=" justify-content-between d-flex   shippingMethodSelect" name=""
+
                 >
                   <button
+
                     id="Pickup"
                     className="col-3  shippingOption p-2 text-center"
+
                   >
                     {" "}
                     {i18.t("shippingMethod1")}
                   </button>
                   <button
+
+
                     id="HomeDelivery"
+                    onClick={checkAddress}
                     className="col-3  shippingOption p-2 text-center"
+
                   >
                     {i18.t("shippingMethod2")}
                   </button>
                   <button
+
                     id="Other"
                     className="col-3  shippingOption p-2 text-center"
+
                   >
                     <div> {i18.t("shippingMethod3")}</div>
                   </button>
                 </div>
+                {/* 
+                <Form.Group
+                  className="my-2 row  "
+                  controlId="formBasicAddress"
+                  style={{ width: "100%" }}
+                >
+                  <div className="col-6">
+                    <Form.Label className="mb-1 lableForm">
+                      {i18.t("Street")}
+                    </Form.Label>
+                    <Form.Control
+                      className="rounded-custom  "
+                      type="text"
+                    />
+                  </div>
+                  <div className="col-3">
+                    <Form.Label className="mb-1 lableForm">
+                      {i18.t("buildingNumber")}
+                    </Form.Label>
+                    <Form.Control
+                      className="rounded-custom  "
+                      type="number"
+                      min="1"
+                    />
+                  </div>
+                  <div className="col-3">
+                    <Form.Label className="mb-1 lableForm">
+                      {i18.t("ApartmentNumber")}
+                    </Form.Label>
+                    <Form.Control
+                      className="rounded-custom  "
+                      type="number"
+                      min="1"
+                    />
+                  </div>
+                </Form.Group> */}
 
                 <Form.Label className="mb-2  lableForm Other d-none">
                   {" "}
@@ -498,24 +627,18 @@ export function Checkout(props) {
                   style={
                     language === "he"
                       ? {
-                          padding: "0.375rem 0.75rem 0.375rem 2.25rem",
-                          backgroundPosition: "left 0.75rem center",
-                        }
+                        padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                        backgroundPosition: "left 0.75rem center",
+                      }
                       : { backgroundPosition: "right 0.75rem center" }
                   }
                   required
                 >
                   <option disabled selected></option>
 
-                  {citiesList.map((city) => (
-                    <option
-                      value={city.cityName}
-                      id={city.cost}
-                      className={city.cityName}
-                    >
-                      {i18.t(city.cityName)}
-                    </option>
-                  ))}
+                  {citiesList.map((city) =>
+                    <option value={city.cityName} id={city.cost} className={city.cityName}>{i18.t(city.cityName)}</option>
+                  )}
                 </Form.Select>
 
                 <Form.Label className="mb-2  lableForm Other d-none">
@@ -527,7 +650,29 @@ export function Checkout(props) {
                   type="text"
                   placeholder={i18.t("AddressPlaceholder")}
                   id="OtherVal2"
+
                 />
+                {/* <Form.Select
+                  aria-label="Default select example"
+                  className="rounded-custom "
+                  style={
+                    language === "he"
+                      ? {
+                        padding: "0.375rem 0.75rem 0.375rem 2.25rem",
+                        backgroundPosition: "left 0.75rem center",
+                      }
+                      : {
+                        padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                        backgroundPosition: "right 0.75rem center",
+                      }
+                  }
+                  required
+                >
+                  <option></option>
+                  <option></option>
+                </Form.Select>
+               */}
+
               </div>
             </div>
             <div className="bg-grey p-3 mb-3">
@@ -536,10 +681,14 @@ export function Checkout(props) {
                 {i18.t("CommentsToOrder")}{" "}
               </label>
               <hr className="hrCheckout mt-0 mb-4" />
-              <div className=" p-2">
+              <div
+                className=" p-2"
+
+              >
                 <div className="form-group  ">
+
                   <textarea
-                    className="w-100  fontNumber customTextarea CommentsToOrder"
+                    className="w-100    customTextarea CommentsToOrder"
                     rows={1}
                     maxLength="250"
                     ng-trim="false"
@@ -550,21 +699,28 @@ export function Checkout(props) {
             </div>
 
             <div className="">
-              <div className="form-check d-flex align-items-center">
+
+              <div className="form-check d-flex ">
                 <input
                   className="form-check-input check-height regulations1"
                   type="checkbox"
+
                   id="regulations"
                 />
-                <u
+                <span
                   className="form-check-label mr-4 "
                   htmlFor="flexCheckDefault"
                   style={{ fontSize: "smaller" }}
                 >
-                  {i18.t("ApprovalOfRegulations")}
-                </u>
+                  {i18.t("ApprovalOfRegulations")} {" "}
+                  <a target="_blank" style={{ color: "black" }} href="/policy">
+                    {i18.t("Policy")}
+                  </a>
+                </span>
+
+
               </div>
-              <div className="form-check d-flex align-items-center">
+              <div className="form-check d-flex ">
                 <input
                   className="form-check-input check-height"
                   type="checkbox"
@@ -581,67 +737,80 @@ export function Checkout(props) {
               </div>
             </div>
 
-            <button
-              type="submit"
+            {/* <button
+             type="submit"
               className=" mt-5 goldButton px-3 py-2   "
-              style={isMobile ? { display: "none" } : { display: "block" }}
+              style={isMobile ? { display: "block" } : { display: "block" }}
               onClick={ContinueToPay}
             >
               {" "}
               {i18.t("ContinueToPay")}
-            </button>
+
+            </button> */}
           </div>
           <div className="col-md-4 col-sm-12">
             <div className="fixedDiv ">
+
               <div className=" bg-grey p-3">
                 <label className="  w-100 pt-1  swithSide  goldbgColor  mb-0">
                   {" "}
                   {i18.t("OrderSummary")}{" "}
                 </label>
                 <hr className="hrCheckout mt-0 mb-4" />
-                <div className=" p-3 mb-5 ">
+                <div className=" p-3 mb-2 ">
                   <div className="row ">
                     <div className="col-7 swithSide">{i18.t("Items")}</div>
-                    <div className="col-5 numItems fontNumber">{numItems}</div>
+                    <div className="col-5 numItems  " style={{ textAlign: "end" }}>{numItems}</div>
                   </div>
                   <br />
                   <br />
                   <div className="row  pb-3">
-                    <div className="col-7 swithSide font-weight-bold ">
-                      {i18.t("InterimTotal")}
-                    </div>
-                    <div className="col-5 fontNumber font-weight-bold">
-                      {parseFloat(total).toFixed(2)} &#8362;
-                    </div>
+
+                    <div className="col-7 swithSide font-weight-bold ">{i18.t('InterimTotal')}</div>
+                    <div className="col-5   font-weight-bold" style={{ textAlign: "end" }}>{parseFloat(total).toFixed(2)} &#8362;</div>
+
                   </div>
-                  <div className="row border-bottom border-dark pb-3">
-                    <div className="col-7 swithSide">
-                      {i18.t("ShippingCost")}
-                    </div>
-                    <div className="col-5 fontNumber">
-                      {parseFloat(freightCost).toFixed(2)} &#8362;
-                    </div>
+                  <div className="row border-bottom border-dark pb-3" style={{ fontWeight: '500' }}>
+
+                    <div className="col-7 swithSide">{i18.t('ShippingCost')}</div>
+                    <div className="col-5  " style={{ textAlign: "end" }}>{parseFloat(freightCost).toFixed(2)} &#8362;</div>
+
                   </div>
                   <div className="row pt-2 font-weight-bold border-top border-dark pt-3">
                     <div className="col-7 swithSide">{i18.t("Total")}</div>
-                    <div className="col-5 fontNumber">
-                      {parseFloat(
-                        parseFloat(total + parseInt(freightCost)).toFixed(2)
-                      ).toFixed(2)}{" "}
+                    <div className="col-5  " style={{ textAlign: "end" }}>
+                      {(parseFloat(parseFloat((total + parseInt(freightCost))).toFixed(2))).toFixed(
+                        2
+                      )}{" "}
                       &#8362;
                     </div>
                   </div>
+                  <button
+                    type="submit"
+                    className=" mt-5 goldButton px-4 py-2 d-flex  m-auto   justify-content-center
+                align-items-center  "
+
+                    onClick={ContinueToPay}
+                  >
+                    <div>{" "}
+                      {i18.t("ContinueToPay")}</div>
+
+                    {language === "he" ? (
+                      <i
+                        className="fas fa-solid fa-arrow-left mr-3"
+                        style={{ fontSize: "17px" }}
+                      ></i>
+                    ) : (
+                      <i
+                        className="fas fa-solid fa-arrow-right ml-3"
+                        style={{ fontSize: "17px" }}
+                      ></i>
+                    )}{" "}
+                  </button>
+
                 </div>
               </div>
-              <button
-                type="submit"
-                className=" mt-5 goldButton px-3 py-2   "
-                style={isMobile ? { display: "block" } : { display: "none" }}
-                onClick={ContinueToPay}
-              >
-                {" "}
-                {i18.t("ContinueToPay")}
-              </button>
+
             </div>
           </div>
         </div>
