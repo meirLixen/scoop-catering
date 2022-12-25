@@ -62,6 +62,7 @@ export function Checkout(props) {
     setShowDetails(true);
   }
   const updateDetails = async (e) => {
+    
     e.preventDefault();
     let updatsFileds = {
       "createDate": userDetails.createDate,
@@ -78,7 +79,9 @@ export function Checkout(props) {
       "uid": userDetails.uid
     }
 
-    setUserDetails(updatsFileds)
+    await setUserDetails(updatsFileds)
+    if($('#HomeDelivery').hasClass('active'))
+    setFreightCostByChoose(updatsFileds.city)
     const res = await props.updateUser({
       "fullName": updatsFileds.fullName,
       "email": updatsFileds.email,
@@ -129,6 +132,14 @@ export function Checkout(props) {
   function loadingUser() {
     // currentUser ? $('#EmailInput').val(currentUser.email) : alert("vghbjnk")
   }
+  function setFreightCostByChoose(current_city) {
+    
+    if (current_city) {
+      let currentCity = citiesList.filter((city) => city.cityName === current_city)
+      setFreightCost(currentCity[0].cost)
+
+    }
+  } 
   function setFreightCostFunc(uu) {
     let res = $(".selectCity option:selected").attr("id")
 
@@ -140,7 +151,7 @@ export function Checkout(props) {
     }
   }
   function ContinueToPay() {
-    debugger
+    
 
 
     if ($("#regulations").is(':checked') && $('.shippingMethodSelect').attr('name')) {
@@ -201,11 +212,7 @@ export function Checkout(props) {
     }
   }
   useEffect(() => {
-    if (userDetails.city) {
-      let currentCity = citiesList.filter((city) => city.cityName === userDetails.city)
-      setFreightCost(currentCity[0].cost)
-
-    }
+    
 
 
 
@@ -224,7 +231,7 @@ export function Checkout(props) {
         });
       $("button").click(function () {
         let currentID = $(this).attr("id")
-        debugger
+        
         if (
           currentID === "Pickup" ||
           currentID === "HomeDelivery" ||
@@ -233,6 +240,18 @@ export function Checkout(props) {
           if (currentID === "Pickup" || currentID === "HomeDelivery") {
             $("#OtherVal1").val("")
             $("#OtherVal2").val("")
+            if(currentID === "Pickup")
+            {
+              setFreightCost(0)
+            }
+            else{
+              if(currentID === "HomeDelivery")
+              {
+                setFreightCostByChoose(userDetails.city)
+                // setFreightCost(userDetails.city)
+              }
+            }
+
           }
           back()
           $('.shippingMethodSelect').attr('name', currentID);
@@ -380,7 +399,7 @@ export function Checkout(props) {
                     <select
                       id="CityInput"
                       // class={language == "he" ? "icon-rtl col-5" : "icon-ltrcol-5"}
-                      onChange={(e) => setFreightCostFunc(e.target.id)}
+                     
                       aria-label="Default select example"
                       className="rounded-custom custom-select col-5 selectCity"
                       style={
