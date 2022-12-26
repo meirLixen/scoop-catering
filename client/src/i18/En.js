@@ -51,6 +51,10 @@ export const En = {
     Kashrut: "Kashrut",
     ShoppingCart: "Shopping cart",
     payment: "Payment",
+    BitInstructions:"Send the amount of the order via Bit to the phone number 050-000-0000 and state your full name as it appears in the order.",
+    CheckInstructions:"A check must be prepared for the courier to the order of Scope Catering Ltd.",
+    CashInstructions:"Cash, it is advisable to prepare an exact amount in advance. Messengers do not always have excess.",
+
     checkout: `Checkout`,
     homePageTitel: "Service is our taste",
     MenusForEvents: "Events",
