@@ -27,7 +27,7 @@ import { useHistory } from "react-router-dom";
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
-const baseURL = "http://localhost:3001/"
+const baseURL = "https://scoopcatering.co.il/"
 function ShabbatMenu(props) {
 
   const { isShowing, toggle } = useModal();

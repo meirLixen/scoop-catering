@@ -75,13 +75,13 @@ if (process.env.NODE_ENV === "production") {
 }
 function updateOrders() {
   console.log("update orders every sunday with done status");
-  axios.get('http://localhost:3001/api/orders/updateStatus')
+  axios.get('https://scoopcatering.co.il/orders/updateStatus')
     .then(response => {
       console.log(response.data);
     }).catch(error => {
       console.log(error);
     });
-    axios.delete('http://localhost:3001/api/deleteAllProductsOnOrder')
+    axios.delete('https://scoopcatering.co.il/api/deleteAllProductsOnOrder')
     .then(response => {
       console.log(response.data);
     }).catch(error => {
