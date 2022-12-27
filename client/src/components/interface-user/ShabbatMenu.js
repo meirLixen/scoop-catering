@@ -28,6 +28,7 @@ let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
 const baseURL = "http://localhost:3001/"
+
 function ShabbatMenu(props) {
 
   const { isShowing, toggle } = useModal();
