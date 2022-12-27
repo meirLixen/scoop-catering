@@ -28,6 +28,7 @@ let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
 const baseURL = "https://scoopcatering.co.il/"
+
 function ShabbatMenu(props) {
 
   const { isShowing, toggle } = useModal();
