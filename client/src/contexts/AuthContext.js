@@ -69,7 +69,7 @@ export function AuthProvider({ children }, props) {
 
     const authorizationHeader = authHeaderBuilder(idToken);
 
-    const isOk = await api(`${api.defaults.baseURL}/auth/setAuthCookie`, {
+    const isOk = await api(`${api.defaults.baseURL}auth/setAuthCookie`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
