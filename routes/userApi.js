@@ -5,7 +5,7 @@ const { userMiddleware } = require("../middleware/user");
 // API USER:
 
 // Set token cookie by server
-router.post("auth/setAuthCookie", userMiddleware, (req, res) => {
+router.post("/auth/setAuthCookie", userMiddleware, (req, res) => {
   res.status(200).send("ok");
 });
 
