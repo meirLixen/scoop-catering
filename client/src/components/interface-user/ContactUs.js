@@ -11,7 +11,7 @@ import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
 import $ from "jquery";
 import i18 from "../../i18/i18";
-import EventBg from "../../data/imges/drinks.png";
+
 import { useTranslation } from 'react-i18next';
 export function ContactUs(props) {
   const { t, i18n } = useTranslation();
@@ -36,7 +36,7 @@ export function ContactUs(props) {
 
       {/* <div className="pageHeader">
                 <label >{i18.t('ContactUs')} </label>
-                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/images/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/headerBgImag.png'} />}
+                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/headerBgImag.png'} />}
             </div>
 
             <div className='location pt-3 text-end px-5' >
@@ -48,7 +48,7 @@ export function ContactUs(props) {
         <div className="pageContent EventPageContent">
           <div
             style={{
-              backgroundImage: `url(${EventBg})`,
+              backgroundImage: `url("https://scoopcatering.co.il/drinks.png")`,
               width: "100%",
               height: "100%",
               backgroundColor: "black",

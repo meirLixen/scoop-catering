@@ -37,6 +37,7 @@ function ShabbatMenu(props) {
 
   const { isShowing, toggle } = useModal();
   const [currentOrder, setCurrentOrder] = useLocalStorage("currentOrder", []);
+  const [userDetails, setUserDetails] = useLocalStorage("userDetails", []);
   //const [cart, setCart] = useLocalStorage("cart", []);
   const { language } = props;
   const { products } = props;
@@ -1217,16 +1218,17 @@ function ShabbatMenu(props) {
             <div className=" px-0 mx-2">
               <div className="  px-1 sidColumn col-12">
                 <div className=" mt-1 mb-3 actionSection col-12 p-0">
-                  <div className="py-2 col-12 text-center font-weight-bold_ incrementFont">
-                    {i18.t("hello")},{" "}
+                  <div className="py-3 col-12 text-center font-weight-bold_ incrementFont d-flex justify-content-center align-items-center">
+                   <div className=" font-weight-bold_ incrementFont">{i18.t("hello")},{" "}</div> 
                     {currentUser ? (
                       <>
                         {/* <a className='px-2 text-black' onClick={() => props.history.push('/login')} href=""> התחבר </a> */}
-                        {currentUser.email}
+                        {/* {currentUser.email} */}
+                     <div className=" font-weight-bold_ incrementFont">   {userDetails.firstName?userDetails.firstName:userDetails.fullName}</div>
 
-                        <div className="w-100 text-center mt-2">
-                          <Button variant="link" onClick={handleLogout}>
-                            Log Out
+                        <div className="">
+                          <Button variant="link" onClick={handleLogout} className="p-0 px-1 font-weight-bold_ incrementFont" style={{color:'black'}}>
+                          {i18.t("LogOut")}
                           </Button>
                         </div>
                         {/* <button onClick={set_user} >click</button> */}

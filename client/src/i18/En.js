@@ -25,6 +25,7 @@ export const En = {
     hebrew: "hebrew",
     english: "english",
    
+    LogOut:"Log Out",
     loginButton: " Log In",
    
     forgotPassword:`forgot Password?`,

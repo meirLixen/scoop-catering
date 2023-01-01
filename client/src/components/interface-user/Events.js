@@ -12,7 +12,7 @@ import TopPageDesktop from "../mainPage/TopPageDesktop";
 import $ from "jquery";
 import { useTranslation } from 'react-i18next';
 import i18 from "../../i18/i18"
-import EventBg from "../../data/imges/drinks.png";
+
 import Form from "react-bootstrap/Form";
 
 export function Events(props) {
@@ -38,13 +38,13 @@ export function Events(props) {
 
       {/* <div className="pageHeader">
                 <label >{i18.t('EventBooking')}</label>
-                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/images/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/headerBgImag.png'} />}
+                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/headerBgImag.png'} />}
             </div> */}
 
       <div className="pageContent EventPageContent">
         <div
           style={{
-            backgroundImage: `url(${EventBg})`,
+            backgroundImage: `url("https://scoopcatering.co.il/drinks")`,
             width: "100%",
             height: "100%",
             backgroundColor: "black",

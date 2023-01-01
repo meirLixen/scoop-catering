@@ -195,7 +195,7 @@ export function Home(props) {
                                 alt=""
                                 className="h-100 w-100"
                                 src={
-                                  "https://scoopcatering.co.il/images/foodCategories/" +
+                                  "https://scoopcatering.co.il/" +
                                   category.picUrl
                                 }
                               />

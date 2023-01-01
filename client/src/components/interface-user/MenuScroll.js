@@ -4,11 +4,9 @@ import { connect } from "react-redux";
 import "../../App.css";
 import commentIcon from "../../data/imges/comment.png";
 import deleteIcom from "../../data/imges/delete.png";
-import bakery from "../../data/imges/foodCategories/Pictures/bakery.png";
-import desserts from "../../data/imges/foodCategories/Pictures/desserts.png";
-import salads from "../../data/imges/foodCategories/Pictures/fishh.png";
+
 import image1 from "../../data/imges/foodCategories/Pictures/image1.png";
-import appetizers from "../../data/imges/foodCategories/Pictures/shabbat.png";
+
 import searchIcom_ from "../../data/imges/searchIcom_.png";
 import i18 from "../../i18/i18";
 import { actions } from "../../redux/actions/action";
@@ -426,14 +424,14 @@ function MenuScroll(props) {
                           className="h-100 w-100 row"
                           src={
                             category.name === "Salads"
-                              ? appetizers
+                            ?"https://scoopcatering.co.il/salads.png"
+                              
                               : category.name === "Appetizers"
-                              ? salads
-                              : category.name === "Desserts"
-                              ? desserts
-                              : category.name === "Bakery"
-                              ? bakery
-                              : salads
+                                ? "https://scoopcatering.co.il/fish.png"
+                                : category.name === "Desserts"
+                                  ? "https://scoopcatering.co.il//Extras.png"
+                                  : "https://scoopcatering.co.il/mainCourses.png"
+                                    
                           }
                         />
                       </div>

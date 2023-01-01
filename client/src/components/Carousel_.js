@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import iamge from '../data/imges/foodCategories/shabat.png'
-import iamge1 from '../data/imges/foodCategories/mainCourses.png'
+
 import Carousel from 'react-bootstrap/Carousel'
 
 function Carousel_() {
@@ -14,7 +14,7 @@ function Carousel_() {
       <Carousel.Item interval={1000} style={{ height: '500px' }}>
         <img
           className="d-block w-100 h-100"
-          src={iamge}
+          src={""}
           alt="First slide"
         />
         <Carousel.Caption>
@@ -24,7 +24,7 @@ function Carousel_() {
       <Carousel.Item interval={1000} style={{ height: '500px' }}>
         <img
           className="d-block w-100 h-100"
-          src={iamge1}
+          src={""}
           alt="Second slide"
         />
         <Carousel.Caption>
@@ -34,7 +34,7 @@ function Carousel_() {
       <Carousel.Item style={{ height: '500px' }}>
         <img
           className="d-block w-100 h-100"
-          src={iamge}
+          src={""}
           alt="Third slide"
         />
         <Carousel.Caption >

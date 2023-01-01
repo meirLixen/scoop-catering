@@ -37,7 +37,7 @@ export const He = {
         search: '...חיפוש',
         searchPlaceholder: ' הזן/י מוצר לחיפוש',
         searchMessage: 'הכנס מוצר לחיפוש',
-
+        LogOut:`התנתק`,
         loginButton: `כניסה`,
         forgotPassword: `שכחתי סיסמה`,
         PasswordReset: `איפוס סיסמה`,

@@ -156,7 +156,9 @@ h1 {
   border-radius: 10px !important;
 
 }
-
+.btn{
+  font-family: "Ploni", sans-serif !important;
+}
 .rounded-custom {
   border-radius: 20px !important;
   height: 35px !important;
@@ -943,7 +945,7 @@ form .icon-ltr:focus {
 .addM {
   background-size: cover;
   background-position: center;
-  /* background-image: url(http://localhost:3002/israeliSalad.JPG); */
+  /* background-image: url(http://localhost:3002/israeliSalad.jpg); */
   width: 140px
 }
 
