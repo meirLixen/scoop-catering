@@ -9,7 +9,7 @@ client/node_modules
 client/.env
 client/.gitignore
 client/.vscode
-# client/build
+client/build
 
 uploadimages/node_modules
 uploadimages/images
