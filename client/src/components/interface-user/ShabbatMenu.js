@@ -21,12 +21,15 @@ import i18 from "../../i18/i18";
 import Modal from "../Popup/Modal";
 import "../Popup/Modal.css";
 import useModal from "../Popup/useModal";
+import api from "../../api";
 
 import { useHistory } from "react-router-dom";
 
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
+// const baseURL = "https://scoopcatering.co.il/"
+// const baseURL = process.env.IMAGES_BASE_URL;
 const baseURL = "https://scoopcatering.co.il/"
 
 function ShabbatMenu(props) {
