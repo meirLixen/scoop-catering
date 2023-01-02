@@ -81,7 +81,7 @@ function ShabbatMenu(props) {
       if (currentUser) {
         let orderComment = $("#orderComment").val()
         setCurrentOrder({
-          "notes":orderComment
+          "notes": orderComment
         })
         props.history.push("/Checkout")
       }
@@ -352,7 +352,10 @@ function ShabbatMenu(props) {
 
   useEffect(() => {
 
-
+    if (window.location.href === "http://localhost:3001/shop")
+    baseURL = "http://localhost:3000/"
+  else
+    baseURL = "https://scoopcatering.co.il/"
 
     if ($) {
       $("#shop").addClass("active");
