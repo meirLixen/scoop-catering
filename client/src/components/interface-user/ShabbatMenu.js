@@ -28,10 +28,9 @@ import { useHistory } from "react-router-dom";
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
-let baseURL
 // const baseURL = "https://scoopcatering.co.il/"
 // const baseURL = process.env.IMAGES_BASE_URL;
-
+const baseURL = "https://scoopcatering.co.il/"
 
 function ShabbatMenu(props) {
 
