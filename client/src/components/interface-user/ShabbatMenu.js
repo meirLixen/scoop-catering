@@ -21,12 +21,15 @@ import i18 from "../../i18/i18";
 import Modal from "../Popup/Modal";
 import "../Popup/Modal.css";
 import useModal from "../Popup/useModal";
+import api from "../../api";
 
 import { useHistory } from "react-router-dom";
 
 let previousClick = "empty";
 let previousClickIndex;
 let currentClass;
+// const baseURL = "https://scoopcatering.co.il/"
+// const baseURL = process.env.IMAGES_BASE_URL;
 const baseURL = "https://scoopcatering.co.il/"
 
 function ShabbatMenu(props) {
@@ -78,7 +81,7 @@ function ShabbatMenu(props) {
       if (currentUser) {
         let orderComment = $("#orderComment").val()
         setCurrentOrder({
-          "notes":orderComment
+          "notes": orderComment
         })
         props.history.push("/Checkout")
       }
@@ -349,7 +352,10 @@ function ShabbatMenu(props) {
 
   useEffect(() => {
 
-
+    if (window.location.href === "http://localhost:3001/shop")
+    baseURL = "http://localhost:3000/"
+  else
+    baseURL = "https://scoopcatering.co.il/"
 
     if ($) {
       $("#shop").addClass("active");
