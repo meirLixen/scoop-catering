@@ -18,15 +18,15 @@ const UploadImage = require("./routes/upload")
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
- app.use(cors({ origin: "https://scoopcatering.co.il", credentials: true }));
+app.use(cors({ origin: ["http://localhost:3000", "https://scoopcatering.co.il", "http://5.180.183.130:3000", "http://5.180.183.130:3001"], credentials: true }));
+// app.use(cors({ origin:"https://scoopcatering.co.il" , credentials: true }));
 const cookieParser = require("cookie-parser");
 
 const products = path.join(__dirname, "public", "images", "products");
 const categories = path.join(__dirname, "public", "images", "categories");
 const icons = path.join(__dirname, "public", "images", "icons");
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+//app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.static(products));
 app.use(express.static(categories));
 app.use(express.static(icons));
