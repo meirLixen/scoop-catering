@@ -130,6 +130,7 @@ export const He = {
         OrderSummary: 'סיכום הזמנה',
         orderComment: 'הערות להזמנה',
         hello: 'שלום',
+        LogOut:"התנתק",
         connect: 'התחבר',
         Login: `כבר רשומים? התחברו`,
         AlreadyAnAccount: `כבר רשומים?`,

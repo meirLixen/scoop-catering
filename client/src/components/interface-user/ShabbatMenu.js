@@ -35,6 +35,7 @@ const baseURL = "https://scoopcatering.co.il/"
 function ShabbatMenu(props) {
 
   const { isShowing, toggle } = useModal();
+  const [userDetails, setUserDetails] = useLocalStorage("userDetails", []);
   const [currentOrder, setCurrentOrder] = useLocalStorage("currentOrder", []);
   //const [cart, setCart] = useLocalStorage("cart", []);
   const { language } = props;
@@ -81,7 +82,7 @@ function ShabbatMenu(props) {
       if (currentUser) {
         let orderComment = $("#orderComment").val()
         setCurrentOrder({
-          "notes":orderComment
+          "notes": orderComment
         })
         props.history.push("/Checkout")
       }
@@ -1213,16 +1214,16 @@ function ShabbatMenu(props) {
             <div className=" px-0 mx-2">
               <div className="  px-1 sidColumn col-12">
                 <div className=" mt-1 mb-3 actionSection col-12 p-0">
-                  <div className="py-2 col-12 text-center font-weight-bold_ incrementFont">
-                    {i18.t("hello")},{" "}
+                  <div className="py-2 col-12 text-center font-weight-bold_ incrementFont d-flex align-items-center justify-content-center">
+                  <div className="mt-2"> {i18.t("hello")} , {" "}</div> 
                     {currentUser ? (
                       <>
-                        {/* <a className='px-2 text-black' onClick={() => props.history.push('/login')} href=""> התחבר </a> */}
-                        {currentUser.email}
 
-                        <div className="w-100 text-center mt-2">
-                          <Button variant="link" onClick={handleLogout}>
-                            Log Out
+                        {/* {currentUser.email} */}
+                       <div className="mt-2">{userDetails.firstName?userDetails.firstName:userDetails.fullName?userDetails.fullName:currentUser.email}</div> 
+                        <div className=" text-center mt-2">
+                          <Button variant="link" onClick={handleLogout} style={{ color: 'black' }} className="font-weight-bold_ incrementFont py-0">
+                            {i18.t("LogOut")}
                           </Button>
                         </div>
                         {/* <button onClick={set_user} >click</button> */}
