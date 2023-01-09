@@ -117,6 +117,7 @@ export const En = {
     OrderSummary: "Order Summary",
     orderComment: "Comments to order",
     hello: "hello",
+    LogOut:"Log Out",
     connect: "connect",
     Login:"Already registered? connect",
     AlreadyAnAccount:"Already have an account?",
