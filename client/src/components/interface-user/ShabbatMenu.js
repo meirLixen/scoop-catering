@@ -1221,7 +1221,7 @@ function ShabbatMenu(props) {
                         {currentUser.email}
 
                         <div className="w-100 text-center mt-2">
-                          <Button variant="link" onClick={handleLogout}>
+                          <Button variant="link" onClick={handleLogout}  className="text-black">
                             Log Out
                           </Button>
                         </div>
