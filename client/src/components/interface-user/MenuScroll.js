@@ -333,6 +333,7 @@ function MenuScroll(props) {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if ($) {
       $("#shop").addClass("active");
       $("textarea")

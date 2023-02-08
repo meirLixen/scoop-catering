@@ -17,6 +17,7 @@ export function Shop(props) {
   const { categories } = props;
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if ($) {
       $(".categoryHover").mouseover(function () {
         $(this).find(".categoryTitle").removeClass("d-none");
@@ -42,13 +43,13 @@ export function Shop(props) {
           <img
             alt=""
             className="h-100 "
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         ) : (
           <img
             alt=""
             className="h-100 w-100"
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         )}
       </div>

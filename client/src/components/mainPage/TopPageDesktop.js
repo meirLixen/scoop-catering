@@ -71,6 +71,7 @@ export function TopPageDesktop(props) {
     props.history.push("/SearchResults/" + word);
   }
   useEffect(() => {
+    window.scrollTo(0, 0)
     if ($) {
       if (language === "he") {
         $(".EnLanguage").removeClass("d-none");

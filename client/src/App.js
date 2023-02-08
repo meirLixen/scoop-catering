@@ -34,6 +34,7 @@ function App(props) {
   const { categories, products } = props.categories;
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if (!categories || !categories.length) {
       props.getAllCategories();
     }

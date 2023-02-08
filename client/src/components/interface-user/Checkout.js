@@ -15,6 +15,7 @@ import TopPageDesktop from "../mainPage/TopPageDesktop";
 import $ from "jquery";
 import i18 from "../../i18/i18";
 export function Checkout(props) {
+  debugger
   const { language } = props;
   const [showEditDetails, setShowEditDetails] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
@@ -36,7 +37,7 @@ export function Checkout(props) {
   const isTablet = useMediaQuery(1024);
   const [numItems] = useLocalStorage("numItems", 0);
   const [total] = useLocalStorage("total", 0);
-  const [userDetails, setUserDetails] = useLocalStorage("userDetails", []);
+  const [userDetails, setUserDetails] = useLocalStorage("userDetails",[]);
 
   let previousClick = "empty";
   let currentClass;
@@ -82,7 +83,7 @@ export function Checkout(props) {
     await setUserDetails(updatsFileds)
     if($('#HomeDelivery').hasClass('active'))
     setFreightCostByChoose(updatsFileds.city)
-    const res = await props.updateUser({
+    const res = await props.updateUserDetails({
       "fullName": updatsFileds.fullName,
       "email": updatsFileds.email,
       "phone": updatsFileds.phone,
@@ -213,7 +214,7 @@ export function Checkout(props) {
   }
   useEffect(() => {
     
-
+    window.scrollTo(0, 0)
 
 
 
@@ -315,13 +316,13 @@ export function Checkout(props) {
           <img
             alt=""
             className="h-100 "
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         ) : (
           <img
             alt=""
             className="h-100 w-100"
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         )}
       </div>
@@ -849,6 +850,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  updateUser: (user) => dispatch(actions.updateUser(user)),
+  updateUserDetails: (user) => dispatch(actions.updateUserDetails(user)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

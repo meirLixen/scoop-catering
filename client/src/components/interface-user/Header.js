@@ -71,6 +71,7 @@ export function Header(props) {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if (language === "he") {
       // $('.navbar-toggler').click()
     } else {

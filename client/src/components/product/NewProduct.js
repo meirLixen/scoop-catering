@@ -68,7 +68,7 @@ export function NewProduct(props, { product }) {
     }
 
 
-    //const product = await props.createProduct(newProduct)
+    const product = await props.createProduct(newProduct)
 
     setShow(true);
     window.setTimeout(function () {

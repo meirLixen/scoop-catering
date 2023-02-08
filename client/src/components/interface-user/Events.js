@@ -21,6 +21,7 @@ export function Events(props) {
   const isTablet = useMediaQuery(1024);
   const { language } = props;
   useEffect(() => {
+    window.scrollTo(0, 0)
     if ($) {
       $("#events").addClass("active");
       $(".sendEventForm").click(() => {
@@ -38,7 +39,7 @@ export function Events(props) {
 
       {/* <div className="pageHeader">
                 <label >{i18.t('EventBooking')}</label>
-                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/images/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/headerBgImag.png'} />}
+                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/images/backgrounds/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/backgrounds/headerBgImag.png'} />}
             </div> */}
 
       <div className="pageContent EventPageContent">

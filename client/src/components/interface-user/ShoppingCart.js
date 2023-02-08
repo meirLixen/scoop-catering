@@ -206,13 +206,13 @@ export function ShoppingCart(props) {
           <img
             alt=""
             className="h-100 "
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         ) : (
           <img
             alt=""
             className="h-100 w-100"
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         )}
       </div>

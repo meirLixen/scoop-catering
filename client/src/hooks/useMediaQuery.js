@@ -7,6 +7,7 @@ const useMediaQuery = (minWidth) => {
     });
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         const resizeHandler = () => {
             const currentWindowWidth = window.innerWidth;
             const isDesiredWidth = currentWindowWidth < minWidth;

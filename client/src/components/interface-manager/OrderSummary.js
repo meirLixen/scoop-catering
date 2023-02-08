@@ -20,6 +20,7 @@ function OrderSummary(props) {
   const { categories } = props;
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     const sortArray = (type) => {
       const types = {
         productId: "productId",

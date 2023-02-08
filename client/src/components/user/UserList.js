@@ -10,6 +10,7 @@ function UserList(props) {
   // const { userReducer } = props;
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if (!props.users || !props.users.length) props.getAllUsers();
     else console.log(props.users);
   }, [props, props.users]);

@@ -28,6 +28,7 @@ function UsersList(props) {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",

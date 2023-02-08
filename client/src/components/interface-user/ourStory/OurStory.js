@@ -18,6 +18,7 @@ function OurStory(props) {
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   useEffect(() => {
+    window.scrollTo(0, 0)
     if ($) {
       $("#navbarScrollingDropdown").addClass("active");
     }
@@ -37,16 +38,16 @@ function OurStory(props) {
           <img
             alt=""
             className="h-100"
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         ) : (
           <img
             alt=""
             className="h-100 w-100"
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         )}
-        {/* <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/headerBgImag.png'} /> */}
+        {/* <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/backgrounds/headerBgImag.png'} /> */}
       </div>
 
       <div className="location pt-3 text-end px-5">

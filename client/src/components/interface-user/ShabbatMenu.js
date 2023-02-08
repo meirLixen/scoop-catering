@@ -53,6 +53,7 @@ function ShabbatMenu(props) {
   const { totalRedux, numItemsRedux, cartRedux } = props;
   const [setError] = useState("");
   const { currentUser, logout } = useAuth();
+  const [userDetails, setUserDetails] = useLocalStorage("userDetails", []);
   const history = useHistory();
 
   if (!products || !products.length) {
@@ -81,7 +82,7 @@ function ShabbatMenu(props) {
       if (currentUser) {
         let orderComment = $("#orderComment").val()
         setCurrentOrder({
-          "notes":orderComment
+          "notes": orderComment
         })
         props.history.push("/Checkout")
       }
@@ -351,6 +352,7 @@ function ShabbatMenu(props) {
 
 
   useEffect(() => {
+    window.scrollTo(0, 0)
 
 
 
@@ -1218,10 +1220,10 @@ function ShabbatMenu(props) {
                     {currentUser ? (
                       <>
                         {/* <a className='px-2 text-black' onClick={() => props.history.push('/login')} href=""> התחבר </a> */}
-                        {currentUser.email}
-
+                        {/* {currentUser.email} */}
+                        {userDetails.fullName?userDetails.fullName.split(' ')[0]:currentUser.email}
                         <div className="w-100 text-center mt-2">
-                          <Button variant="link" onClick={handleLogout}  className="text-black">
+                          <Button variant="link" onClick={handleLogout} className="text-black">
                             Log Out
                           </Button>
                         </div>

@@ -10,6 +10,7 @@ function OrderList(props) {
   // const { productReducer } = props;
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if (!props.orders || !props.orders.length) props.getAllOrders();
   }, [props, props.orders]);
 

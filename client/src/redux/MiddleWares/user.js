@@ -90,3 +90,21 @@ export const updateUserPassword =
     }
     return next(action);
   };
+
+  export const updateUserDetails =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action) => {
+    if (action.type === "UPDATE_USER_DETAILS") {   
+      api
+        .post(`/updateUserDetails`, action.payload)
+        .then((res) => {
+          dispatch(actions.setUser(res.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return;
+    }
+    return next(action);
+  };

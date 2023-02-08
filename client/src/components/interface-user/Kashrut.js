@@ -20,6 +20,7 @@ export function Kashrut(props) {
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   useEffect(() => {
+    window.scrollTo(0, 0)
     if ($) {
       $("#navbarScrollingDropdown").addClass("active");
     }
@@ -37,13 +38,13 @@ export function Kashrut(props) {
           <img
             alt=""
             className="h-100 "
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         ) : (
           <img
             alt=""
             className="h-100 w-100"
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/images/backgrounds/headerBgImag.png"}
           />
         )}
       </div>
