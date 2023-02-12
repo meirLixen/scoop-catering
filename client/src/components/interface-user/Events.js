@@ -21,6 +21,7 @@ export function Events(props) {
   const isTablet = useMediaQuery(1024);
   const { language } = props;
   useEffect(() => {
+    window.scrollTo(0, 0);
     if ($) {
       $("#events").addClass("active");
       $(".sendEventForm").click(() => {

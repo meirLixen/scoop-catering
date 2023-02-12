@@ -6,7 +6,7 @@ import { actions } from "../../redux/actions/action";
 import Footer from "../mainPage/Footer";
 import UnderFooter from "../mainPage/UnderFooter";
 import editIcon from "../../data/imges/editIcon.png";
-
+import api from "../../api";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import { Form } from "react-bootstrap";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
@@ -41,7 +41,17 @@ export function Checkout(props) {
   let previousClick = "empty";
   let currentClass;
 
+  const updateUserDetails = async (updateUser) => {
+    const response = await api(`${api.defaults.baseURL}/updateUserDetails`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: updateUser,
+    });
 
+    return response.data;
+  };
   const EditUserDetails = () => {
     setShowEditDetails(true);
     setShowDetails(false);
@@ -82,7 +92,7 @@ export function Checkout(props) {
     await setUserDetails(updatsFileds)
     if($('#HomeDelivery').hasClass('active'))
     setFreightCostByChoose(updatsFileds.city)
-    const res = await props.updateUser({
+    const res = await updateUserDetails({
       "fullName": updatsFileds.fullName,
       "email": updatsFileds.email,
       "phone": updatsFileds.phone,
@@ -213,7 +223,7 @@ export function Checkout(props) {
   }
   useEffect(() => {
     
-
+    window.scrollTo(0, 0);
 
 
 

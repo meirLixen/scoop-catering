@@ -17,6 +17,7 @@ export function Gallery(props) {
   const isTablet = useMediaQuery(1024);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if ($) {
       $("#gallery").addClass("active");
     }
