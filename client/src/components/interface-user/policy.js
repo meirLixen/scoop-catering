@@ -23,8 +23,9 @@ export function Policy(props) {
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   useEffect(() => {
+    window.scrollTo(0, 0);
     if ($) {
-      $("#navbarScrollingDropdown").addClass("active");
+     
     }
   }, []);
 

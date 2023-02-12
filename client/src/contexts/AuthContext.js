@@ -56,6 +56,9 @@ export function AuthProvider({ children }, props) {
     if (!resUser) {
       alert("error");
     }
+    else{
+      setUserDetails(resUser);
+    }
   };
 
   const authHeaderBuilder = (token) => {
@@ -108,7 +111,7 @@ export function AuthProvider({ children }, props) {
     console.log(update_user);
   };
 
-  async function signup(email, password, firstName, lastName, phoneNumber) {
+  async function signup(email, password, fullName, phoneNumber) {
     const result = await auth.createUserWithEmailAndPassword(email, password);
 
     const idToken = await result.user.getIdToken();
@@ -118,8 +121,7 @@ export function AuthProvider({ children }, props) {
       uid: result.user.uid,
       email: email,
       password: password,
-      firstName: firstName,
-      lastName: lastName,
+      fullName: fullName,
       phone: phoneNumber,
     });
 
