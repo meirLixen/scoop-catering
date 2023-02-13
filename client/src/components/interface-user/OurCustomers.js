@@ -22,8 +22,13 @@ export function OurCustomers(props) {
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [])
+  
+  useEffect(() => {
+   
     if ($) {
       $("#navbarScrollingDropdown").addClass("active");
     }

@@ -25,9 +25,12 @@ function Orders(props) {
   if (!props.orders || !props.orders.length) {
     props.getAllOrders();
   }
-
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [])
+
+  useEffect(() => {
+    
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",

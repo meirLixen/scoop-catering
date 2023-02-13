@@ -149,8 +149,13 @@ const MakePayment = async () => {
     // }
   }
 }
+
 useEffect(() => {
   window.scrollTo(0, 0);
+}, [])
+
+useEffect(() => {
+ 
   if (yearList) {
     let tempList = [], min = now.getFullYear()
     let max = now.getFullYear() + 14
