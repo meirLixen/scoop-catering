@@ -18,8 +18,15 @@ export function ContactUs(props) {
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
 
+
+
+
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [])
+  
+  useEffect(() => {
+   
     if ($) {
       $("#contact-us").addClass("active");
       $(".sendcontactUsForm").click(() => {

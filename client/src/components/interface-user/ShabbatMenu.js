@@ -55,14 +55,7 @@ function ShabbatMenu(props) {
   const { currentUser, logout } = useAuth();
   const history = useHistory();
 
-  if (!products || !products.length) {
-    props.getAllProducts()
-
-  }
-  if (!categories || !categories.length) {
-    props.getAllCategories();
-
-  }
+ 
 
   async function handleLogout() {
     //  setError("");
@@ -81,7 +74,7 @@ function ShabbatMenu(props) {
       if (currentUser) {
         let orderComment = $("#orderComment").val()
         setCurrentOrder({
-          "notes":orderComment
+          "notes": orderComment
         })
         props.history.push("/Checkout")
       }
@@ -348,11 +341,12 @@ function ShabbatMenu(props) {
     }
   };
 
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    
+  }, [])
 
   useEffect(() => {
-
-    window.scrollTo(0, 0);
 
     if ($) {
       $("#shop").addClass("active");
@@ -1221,7 +1215,7 @@ function ShabbatMenu(props) {
                         {currentUser.email}
 
                         <div className="w-100 text-center mt-2">
-                          <Button variant="link" onClick={handleLogout}  className="text-black">
+                          <Button variant="link" onClick={handleLogout} className="text-black">
                             Log Out
                           </Button>
                         </div>
@@ -1592,8 +1586,6 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getAllProducts: () => dispatch(actions.getAllProducts()),
-  getAllCategories: () => dispatch(actions.getAllCategories()),
   setCartRedux: (x) => dispatch(actions.setCartRedux(x)),
   setNumItemsRedux: (x) => dispatch(actions.setNumItemsRedux(x)),
   setTotalRedux: (Total) => dispatch(actions.setTotalRedux(Total)),

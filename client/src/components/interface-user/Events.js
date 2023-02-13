@@ -20,8 +20,13 @@ export function Events(props) {
   const isMobile = useMediaQuery(768);
   const isTablet = useMediaQuery(1024);
   const { language } = props;
+
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [])
+
+  useEffect(() => {
+    
     if ($) {
       $("#events").addClass("active");
       $(".sendEventForm").click(() => {

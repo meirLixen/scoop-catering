@@ -21,6 +21,11 @@ function OrderSummary(props) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [])
+
+
+  useEffect(() => {
+  
     const sortArray = (type) => {
       const types = {
         productId: "productId",

@@ -221,12 +221,15 @@ export function Checkout(props) {
       alert("you must sign regulations")
     }
   }
+
+
+
   useEffect(() => {
-    
     window.scrollTo(0, 0);
+  }, [])
 
-
-
+  useEffect(() => {
+  
     if ($) {
       $("textarea")
         .each(function () {

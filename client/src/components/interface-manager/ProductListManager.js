@@ -22,8 +22,14 @@ function ProductListManager(props) {
   const [productToEdit] = useState();
   const [sortType, setSortType] = useState("hebrewName");
 
+
+
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [])
+
+  useEffect(() => {
+   
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -265,11 +271,11 @@ function ProductListManager(props) {
 
 
                         {/* {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0)}{" "} */}
-                        {item.priceList.map((price) => 
-                         parseFloat(price.price)+
-                         "/"
+                        {item.priceList.map((price) =>
+                          parseFloat(price.price) +
+                          "/"
                         )}
-                         &#8362;
+                        &#8362;
 
                       </td>
 
@@ -285,8 +291,8 @@ function ProductListManager(props) {
                       {item.outOfStock === true ? "במלאי" : "אזל מהמלאי"}
                     </td> */}
                     <td className=" border-0 col-3">{
-                    
-                    item.createDate.toString().split('T')[0]
+
+                      item.createDate.toString().split('T')[0]
                     }</td>
                     <td
                       className="border-0 bg-transparent col-1"
@@ -298,7 +304,7 @@ function ProductListManager(props) {
                       className="border-0 bg-transparent col-1"
                       onClick={() => editItem(item)}
                     >
-                       <i className="fas fa-edit "></i>
+                      <i className="fas fa-edit "></i>
                     </td>
                   </tr>
                   <tr
