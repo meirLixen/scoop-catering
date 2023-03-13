@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Dashboard from "./components/Firebase/Dashboard";
 import Login from "./components/Firebase/Login";
+import ForgotPassword from "./components/Firebase/ForgotPassword";
 import PrivateRoute from "./components/Firebase/PrivateRoute";
 import Signup from "./components/Firebase/Signup";
 import UpdateProfile from "./components/Firebase/UpdateProfile";
 import history from "./components/history";
 import Home from "./components/Home";
+import Policy from './components/interface-user/policy'
 import ManagerInterface from "./components/interface-manager/ManagerInterface";
 import OrderSummary from "./components/interface-manager/OrderSummary";
 import Checkout from "./components/interface-user/Checkout";
@@ -56,7 +58,7 @@ function App(props) {
         <Route exact path="/" component={Home} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-
+        <Route path="/forgot-password" component={ForgotPassword} />
         <div className="App">
           <PrivateRoute
             exact
@@ -84,6 +86,9 @@ function App(props) {
           <Route exact path="/gallery" component={Gallery} />
           <Route exact path="/events" component={Events} />
           <Route exact path="/menu" component={MenuScroll} />
+          <Route exact path="/policy" component={Policy} />
+
+
         </div>
       </Switch>
     </Router>

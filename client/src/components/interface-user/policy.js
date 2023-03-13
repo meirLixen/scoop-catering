@@ -27,7 +27,7 @@ export function Policy(props) {
     window.scrollTo(0, 0);
   }, [])
 
-  
+
 
   return (
     <div
@@ -71,9 +71,28 @@ export function Policy(props) {
           {/* <div className='d-inline'>  </div> */}
           <div className="goldColor d-inline"> /{i18.t("Policy")} </div>
         </div>
-<div>
-    
-</div>
+        <div>
+          <div className="px-5">
+            <artical className="text-right" style={{ maxwidth: '90%', textAlign: 'center' }} >
+              <p>, תקנון זה מהווה הסכם משפטי מחייב , אשר הוראותיו יחולו על כל שימוש שייעשה על ידי המשתמש באתר</p>
+              <p>. ועל כל רכישה שתתבצע באמצעות האתר , ומהווה הסכמה מחייבת בין המשתמש לבין מפעיל האתר</p>
+              <p>. מובהר בזאת, כי האתר רשאי להשתמש בכל מידע שסופק על ידך </p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+
+            </artical>
+          </div>
+        </div>
       </section>
 
       <Footer />

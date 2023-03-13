@@ -36,6 +36,8 @@ function ShabbatMenu(props) {
 
   const { isShowing, toggle } = useModal();
   const [currentOrder, setCurrentOrder] = useLocalStorage("currentOrder", []);
+  const [userDetails, setUserDetails] = useLocalStorage("userDetails", []);
+
   //const [cart, setCart] = useLocalStorage("cart", []);
   const { language } = props;
   const { products } = props;
@@ -55,7 +57,7 @@ function ShabbatMenu(props) {
   const { currentUser, logout } = useAuth();
   const history = useHistory();
 
- 
+
 
   async function handleLogout() {
     //  setError("");
@@ -343,7 +345,7 @@ function ShabbatMenu(props) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+
   }, [])
 
   useEffect(() => {
@@ -1207,16 +1209,19 @@ function ShabbatMenu(props) {
             <div className=" px-0 mx-2">
               <div className="  px-1 sidColumn col-12">
                 <div className=" mt-1 mb-3 actionSection col-12 p-0">
-                  <div className="py-2 col-12 text-center font-weight-bold_ incrementFont">
-                    {i18.t("hello")},{" "}
+                  <div className="py-2 col-12 text-center font-weight-bold_ incrementFont d-flex align-items-center justify-content-center">
+                    <div>{i18.t("hello")} , {" "}</div>
                     {currentUser ? (
                       <>
                         {/* <a className='px-2 text-black' onClick={() => props.history.push('/login')} href=""> התחבר </a> */}
-                        {currentUser.email}
+                        <div>  {"  " + userDetails.fullName.split(' ')[0] + "  "} </div>
 
-                        <div className="w-100 text-center mt-2">
-                          <Button variant="link" onClick={handleLogout} className="text-black">
-                            Log Out
+                        <div className=" text-center">
+                          <Button variant="link" onClick={handleLogout} className="text-black" style={{
+                            fontWeight: '600',
+                            fontSize: '18px'
+                          }}>
+                            {i18.t("logout")}
                           </Button>
                         </div>
                         {/* <button onClick={set_user} >click</button> */}

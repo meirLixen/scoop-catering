@@ -1,7 +1,8 @@
 export const En = {
   translation: {
     //manger interface
-    mangerInterface: "manger interface",
+    
+    managerInterface: "Manger Interface",
     ManagerPhone: "050-950-5023",
     CompanyPhone: "054-290-2590",
     CompanyEmail: "service@scoopcatering.com",
@@ -26,7 +27,7 @@ export const En = {
     english: "english",
    
     loginButton: " Log In",
-   
+    logout:"Log Out",
     forgotPassword:`forgot Password?`,
     PasswordReset:`Password Reset`,
     resetPassword:` Reset Password`,

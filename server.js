@@ -25,11 +25,14 @@ const cookieParser = require("cookie-parser");
 const products = path.join(__dirname, "public", "images", "products");
 const categories = path.join(__dirname, "public", "images", "categories");
 const icons = path.join(__dirname, "public", "images", "icons");
+const backgrounds = path.join(__dirname, "public", "images", "backgrounds");
 
 //app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.static(products));
 app.use(express.static(categories));
 app.use(express.static(icons));
+app.use(express.static(backgrounds));
+
 app.use(cookieParser());
 
 require("./config/config");

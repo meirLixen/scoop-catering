@@ -55,7 +55,7 @@
     color: #c59950 !important;
 
     cursor: pointer;
-
+    user-select: none;
     display: flex;
     justify-content: center;
     vertical-align: middle;
@@ -267,10 +267,12 @@ button.btn-danger {
 
 .btn-pointer {
   cursor: pointer;
+  user-select: none;
 }
 
 .btn-pointer option {
   cursor: pointer;
+  user-select: none;
 }
 
 .iconBorder {
@@ -569,6 +571,10 @@ tr{
   justify-content: center !important;
 }
 
+button {
+  user-select: none;
+}
+
 button.outSvgSize.active {
   background-color: #c59950 !important;
 }
@@ -775,11 +781,13 @@ form .icon-ltr:focus {
 
 .gold-border {
   border: 1px solid #c59950 !important;
-  
+
 }
-.gold-border:focus-visible{
+
+.gold-border:focus-visible {
   outline: none !important;
 }
+
 .goldColorWithShadow {
   color: #c59950 !important;
   text-shadow: 2px 2px 2px black;
@@ -1414,6 +1422,7 @@ a .categoryButton {
 
 .roundButton {
   border-radius: 1.5rem !important;
+  user-select: none;
   cursor: pointer;
   font-family: "Ploni", "Dosis", sans-serif !important;
 }
@@ -1491,10 +1500,12 @@ small {
   background-color: #c39957 !important;
   border-color: #c39957 !important;
 }
-#newOutOfStock:checked{
+
+#newOutOfStock:checked {
   background-color: #c39957 !important;
   border-color: #c39957 !important;
 }
+
 .check-height {
   height: 60% !important;
 }
@@ -1558,6 +1569,7 @@ small {
   width: 100;
   opacity: 0;
   cursor: pointer;
+  user-select: none;
 }
 
 .hiddenFileInput {
@@ -1571,12 +1583,15 @@ small {
   background: center center no-repeat;
   background-size: 100%;
   margin-right: 30%;
+  user-select: none;
 
 }
-.errorInput{
+
+.errorInput {
   color: red;
   font-size: 15px;
 }
+
 /* 
 
 
@@ -1643,7 +1658,7 @@ button.shippingOption:hover {
   color: #c59950 !important;
 
   cursor: pointer;
-
+  user-select: none;
   display: flex;
   justify-content: center;
   vertical-align: middle;

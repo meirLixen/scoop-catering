@@ -2,7 +2,7 @@
 export const He = {
     translation: {
         //manger interface
-        mangerInterface: 'ממשק מנהל',
+        managerInterface: 'ממשק מנהל',
         ManagerPhone: '050-950-5023',
         CompanyPhone: '054-290-2590',
         CompanyEmail: 'service@scoopcatering.com',
@@ -39,6 +39,7 @@ export const He = {
         searchMessage: 'הכנס מוצר לחיפוש',
 
         loginButton: `כניסה`,
+        logout:"התנתק",
         forgotPassword: `שכחתי סיסמה`,
         PasswordReset: `איפוס סיסמה`,
         resetPassword: `אפס סיסמה`,
@@ -116,7 +117,7 @@ export const He = {
         scoop: 'סקופ',
         OurAddress: 'כתובתינו',
         OpeningHours: 'שעות פתיחה',
-        PersonalInformation: 'פרטים אשיים',
+        PersonalInformation: 'פרטים אישיים',
         EditDetails: 'עריכת פרטים אישיים',
         mailAdress: 'כתובת מייל',
         FirstName: 'שם פרטי',
