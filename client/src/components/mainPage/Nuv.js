@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Nav, NavDropdown } from "react-bootstrap";
 import img1 from "../../data/imges/galeryImag.png";
 import "./../../App.css";
@@ -16,14 +16,43 @@ let previousClick = "empty";
 let currentClass;
 export function Nuv(props) {
   const { language } = props;
+  const [userDetails, setUserDetails] = useLocalStorage("userDetails", []);
   let url = window.location.pathname.split("/");
   let isTrue = url[url.length - 2];
+  function useLocalStorage(key, initialValue) {
+    const [storedValue, setStoredValue] = useState(() => {
+      try {
+        const item = window.localStorage.getItem(key);
+
+        return item ? JSON.parse(item) : initialValue;
+      } catch (error) {
+        console.error(error);
+        return initialValue;
+      }
+    });
+
+    const setValue = (value) => {
+      try {
+        const valueToStore =
+          value instanceof Function ? value(storedValue) : value;
+
+        setStoredValue(valueToStore);
+
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    return [storedValue, setValue];
+  }
   async function chang_language(lang) {
     i18n.changeLanguage(lang);
     if (isTrue === "shop") props.history.push("/shop");
     if (lang === "en") {
+      $(".scoopButton").addClass("ml-4")
       await props.setLanguage(lang);
     } else if (lang === "he") {
+      $(".scoopButton").removeClass("ml-4")
       await props.setLanguage(lang);
     }
   }
@@ -68,7 +97,7 @@ export function Nuv(props) {
             navbarScroll
           >
             <NavDropdown
-              className=" hoverLink scoopButton"
+              className=" hoverLink scoopButton ml-4"
               title={i18.t("ScoopCatering")}
               id="navbarScrollingDropdown"
               style={{ direction: "ltr" }}
@@ -153,6 +182,19 @@ export function Nuv(props) {
             >
               {i18.t("ContactUs")}{" "}
             </Nav.Link>
+
+
+            {userDetails.userType === "admin" &&
+              <Nav.Link
+                id="manager"
+                className=" hoverLink"
+                onClick={() => {
+                  Selection("manager");
+                }}
+              >
+                {i18.t("managerInterface")}{" "}
+              </Nav.Link>
+            }
             {/* <Nav.Link className="active hoverLink" onClick={() => props.history.push('/OrderSummary')} >Orders </Nav.Link> */}
 
             <ButtonGroup
