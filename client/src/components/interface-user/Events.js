@@ -44,7 +44,7 @@ export function Events(props) {
 
       {/* <div className="pageHeader">
                 <label >{i18.t('EventBooking')}</label>
-                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/images/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/images/headerBgImag.png'} />}
+                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/headerBgImag.png'} />}
             </div> */}
 
       <div className="pageContent EventPageContent">
