@@ -44,13 +44,13 @@ export function Kashrut(props) {
           <img
             alt=""
             className="h-100 "
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/headerBgImag.png"}
           />
         ) : (
           <img
             alt=""
             className="h-100 w-100"
-            src={"https://scoopcatering.co.il/images/headerBgImag.png"}
+            src={"https://scoopcatering.co.il/headerBgImag.png"}
           />
         )}
       </div>
