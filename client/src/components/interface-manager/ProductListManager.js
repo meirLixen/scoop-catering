@@ -1,4 +1,4 @@
-import $ from "jquery";
+import $, { event } from "jquery";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -21,28 +21,8 @@ function ProductListManager(props) {
   const [categoryList, setCategoryList] = useState([]);
   const [productToEdit] = useState();
   const [sortType, setSortType] = useState("hebrewName");
-  const [categorySelected, setCategorySelected] = useEffect()
-  //   const filteredSearch = (item) => {
-  //     if (query === '') {
-  //         return item;
-  //     } else {
-
-  //         return item.firstName.toLowerCase().includes(query.toLowerCase())
-  //             || item.lastName.toLowerCase().includes(query.toLowerCase())
-  //     }
-  // };
-
-  // const filteredByCategory = (item) => {
-
-  //     if (selectedCategory.length == 0) {
-
-  //         return item;
-  //     } else {
-  //         if (tenants.includes(item.tenant))
-  //             return item
-
-  //     }
-  // };
+  const [query, setQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState("selectCategory")
 
 
   useEffect(() => {
@@ -102,6 +82,27 @@ function ProductListManager(props) {
     }
     // eslint-disable-next-line
   }, []);
+  const filteredSearch = (item) => {
+    if (query === '') {
+      return item;
+    } else {
+
+      return item.hebrewName.toLowerCase().includes(query.toLowerCase())
+
+    }
+  };
+
+  const filteredByCategory = (item) => {
+
+    if (selectedCategory == "selectCategory") {
+
+      return item;
+    } else {
+      if (selectedCategory == item.categoryID)
+        return item
+
+    }
+  };
 
   const changeCategory = async (event) => {
     let categoryId = event.target.value;
@@ -174,11 +175,11 @@ function ProductListManager(props) {
                   aria-label="Default select example"
                   className="rounded-0  py-1"
                   required
-                  onChange={(e) => changeCategory(e)}
+                  onChange={e => setSelectedCategory(e.target.value)}
                 >
                   <option value="selectCategory">בחר קטגוריה</option>
                   {categories.map((category) => (
-                    <option key={category._id} value={category._id} onClick={setCategorySelected(category._id)}>
+                    <option key={category._id} value={category._id} >
                       {category.hebrewName}
                     </option>
                   ))}
@@ -188,6 +189,7 @@ function ProductListManager(props) {
                 <input
                   placeholder="חפש מוצר"
                   className="w-100 inputOf_Search bg-transparent border-0 border-bottom border-dark"
+                  onInput={event => setQuery(event.target.value)}
                 />
               </div>
             </div>
@@ -281,7 +283,9 @@ function ProductListManager(props) {
             </thead>
 
             <tbody className="table-responsive">
-              {products.map((item) => (
+              {products
+              .filter(filteredSearch)
+              .filter(filteredByCategory).map((item) => (
                 <>
                   <tr className=" bg-white   col-12">
                     <td className=" border-0 col-2">{item.hebrewName}</td>
