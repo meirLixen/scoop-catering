@@ -31,7 +31,7 @@ export const createOrder =
     if (action.type === "CREATE_ORDER") {
       return new Promise((resolve, reject) => {
         api
-          .post("/order/", action.payload)
+          .post("/order/"+action.payload.userId, action.payload)
           .then((res) => {
             dispatch(actions.setOrder(res.data));
           })
