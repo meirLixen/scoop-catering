@@ -58,11 +58,11 @@ export function Checkout(props) {
     setTimeout(() => {
 
       $("#FullNameInput").val(
-        userDetails.fullName ? userDetails.fullName : userDetails.firstName + " " + userDetails.lastName
+        userDetails.fullName ? userDetails.fullName : userDetails.firstName && userDetails.firstName + " " + userDetails.lastName && userDetails.lastName
       );
 
-      $("#EmailInput").val(userDetails.email);
-      $("#phoneInput").val(userDetails.phone);
+      $("#EmailInput").val(userDetails.email && userDetails.email);
+      $("#phoneInput").val(userDetails.phone && userDetails.phone);
       $("#CityInput").val(userDetails.city ? userDetails.city : "");
       $("#AddressInput").val(userDetails.address ? userDetails.address : "");
     }, 50);
@@ -75,18 +75,18 @@ export function Checkout(props) {
 
     e.preventDefault();
     let updatsFileds = {
-      "createDate": userDetails.createDate,
-      "orders": userDetails.orders,
-      "password": userDetails.password,
-      "userType": userDetails.userType,
-      "__v": userDetails.__v,
-      "_id": userDetails._id,
+      "createDate": userDetails.createDate && userDetails.createDate,
+      "orders": userDetails.orders && userDetails.orders,
+      "password": userDetails.password && userDetails.password,
+      "userType": userDetails.userType && userDetails.userType,
+      "__v": userDetails.__v && userDetails.__v,
+      "_id": userDetails._id && userDetails._id,
       "fullName": $("#FullNameInput").val(),
       "email": $("#EmailInput").val(),
       "phone": $("#phoneInput").val(),
       "city": $("#CityInput").val(),
       "address": $("#AddressInput").val(),
-      "uid": userDetails.uid
+      "uid": userDetails.uid && userDetails.uid
     }
 
     await setUserDetails(updatsFileds)
@@ -257,7 +257,7 @@ export function Checkout(props) {
             }
             else {
               if (currentID === "HomeDelivery") {
-                setFreightCostByChoose(userDetails.city)
+                setFreightCostByChoose(userDetails.city && userDetails.city)
                 // setFreightCost(userDetails.city)
               }
             }
@@ -389,7 +389,7 @@ export function Checkout(props) {
               {showDetails && (
                 <div className="userDetailsSection">
                   <div>
-                    <h5 className="font-weight-bold Name">{userDetails.fullName ? userDetails.fullName : userDetails.firstName + " " + userDetails.lastName}</h5>
+                    <h5 className="font-weight-bold Name">{userDetails.fullName ? userDetails.fullName : userDetails.firstName && userDetails.firstName + " " + userDetails.lastName && userDetails.lastName}</h5>
                     <h5 className="Address">{userDetails.address && userDetails.address}  {userDetails.city && i18.t(userDetails.city)}</h5>
                     <h6 className="Email">{userDetails.email && userDetails.email}</h6>
                   </div>
