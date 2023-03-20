@@ -1,3 +1,4 @@
+import { updateCurrentUser } from "@firebase/auth";
 import $, { event } from "jquery";
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
@@ -47,7 +48,7 @@ export function Payment(props) {
     let newCurrentOrder = currentOrder
     newCurrentOrder.paymentType = e.target.value
     setCurrentOrder(newCurrentOrder)
-    console.log("currentOrder",currentOrder);
+    console.log("currentOrder", currentOrder);
   }
 
 
@@ -107,36 +108,36 @@ export function Payment(props) {
       .replace(/[^0-9.]/g, "")
       .replace(/(\..*)\./g, "$1");
   }
-  const MakePayment = async () => {
-    debugger
-    let MethodsOfPayment = ""
-    if ($("#CardNumber").val()) {
-      MethodsOfPayment = "credit card"
+  const updateMethodsOfPayment = async (MethodsOfPayment) => {
+    const newOrder = {
+      "userId": currentOrder.userId,
+      "MethodsOfShipping": currentOrder.MethodsOfShipping,
+      "notes": currentOrder.notes,
+      "numItems": currentOrder.numItems,
+      "interimTotal": currentOrder.interimTotal,
+      "shippingCost": currentOrder.shippingCost,
+      "CostToPay": currentOrder.CostToPay,
+      "MethodsOfPayment": MethodsOfPayment,
+      "city": currentOrder.city,
+      "shippingAddress": currentOrder.shippingAddress,
+      "products": currentOrder.products
     }
-    else {
-      MethodsOfPayment = $("#paymentSelect").val()
-    }
-    if (MethodsOfPayment === "") {
-      alert("you must pay before")
-    }
-    else {
-      const newOrder = {
-        "userId": currentOrder.userId,
-        "MethodsOfShipping": currentOrder.MethodsOfShipping,
-        "notes": currentOrder.notes,
-        "numItems": currentOrder.numItems,
-        "interimTotal": currentOrder.interimTotal,
-        "shippingCost": currentOrder.shippingCost,
-        "CostToPay": currentOrder.CostToPay,
-        "MethodsOfPayment": MethodsOfPayment,
-        "city": currentOrder.city,
-        "shippingAddress": currentOrder.shippingAddress,
-        "products": currentOrder.products
-      }
-      let CardNumber = $("#CardNumber").val()
-      if(MethodsOfPayment==="credit card")
-      validateCreditCard(CardNumber)
+    setCurrentOrder(newOrder)
 
+    if (MethodsOfPayment) {
+      const order = await props.createOrder(newOrder)
+      alert("the payment was succesful!",order)
+
+    }
+
+    else {
+      alert("somthing wrong")
+    }
+  }
+  const MakePayment_cCard = async () => {
+    let CardNumber = $("#CardNumber").val()
+    if (validator.isCreditCard(CardNumber)) {
+      setErrorMessage("")
       setCreditCardDetails({
         "CardNumber": CardNumber,
         "ExpirationYear": $("#ExpirationYear").val(),
@@ -146,21 +147,35 @@ export function Payment(props) {
         "PaymentsNumber": $("#PaymentsNumberId").val()
 
       })
+      // validateCreditCard(CardNumber)
+      updateMethodsOfPayment("credit card")
 
-      // if(creditCardDetails)//if the payment success
-      // const order = await props.createOrder(newOrder)
-      // else{
-      //   alert("somthing wrong")
-      // }
+    }
+    else {
+      setErrorMessage("CreditCardMessage")
+      setTimeout(function () {
+        setErrorMessage("")
+      }, 3000)
     }
   }
+  const MakePayment = async () => {
+
+    let MethodsOfPayment = $("#paymentSelect").val()
+
+    if (MethodsOfPayment === "") {
+      alert("you must pay before")
+    }
+    else
+      updateMethodsOfPayment(MethodsOfPayment)
+
+
+
+
+  }
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [])
-
-  useEffect(() => {
-
     if (yearList) {
       let tempList = [], min = now.getFullYear()
       let max = now.getFullYear() + 14
@@ -168,13 +183,12 @@ export function Payment(props) {
         tempList.push(i)
       setYearList(tempList)
     }
+  }, [])
 
-    if ($) {
-    }
-  }, []);
+
   return (
     <>
-      {/* <Search details={products} /> */}
+
       <div className="pageNuv">
         {isTablet && <Hamborger history={props.history} />}
 
@@ -442,8 +456,28 @@ export function Payment(props) {
                     </Form.Group>
                   </div>
                 </div>
-
-
+                <button
+                  onClick={MakePayment_cCard}
+                  type="submit"
+                  className="d-flex     justify-content-center
+                    align-items-center   goldButton px-3 py-2 mb-5"
+                  style={language === "he" ? { marginRight: "auto" } : { marginLeft: "auto" }}
+                >
+                  <div>{i18.t("MakePayment")}{""}</div>
+                  {language === "he" ? (
+                    <i
+                      className="fas fa-solid fa-arrow-left mr-3"
+                      style={{ fontSize: "17px" }}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fas fa-solid fa-arrow-right ml-3"
+                      style={{ fontSize: "17px" }}
+                    ></i>
+                  )}{" "}
+                </button>
+              </Form>
+              <Form>
                 <div className="bg-grey  p-3 mb-4">
                   <div className={isMobile ? " w-100" : " w-75"}>
                     <label className="  w-100 pt-1 swithSide  goldbgColor  mb-0">
@@ -475,7 +509,7 @@ export function Payment(props) {
                       }
                       required
                     >
-                      <option value="" disabled selected style={{ color: "#999" }}>{i18.t("paymentMethod")}</option>
+                      <option value="" selected style={{ color: "#999" }}>{i18.t("paymentMethod")}</option>
                       <option value="payBox">{i18.t("payBox")}</option>
                       <option value="Bit">{i18.t("Bit")}</option>
                       <option value="BankTransfer">{i18.t("BankTransfer")}</option>
@@ -512,7 +546,7 @@ export function Payment(props) {
 
                   <button
                     onClick={MakePayment}
-                    type="submit"
+                    type="button"
                     className="d-flex     justify-content-center
                     align-items-center   goldButton px-3 py-2 mb-5"
                     style={language === "he" ? { marginRight: "auto" } : { marginLeft: "auto" }}
@@ -529,7 +563,6 @@ export function Payment(props) {
                         style={{ fontSize: "17px" }}
                       ></i>
                     )}{" "}
-                    {/* <img src={arrow_left_white} style={{ paddingRight: '5px', width: '25px' }} /> */}
                   </button>
                 </div>
               </Form>

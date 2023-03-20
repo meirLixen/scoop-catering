@@ -7,7 +7,7 @@ const { userMiddleware } = require("../middleware/user");
 // API ORDER
 
 // add order (add order to user)
-router.post("/order/:userId", userMiddleware, async (req, res) => {
+router.post("/order/:userId", async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.userId });
     const newOrder = new Order({
