@@ -1215,7 +1215,9 @@ function ShabbatMenu(props) {
                     {currentUser ? (
                       <>
                         {/* <a className='px-2 text-black' onClick={() => props.history.push('/login')} href=""> התחבר </a> */}
-                        <div>  {"  " + userDetails.fullName && userDetails.fullName.split(' ')[0] + "  "} </div>
+                        {userDetails.fullName ?
+                          <div>  {"  " + userDetails.fullName.split(' ')[0] + "  "} </div>
+                          : <div></div>}
 
                         <div className=" text-center">
                           <Button variant="link" onClick={handleLogout} className="text-black" style={{
