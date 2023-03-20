@@ -465,6 +465,7 @@ function ShabbatMenu(props) {
       )}
 
       {/* content */}
+      {/* //mobile code*/}
       {isTablet && (
         <div
           data-spy="scroll"
@@ -553,7 +554,7 @@ function ShabbatMenu(props) {
                               <img className="w-100" src={image1} alt="img" />
                               : ""}
                           </div>
-                          <div className="col-4 p-0 " id={product._id}>
+                          <div className="col-4 px-2 " id={product._id}>
                             <div
                               className="h-75 "
                               style={{ lineHeight: "0.99" }}
@@ -629,8 +630,8 @@ function ShabbatMenu(props) {
                               </h6>
                             </div>
                           </div>
-                          <div className="col-1"></div>
-                          <div className="col-4 px-1 h-100">
+
+                          <div className="col-5 px-2 h-100">
                             <div className="d-flex align-items-end col-12 mx-0 px-0 row justify-content-end h-50 mt-1">
                               <div className="col-5"></div>
                               <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2" >
@@ -639,7 +640,7 @@ function ShabbatMenu(props) {
                               </div>
                             </div>
                             <div
-                              className="d-flex align-items-end  row h-50 pb-1 flex-nowrap"
+                              className="d-flex align-items-end justify-content-around  row h-50 pb-1 flex-nowrap"
                             // style={{
                             //     justifyContent: "space-evenly",
                             // }}
@@ -1214,7 +1215,7 @@ function ShabbatMenu(props) {
                     {currentUser ? (
                       <>
                         {/* <a className='px-2 text-black' onClick={() => props.history.push('/login')} href=""> התחבר </a> */}
-                        <div>  {"  " + userDetails.fullName.split(' ')[0] + "  "} </div>
+                        <div>  {"  " + userDetails.fullName && userDetails.fullName.split(' ')[0] + "  "} </div>
 
                         <div className=" text-center">
                           <Button variant="link" onClick={handleLogout} className="text-black" style={{

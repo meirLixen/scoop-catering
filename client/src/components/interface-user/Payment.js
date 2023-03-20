@@ -134,6 +134,7 @@ export function Payment(props) {
         "products": currentOrder.products
       }
       let CardNumber = $("#CardNumber").val()
+      if(MethodsOfPayment==="credit card")
       validateCreditCard(CardNumber)
 
       setCreditCardDetails({
@@ -198,7 +199,7 @@ export function Payment(props) {
         {isTablet ? (
           <img
             alt=""
-            className="h-100 "
+            className="h-100 w-100"
             src={"https://scoopcatering.co.il/headerBgImag.png"}
           />
         ) : (

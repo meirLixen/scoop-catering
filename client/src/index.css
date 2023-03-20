@@ -68,6 +68,7 @@
     z-index: 1020;
     height: 12vh;
   }
+ 
 
   .rtl-form-select {
     padding: 0.375rem 0.1rem 0.375rem 2.25rem !important;
@@ -1161,11 +1162,13 @@ form .icon-ltr:focus {
 
 .pageNuvMenu {
   position: sticky;
-  top: 5vh;
+  top: 7.5vh;
   z-index: 1020;
   height: 4vh;
 }
-
+.pageNuvMenu .navbar, .pageNuv .navbar{
+  padding: 0.5rem 1rem !important;
+}
 .pageNoContent {
   height: 50vh;
 }
