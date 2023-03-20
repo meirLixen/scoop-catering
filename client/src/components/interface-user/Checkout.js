@@ -324,7 +324,7 @@ export function Checkout(props) {
         {isTablet ? (
           <img
             alt=""
-            className="h-100 "
+            className="h-100 w-100"
             src={"https://scoopcatering.co.il/headerBgImag.png"}
           />
         ) : (
