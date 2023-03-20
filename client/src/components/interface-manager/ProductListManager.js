@@ -178,7 +178,7 @@ function ProductListManager(props) {
                 >
                   <option value="selectCategory">בחר קטגוריה</option>
                   {categories.map((category) => (
-                    <option key={category._id} value={category._id} onClick={sortByCategory(category._id)}>
+                    <option key={category._id} value={category._id} onClick={setCategorySelected(category._id)}>
                       {category.hebrewName}
                     </option>
                   ))}
