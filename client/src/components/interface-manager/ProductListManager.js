@@ -21,7 +21,28 @@ function ProductListManager(props) {
   const [categoryList, setCategoryList] = useState([]);
   const [productToEdit] = useState();
   const [sortType, setSortType] = useState("hebrewName");
+  const [categorySelected, setCategorySelected] = useEffect()
+  //   const filteredSearch = (item) => {
+  //     if (query === '') {
+  //         return item;
+  //     } else {
 
+  //         return item.firstName.toLowerCase().includes(query.toLowerCase())
+  //             || item.lastName.toLowerCase().includes(query.toLowerCase())
+  //     }
+  // };
+
+  // const filteredByCategory = (item) => {
+
+  //     if (selectedCategory.length == 0) {
+
+  //         return item;
+  //     } else {
+  //         if (tenants.includes(item.tenant))
+  //             return item
+
+  //     }
+  // };
 
 
   useEffect(() => {
@@ -29,7 +50,7 @@ function ProductListManager(props) {
   }, [])
 
   useEffect(() => {
-   
+
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -157,7 +178,7 @@ function ProductListManager(props) {
                 >
                   <option value="selectCategory">בחר קטגוריה</option>
                   {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
+                    <option key={category._id} value={category._id} onClick={sortByCategory(category._id)}>
                       {category.hebrewName}
                     </option>
                   ))}
