@@ -368,7 +368,7 @@ function ShabbatMenu(props) {
 
   return (
     <div id="myDiv">
-<div className="exam">Responsive</div>
+{/* <div className="exam">Responsive</div> */}
       <button
         className="bg-black text-white d-none scrollTopButton"
         style={{ position: "fixed", top: "90%", left: "4%" }}
