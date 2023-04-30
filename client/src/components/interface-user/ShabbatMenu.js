@@ -368,7 +368,7 @@ function ShabbatMenu(props) {
 
   return (
     <div id="myDiv">
-
+<div className="exam">Responsive</div>
       <button
         className="bg-black text-white d-none scrollTopButton"
         style={{ position: "fixed", top: "90%", left: "4%" }}
@@ -554,20 +554,21 @@ function ShabbatMenu(props) {
                               <img className="w-100" src={image1} alt="img" />
                               : ""}
                           </div>
-                          <div className="col-4 px-2 " id={product._id}>
+                          <div className="col-5 px-2 pt-1" id={product._id}>
                             <div
-                              className="h-75 "
+                              className=""
                               style={{ lineHeight: "0.99" }}
                             >
                               <div
-                                className="productName font-weight-bold  mb-1"
-                                style={{ fontSize: "1.5rem" }}
+                                className="productName   mb-1"
+                                style={{ fontSize: "20px",fontWeight: 900 }}
                               >
                                 {" "}
                                 {language === "he"
                                   ? product.hebrewName
                                   : product.name}
                               </div>
+                              
 
                               {/* <span className="productDetails" style={{ fontSize: "18px" }}>
                                 {language === "he"
@@ -580,7 +581,7 @@ function ShabbatMenu(props) {
 
                               <div
                                 className="amountOption  pl-0  mt-1"
-                                style={{ fontWeight: '600', fontSize: '17px' }}
+                                style={{ fontWeight: '700', fontSize: '15px' }}
                                 id={product._id}
                               >
                                 {product.priceList.length > 1 ?
@@ -619,34 +620,25 @@ function ShabbatMenu(props) {
 
                                 }
                               </div>
-                            </div>
+
+                           
 
                             <div
-                              className="row d-flex align-items-end  h-25 pb-2 d-none errorSelect"
+                              className="row d-flex align-items-end  h-25  d-none errorSelect"
                               style={{ fontSize: "xx-small" }}
                             >
                               <h6 className="" style={{ color: "red" }}>
                                 * יש לבחור כמות או אופציה
                               </h6>
                             </div>
-                          </div>
-
-                          <div className="col-5 px-2 h-100">
-                            <div className="d-flex align-items-end col-12 mx-0 px-0 row justify-content-end h-50 mt-1">
-                              <div className="col-5"></div>
-                              <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2" >
-                                <span id={`${product._id}price`}>{product.priceList[0] && product.priceList[0].price}</span>
-                                &#8362;{" "}
-                              </div>
-                            </div>
                             <div
-                              className="d-flex align-items-end justify-content-around  row h-50 pb-1 flex-nowrap"
+                              className="d-flex align-items-center  row h-50  flex-nowrap pt-1"
                             // style={{
                             //     justifyContent: "space-evenly",
                             // }}
                             >
-                              <div
-                                className="amountToBuy mx-2  goldColor d-flex  col-6 p-0  align-items-end"
+                             <div
+                                className="amountToBuy mx-2  goldColor d-flex col-6  p-0  "
                                 style={{
                                   width: "fit-content",
                                 }}
@@ -681,11 +673,27 @@ function ShabbatMenu(props) {
                                 style={{
                                   height: "fit-content",
                                   width: "fit-content",
+                                  fontSize: "15px"
                                 }}
                               >
                                 {i18.t("addToCart")}
                               </div>
                             </div>
+
+                            </div>
+
+
+                          </div>
+
+                          <div className="col-3 px-2 h-100">
+                            <div className="d-flex align-items-end col-12 mx-0 px-0 row  h-50 mt-1">
+                              <div className="col-5"></div>
+                              <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2" >
+                                <span id={`${product._id}price`}>{product.priceList[0] && product.priceList[0].price}</span>
+                                &#8362;{" "}
+                              </div>
+                            </div>
+                           
                           </div>
                         </div>
                       </>
@@ -709,7 +717,7 @@ function ShabbatMenu(props) {
       )}
 
       <div
-        className="  swithDir  justify-content-center  col-md-10   m-auto   "
+        className="  swithDir  justify-content-center col-xl-10 col-md-12   m-auto   "
         style={{
           paddingTop: "1.5%",
           display: "flex",
@@ -843,14 +851,14 @@ function ShabbatMenu(props) {
                           <div className="h-75 " style={{ lineHeight: "0.99" }}>
                             <div
                               className="productName font-weight-bold mb-1 "
-                              style={{ fontSize: "1.5rem" }}
+                              style={{ fontSize: "20px",fontWeight: 900 }}
                             >
                               {" "}
                               {language === "he"
                                 ? product.hebrewName
                                 : product.name}
                             </div>
-                            <span className="productDetails" style={{ fontSize: "17px" }}>
+                            <span className="productDetails" style={{ fontSize: "15px" }}>
                               {language === "he"
                                 ? product.hebrewDetails
                                 : product.details
@@ -858,7 +866,7 @@ function ShabbatMenu(props) {
                             </span>
                             <div
                               className="amountOption  pl-0 mt-1"
-                              style={{ fontWeight: '600', fontSize: '17px' }}
+                              style={{ fontWeight: '700', fontSize: '15px' }}
                               id={product._id}
                             >
                               {product.priceList.length > 1 ?
@@ -1065,7 +1073,7 @@ function ShabbatMenu(props) {
                                     >
                                       <div
                                         className="productName font-weight-bold  mb-1"
-                                        style={{ fontSize: "1.5rem" }}
+                                        style={{ fontSize: "20px",fontWeight: 900 }}
                                       >
                                         {" "}
                                         {language === "he"
@@ -1081,7 +1089,7 @@ function ShabbatMenu(props) {
 
                                       <div
                                         className="amountOption  pl-0  mt-1"
-                                        style={{ fontWeight: '600', fontSize: '17px' }}
+                                        style={{ fontWeight: '700', fontSize: '15px' }}
                                         id={product._id}
                                       >
                                         {product.priceList.length > 1 ?
@@ -1335,7 +1343,7 @@ function ShabbatMenu(props) {
                               {" "}
                               <img
                                 alt=""
-                                style={{ width: "17px" }}
+                                style={{ width: "15px" }}
                                 src={deleteIcom}
                               />
                             </div>
@@ -1537,11 +1545,11 @@ function ShabbatMenu(props) {
                       borderRadius: "10px 10px 0px 0px",
                     }}
                   >
-                    <div className="col-7 swithSide font-medium px-2">
+                    <div className="col-9 swithSide font-medium px-2">
                       {" "}
                       {i18.t("TotalProducts")}:
                     </div>
-                    <div className={language == "he" ? "col-5 text-start numItems  font-weight-bold" : "col-5 text-end numItems  font-weight-bold"}>
+                    <div className={language == "he" ? "col-3 text-start numItems  font-weight-bold" : "col-3 text-end numItems  font-weight-bold"}>
                       {numItems}
                     </div>
                   </div>
@@ -1565,12 +1573,12 @@ function ShabbatMenu(props) {
                   {language === "he" ? (
                     <i
                       className="fas fa-solid fa-arrow-left mr-3"
-                      style={{ fontSize: "17px" }}
+                      style={{ fontSize: "15px" }}
                     ></i>
                   ) : (
                     <i
                       className="fas fa-solid fa-arrow-right ml-3"
-                      style={{ fontSize: "17px" }}
+                      style={{ fontSize: "15px" }}
                     ></i>
                   )}{" "}
                 </button>

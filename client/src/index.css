@@ -68,7 +68,7 @@
     z-index: 1020;
     height: 12vh;
   }
- 
+
 
   .rtl-form-select {
     padding: 0.375rem 0.1rem 0.375rem 2.25rem !important;
@@ -498,7 +498,7 @@ tr{
   left: 43%;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .big_screan {
     display: none !important;
   }
@@ -1166,9 +1166,12 @@ form .icon-ltr:focus {
   z-index: 1020;
   height: 4vh;
 }
-.pageNuvMenu .navbar, .pageNuv .navbar{
+
+.pageNuvMenu .navbar,
+.pageNuv .navbar {
   padding: 0.5rem 1rem !important;
 }
+
 .pageNoContent {
   height: 50vh;
 }
@@ -1710,4 +1713,39 @@ button.shippingOption:hover {
   option {
     width: 150px;
   }
+}
+
+.exam {
+  position: absolute;
+  top: 20%;
+  right: 20%;
+
+  font-weight: bold;
+}
+
+
+/* regular  */
+@media screen and (max-width: 960px) {
+
+  .exam {
+    color: red;
+  }
+
+}
+
+/* table */
+@media screen and (max-width: 758px) {
+  .exam {
+    color: green;
+  }
+
+}
+
+/* mobile */
+@media screen and (max-width: 480px) {
+
+  .exam {
+    color: blue;
+  }
+
 }
