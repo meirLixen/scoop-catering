@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // import { Card, Button, Alert } from "react-bootstrap"
 
 import { connect } from "react-redux";
-import background_image from "../data/imges/EventsImage_.png";
+
 import Footer from "./mainPage/Footer";
 import Section from "./mainPage/Section";
 import UnderFooter from "./mainPage/UnderFooter";
@@ -54,7 +54,8 @@ export function Home(props) {
         <div
           className=""
           style={{
-            backgroundImage: `url(${background_image})`,
+          
+            backgroundImage: `url("https://scoopcatering.co.il/EventsImage_.png")`,
             width: "100%",
             height: "100%",
             // backgroundColor: 'black',
