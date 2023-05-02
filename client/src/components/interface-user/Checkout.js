@@ -742,7 +742,7 @@ export function Checkout(props) {
                   style={{ fontSize: "smaller" }}
                 >
                   {i18.t("ApprovalOfRegulations")} {" "}
-                  <a target="_blank" style={{ color: "black" }} href="/policy">
+                  <a target="_blank" style={{ color: "black" }} href="/Terms">
                     {i18.t("Policy")}
                   </a>
                 </span>

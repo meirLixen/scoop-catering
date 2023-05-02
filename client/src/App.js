@@ -9,7 +9,7 @@ import Signup from "./components/Firebase/Signup";
 import UpdateProfile from "./components/Firebase/UpdateProfile";
 import history from "./components/history";
 import Home from "./components/Home";
-import Policy from './components/interface-user/policy'
+import Terms from "./components/interface-user/_Terms";
 import ManagerInterface from "./components/interface-manager/ManagerInterface";
 import OrderSummary from "./components/interface-manager/OrderSummary";
 import Checkout from "./components/interface-user/Checkout";
@@ -86,7 +86,7 @@ function App(props) {
           <Route exact path="/gallery" component={Gallery} />
           <Route exact path="/events" component={Events} />
           <Route exact path="/menu" component={MenuScroll} />
-          <Route exact path="/policy" component={Policy} />
+          <Route exact path="/Terms" component={Terms} />
 
 
         </div>
