@@ -233,6 +233,6 @@ export const En = {
     InformationAndArticles: "Information and articles",
     location: "Mitzad",
     Copyright: "all Copyright to Scoop Catering",
-    Policy: "Policy",
+    Policy: "Terms",
   },
 };
