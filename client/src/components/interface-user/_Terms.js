@@ -72,15 +72,15 @@ export function _Terms(props) {
           <div className="goldColor d-inline"> /{i18.t("Policy")} </div>
         </div>
         <div>
-          <div className="px-5 py-5" style={{
+          <div className="py-5 col-md-10 col-sm-12" style={{
            
             direction: "rtl",
             lineHeight: 1.5,
             textAlign: "center",
-            maxWidth: "85%",
+            
             margin: "auto"
           }}>
-            <artical className="text-right"  >
+            <artical className="text-right"  style={{fontSize:"20px"}}>
               <p>תקנון זה מהווה הסכם משפטי מחייב , אשר הוראותיו יחולו על כל שימוש שייעשה על ידי המשתמש באתר ,
                 ועל כל רכישה שתתבצע באמצעות האתר , ומהווה הסכמה מחייבת בין המשתמש לבין מפעיל האתר . </p>
               <p>מובהר בזאת, כי האתר רשאי להשתמש בכל מידע שסופק על ידך (המשתמש) או נאסף בעת שימושך .</p>
