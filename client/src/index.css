@@ -1749,3 +1749,20 @@ button.shippingOption:hover {
   }
 
 }
+
+
+@media screen and (max-width: 1024px) {
+.stickyBox {
+      display: none !important;
+  }
+  /* .middleColumn{
+    width: 100% !important;
+  } */
+  .mobileView{
+    display: block !important;
+  }
+  .middleColumn{
+    display: none !important;
+  }
+ 
+}
