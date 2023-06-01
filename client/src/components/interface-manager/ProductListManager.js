@@ -123,7 +123,7 @@ function ProductListManager(props) {
     $("#newHebrewDescription").val(product.hebrewDetails);
     if (product.priceList.length > 1) {
       
-      alert(product.priceList[0].amount._id)
+      //alert(product.priceList[0].amount._id)
       for (var i = 0; i < product.priceList.length; i++){
         $("#ButtonNewPrice0").on('click')
         $("#newPrice" + i).val(product.priceList[i].price);
