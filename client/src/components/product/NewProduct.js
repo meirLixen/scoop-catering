@@ -187,7 +187,7 @@ export function NewProduct(props, { product }) {
 
     axios.post(url, formData, config).then((response) => {
       console.log('response upload', response);
-      alert('Image Uploaded Successfully!!')
+     // alert('Image Uploaded Successfully!!')
     }).catch((err) => {
       console.log('err ', err);
     })

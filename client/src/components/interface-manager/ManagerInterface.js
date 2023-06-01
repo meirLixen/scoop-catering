@@ -13,7 +13,7 @@ export function ManagerInterface(props) {
   return (
     <>
       <div className="container p-3">
-      <div className="location pt-3  px-5 text-right rtl">
+      <div className="location pt-3  px-5 text-right rtl h5">
         <div
           className="d-inline btn-pointer"
           onClick={() => window.location="https://scoopcatering.co.il/"}
