@@ -13,6 +13,16 @@ export function ManagerInterface(props) {
   return (
     <>
       <div className="container p-3">
+      <div className="location pt-3  px-5 text-right rtl">
+        <div
+          className="d-inline btn-pointer"
+          onClick={() => window.location="https://scoopcatering.co.il/"}
+        >
+          ScoopCatering
+        </div>
+        
+        <div className="goldColor d-inline"> / ממשק מנהל </div>
+      </div>
         <h1 className="mb-0">ממשק מנהל</h1>
         <Tabs
           defaultActiveKey="orders"

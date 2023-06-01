@@ -24,7 +24,7 @@ export  function ForgotPassword(props) {
       await resetPassword(emailRef.current.value)
       setMessage(language!=="he"?"Check your inbox for further instructions":"בדוק את תיבת הדואר הנכנס שלך להנחיות נוספות")
     } catch {
-      setError(language!=="he"?"Failed to reset password":"איפוס סיסמה נכשל")
+      setError(language!=="he"?"Failed to reset password":"איפוס סיסמא נכשל")
     }
 
     setLoading(false)

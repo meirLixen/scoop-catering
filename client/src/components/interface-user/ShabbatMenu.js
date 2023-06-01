@@ -27,6 +27,7 @@ import { useHistory } from "react-router-dom";
 
 let previousClick = "empty";
 let previousClickIndex;
+let previousClickName;
 let currentClass;
 // const baseURL = "https://scoopcatering.co.il/"
 // const baseURL = process.env.IMAGES_BASE_URL;
@@ -92,6 +93,8 @@ function ShabbatMenu(props) {
   }
 
   function hoverCategory(categoryId, index) {
+  console.log("categoryId",categoryId);
+    debugger
     currentClass = "#" + categoryId;
     if ($(currentClass).hasClass("active")) {
     } else {
@@ -112,6 +115,8 @@ function ShabbatMenu(props) {
   }
 
   function categorySelection(name, id, index) {
+    debugger
+    console.log("name: ",name,"id: ",id,"index: ",index);
     $(".searchResults").addClass("d-none");
     $(".shabatMenu").removeClass("d-none");
     $(".categoryList").removeClass("px-3");
@@ -119,23 +124,21 @@ function ShabbatMenu(props) {
     if ($(currentClass).hasClass("active")) {
     } else {
       $(currentClass).addClass("active");
-
       $("." + (index - 1)).addClass("removeBottom");
       console.log(previousClick);
       if (previousClick !== "empty" && previousClick !== id) {
         $("#" + previousClick).removeClass("active");
         $("." + (previousClickIndex - 1)).removeClass("removeBottom");
+        $("#" + previousClickName).removeClass("addPadding")
       } else {
         $("#" + previousClick).addClass("active");
         $("." + (previousClickIndex - 1)).addClass("removeBottom");
+        $("#" + name).addClass("addPadding")
       }
       previousClick = id;
+      previousClickName = name;
       previousClickIndex = index;
-    }
-
-    if (isTablet) {
-      $("#" + name).css("padding-top", "12vh");
-    }
+    } 
   }
 
   const deleteItem = async (id) => {
@@ -384,7 +387,7 @@ function ShabbatMenu(props) {
       {/* //הוספתי */}
 
 
-      {isTablet && (
+      {/* {isTablet && (
         <nav
           className="swithDir categoryList rounded-0  bg-white d-flex"
           style={{
@@ -418,20 +421,59 @@ function ShabbatMenu(props) {
               </a>
             ))}
         </nav>
-      )}
+      )} */}
 
 
       {/* //הוספתי סיום*/}
       <div className="pageNuvMenu ">
-        {isTablet && <Hamborger history={props.history} />}
+       
 
-        {!isMobile && !isTablet && <TopPageDesktop />}
+
+         <TopPageDesktop />
+
       </div>
 
       <div
         className="small_pageHeader "
         style={{ backgroundImage: `url(${headerBgImag})` }}
       ></div>
+      <div className="mobileView" style={{ display: "none" ,
+        zIndex: 1,
+        position: "sticky",
+        top: "91px"}}>
+        <nav
+          className="swithDir categoryList   bg-white d-flex"
+          style={{
+            width: "auto",
+            overflowX: "auto",
+            overflowY: "hidden",
+            whiteSpace: "nowrap",
+            position: "sticky",
+            top: "0"
+          }}
+        >
+          {categories &&
+            categories.map((category, index) => (
+              <a
+                key={index}
+                className="categoryLink"
+                href={"#" + category.name +"-Mobile"}
+                style={{ textDecoration: "none",borderLeft: "1px solid rgba(0,0,0,.4)" }}
+              >
+                <button
+                  className={`text-center bg-white border-0  categoryButton ${index}`}
+                  id={category._id+"-Mobile"}
+                  onClick={() =>
+                    categorySelection(category.name+"-Mobile", category._id+"-Mobile", index)
+                  }
+                  style={{ fontSize: "1rem", width: "100% !important" }}
+                >
+                  {language === "he" ? category.hebrewName : category.name}
+                </button>
+              </a>
+            ))}
+        </nav>
+      </div>
 
       <h4 className=" goldColor mt-2 text-center">{i18.t("menuTitle")}</h4>
 
@@ -466,7 +508,7 @@ function ShabbatMenu(props) {
 
       {/* content */}
       {/* //mobile code*/}
-      {isTablet && (
+      {/* {isTablet && (
         <div
           data-spy="scroll"
           data-target="#navbar-example2"
@@ -570,13 +612,7 @@ function ShabbatMenu(props) {
                               </div>
 
 
-                              {/* <span className="productDetails" style={{ fontSize: "18px" }}>
-                                {language === "he"
-                                  ? product.hebrewDetails
-                                  : product.details
-                                }
-                              </span>
- */}
+                            
 
 
                               <div
@@ -596,9 +632,7 @@ function ShabbatMenu(props) {
                                       fontWeight: "600 !important",
                                     }}
                                   >
-                                    {/* <option value=" " disabled selected>
-                                              {i18.t("selectAmount")}
-                                            </option> */}
+                                   
                                     {product.priceList.map((item) => (
                                       <option value={item.price}>
                                         {
@@ -633,9 +667,7 @@ function ShabbatMenu(props) {
                               </div>
                               <div
                                 className="d-flex align-items-center  row h-50  flex-nowrap pt-1"
-                              // style={{
-                              //     justifyContent: "space-evenly",
-                              // }}
+                            
                               >
                                 <div
                                   className="amountToBuy mx-2  goldColor d-flex col-6  p-0  "
@@ -653,7 +685,7 @@ function ShabbatMenu(props) {
                                   </span>
                                   <input
                                     type="text"
-                                    // defaultValue="1"
+                                  
                                     value={1}
                                     className=" text-black bg-white pt-0 pb-0   mt-2 input_number fontNumber gold-border"
                                   />
@@ -713,7 +745,7 @@ function ShabbatMenu(props) {
             </h4>
           </div>
         </div>
-      )}
+      )} */}
 
       <div
         className="  swithDir  justify-content-center col-xl-10 col-md-12 px-0   m-auto   "
@@ -800,6 +832,247 @@ function ShabbatMenu(props) {
 
 
         )}
+
+
+        <div
+          data-spy="scroll"
+          data-target="#navbar-example2"
+          data-offset="0"
+
+          style={
+            language === "he" ? { direction: "rtl", display: "none" } : { direction: "ltr", display: "none" }
+          }
+          className=" mx-0  w-100 pageContent overflow-auto pb-3 sidColumn scrollable-content mobileView"
+        >
+          <div className="shabatMenu px-1">
+            {categories &&
+              categories.map((category, index) => (
+                <>
+                  <div
+                
+                    id={category.name+"-Mobile"}
+                    onMouseEnter={() => hoverCategory(category._id+"-Mobile", index)}
+                  >
+                    <div>
+                      <div className="  w-100 categoryImage"
+                        style={!category.picUrl || category.picUrl === undefined ? { backgroundImage: `url(${baseURL + "salads.png"})` } : { backgroundImage: `url(${baseURL + "" + category.picUrl})` }}
+                      >
+
+                      </div>
+
+                      <div className="d-flex align-items-center m-3 ">
+                        <h1 className=" mb-0 font-weight-bold ">
+                          {language === "he"
+                            ? category.hebrewName
+                            : category.name}
+                        </h1>
+                      </div>
+                    </div>
+
+                    {(searchWord !== undefined &&
+                      searchWord !== "" &&
+                      searchResults.length
+                      ? searchResults
+                      : category.products
+                    ).map((product) => product.display && (
+                      <>
+                        <div
+                          className=" productLine w-100  row  m-0  flex-nowrap    justify-content-around   p-2 mb-2"
+                          id={product._id+"-Mobile"}
+                          style={{
+                            maxHeight: "150px",
+                            height: "118px",
+                          }}
+                        >
+                          <div className="col-3  productPic d-flex align-items-center px-2  "
+                            style={!product.img || product.img == undefined ? { backgroundImage: "none" } : { backgroundImage: `url(${baseURL + "" + product.img})` }}
+                          >
+                            {product.recommended &&
+
+                              <div
+                                className=" ml-auto bg-gold d-flex   recommended  justify-content-center align-items-center"
+                                style={language === "he" ? { right: "0px" } : { left: "0px" }}
+
+                              >
+                                <p
+                                  className="m-0 "
+                                  style={{ fontSize: "0.6rem" }}
+                                >
+                                  {i18.t("recommended")}
+                                </p>
+                              </div>
+                            }
+
+                            {product.outOfStock &&
+                              <div
+                                className=" ml-auto bg-black text-white outOfStock d-flex  justify-content-center align-items-center"
+                                style={language === "he" ? { right: "0px" } : { left: "0px" }}
+
+                              >
+                                <p
+                                  className="m-0 "
+                                  style={{ fontSize: "0.6rem" }}
+                                >
+                                  {i18.t("outOfStock")}
+                                </p>
+                              </div>
+                            }
+
+
+                            {!product.img || product.img == undefined ?
+                              <img className="w-100" src={image1} alt="img" />
+                              : ""}
+                          </div>
+                          <div className="col-5 px-2 pt-1" id={product._id+"-Mobile"}>
+                            <div
+                              className=""
+                              style={{ lineHeight: "0.99" }}
+                            >
+                              <div
+                                className="productName   mb-1"
+                                style={{ fontSize: "20px", fontWeight: 900 }}
+                              >
+                                {" "}
+                                {language === "he"
+                                  ? product.hebrewName
+                                  : product.name}
+                              </div>
+
+
+
+
+                              <div
+                                className="amountOption  pl-0  mt-1"
+                                style={{ fontWeight: '700', fontSize: '15px' }}
+                                id={product._id+"-Mobile"}
+                              >
+                                {product.priceList.length > 1 ?
+                                  <select id={product._id+"-Mobile"} onChange={changePrice}
+                                    className="btn-pointer amountOption_select
+                                                              pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
+                                    aria-label=".form-select-sm example"
+                                    style={{
+                                      lineHeight: "1",
+                                      fontSize: "16px",
+                                      width: "fit-content",
+                                      fontWeight: "600 !important",
+                                    }}
+                                  >
+                                   
+                                    {product.priceList.map((item) => (
+                                      <option value={item.price}>
+                                        {
+                                          language === "he"
+                                            ? item.amount && item.amount.hebrewName
+                                            : item.amount && item.amount.name}
+                                      </option>
+                                    ))}
+
+
+                                  </select>
+                                  :
+
+                                  <div>{language === "he"
+                                    ?
+                                    product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.hebrewName
+                                    :
+                                    product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.name}</div>
+
+                                }
+                              </div>
+
+
+
+                              <div
+                                className="row d-flex align-items-end  h-25  d-none errorSelect"
+                                style={{ fontSize: "xx-small" }}
+                              >
+                                <h6 className="" style={{ color: "red" }}>
+                                  * יש לבחור כמות או אופציה
+                                </h6>
+                              </div>
+                              <div
+                                className="d-flex align-items-center  row h-50  flex-nowrap pt-1"
+                              
+                              >
+                                <div
+                                  className="amountToBuy mx-2  goldColor d-flex col-6  p-0  "
+                                  style={{
+                                    width: "fit-content",
+                                  }}
+                                >
+                                  <span
+                                    className="plus"
+                                    onClick={() =>
+                                      changeAmount(product._id+"-Mobile", "plus")
+                                    }
+                                  >
+                                    +
+                                  </span>
+                                  <input
+                                    type="text"
+                                  
+                                    value={1}
+                                    className=" text-black bg-white pt-0 pb-0   mt-1 input_number fontNumber gold-border"
+                                  />
+                                  <span
+                                    className="minus"
+                                    onClick={() =>
+                                      changeAmount(product._id+"-Mobile", "minus")
+                                    }
+                                  >
+                                    -
+                                  </span>
+                                </div>
+
+                                <div
+                                  onClick={() => AddToCart(product)}
+                                  className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 py-1   roundButton"
+                                  style={{
+                                    height: "fit-content",
+                                    width: "fit-content",
+                                    fontSize: "15px"
+                                  }}
+                                >
+                                  {i18.t("addToCart")}
+                                </div>
+                              </div>
+
+                            </div>
+
+
+                          </div>
+
+                          <div className="col-3 px-2 h-100">
+                            <div className="d-flex align-items-end col-12 mx-0 px-0 row  h-50 mt-1">
+                              <div className="col-5"></div>
+                              <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2" >
+                                <span id={`${product._id}-Mobileprice`}>{product.priceList[0] && product.priceList[0].price}</span>
+                                &#8362;{" "}
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                  <hr
+                    className="goldColor mt-0 mb-2 w-100 row"
+                    style={{ height: "2.5px", opacity: "1" }}
+                  />
+                </>
+              ))}
+          </div>
+          <div className="searchResults d-none mt-1">
+            <h4 className="swithSide notFound">
+              <span className=" "> {i18.t("notFoundResults")}</span> {searchWord}{" "}
+              <button className="mx-2" onClick={clearSearch}>x</button>
+            </h4>
+          </div>
+        </div>
+
+
 
         {/* middle column */}
         {!isMobile && !isTablet && (
@@ -1214,253 +1487,7 @@ function ShabbatMenu(props) {
                 </div>
               </div>
             </div>
-            <div
-              data-spy="scroll"
-              data-target="#navbar-example2"
-              data-offset="0"
 
-              style={
-                language === "he" ? { direction: "rtl", display: "none" } : { direction: "ltr", display: "none" }
-              }
-              className=" mx-0  w-100 pageContent overflow-auto pb-3 sidColumn scrollable-content mobileView"
-            >
-              <div className="shabatMenu px-1">
-                {categories &&
-                  categories.map((category, index) => (
-                    <>
-                      <div
-                        id={category.name}
-                        onMouseEnter={() => hoverCategory(category._id, index)}
-                      >
-                        <div>
-                          <div className="  w-100 categoryImage"
-                            style={!category.picUrl || category.picUrl === undefined ? { backgroundImage: `url(${baseURL + "salads.png"})` } : { backgroundImage: `url(${baseURL + "" + category.picUrl})` }}
-                          >
-
-                          </div>
-
-                          <div className="d-flex align-items-center m-3 ">
-                            <h1 className=" mb-0 font-weight-bold ">
-                              {language === "he"
-                                ? category.hebrewName
-                                : category.name}
-                            </h1>
-                          </div>
-                        </div>
-
-                        {(searchWord !== undefined &&
-                          searchWord !== "" &&
-                          searchResults.length
-                          ? searchResults
-                          : category.products
-                        ).map((product) => product.display && (
-                          <>
-                            <div
-                              className=" productLine w-100  row  m-0  flex-nowrap    justify-content-around   p-2 mb-2"
-                              id={product._id}
-                              style={{
-                                maxHeight: "150px",
-                                height: "118px",
-                              }}
-                            >
-                              <div className="col-3  productPic d-flex align-items-center px-2  "
-                                style={!product.img || product.img == undefined ? { backgroundImage: "none" } : { backgroundImage: `url(${baseURL + "" + product.img})` }}
-                              >
-                                {product.recommended &&
-
-                                  <div
-                                    className=" ml-auto bg-gold d-flex   recommended  justify-content-center align-items-center"
-                                    style={language === "he" ? { right: "0px" } : { left: "0px" }}
-
-                                  >
-                                    <p
-                                      className="m-0 "
-                                      style={{ fontSize: "0.6rem" }}
-                                    >
-                                      {i18.t("recommended")}
-                                    </p>
-                                  </div>
-                                }
-
-                                {product.outOfStock &&
-                                  <div
-                                    className=" ml-auto bg-black text-white outOfStock d-flex  justify-content-center align-items-center"
-                                    style={language === "he" ? { right: "0px" } : { left: "0px" }}
-
-                                  >
-                                    <p
-                                      className="m-0 "
-                                      style={{ fontSize: "0.6rem" }}
-                                    >
-                                      {i18.t("outOfStock")}
-                                    </p>
-                                  </div>
-                                }
-
-
-                                {!product.img || product.img == undefined ?
-                                  <img className="w-100" src={image1} alt="img" />
-                                  : ""}
-                              </div>
-                              <div className="col-5 px-2 pt-1" id={product._id}>
-                                <div
-                                  className=""
-                                  style={{ lineHeight: "0.99" }}
-                                >
-                                  <div
-                                    className="productName   mb-1"
-                                    style={{ fontSize: "20px", fontWeight: 900 }}
-                                  >
-                                    {" "}
-                                    {language === "he"
-                                      ? product.hebrewName
-                                      : product.name}
-                                  </div>
-
-
-                                  {/* <span className="productDetails" style={{ fontSize: "18px" }}>
-                      {language === "he"
-                        ? product.hebrewDetails
-                        : product.details
-                      }
-                    </span>
-*/}
-
-
-                                  <div
-                                    className="amountOption  pl-0  mt-1"
-                                    style={{ fontWeight: '700', fontSize: '15px' }}
-                                    id={product._id}
-                                  >
-                                    {product.priceList.length > 1 ?
-                                      <select id={product._id} onChange={changePrice}
-                                        className="btn-pointer amountOption_select
-                                                              pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
-                                        aria-label=".form-select-sm example"
-                                        style={{
-                                          lineHeight: "1",
-                                          fontSize: "16px",
-                                          width: "fit-content",
-                                          fontWeight: "600 !important",
-                                        }}
-                                      >
-                                        {/* <option value=" " disabled selected>
-                                    {i18.t("selectAmount")}
-                                  </option> */}
-                                        {product.priceList.map((item) => (
-                                          <option value={item.price}>
-                                            {
-                                              language === "he"
-                                                ? item.amount && item.amount.hebrewName
-                                                : item.amount && item.amount.name}
-                                          </option>
-                                        ))}
-
-
-                                      </select>
-                                      :
-
-                                      <div>{language === "he"
-                                        ?
-                                        product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.hebrewName
-                                        :
-                                        product.priceList[0] && product.priceList[0].amount && product.priceList[0].amount.name}</div>
-
-                                    }
-                                  </div>
-
-
-
-                                  <div
-                                    className="row d-flex align-items-end  h-25  d-none errorSelect"
-                                    style={{ fontSize: "xx-small" }}
-                                  >
-                                    <h6 className="" style={{ color: "red" }}>
-                                      * יש לבחור כמות או אופציה
-                                    </h6>
-                                  </div>
-                                  <div
-                                    className="d-flex align-items-center  row h-50  flex-nowrap pt-1"
-                                  // style={{
-                                  //     justifyContent: "space-evenly",
-                                  // }}
-                                  >
-                                    <div
-                                      className="amountToBuy mx-2  goldColor d-flex col-6  p-0  "
-                                      style={{
-                                        width: "fit-content",
-                                      }}
-                                    >
-                                      <span
-                                        className="plus"
-                                        onClick={() =>
-                                          changeAmount(product._id, "plus")
-                                        }
-                                      >
-                                        +
-                                      </span>
-                                      <input
-                                        type="text"
-                                        // defaultValue="1"
-                                        value={1}
-                                        className=" text-black bg-white pt-0 pb-0   mt-1 input_number fontNumber gold-border"
-                                      />
-                                      <span
-                                        className="minus"
-                                        onClick={() =>
-                                          changeAmount(product._id, "minus")
-                                        }
-                                      >
-                                        -
-                                      </span>
-                                    </div>
-
-                                    <div
-                                      onClick={() => AddToCart(product)}
-                                      className="addToCart col-5  bg-black text-white align-items-center d-flex h6  mb-0 py-1   roundButton"
-                                      style={{
-                                        height: "fit-content",
-                                        width: "fit-content",
-                                        fontSize: "15px"
-                                      }}
-                                    >
-                                      {i18.t("addToCart")}
-                                    </div>
-                                  </div>
-
-                                </div>
-
-
-                              </div>
-
-                              <div className="col-3 px-2 h-100">
-                                <div className="d-flex align-items-end col-12 mx-0 px-0 row  h-50 mt-1">
-                                  <div className="col-5"></div>
-                                  <div className="price productPrice text-center font-weight-bold  goldColor p-0 mr-0 col-7 fontNumber  mb-2" >
-                                    <span id={`${product._id}price`}>{product.priceList[0] && product.priceList[0].price}</span>
-                                    &#8362;{" "}
-                                  </div>
-                                </div>
-
-                              </div>
-                            </div>
-                          </>
-                        ))}
-                      </div>
-                      <hr
-                        className="goldColor mt-0 mb-2 w-100 row"
-                        style={{ height: "2.5px", opacity: "1" }}
-                      />
-                    </>
-                  ))}
-              </div>
-              <div className="searchResults d-none mt-1">
-                <h4 className="swithSide notFound">
-                  <span className=" "> {i18.t("notFoundResults")}</span> {searchWord}{" "}
-                  <button className="mx-2" onClick={clearSearch}>x</button>
-                </h4>
-              </div>
-            </div>
           </>
 
         )}

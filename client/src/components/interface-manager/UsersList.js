@@ -137,13 +137,14 @@ function UsersList(props) {
                   onChange={(e) => changeCategory(e)}
                 >
                   <option value="selectCategory">סינון לפי</option>
-                  <option>מס' הזמנה</option>
+                  <option>מס' לקוח</option>
+                  <option>מס' הזמנות</option>
                   <option>שם לקוח</option>
-                  <option>סכום</option>
-                  <option>עיר</option>
-                  <option>כתובת משלוח</option>
-                  <option>תאירך הזמנה</option>
-                  <option>אמצעי תשלום</option>
+                  <option>דוא"ל</option>
+                  <option>סיסמא</option>
+                  <option>טלפון</option>
+                  <option>טלפון נוסף</option>
+                  <option>קוד קופון</option>
                 </Form.Select>
               </div>
               <div className="col-md-6">
@@ -162,7 +163,7 @@ function UsersList(props) {
                   מס'לקוח
                 </th>
 
-                <th className=" lableForm col-1" value="userName" id="userName">
+                <th className=" lableForm col-2" value="userName" id="userName">
                   מס' הזמנות
                 </th>
                 <th className=" lableForm col-2" value="userName" id="userName">
@@ -177,7 +178,7 @@ function UsersList(props) {
                   value="outOfStock"
                   id="outOfStock"
                 >
-                  סיסמה
+                סיסמא
                 </th>
                 <th
                   className=" lableForm col-1"
@@ -189,7 +190,7 @@ function UsersList(props) {
 
                 <th className=" lableForm  col-1">טלפון נוסף </th>
 
-                <th className=" lableForm  col-2">קוד קופון </th>
+                <th className=" lableForm  col-1">קוד קופון </th>
                 {/* <th className=' lableForm  col-1'>חשבונית</th> */}
               </tr>
             </thead>
@@ -198,8 +199,8 @@ function UsersList(props) {
               {users.map((item, index) => (
                 <Fragment key={index}>
                   <tr className=" bg-white  col-12 ">
-                    <td className=" border-0 col-1 text-center">205</td>
-                    <td className=" border-0 col-1">{item.orders.length}</td>
+                    <td className=" border-0 col-1 text-center">{index+1}</td>
+                    <td className=" border-0 col-2">{item.orders.length}</td>
                     <td className=" border-0 col-2 text-center">
                       {item.fullName
                         ? item.fullName
@@ -216,7 +217,7 @@ function UsersList(props) {
                       {item.anotherPhone ? item.anotherPhone : ""}
                     </td>
 
-                    <td className=" border-0 col-2">
+                    <td className=" border-0 col-1">
                       {item.codeCupon ? item.codeCupon : ""}
                     </td>
 

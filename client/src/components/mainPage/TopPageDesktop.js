@@ -10,7 +10,7 @@ import logo from "../../data/imges/logo.png";
 import underLogo from "../../data/imges/underLogo.png";
 // import img1 from '../data/imges/img1.png'
 // import img1_ from '../data/imges/img1_.png'
-
+import Hamborger from "./Hamborger/Hamborger";
 import $ from "jquery";
 import i18 from "../../i18/i18";
 // import searchIcon from '../data/imges/searchIcon.svg'
@@ -73,6 +73,8 @@ export function TopPageDesktop(props) {
   useEffect(() => {
     if ($) {
       if (language === "he") {
+        // $("#navbarScrollingDropdown").remove("ltr")
+        // $("#navbarScrollingDropdown").addClass("rtl")
         $(".EnLanguage").removeClass("d-none");
         $(".HeLanguage").addClass("d-none");
         $(".scoopButton").css("direction", "rtl");
@@ -86,7 +88,10 @@ export function TopPageDesktop(props) {
           left: "",
         });
         $(".location").removeClass("text-start").addClass("text-end");
-        $(".linksNuv").css({ "margin-right": "10%" });
+        if($(window).width() > 991){
+          $(".linksNuv").css({ "margin-right": "10%" });
+        }
+        
         $(".amountOption_select").addClass("rtl-form-select"); //.removeClass('pl-1')
 
         // $(".inputOfSearch").attr("placeholder", " הזן/י מוצר לחיפוש...")
@@ -103,7 +108,8 @@ export function TopPageDesktop(props) {
         $(".addM").removeClass("ml-2").addClass("mr-2");
       } else {
         // $(".inputOfSearch").css('plach')
-
+        // $("#navbarScrollingDropdown").remove("rtl")
+        // $("#navbarScrollingDropdown").addClass("ltr")
         $(".HeLanguage").removeClass("d-none");
         $(".EnLanguage").addClass("d-none");
         $(".linksNuv").removeClass("rtl");
@@ -118,7 +124,9 @@ export function TopPageDesktop(props) {
           right: "",
           left: "0px",
         });
+        if($(window).width() > 991){
         $(".linksNuv").css({ "margin-left": "10%" });
+        }
         // $(".inputOfSearch").attr("placeholder", " ")
         $(".swithSide").css("text-align", "left");
         $(".productLine").removeClass("rtl");
@@ -177,11 +185,10 @@ export function TopPageDesktop(props) {
   }, [cart]);
   return (
     <>
-      <div
+      <div className="TopPageDesktop"
         style={{
           width: "100vw",
           position: "fixed",
-          top: "0",
           zIndex: 1020,
           height: "100px",
         }}
@@ -214,6 +221,11 @@ export function TopPageDesktop(props) {
             <YourSvg className="searchIcon" id="search-button" />
           </div>
         </div>
+
+        {/* <div className="mobileView" style={{ display: "none" }}>
+          <Hamborger history={props.history} />
+        </div> */}
+
         <div className="topPage">
           <div className=" registerSection col-6 h6 mb-0 d-none  whiteColor d-flex align-items-center justify-content-center">
             <div className="mx-5 fontNumber totalReduxUp">
@@ -233,13 +245,25 @@ export function TopPageDesktop(props) {
           <Image
             className="logoSide btn-pointer"
             onClick={(e) => goHome()}
-            style={{
+            style={
+              
+              $(window).width() < 992?
+              {
+              backgroundImage: `url(${underLogo})`,
+              maxHeight: "65px",
+              position: "absolute",
+              zIndex: 99999,
+              borderRadius: "0px 50px 50px 0px",
+              left: "0px",
+              top: "32px",
+              padding: "12px",
+            }:
+            {
               backgroundImage: `url(${underLogo})`,
               maxHeight: "80px",
               position: "absolute",
               zIndex: 99999,
               borderRadius: "0px 50px 50px 0px",
-
               left: "0px",
               top: "32px",
               padding: "12px",
@@ -260,8 +284,10 @@ export function TopPageDesktop(props) {
             total={total}
           />
           <div
-            style={{
-              backgroundColor: "rgba(0,0,0,0.5)",
+            style={ $(window).width() < 992?{
+              backgroundColor: "rgba(0,0,0,0.9)"
+            }:{
+              backgroundColor: "rgba(0,0,0,0.5)"
             }}
           >
             <Nuv history={props.history} />

@@ -26,10 +26,10 @@ export  function Signup(props) {
 
     e.preventDefault()
     if (passwordRef.current.value.length < 6) {
-      return setError(language!=="he"?"password must at least 6 characters":"הסיסמה חייבת להכיל לפחות 6 תווים")
+      return setError(language!=="he"?"password must at least 6 characters":"הסיסמא חייבת להכיל לפחות 6 תווים")
     }
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError(language!=="he"?"Passwords do not match":"אימות סיסמה שגוי")
+      return setError(language!=="he"?"Passwords do not match":"אימות סיסמא שגוי")
     }
 
     try {
