@@ -53,3 +53,9 @@ height: 150vh;
 .goldBorder{
     border: 2px solid #C39957;
 }
+
+@media screen and (max-width: 1024px) {
+    .small_pageHeader{
+        height:12vh !important;
+    }
+}

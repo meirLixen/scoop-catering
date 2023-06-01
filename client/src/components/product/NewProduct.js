@@ -106,8 +106,8 @@ export function NewProduct(props, { product }) {
           <lable className="lableForm">כמות:</lable>
           <Field
             as="select"
-            name={"amountId" + index}
-            id={"newAmount" + index}
+            name={"amountId" + (index+1)}
+            id={"newAmount" + (index+1)}
             className="browser-default custom-select  rounded-0"
           >
             <option value={""}></option>
@@ -122,10 +122,10 @@ export function NewProduct(props, { product }) {
         <div className="form-group col-4">
           <lable className="lableForm">מחיר:</lable>
           <Field
-            id={"newPrice" + index}
+            id={"newPrice" + (index + 1)}
             className="form-control rounded-0 newPrice1_"
             type="text"
-            name={"price" + index}
+            name={"price" + (index + 1)}
           />
         </div>
         <div className="col-2 mt-2">
@@ -133,6 +133,7 @@ export function NewProduct(props, { product }) {
             type="button"
             onClick={() => removePrice("productPrice" + index)}
             style={{ fontSize: "19px" }}
+            id={"ButtonNewPrice" + (index + 1)}
           >
             x
           </button>
@@ -169,7 +170,9 @@ export function NewProduct(props, { product }) {
   };
   const [file, setFile] = useState(null);
   const [image, setImage] = useState('http://localhost:3001/image1.png');
- 
+  const [name, setname] = useState();
+  const [hebrewName, setHebrewName] = useState();
+  const [categoryId, setCategoryId] = useState();
   const onFormSubmit = (e) => {
     e.preventDefault();
 
@@ -198,6 +201,15 @@ export function NewProduct(props, { product }) {
 
   };
 
+
+  // handleInputChange = this.handleInputChange.bind(this);
+  const handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    `set${name}`(value)
+
+  }
 
   return (
     <>
@@ -229,7 +241,7 @@ export function NewProduct(props, { product }) {
           display: true,
           recommended: false,
         }}
-       
+
         onSubmit={onSubmit}
       >
         {() => (
@@ -244,7 +256,6 @@ export function NewProduct(props, { product }) {
                     name="Id"
                     pl
                   />
-                  
                 </div>
 
                 <div className="form-group">
@@ -254,10 +265,10 @@ export function NewProduct(props, { product }) {
                     className="form-control rounded-0 newName_"
                     type="text"
                     name="name"
+                    value={name}
+                    onChange={handleInputChange}
                     pl
-                    
                   />
-                   
                 </div>
                 <div className="form-group">
                   <lable className="lableForm">שם מוצר(HE):</lable>
@@ -266,6 +277,8 @@ export function NewProduct(props, { product }) {
                     className="form-control rounded-0 newHebrewName_"
                     type="text"
                     name="hebrewName"
+                    value={hebrewName}
+                    onChange={handleInputChange}
                     pl
                   />
                 </div>
@@ -297,8 +310,8 @@ export function NewProduct(props, { product }) {
                     <lable className="lableForm">כמות:</lable>
                     <Field
                       as="select"
-                      name="amountId"
-                      id="newAmount"
+                      name="amountId0"
+                      id="newAmount0"
                       className="browser-default custom-select  rounded-0"
                     >
                       <option value={""}></option>
@@ -313,10 +326,10 @@ export function NewProduct(props, { product }) {
                   <div className="form-group col-4">
                     <lable className="lableForm">מחיר:</lable>
                     <Field
-                      id="newPrice"
+                      id="newPrice0"
                       className="form-control rounded-0 newPrice_"
                       type="text"
-                      name="price"
+                      name="price0"
                     />
                   </div>
 
@@ -325,6 +338,7 @@ export function NewProduct(props, { product }) {
                       type="button"
                       onClick={() => setCount(count + 1)}
                       style={{ fontSize: "19px" }}
+                      id="ButtonNewPrice0"
                     >
                       +
                     </button>
@@ -341,7 +355,10 @@ export function NewProduct(props, { product }) {
                     as="select"
                     name="categoryId"
                     id="newCategory"
+                    value={categoryId}
                     className="browser-default custom-select  rounded-0"
+                    onChange={handleInputChange}
+
                   >
                     <option value={""}></option>
                     {categories.map((category) => (

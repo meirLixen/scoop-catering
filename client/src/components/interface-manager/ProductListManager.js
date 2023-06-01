@@ -119,9 +119,21 @@ function ProductListManager(props) {
     $("#newId").val(product._id);
     $("#newName").val(product.name);
     $("#newHebrewName").val(product.hebrewName);
-    $("#newDescription").val(product.description);
-    $("#newHebrewDescription").val(product.hebrewDescription);
-    $("#newPrice").val(product.price);
+    $("#newDescription").val(product.details);
+    $("#newHebrewDescription").val(product.hebrewDetails);
+    if (product.priceList.length > 1) {
+      
+      alert(product.priceList[0].amount._id)
+      for (var i = 0; i < product.priceList.length; i++){
+        $("#ButtonNewPrice0").on('click')
+        $("#newPrice" + i).val(product.priceList[i].price);
+        $("#newAmount" + i).val(product.priceList[i].amount._id);
+      }
+       
+    }
+    else
+    $("#newPrice0").val(product.priceList[0].price);
+    $("#newAmount0").val(product.priceList[0].amount._id);
     $("#newCategory").val(product.categoryID);
     $("#newOutOfStock").prop(
       "checked",
@@ -284,60 +296,60 @@ function ProductListManager(props) {
 
             <tbody className="table-responsive">
               {products
-              .filter(filteredSearch)
-              .filter(filteredByCategory).map((item) => (
-                <>
-                  <tr className=" bg-white   col-12">
-                    <td className=" border-0 col-2">{item.hebrewName}</td>
-                    {item.priceList.length > 1 ?
+                .filter(filteredSearch)
+                .filter(filteredByCategory).map((item) => (
+                  <>
+                    <tr className=" bg-white   col-12">
+                      <td className=" border-0 col-2">{item.hebrewName}</td>
+                      {item.priceList.length > 1 ?
 
 
-                      <td className=" border-0 col-2">
+                        <td className=" border-0 col-2">
 
 
-                        {/* {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0)}{" "} */}
-                        {item.priceList.map((price) =>
-                          parseFloat(price.price) +
-                          "/"
-                        )}
-                        &#8362;
+                          {/* {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0)}{" "} */}
+                          {item.priceList.map((price) =>
+                            parseFloat(price.price) +
+                            "/"
+                          )}
+                          &#8362;
 
-                      </td>
+                        </td>
 
 
 
-                      :
-                      <td className=" border-0 col-2">
-                        {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0).toFixed(1)}{" "}
-                        &#8362;
-                      </td>
-                    }
-                    {/* <td className=" border-0 col-2">
+                        :
+                        <td className=" border-0 col-2">
+                          {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0).toFixed(1)}{" "}
+                          &#8362;
+                        </td>
+                      }
+                      {/* <td className=" border-0 col-2">
                       {item.outOfStock === true ? "במלאי" : "אזל מהמלאי"}
                     </td> */}
-                    <td className=" border-0 col-3">{
+                      <td className=" border-0 col-3">{
 
-                      item.createDate.toString().split('T')[0]
-                    }</td>
-                    <td
-                      className="border-0 bg-transparent col-1"
-                      onClick={() => openDeleteMoodal(item._id)}
-                    >
-                      <i className="fas fa-trash-alt "></i>
-                    </td>
-                    <td
-                      className="border-0 bg-transparent col-1"
-                      onClick={() => editItem(item)}
-                    >
-                      <i className="fas fa-edit "></i>
-                    </td>
-                  </tr>
-                  <tr
-                    className="bg-transparent"
-                    style={{ height: "15px" }}
-                  ></tr>
-                </>
-              ))}
+                        item.createDate.toString().split('T')[0]
+                      }</td>
+                      <td
+                        className="border-0 bg-transparent col-1"
+                        onClick={() => openDeleteMoodal(item._id)}
+                      >
+                        <i className="fas fa-trash-alt "></i>
+                      </td>
+                      <td
+                        className="border-0 bg-transparent col-1"
+                        onClick={() => editItem(item)}
+                      >
+                        <i className="fas fa-edit "></i>
+                      </td>
+                    </tr>
+                    <tr
+                      className="bg-transparent"
+                      style={{ height: "15px" }}
+                    ></tr>
+                  </>
+                ))}
             </tbody>
           </Table>
         </div>

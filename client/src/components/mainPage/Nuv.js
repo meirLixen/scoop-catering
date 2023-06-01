@@ -55,6 +55,10 @@ export function Nuv(props) {
       $(".scoopButton").removeClass("ml-4")
       await props.setLanguage(lang);
     }
+    if($(window).width() < 992){
+      $(".navbar-toggler").addClass("collapsed")
+      $(".navbar-collapse").removeClass("show")
+    }
   }
 
   const { t, i18n } = useTranslation();
@@ -81,7 +85,7 @@ export function Nuv(props) {
 
   return (
     <>
-      <Navbar variant="dark" expand="lg" style={{ height: "8vh" }}>
+      <Navbar variant="dark" expand="lg" style={$(window).width() < 992 ? { height: "fit-content" } : { height: "8vh" }}>
         <Navbar.Brand></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -97,7 +101,7 @@ export function Nuv(props) {
             navbarScroll
           >
             <NavDropdown
-              className=" hoverLink scoopButton ml-4"
+              className={$(window).width() < 992 ? " hoverLink scoopButton ": " hoverLink scoopButton ml-4"}
               title={i18.t("ScoopCatering")}
               id="navbarScrollingDropdown"
               style={{ direction: "ltr" }}

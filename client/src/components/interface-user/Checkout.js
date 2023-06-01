@@ -11,7 +11,6 @@ import useMediaQuery from "../../hooks/useMediaQuery";
 import { Form } from "react-bootstrap";
 import Hamborger from "../mainPage/Hamborger/Hamborger";
 import TopPageDesktop from "../mainPage/TopPageDesktop";
-
 import $ from "jquery";
 import i18 from "../../i18/i18";
 export function Checkout(props) {
@@ -23,7 +22,6 @@ export function Checkout(props) {
   const [cart] = useLocalStorage("cart", []);
   const [citiesList] = useState(
     [
-
       { "cityName": "BeitShemesh", "cost": 50 },
       { "cityName": "GushEtzion", "cost": 0 },
       { "cityName": "Jerusalem", "cost": 50 },
@@ -56,11 +54,9 @@ export function Checkout(props) {
     setShowEditDetails(true);
     setShowDetails(false);
     setTimeout(() => {
-
       $("#FullNameInput").val(
         userDetails.fullName ? userDetails.fullName : userDetails.firstName && userDetails.firstName + " " + userDetails.lastName && userDetails.lastName
       );
-
       $("#EmailInput").val(userDetails.email && userDetails.email);
       $("#phoneInput").val(userDetails.phone && userDetails.phone);
       $("#CityInput").val(userDetails.city ? userDetails.city : "");
@@ -161,14 +157,10 @@ export function Checkout(props) {
     }
   }
   function ContinueToPay() {
-
-
-
     if ($("#regulations").is(':checked') && $('.shippingMethodSelect').attr('name')) {
       let city = "", address = "", products = []
       cart.map((item) =>
         products.push({ "productId": item.product._id, "amount": item.Amount })
-
       )
 
       if ($('.shippingMethodSelect').attr('name') === "Other") {
@@ -176,24 +168,11 @@ export function Checkout(props) {
         address = $("#OtherVal2").val()
       }
       else {
-
-
-
         city = userDetails.city && userDetails.city
         address = userDetails.address && userDetails.address
-
-
       }
-
-
-
-
-
-
       // MethodsOfPayment
-
       let moreNotes = currentOrder.notes
-
       setCurrentOrder(
         {
           "userId": userDetails._id,
@@ -214,7 +193,6 @@ export function Checkout(props) {
       else {
         props.history.push("/Payment")
       }
-
     }
     else {
       alert("you must sign regulations")
@@ -228,7 +206,6 @@ export function Checkout(props) {
   }, [])
 
   useEffect(() => {
-
     if ($) {
       $("textarea")
         .each(function () {
@@ -243,7 +220,6 @@ export function Checkout(props) {
         });
       $("button").click(function () {
         let currentID = $(this).attr("id")
-
         if (
           currentID === "Pickup" ||
           currentID === "HomeDelivery" ||
@@ -261,7 +237,6 @@ export function Checkout(props) {
                 // setFreightCost(userDetails.city)
               }
             }
-
           }
           back()
           $('.shippingMethodSelect').attr('name', currentID);
@@ -287,8 +262,8 @@ export function Checkout(props) {
               $("." + previousClick).removeClass("d-none");
               // if ($('.left_side').hasClass('d-none'))
               // $('.left_side').romoveClass('d-none');
-              // else
-              //     $('.left_side').addClass('d-none');
+             // else
+             //     $('.left_side').addClass('d-none');
             }
             previousClick = currentID;
             console.log(previousClick);
@@ -299,22 +274,17 @@ export function Checkout(props) {
   }, [$]);
   return (
     <div onScroll={() => alert("bgvf")}>
-
       <div className="pageNuv" onScroll={() => alert("bgvf")}>
         {isTablet && <Hamborger history={props.history} />}
-
         {!isMobile && !isTablet && <TopPageDesktop />}
       </div>
-
       <div className="pageHeader">
         <label>
           {" "}
           {i18.t("checkout")}{" "}
           <button
             className="white-arrow h4 p-1 "
-            onClick={() => props.history.goBack()}
-          >
-
+            onClick={() => props.history.goBack()}>
             <i
               className="fas fa-long-arrow-alt-right  pr-2"
               style={{ height: "fit-content" }}
@@ -447,9 +417,7 @@ export function Checkout(props) {
                           : { fontSize: "17px" }
                       }
                     >
-
                       {language === "he" ? (
-
                         <i
                           className="fas fa-solid fa-arrow-right ml-3"
                           style={{ fontSize: "17px" }}
@@ -489,9 +457,6 @@ export function Checkout(props) {
                         ></i>
                       )}
                     </button>
-
-
-
 
                   </div>
 
@@ -569,41 +534,28 @@ export function Checkout(props) {
                   {i18.t("deliveryDetails")}{" "}
                 </label>
                 <hr className="hrCheckout mt-0 mb-4" />
-
-
                 <div className="mt-2">
                   <label className="lableForm">{i18.t("shippingMethod")}</label>
                 </div>
-
                 <div
-                  className=" justify-content-between d-flex   shippingMethodSelect" name=""
-
-                >
+                  className=" justify-content-between d-flex   shippingMethodSelect" name="">
                   <button
 
                     id="Pickup"
                     className="col-3  shippingOption p-2 text-center"
-
                   >
                     {" "}
                     {i18.t("shippingMethod1")}
                   </button>
                   <button
-
-
                     id="HomeDelivery"
                     onClick={checkAddress}
-                    className="col-3  shippingOption p-2 text-center"
-
-                  >
+                    className="col-3  shippingOption p-2 text-center">
                     {i18.t("shippingMethod2")}
                   </button>
                   <button
-
                     id="Other"
-                    className="col-3  shippingOption p-2 text-center"
-
-                  >
+                    className="col-3  shippingOption p-2 text-center">
                     <div> {i18.t("shippingMethod3")}</div>
                   </button>
                 </div>
