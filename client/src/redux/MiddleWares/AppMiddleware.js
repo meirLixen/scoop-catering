@@ -3,6 +3,7 @@ import { getAllProducts, createProduct, deleteProduct, updateProduct, copyProduc
 import { getAllUsers, createUser } from './user'
 import { getAllOrders, createOrder, deleteOrder } from './order'
 import { getAllCategories } from './category'
+import { getAllMenus } from "./menu";
 import { getAllAmounts } from './amount'
 import { getAllProductsOnOrder } from "./productOnOrder";
 import {updateUser} from "./user"
@@ -29,6 +30,7 @@ const AppMiddleware = [
     deleteOrder,
 
     getAllCategories,
+    getAllMenus,
     getAllAmounts,
     getAllProductsOnOrder
 

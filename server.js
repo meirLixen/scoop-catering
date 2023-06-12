@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const userApi = require("./routes/userApi");
 const productApi = require("./routes/productApi");
+const menuApi = require("./routes/menuApi");
 const orderApi = require("./routes/orderApi");
 const categoryApi = require("./routes/categoryApi");
 const emailApi = require("./routes/emailApi");
@@ -52,6 +53,7 @@ app.use(
   "/api/",
   userApi,
   productApi,
+  menuApi,
   orderApi,
   categoryApi,
   emailApi,

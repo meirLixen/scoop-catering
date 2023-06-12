@@ -1,19 +1,35 @@
 const router = require("express").Router();
-const Product = require("../models/Product");
+const Menu = require("../models/Menu");
 const Category = require("../models/Category");
 
-// API PRODUCT:
+// API MENU:
+// get all menus
+router.get("/menus", async (req, res) => {
+    console.log("i am here menus");
+  Menu.find()
+    .then((menus) => {
+      if (!menus) null;
+      res.send(menus);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
 
-//add product
-router.post("/product/", async (req, res) => {
+
+
+
+//add menu
+router.post("/menu/", async (req, res) => {
+   
   try {
-    const category = await Category.findOne({ _id: req.body.categoryID });
-    const newProduct = new Product(req.body);
-    await newProduct.save();
-    await category.products.push(newProduct);
-    await category.save();
+    //const category = await Category.findOne({ _id: req.body.categoryID });
+    const newMenu = new Menu(req.body);
+    await newMenu.save();
+   // await category.products.push(newProduct);
+   // await category.save();
 
-    res.json({ status: 201, product: newProduct });
+    res.json({ status: 201, menu: newMenu });
   } catch (err) {
     res.json({ status: 500, error: err });
   }
@@ -97,19 +113,7 @@ router.post("/copyProduct/:id", async (req, res) => {
     });
 });
 
-// get all products
-router.get("/products", async (req, res) => {
-  console.log("i am here products");
-  Product.find()
-    .populate("priceList.amount")
-    .then((products) => {
-      if (!products) null;
-      res.send(products);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-});
+
 
 // get product by id
 router.get("/product/:id", async (req, res) => {

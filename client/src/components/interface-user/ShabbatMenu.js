@@ -860,8 +860,8 @@ function ShabbatMenu(props) {
 
                       </div>
 
-                      <div className="d-flex align-items-center m-3 ">
-                        <h1 className=" mb-0 font-weight-bold ">
+                      <div className="d-flex align-items-center m-3">
+                        <h1 className=" mb-0 font-weight-bold">
                           {language === "he"
                             ? category.hebrewName
                             : category.name}
