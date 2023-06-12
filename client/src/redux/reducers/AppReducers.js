@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import productReducer from './product.reducer';
+import menuReducer from './menu.reducer';
 import orderReducer from './order.reducer';
 import userReducer from './user.reducer';
 import categoryReducer from './category.reducer';
@@ -15,6 +16,7 @@ import totalReducer from './total.reducer'
 
 const AppReducers = combineReducers({
   productReducer: productReducer,
+  menuReducer:menuReducer,
   orderReducer: orderReducer,
   userReducer: userReducer,
   categoryReducer: categoryReducer,
