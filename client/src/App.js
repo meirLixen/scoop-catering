@@ -34,13 +34,16 @@ import "./App.css";
 
 function App(props) {
   const { categories, products } = props.categories;
-
+  const { menus } = props;
   useEffect(() => {
     if (!categories || !categories.length) {
       props.getAllCategories();
     }
     if (!products || !products.length) {
       props.getAllProducts();
+    }
+    if (!menus || !menus.length) {
+      props.getAllMenus();
     }
   }, []);
 
@@ -101,6 +104,7 @@ const mapStateToProps = (state) => ({
   totalRedux: state.totalReducer.totalRedux,
   categories: state.categoryReducer.categories,
   products: state.categoryReducer.products,
+  menus: state.menuReducer.menus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -109,6 +113,7 @@ const mapDispatchToProps = (dispatch) => ({
   setTotalRedux: (Total) => dispatch(actions.setTotalRedux(Total)),
   getAllCategories: () => dispatch(actions.getAllCategories()),
   getAllProducts: () => dispatch(actions.getAllProducts()),
+  getAllMenus: () => dispatch(actions.getAllMenus()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
