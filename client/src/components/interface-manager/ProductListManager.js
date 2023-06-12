@@ -379,7 +379,7 @@ function ProductListManager(props) {
 const mapStateToProps = (state) => {
   return {
     products: state.productReducer.products,
-    menus: state.productReducer.menus,
+    menus: state.menuReducer.menus,
     categories: state.categoryReducer.categories,
   };
 };

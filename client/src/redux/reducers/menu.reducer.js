@@ -23,7 +23,7 @@ const menuReducer = {
     }
   }
 }
-export default produce(
+export default menu(
   (state, action) => createReducer(state, action, menuReducer),
   initialState
 );
