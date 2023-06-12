@@ -15,6 +15,7 @@ function ProductListManager(props) {
   const [show, setShow] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const handleClose = () => setShow(false);
+  const { menus } = props;
   const { products } = props;
   const { categories } = props;
   const [data, setData] = useState([]);
@@ -23,8 +24,7 @@ function ProductListManager(props) {
   const [sortType, setSortType] = useState("hebrewName");
   const [query, setQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState("selectCategory")
-
-
+  const [selectedMenu, setSelectedMenu] = useState("selectMenu")
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [])
@@ -182,6 +182,19 @@ function ProductListManager(props) {
             </div>
             <div className="col-6 text-start row d-flex justify-content-between ">
               <div className="col-md-6 p-0">
+              <Form.Select
+                  aria-label="Default select example"
+                  className="rounded-0  py-1"
+                  required
+                  onChange={e => setSelectedMenu(e.target.value)}
+                >
+                  <option value="selectMenu">בחר תפריט</option>
+                  {menus.map((menu) => (
+                    <option key={menu._id} value={menu._id} >
+                      {menu.hebrewName}
+                    </option>
+                  ))}
+                </Form.Select>
                 {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
                 <Form.Select
                   aria-label="Default select example"
@@ -366,6 +379,7 @@ function ProductListManager(props) {
 const mapStateToProps = (state) => {
   return {
     products: state.productReducer.products,
+    menus: state.productReducer.menus,
     categories: state.categoryReducer.categories,
   };
 };
