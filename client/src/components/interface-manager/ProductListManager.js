@@ -103,7 +103,16 @@ function ProductListManager(props) {
 
     }
   };
+  const filteredByMenu = (item) => {
+    if (selectedMenu == "selectMenu") {
 
+      return item;
+    } else {
+      if (item.menus.includes(selectedMenu))
+        return item
+    }
+
+  }
   const changeCategory = async (event) => {
     let categoryId = event.target.value;
     if (categoryId === "selectCategory") setCategoryList(data);
@@ -122,17 +131,17 @@ function ProductListManager(props) {
     $("#newDescription").val(product.details);
     $("#newHebrewDescription").val(product.hebrewDetails);
     if (product.priceList.length > 1) {
-      
+
       //alert(product.priceList[0].amount._id)
-      for (var i = 0; i < product.priceList.length; i++){
+      for (var i = 0; i < product.priceList.length; i++) {
         $("#ButtonNewPrice0").on('click')
         $("#newPrice" + i).val(product.priceList[i].price);
         $("#newAmount" + i).val(product.priceList[i].amount._id);
       }
-       
+
     }
     else
-    $("#newPrice0").val(product.priceList[0].price);
+      $("#newPrice0").val(product.priceList[0].price);
     $("#newAmount0").val(product.priceList[0].amount._id);
     $("#newCategory").val(product.categoryID);
     $("#newOutOfStock").prop(
@@ -143,12 +152,31 @@ function ProductListManager(props) {
     $("#newRecommended").prop("checked", product.recommended === true ? true : false)
   };
 
-  function openDeleteMoodal(id) {
+  function openDeleteMoodal(item) {
     setShow(true);
-    setIdToDelete(id);
+    setIdToDelete(item);
   }
   function deleteProduct() {
-    props.deleteProduct(idToDelete);
+    const menus = idToDelete.menus.filter(e => e !== selectedMenu);
+    const updateProduct = {
+      _id:idToDelete._id,
+      name: idToDelete.name,
+      hebrewName: idToDelete.hebrewName,
+      details: idToDelete.details,
+      hebrewDetails: idToDelete.hebrewDetails,
+      categoryID: idToDelete.categoryID,
+      outOfStock: idToDelete.outOfStock,
+      display: idToDelete.display,
+      recommended: idToDelete.recommended,
+      priceList: idToDelete.priceList,
+      img: idToDelete.img,
+      menus: menus
+    }
+
+
+
+    props.updateProduct(updateProduct)
+    //props.deleteProduct(idToDelete);
     setShow(false);
   }
 
@@ -182,7 +210,7 @@ function ProductListManager(props) {
             </div>
             <div className="col-6 text-start row d-flex justify-content-between ">
               <div className="col-md-6 p-0">
-              <Form.Select
+                <Form.Select
                   aria-label="Default select example"
                   className="rounded-0  py-1"
                   required
@@ -310,7 +338,7 @@ function ProductListManager(props) {
             <tbody className="table-responsive">
               {products
                 .filter(filteredSearch)
-                .filter(filteredByCategory).map((item) => (
+                .filter(filteredByCategory).filter(filteredByMenu).map((item) => (
                   <>
                     <tr className=" bg-white   col-12">
                       <td className=" border-0 col-2">{item.hebrewName}</td>
@@ -346,7 +374,7 @@ function ProductListManager(props) {
                       }</td>
                       <td
                         className="border-0 bg-transparent col-1"
-                        onClick={() => openDeleteMoodal(item._id)}
+                        onClick={() => openDeleteMoodal(item)}
                       >
                         <i className="fas fa-trash-alt "></i>
                       </td>

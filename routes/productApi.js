@@ -1,17 +1,26 @@
 const router = require("express").Router();
 const Product = require("../models/Product");
 const Category = require("../models/Category");
+const Menu = require("../models/Menu");
+
 
 // API PRODUCT:
 
 //add product
 router.post("/product/", async (req, res) => {
   try {
+    var menu;
     const category = await Category.findOne({ _id: req.body.categoryID });
     const newProduct = new Product(req.body);
     await newProduct.save();
     await category.products.push(newProduct);
     await category.save();
+    for (var i = 0; i < req.body.menus; i++) {
+      menu = await Menu.findOne({ _id: req.body.menus[i] });
+      await menu.products.push(newProduct);
+      await menu.save();
+    }
+
 
     res.json({ status: 201, product: newProduct });
   } catch (err) {
@@ -19,8 +28,26 @@ router.post("/product/", async (req, res) => {
   }
 });
 
+//edit allProducts
+router.post("/products/", async (req, res) => {
+  console.log("edit allProducts");
+  try {
+    const product = await Product.updateMany({categoryID:"61f12fb71c5543d3601fae32"}, { menus: ["627d88a5cef5e2a03388bb1b", "64875e1f59cff9c94f1639a3","64877c4387d105af87754630"] });
+    if (!product) {
+      res.status(404).send("product not found");
+    }
+    res.send(product);
+  } catch (err) {
+    console.error(err);
+  }
+
+})
+
+
+
 // edit product
 router.post("/products/:id", async (req, res) => {
+  console.log("update product")
   const updates = Object.keys(req.body);
   const allowedUpdates = Object.keys(new Product());
   const isValidOpreration = updates.every((update) => {

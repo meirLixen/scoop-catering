@@ -34,6 +34,7 @@ const productSchema = new mongoose.Schema({
     categoryID: {
         type: mongoose.Schema.Types.ObjectId, ref: "Category"
     },
+    menus:  [{ type: mongoose.Schema.Types.ObjectId, ref: "Menu" }],
     SubCategories: {
         type: mongoose.Schema.Types.ObjectId, ref: "SubCategory"
     },
