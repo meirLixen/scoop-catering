@@ -11,6 +11,7 @@ const menuSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+    products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
 
 })
 module.exports = mongoose.model('Menu', menuSchema)

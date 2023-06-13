@@ -41,8 +41,7 @@ function ShabbatMenu(props) {
 
   //const [cart, setCart] = useLocalStorage("cart", []);
   const { language } = props;
-  const { products } = props;
-  const { categories } = props;
+  const { products,menus,categories } = props;
   let filteredProducts = [];
   const [side] = useState("");
   const [align] = useState("");
@@ -93,7 +92,7 @@ function ShabbatMenu(props) {
   }
 
   function hoverCategory(categoryId, index) {
-  console.log("categoryId",categoryId);
+    console.log("categoryId", categoryId);
     debugger
     currentClass = "#" + categoryId;
     if ($(currentClass).hasClass("active")) {
@@ -116,7 +115,7 @@ function ShabbatMenu(props) {
 
   function categorySelection(name, id, index) {
     debugger
-    console.log("name: ",name,"id: ",id,"index: ",index);
+    console.log("name: ", name, "id: ", id, "index: ", index);
     $(".searchResults").addClass("d-none");
     $(".shabatMenu").removeClass("d-none");
     $(".categoryList").removeClass("px-3");
@@ -138,7 +137,7 @@ function ShabbatMenu(props) {
       previousClick = id;
       previousClickName = name;
       previousClickIndex = index;
-    } 
+    }
   }
 
   const deleteItem = async (id) => {
@@ -426,10 +425,10 @@ function ShabbatMenu(props) {
 
       {/* //הוספתי סיום*/}
       <div className="pageNuvMenu ">
-       
 
 
-         <TopPageDesktop />
+
+        <TopPageDesktop />
 
       </div>
 
@@ -437,10 +436,12 @@ function ShabbatMenu(props) {
         className="small_pageHeader "
         style={{ backgroundImage: `url(${headerBgImag})` }}
       ></div>
-      <div className="mobileView" style={{ display: "none" ,
+      <div className="mobileView" style={{
+        display: "none",
         zIndex: 1,
         position: "sticky",
-        top: "91px"}}>
+        top: "91px"
+      }}>
         <nav
           className="swithDir categoryList   bg-white d-flex"
           style={{
@@ -457,14 +458,14 @@ function ShabbatMenu(props) {
               <a
                 key={index}
                 className="categoryLink"
-                href={"#" + category.name +"-Mobile"}
-                style={{ textDecoration: "none",borderLeft: "1px solid rgba(0,0,0,.4)" }}
+                href={"#" + category.name + "-Mobile"}
+                style={{ textDecoration: "none", borderLeft: "1px solid rgba(0,0,0,.4)" }}
               >
                 <button
                   className={`text-center bg-white border-0  categoryButton ${index}`}
-                  id={category._id+"-Mobile"}
+                  id={category._id + "-Mobile"}
                   onClick={() =>
-                    categorySelection(category.name+"-Mobile", category._id+"-Mobile", index)
+                    categorySelection(category.name + "-Mobile", category._id + "-Mobile", index)
                   }
                   style={{ fontSize: "1rem", width: "100% !important" }}
                 >
@@ -770,8 +771,12 @@ function ShabbatMenu(props) {
                       paddingLeft: "10px !important",
                     }}
                   >
-                    <option value="1">{i18.t("shabatMenu")}</option>
-                    <option value="2">{i18.t("passover")}</option>
+                    {menus.map((menu, index) => (
+                      <option value={menu._id}>{language == "en" ? menu.name : menu.hebrewName}</option>
+
+
+                    ))}
+
                   </select>
                 </div>
 
@@ -849,9 +854,9 @@ function ShabbatMenu(props) {
               categories.map((category, index) => (
                 <>
                   <div
-                
-                    id={category.name+"-Mobile"}
-                    onMouseEnter={() => hoverCategory(category._id+"-Mobile", index)}
+
+                    id={category.name + "-Mobile"}
+                    onMouseEnter={() => hoverCategory(category._id + "-Mobile", index)}
                   >
                     <div>
                       <div className="  w-100 categoryImage"
@@ -878,7 +883,7 @@ function ShabbatMenu(props) {
                       <>
                         <div
                           className=" productLine w-100  row  m-0  flex-nowrap    justify-content-around   p-2 mb-2"
-                          id={product._id+"-Mobile"}
+                          id={product._id + "-Mobile"}
                           style={{
                             maxHeight: "150px",
                             height: "118px",
@@ -923,7 +928,7 @@ function ShabbatMenu(props) {
                               <img className="w-100" src={image1} alt="img" />
                               : ""}
                           </div>
-                          <div className="col-5 px-2 pt-1" id={product._id+"-Mobile"}>
+                          <div className="col-5 px-2 pt-1" id={product._id + "-Mobile"}>
                             <div
                               className=""
                               style={{ lineHeight: "0.99" }}
@@ -944,10 +949,10 @@ function ShabbatMenu(props) {
                               <div
                                 className="amountOption  pl-0  mt-1"
                                 style={{ fontWeight: '700', fontSize: '15px' }}
-                                id={product._id+"-Mobile"}
+                                id={product._id + "-Mobile"}
                               >
                                 {product.priceList.length > 1 ?
-                                  <select id={product._id+"-Mobile"} onChange={changePrice}
+                                  <select id={product._id + "-Mobile"} onChange={changePrice}
                                     className="btn-pointer amountOption_select
                                                               pl-0  form-select form-select-x-sm swithDir pb-0 pt-0 border-0 rounded-custom  font-weight-bold"
                                     aria-label=".form-select-sm example"
@@ -958,7 +963,7 @@ function ShabbatMenu(props) {
                                       fontWeight: "600 !important",
                                     }}
                                   >
-                                   
+
                                     {product.priceList.map((item) => (
                                       <option value={item.price}>
                                         {
@@ -993,7 +998,7 @@ function ShabbatMenu(props) {
                               </div>
                               <div
                                 className="d-flex align-items-center  row h-50  flex-nowrap pt-1"
-                              
+
                               >
                                 <div
                                   className="amountToBuy mx-2  goldColor d-flex col-6  p-0  "
@@ -1004,21 +1009,21 @@ function ShabbatMenu(props) {
                                   <span
                                     className="plus"
                                     onClick={() =>
-                                      changeAmount(product._id+"-Mobile", "plus")
+                                      changeAmount(product._id + "-Mobile", "plus")
                                     }
                                   >
                                     +
                                   </span>
                                   <input
                                     type="text"
-                                  
+
                                     value={1}
                                     className=" text-black bg-white pt-0 pb-0   mt-1 input_number fontNumber gold-border"
                                   />
                                   <span
                                     className="minus"
                                     onClick={() =>
-                                      changeAmount(product._id+"-Mobile", "minus")
+                                      changeAmount(product._id + "-Mobile", "minus")
                                     }
                                   >
                                     -
@@ -1876,6 +1881,7 @@ const mapStateToProps = (state) => {
   return {
     products: state.productReducer.products,
     categories: state.categoryReducer.categories,
+    menus: state.menuReducer.menus,
     language: state.languageReducer.language,
     cartRedux: state.cartReducer.cartRedux,
     numItemsRedux: state.numItemsReducer.numItemsRedux,
