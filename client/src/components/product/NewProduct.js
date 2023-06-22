@@ -1,6 +1,7 @@
 import axios from 'axios';
+import $ from 'jquery'
 import { Field, Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 // import { Form } from 'react-bootstrap';
@@ -8,15 +9,22 @@ import Modal from "react-bootstrap/Modal";
 import api from "../../api";
 import "../../App.css";
 
-// import Form from 'react-bootstrap/Form'
 
-export function NewProduct(props, { product }) {
+// import Form from 'react-bootstrap/Form'
+const baseURL = "https://scoopcatering.co.il/"
+export function NewProduct(props) {
   let temp = 0;
 
   let [deletedPrices, setdeletedPrices] = useState([]);
   const [show, setShow] = useState(false);
   const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (props.action == "edit") {
+      setFile(props.product.img);
+      setImage(baseURL + props.product.img);
+    }
 
+  }, [])
   const handleClose = () => setShow(false);
   // const [names, setNames] = useState([]);
 
@@ -29,10 +37,11 @@ export function NewProduct(props, { product }) {
   }
 
   // const { createProduct } = props
+  const currentAmount= JSON.stringify(props.product.priceList[0].amount)
   const onSubmit = async (fields) => {
+    debugger
     // event.preventDefault();
     var priceList = [];
-
     var result = Object.entries(fields);
     var amount = "",
       price = "";
@@ -46,7 +55,7 @@ export function NewProduct(props, { product }) {
 
       if (amount != "" && price != "") {
         priceList[temp] = {
-          amount: amount,
+          amount: JSON.parse(amount),
           price: price,
         };
         amount = "";
@@ -54,7 +63,8 @@ export function NewProduct(props, { product }) {
         temp++;
       }
     });
-    const newProduct = {
+    const updateProduct = {
+      _id:fields.Id,
       name: fields.name,
       hebrewName: fields.hebrewName,
       details: fields.description,
@@ -64,36 +74,55 @@ export function NewProduct(props, { product }) {
       display: fields.display,
       recommended: fields.recommended,
       priceList: priceList,
-      img: file && file.name
+      img: file && file
     }
 
+    props.updateProduct(updateProduct)
 
-    //const product = await props.createProduct(newProduct)
+    //$('#EditModal').modal('toggle');
+    //add product
 
-    setShow(true);
-    window.setTimeout(function () {
-      setShow(false);
-    }, 5000);
+    // const newProduct = {
+    //   name: fields.name,
+    //   hebrewName: fields.hebrewName,
+    //   details: fields.description,
+    //   hebrewDetails: fields.hebrewDescription,
+    //   categoryID: fields.categoryId,
+    //   outOfStock: fields.outOfStock,
+    //   display: fields.display,
+    //   recommended: fields.recommended,
+    //   priceList: priceList,
+    //   img: file && file.name
+    // }
 
-    // clear all input values in the form
-    document.getElementById("productForm").reset();
 
-    if (file !== null) {
-      const formData = new FormData();
-      formData.append("photo", file);
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        }
-      }
-      api
-        .post("/upload/", formData, config).then((response) => {
-          console.log('Image Uploaded Successfully!!', response);
-          // alert('Image Uploaded Successfully!!')
-        }).catch((err) => {
-          console.log('err ', err);
-        })
-    }
+    // const product = await props.createProduct(newProduct)
+
+    // setShow(true);
+    // window.setTimeout(function () {
+    //   setShow(false);
+    // }, 5000);
+
+    // // clear all input values in the form
+    // document.getElementById("productForm").reset();
+
+    // if (file !== null) {
+    //   const formData = new FormData();
+    //   formData.append("photo", file);
+    //   const config = {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     }
+    //   }
+    //   api
+    //     .post("/upload/", formData, config).then((response) => {
+    //       console.log('Image Uploaded Successfully!!', response);
+    //       // alert('Image Uploaded Successfully!!')
+    //     }).catch((err) => {
+    //       console.log('err ', err);
+    //     })
+    // }
+    //end add product
   }
 
   function addPrice(index) {
@@ -106,13 +135,13 @@ export function NewProduct(props, { product }) {
           <lable className="lableForm">כמות:</lable>
           <Field
             as="select"
-            name={"amountId" + (index+1)}
-            id={"newAmount" + (index+1)}
+            name={"amountId" + (index + 1)}
+            id={"newAmount" + (index + 1)}
             className="browser-default custom-select  rounded-0"
           >
             <option value={""}></option>
             {amounts.map((amount) => (
-              <option key={amount._id} value={amount._id}>
+              <option key={amount._id} value={JSON.stringify(amount)}>
                 {amount.hebrewName}
               </option>
             ))}
@@ -187,7 +216,7 @@ export function NewProduct(props, { product }) {
 
     axios.post(url, formData, config).then((response) => {
       console.log('response upload', response);
-     // alert('Image Uploaded Successfully!!')
+      // alert('Image Uploaded Successfully!!')
     }).catch((err) => {
       console.log('err ', err);
     })
@@ -227,25 +256,32 @@ export function NewProduct(props, { product }) {
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center"></Modal.Footer>
       </Modal>
-      <h4 className="px-4 text-end font-weight-bold">פרטי המוצר:</h4>
+      <h4 className="text-end font-weight-bold addOrEditTitle">
+        {props.action == "edit" ?
+          "עריכת מוצר" : "הוספת מוצר חדש"
+        }
+      </h4>
 
       <Formik
+     
         initialValues={{
-          Id: "",
-          name: " ",
-          hebrewName: "",
-          description: " ",
-          hebrewDescription: " ",
-          categoryId: " ",
-          outOfStock: false,
-          display: true,
-          recommended: false,
+          Id: props.product._id,
+          name: props.product.name,
+          hebrewName: props.product.hebrewName,
+          description: props.product.details,
+          hebrewDescription: props.product.hebrewDetails,
+          amountId0:currentAmount,
+          price0: props.product.priceList[0].price,
+          categoryId: props.product.categoryID,
+          outOfStock: props.product.outOfStock,
+          display: props.product.display,
+          recommended: props.product.recommended,
         }}
 
         onSubmit={onSubmit}
       >
         {() => (
-          <Form className="" style={{ height: "590px" }} id="productForm">
+          <Form className="" style={{ height: "590px", direction: "rtl" }} id="productForm">
             <div className="  overflow-auto customOverflow" style={{ height: "560px" }}>
               <div className="text-end">
                 <div className="form-group">
@@ -257,7 +293,6 @@ export function NewProduct(props, { product }) {
                     pl
                   />
                 </div>
-
                 <div className="form-group">
                   <lable className="lableForm">שם מוצר:</lable>
                   <Field
@@ -265,8 +300,6 @@ export function NewProduct(props, { product }) {
                     className="form-control rounded-0 newName_"
                     type="text"
                     name="name"
-                    value={name}
-                    onChange={handleInputChange}
                     pl
                   />
                 </div>
@@ -277,12 +310,9 @@ export function NewProduct(props, { product }) {
                     className="form-control rounded-0 newHebrewName_"
                     type="text"
                     name="hebrewName"
-                    value={hebrewName}
-                    onChange={handleInputChange}
                     pl
                   />
                 </div>
-
                 <div className="form-group">
                   <lable className="lableForm">תאור מוצר:</lable>
                   <Field
@@ -316,7 +346,7 @@ export function NewProduct(props, { product }) {
                     >
                       <option value={""}></option>
                       {amounts.map((amount) => (
-                        <option key={amount._id} value={amount._id}>
+                        <option key={amount._id} value={JSON.stringify(amount)}>
                           {amount.hebrewName}
                         </option>
                       ))}
@@ -355,9 +385,9 @@ export function NewProduct(props, { product }) {
                     as="select"
                     name="categoryId"
                     id="newCategory"
-                    value={categoryId}
+
                     className="browser-default custom-select  rounded-0"
-                    onChange={handleInputChange}
+
 
                   >
                     <option value={""}></option>
@@ -401,8 +431,14 @@ export function NewProduct(props, { product }) {
 
                 <span className="hiddenFileInput" style={{ backgroundImage: `url(${image})` }}>
 
-
-                  <input type="file" name="photo" onChange={onInputChange} />
+                  <Field
+                    type="file"
+                    name="photo"
+                    id="newPhoto"
+                    className=""
+                    onChange={onInputChange}
+                  />
+                  {/* <input type="file" name="photo" onChange={onInputChange} /> */}
                 </span>
 
               </div>
@@ -411,7 +447,10 @@ export function NewProduct(props, { product }) {
                 id="addProduct"
                 type="submit"
               >
-                העלה מוצר
+                {props.action == "edit" ?
+                  "בצע עדכון" : "העלה מוצר"
+                }
+
               </button>
             </div>
 
@@ -433,6 +472,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   createProduct: (product) => dispatch(actions.createProduct(product)),
+  updateProduct: (product) => dispatch(actions.updateProduct(product)),
   getAllAmounts: () => dispatch(actions.getAllAmounts()),
 });
 

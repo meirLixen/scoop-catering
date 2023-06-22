@@ -26,7 +26,6 @@ export const updateProduct =
   (next) =>
   (action) => {
     debugger
-    console.log("updateProduct function");
     if (action.type === "UPDATE_PRODUCT") {
       let product;
       if (action.payload !== undefined) {

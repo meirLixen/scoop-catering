@@ -32,7 +32,7 @@ router.post("/product/", async (req, res) => {
 router.post("/products/", async (req, res) => {
   console.log("edit allProducts");
   try {
-    const product = await Product.updateMany({categoryID:"61f12fb71c5543d3601fae32"}, { menus: ["627d88a5cef5e2a03388bb1b", "64875e1f59cff9c94f1639a3","64877c4387d105af87754630"] });
+    const product = await Product.updateMany({}, { menus: ["627d88a5cef5e2a03388bb1b"] });
     if (!product) {
       res.status(404).send("product not found");
     }
@@ -87,7 +87,27 @@ router.delete("/product/:id", async (req, res) => {
 //     })
 
 // })
+router.post("/copyProducts/", async (req, res) => {
+  console.log("copyProducts");
 
+
+  try {
+    Product.copyTo("Product")
+    // Product.find().forEach(
+    //   async function (doc) {
+    //     doc._id = new ObjectId();
+    //     doc.menus = ["64875e1f59cff9c94f1639a3"]
+    //     const newProduct = new Product(doc);
+    //     await newProduct.save();
+    //   }
+      
+    // )
+    res.json({ status: 201, product: "copy all" });
+  } catch (err) {
+    res.json({ status: 500, error: err });
+  }
+
+});
 //copy product
 router.post("/copyProduct/:id", async (req, res) => {
   const id = req.params.id;
@@ -128,7 +148,7 @@ router.post("/copyProduct/:id", async (req, res) => {
 router.get("/products", async (req, res) => {
   console.log("i am here products");
   Product.find()
-    .populate("priceList.amount")
+    //.populate("priceList.amount")
     .then((products) => {
       if (!products) null;
       res.send(products);
