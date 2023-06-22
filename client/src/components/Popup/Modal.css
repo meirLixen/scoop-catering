@@ -27,12 +27,15 @@
 }
 
 .modal {
-  background: white !important;
-  position: relative !important;
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* background: white !important; */
   margin: 1.75rem auto !important;
   border-radius: 3px !important;
-  max-width: 500px !important;
-  height: 70% !important;
+  max-width: 600px !important;
+  height: fit-content !important;
   padding: 2rem !important;
   display: block !important;
 }

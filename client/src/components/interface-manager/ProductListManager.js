@@ -13,14 +13,18 @@ function ProductListManager(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
 
   const [show, setShow] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
+  const [productToEdit, setProductToEdit] = useState();
+
+
   const handleClose = () => setShow(false);
   const { menus } = props;
   const { products } = props;
   const { categories } = props;
   const [data, setData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  const [productToEdit] = useState();
+
   const [sortType, setSortType] = useState("hebrewName");
   const [query, setQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState("selectCategory")
@@ -30,7 +34,7 @@ function ProductListManager(props) {
   }, [])
 
   useEffect(() => {
-
+  
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -81,7 +85,7 @@ function ProductListManager(props) {
       });
     }
     // eslint-disable-next-line
-  }, []);
+  }, [props]);
   const filteredSearch = (item) => {
     if (query === '') {
       return item;
@@ -125,41 +129,22 @@ function ProductListManager(props) {
   };
 
   const editItem = async (product) => {
-    $("#newId").val(product._id);
-    $("#newName").val(product.name);
-    $("#newHebrewName").val(product.hebrewName);
-    $("#newDescription").val(product.details);
-    $("#newHebrewDescription").val(product.hebrewDetails);
-    if (product.priceList.length > 1) {
 
-      //alert(product.priceList[0].amount._id)
-      for (var i = 0; i < product.priceList.length; i++) {
-        $("#ButtonNewPrice0").on('click')
-        $("#newPrice" + i).val(product.priceList[i].price);
-        $("#newAmount" + i).val(product.priceList[i].amount._id);
-      }
+    setProductToEdit(product)
+    setShowEditModal(true);
 
-    }
-    else
-      $("#newPrice0").val(product.priceList[0].price);
-    $("#newAmount0").val(product.priceList[0].amount._id);
-    $("#newCategory").val(product.categoryID);
-    $("#newOutOfStock").prop(
-      "checked",
-      product.outOfStock === true ? true : false
-    );
-    $("#newDisplay").prop("checked", product.display);
-    $("#newRecommended").prop("checked", product.recommended === true ? true : false)
+
   };
 
   function openDeleteMoodal(item) {
+    setIdToDelete(item._id);
     setShow(true);
-    setIdToDelete(item);
+
   }
   function deleteProduct() {
     const menus = idToDelete.menus.filter(e => e !== selectedMenu);
     const updateProduct = {
-      _id:idToDelete._id,
+      _id: idToDelete._id,
       name: idToDelete.name,
       hebrewName: idToDelete.hebrewName,
       details: idToDelete.details,
@@ -175,13 +160,28 @@ function ProductListManager(props) {
 
 
 
-    props.updateProduct(updateProduct)
+    // props.updateProduct(updateProduct)
     //props.deleteProduct(idToDelete);
     setShow(false);
+    props.getAllProducts();
   }
 
   return (
     <div className="container px-0  pb-0">
+
+      <Modal show={showEditModal} onHide={()=>setShowEditModal(false)} animation={false} id="EditModal">
+        <Modal.Header closeButton className="bg-light">
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+          <div className="NewProduct text-center p-3 pb-0 bg-light">
+            <NewProduct product={productToEdit} action="edit" />
+          </div>
+
+
+
+
+      </Modal>
+
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton className="rtl">
           <Modal.Title></Modal.Title>
@@ -202,27 +202,32 @@ function ProductListManager(props) {
       <div className="d-flex     justify-content-between rtl mt-2" style={{ height: "800px !important" }}>
         {/* <Search details={products} /> */}
 
-        <div className=" productList col-md-7 p-3 bg-light">
+        <div className=" productList col-md-12 p-3 bg-light">
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
-            <div className="col-6  text-end">
+            <div className="col-3  text-end">
               מס' מוצרים: {products.length}
             </div>
+
+            <div className="col-3">
+              <Form.Select
+                aria-label="Default select example"
+                className="rounded-0  py-1"
+                required
+                onChange={e => setSelectedMenu(e.target.value)}
+              >
+                <option value="selectMenu">בחר תפריט</option>
+                {menus.map((menu) => (
+                  <option key={menu._id} value={menu._id} >
+                    {menu.hebrewName}
+                  </option>
+                ))}
+              </Form.Select>
+
+            </div>
             <div className="col-6 text-start row d-flex justify-content-between ">
-              <div className="col-md-6 p-0">
-                <Form.Select
-                  aria-label="Default select example"
-                  className="rounded-0  py-1"
-                  required
-                  onChange={e => setSelectedMenu(e.target.value)}
-                >
-                  <option value="selectMenu">בחר תפריט</option>
-                  {menus.map((menu) => (
-                    <option key={menu._id} value={menu._id} >
-                      {menu.hebrewName}
-                    </option>
-                  ))}
-                </Form.Select>
+              <div className="col-md-5 p-0">
+
                 {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
                 <Form.Select
                   aria-label="Default select example"
@@ -238,7 +243,7 @@ function ProductListManager(props) {
                   ))}
                 </Form.Select>
               </div>
-              <div className="col-md-5 p-0">
+              <div className="col-md-6 p-0">
                 <input
                   placeholder="חפש מוצר"
                   className="w-100 inputOf_Search bg-transparent border-0 border-bottom border-dark"
@@ -395,9 +400,9 @@ function ProductListManager(props) {
           </Table>
         </div>
         {/* <div className="col-md-1 p-0"></div> */}
-        <div className="col-md-4  NewProduct  p-3 pb-0 bg-light">
+        {/* <div className="col-md-4  NewProduct  p-3 pb-0 bg-light">
           <NewProduct product={productToEdit} />
-        </div>
+        </div> */}
         {/* <div className='col-md-4  NewProduct  p-3 pb-0 bg-light' ><AddEdit /></div> */}
       </div>
     </div>
@@ -416,5 +421,6 @@ const mapDispatchToProps = (dispatch) => ({
   updateProduct: (product) => dispatch(actions.updateProduct(product)),
   copyProduct: (id) => dispatch(actions.copyProduct(id)),
   getProductByID: (id) => dispatch(actions.getProductByID(id)),
+  getAllProducts: () => dispatch(actions.getAllProducts()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProductListManager);
