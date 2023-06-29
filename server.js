@@ -38,11 +38,11 @@ app.use((req, res, next) => {
   const cookie = req.cookies ? req.cookies['scoopCode'] : null;
   const body = req.body ? req.body['scoopCode'] : null;
 
-  if (cookie && cookie === "1234abcd") {
+  if (cookie && cookie === "1234q^abcd") {
     next()
   } else if (body) {
 
-    if (body === "1234abcd") {
+    if (body === "1234q^abcd") {
       res.cookie('scoopCode', body, { maxAge: 900000, httpOnly: true });
       res.sendFile(path.join(__dirname, "client", "build", "index.html"));
     } else {
