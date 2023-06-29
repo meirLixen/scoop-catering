@@ -32,7 +32,7 @@ router.post("/product/", async (req, res) => {
 router.post("/products/", async (req, res) => {
   console.log("edit allProducts");
   try {
-    const product = await Product.updateMany({}, { menus: ["627d88a5cef5e2a03388bb1b"] });
+    const product = await Product.updateMany({}, { menus: ["627d88a5cef5e2a03388bb1b","64875e1f59cff9c94f1639a3"] });
     if (!product) {
       res.status(404).send("product not found");
     }

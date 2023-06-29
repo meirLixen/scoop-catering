@@ -29,7 +29,6 @@ import ShabbatMenu from "./components/interface-user/ShabbatMenu";
 import ShoppingCart from "./components/interface-user/ShoppingCart";
 import Nuv from "./components/mainPage/Nuv";
 import { actions } from "./redux/actions/action";
-
 import "./App.css";
 
 function App(props) {

@@ -2,6 +2,7 @@ import axios from 'axios';
 import $ from 'jquery'
 import { Field, Form, Formik } from "formik";
 import React, { useState, useEffect } from "react";
+import Select from 'react-select';
 import { connect } from "react-redux";
 import { actions } from "../../redux/actions/action";
 // import { Form } from 'react-bootstrap';
@@ -14,10 +15,11 @@ import "../../App.css";
 const baseURL = "https://scoopcatering.co.il/"
 export function NewProduct(props) {
   let temp = 0;
-
+  let menuOption = []
   let [deletedPrices, setdeletedPrices] = useState([]);
   const [show, setShow] = useState(false);
   const [count, setCount] = useState(0);
+  const [selectedOption, setSelectedOption] = useState(null);
   useEffect(() => {
     if (props.action == "edit") {
       setFile(props.product.img);
@@ -25,19 +27,32 @@ export function NewProduct(props) {
     }
 
   }, [])
+
+
+
+  // handle onChange event of the dropdown
+  const handleChange = e => {
+    setSelectedOption(e);
+  }
   const handleClose = () => setShow(false);
   // const [names, setNames] = useState([]);
 
   // const [checked, setChecked] = useState(true);
-  const { categories } = props;
-  const { amounts } = props;
+  const { categories, menus, amounts } = props;
+
 
   if (!amounts || !amounts.length) {
     props.getAllAmounts();
   }
-
+  if (!menuOption || !menuOption.length) {
+    {
+      menus.map((menu) => (
+        menuOption.push({ value: menu._id, label: menu.hebrewName })
+      ))
+    }
+  }
   // const { createProduct } = props
-  const currentAmount= JSON.stringify(props.product.priceList[0].amount)
+
   const onSubmit = async (fields) => {
     debugger
     // event.preventDefault();
@@ -55,7 +70,7 @@ export function NewProduct(props) {
 
       if (amount != "" && price != "") {
         priceList[temp] = {
-          amount: JSON.parse(amount),
+          amount: amount,
           price: price,
         };
         amount = "";
@@ -64,7 +79,7 @@ export function NewProduct(props) {
       }
     });
     const updateProduct = {
-      _id:fields.Id,
+      _id: fields.Id,
       name: fields.name,
       hebrewName: fields.hebrewName,
       details: fields.description,
@@ -263,14 +278,14 @@ export function NewProduct(props) {
       </h4>
 
       <Formik
-     
+
         initialValues={{
           Id: props.product._id,
           name: props.product.name,
           hebrewName: props.product.hebrewName,
           description: props.product.details,
           hebrewDescription: props.product.hebrewDetails,
-          amountId0:currentAmount,
+          amountId0: props.product.priceList[0].amount,
           price0: props.product.priceList[0].price,
           categoryId: props.product.categoryID,
           outOfStock: props.product.outOfStock,
@@ -293,18 +308,9 @@ export function NewProduct(props) {
                     pl
                   />
                 </div>
+
                 <div className="form-group">
                   <lable className="lableForm">שם מוצר:</lable>
-                  <Field
-                    id="newName"
-                    className="form-control rounded-0 newName_"
-                    type="text"
-                    name="name"
-                    pl
-                  />
-                </div>
-                <div className="form-group">
-                  <lable className="lableForm">שם מוצר(HE):</lable>
                   <Field
                     id="newHebrewName"
                     className="form-control rounded-0 newHebrewName_"
@@ -314,16 +320,17 @@ export function NewProduct(props) {
                   />
                 </div>
                 <div className="form-group">
-                  <lable className="lableForm">תאור מוצר:</lable>
+                  <lable className="lableForm">שם מוצר אנגלית:</lable>
                   <Field
-                    id="newDescription"
-                    className="form-control rounded-0 newDescription_"
+                    id="newName"
+                    className="form-control rounded-0 newName_"
                     type="text"
-                    name="description"
+                    name="name"
+                    pl
                   />
                 </div>
                 <div className="form-group">
-                  <lable className="lableForm">תאור מוצר(HE):</lable>
+                  <lable className="lableForm">תאור מוצר:</lable>
                   <Field
                     id="newHebrewDescription"
                     className="form-control rounded-0 newHebrewDescription_"
@@ -331,6 +338,16 @@ export function NewProduct(props) {
                     name="hebrewDescription"
                   />
                 </div>
+                <div className="form-group">
+                  <lable className="lableForm">תאור מוצר אנגלית:</lable>
+                  <Field
+                    id="newDescription"
+                    className="form-control rounded-0 newDescription_"
+                    type="text"
+                    name="description"
+                  />
+                </div>
+
                 {/* <div className="pricesDiv"> */}
                 <div
                   className="d-flex  row align-items-center pl-2"
@@ -346,7 +363,7 @@ export function NewProduct(props) {
                     >
                       <option value={""}></option>
                       {amounts.map((amount) => (
-                        <option key={amount._id} value={JSON.stringify(amount)}>
+                        <option key={amount._id} value={amount._id}>
                           {amount.hebrewName}
                         </option>
                       ))}
@@ -382,15 +399,15 @@ export function NewProduct(props) {
                 <div className="form-group">
                   <lable className="lableForm">קטגוריה:</lable>
                   <Field
+
                     as="select"
                     name="categoryId"
                     id="newCategory"
-
                     className="browser-default custom-select  rounded-0"
-
 
                   >
                     <option value={""}></option>
+
                     {categories.map((category) => (
                       <option key={category._id} value={category._id}>
                         {category.hebrewName}
@@ -398,6 +415,17 @@ export function NewProduct(props) {
                     ))}
                   </Field>
                 </div>
+                <div className='form-group ltr'>
+                  <label className='lableForm'>:משויך לתפריט</label>
+                  <Select
+                    isMulti
+                    placeholder=""
+                    value={selectedOption} // set selected value
+                    options={menuOption}
+                    onChange={handleChange} // assign onChange function
+                  />
+                </div>
+
                 <div className="form-group row d-flex      mr-1">
                   <div className="col-4 align-items-center  d-flex p-0">
                     <Field
@@ -466,6 +494,7 @@ const mapStateToProps = (state) => {
   return {
     products: state.productReducer.products,
     categories: state.categoryReducer.categories,
+    menus: state.menuReducer.menus,
     amounts: state.amountReducer.amounts,
   };
 };
