@@ -19,9 +19,13 @@ const UploadImage = require("./routes/upload")
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use(cors({ origin: ["http://localhost:3000", "https://scoopcatering.co.il", "http://5.180.183.130:3000", "http://5.180.183.130:3001"], credentials: true }));
 // app.use(cors({ origin:"https://scoopcatering.co.il" , credentials: true }));
 const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 const products = path.join(__dirname, "public", "images", "products");
 const categories = path.join(__dirname, "public", "images", "categories");
@@ -29,12 +33,39 @@ const icons = path.join(__dirname, "public", "images", "icons");
 const backgrounds = path.join(__dirname, "public", "images", "backgrounds");
 
 //app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
+app.use((req, res, next) => {
+  const cookie = req.cookies ? req.cookies['scoopCode'] : null;
+  const body = req.body ? req.body['scoopCode'] : null;
+
+  if (cookie && cookie === "1234abcd") {
+    next()
+  } else if (body) {
+
+    if (body === "1234abcd") {
+      res.cookie('scoopCode', body, { maxAge: 900000, httpOnly: true });
+      res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    } else {
+      res.send("invalid code")
+    }
+
+
+  } else {
+    
+    res.send(`
+    <form action="/" method="post" style="text-align: center;">
+    <label for="scoopCode" >Enter code:</label><br>
+    <input type="text" id="scoopCode" name="scoopCode"><br><br>
+    <input type="submit" value="Send">
+  </form>
+    `)
+  }
+})
 app.use(express.static(products));
 app.use(express.static(categories));
 app.use(express.static(icons));
 app.use(express.static(backgrounds));
 
-app.use(cookieParser());
 
 require("./config/config");
 
@@ -87,7 +118,7 @@ function updateOrders() {
     }).catch(error => {
       console.log(error);
     });
-    axios.delete('https://scoopcatering.co.il/api/deleteAllProductsOnOrder')
+  axios.delete('https://scoopcatering.co.il/api/deleteAllProductsOnOrder')
     .then(response => {
       console.log(response.data);
     }).catch(error => {
