@@ -44,8 +44,7 @@ app.use((req, res, next) => {
 
     if (body === "1234q^abcd") {
       res.cookie('scoopCode', body, { maxAge: 900000, httpOnly: true });
-      next();
-     // res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+      res.sendFile(path.join(__dirname, "client", "build", "index.html"));
     } else {
       res.send("invalid code")
     }
