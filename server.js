@@ -39,7 +39,7 @@ app.use((req, res, next) => {
   const body = req.body ? req.body['scoopCode'] : null;
 
   if (cookie && cookie === "1234q^abcd") {
-    next();
+    next()
   } else if (body) {
 
     if (body === "1234q^abcd") {
