@@ -14,6 +14,8 @@ const axios = require('axios');
 const multer = require("multer");
 const cron = require("node-cron");
 const nodemailer = require("nodemailer");
+const LocalStorage = require('node-localstorage').LocalStorage;
+const localStorage = new LocalStorage('./scratch');
 
 const UploadImage = require("./routes/upload")
 const cors = require("cors");
