@@ -24,7 +24,6 @@
     "mongoose": "^5.9.24",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.0",
-    "node-localstorage": "^2.2.1",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "react-to-print": "^2.14.4",
