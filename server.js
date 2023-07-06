@@ -37,33 +37,33 @@ const backgrounds = path.join(__dirname, "public", "images", "backgrounds");
 //app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use((req, res, next) => {
-  next()
-  // const cookie = localStorage.getItem("cookie") || null;
-  // //const cookie = req.cookies ? req.cookies['scoopCode'] : null;
-  // const body = req.body ? req.body['scoopCode'] : null;
+ 
+  const cookie = localStorage.getItem("cookie") || null;
+  //const cookie = req.cookies ? req.cookies['scoopCode'] : null;
+  const body = req.body ? req.body['scoopCode'] : null;
 
-  // if (cookie && cookie === "1234q^abcd") {
-  //   console.log("cookie-1:", cookie);
-  //   next()
-  // } else if (body) {
-  //   console.log("cookie-2", cookie);
-  //   if (body === "1234q^abcd") {
-  //     localStorage.setItem("cookie", body)
-  //     //res.cookie('scoopCode', body, { maxAge: 900000, httpOnly: true });
-  //     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-  //   } else {
-  //     res.send("invalid code")
-  //   }
-  // } else {
-  //   console.log("cookie-3", cookie);
-  //   res.send(`
-  //   <form action="/" method="post" style="text-align: center;">
-  //   <label for="scoopCode" >Enter code:</label><br>
-  //   <input type="text" id="scoopCode" name="scoopCode"><br><br>
-  //   <input type="submit" value="Send">
-  // </form>
-  //   `)
-  // }
+  if (cookie && cookie === "1234q^abcd") {
+    console.log("cookie-1:", cookie);
+    next()
+  } else if (body) {
+    console.log("cookie-2", cookie);
+    if (body === "1234q^abcd") {
+      localStorage.setItem("cookie", body)
+      //res.cookie('scoopCode', body, { maxAge: 900000, httpOnly: true });
+      res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    } else {
+      res.send("invalid code")
+    }
+  } else {
+    console.log("cookie-3", cookie);
+    res.send(`
+    <form action="/" method="post" style="text-align: center;">
+    <label for="scoopCode" >Enter code:</label><br>
+    <input type="text" id="scoopCode" name="scoopCode"><br><br>
+    <input type="submit" value="Send">
+  </form>
+    `)
+  }
 })
 app.use(express.static(products));
 app.use(express.static(categories));
