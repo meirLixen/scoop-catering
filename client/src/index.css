@@ -1501,7 +1501,12 @@ small {
   height: 35px;
   /* height: 50%; */
 }
-
+.nav-link{
+  color: #495057!important;
+}
+.nav-link.active{
+  color: #c59950!important;
+}
 .form-check-input:checked {
   background-color: #c39957 !important;
   border-color: #c39957 !important;

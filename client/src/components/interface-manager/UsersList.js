@@ -141,7 +141,7 @@ function UsersList(props) {
                   <option>מס' הזמנות</option>
                   <option>שם לקוח</option>
                   <option>דוא"ל</option>
-                  <option>סיסמא</option>
+                  <option>סיסמה</option>
                   <option>טלפון</option>
                   <option>טלפון נוסף</option>
                   <option>קוד קופון</option>
@@ -178,7 +178,7 @@ function UsersList(props) {
                   value="outOfStock"
                   id="outOfStock"
                 >
-                סיסמא
+                סיסמה
                 </th>
                 <th
                   className=" lableForm col-1"

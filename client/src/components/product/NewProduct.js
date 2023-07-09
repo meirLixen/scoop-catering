@@ -19,16 +19,25 @@ export function NewProduct(props) {
   let [deletedPrices, setdeletedPrices] = useState([]);
   const [show, setShow] = useState(false);
   const [count, setCount] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState([]);
   useEffect(() => {
     if (props.action == "edit") {
       setFile(props.product.img);
       setImage(baseURL + props.product.img);
     }
+    if(!selectedOption||!selectedOption.length){
+      var a = []
+      props.product.menus.map((menu) => {
+       
+        a.push({ value: menu._id, label: menu.hebrewName });
+      })
+      setSelectedOption(a)
+    }
+    
 
   }, [])
 
-
+ 
 
   // handle onChange event of the dropdown
   const handleChange = e => {
@@ -45,11 +54,13 @@ export function NewProduct(props) {
     props.getAllAmounts();
   }
   if (!menuOption || !menuOption.length) {
-    {
-      menus.map((menu) => (
-        menuOption.push({ value: menu._id, label: menu.hebrewName })
-      ))
-    }
+
+    menus.map((menu) => (
+      menuOption.push({ value: menu._id, label: menu.hebrewName })
+
+    ))
+   
+
   }
   // const { createProduct } = props
 
@@ -89,7 +100,9 @@ export function NewProduct(props) {
       display: fields.display,
       recommended: fields.recommended,
       priceList: priceList,
+      menus: selectedOption,
       img: file && file
+
     }
 
     props.updateProduct(updateProduct)
