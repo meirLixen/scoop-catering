@@ -9,7 +9,8 @@ import "../../App.css";
 import { actions } from "../../redux/actions/action";
 import NewProduct from "../product/NewProduct";
 
-function ProductListManager(props) {
+
+function MenuList(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
 
   const [show, setShow] = useState(false);
@@ -163,7 +164,7 @@ function ProductListManager(props) {
     // props.updateProduct(updateProduct)
     //props.deleteProduct(idToDelete);
     setShow(false);
-    props.getAllProducts();
+   
   }
 
   return (
@@ -187,7 +188,7 @@ function ProductListManager(props) {
           <Modal.Title></Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center border-0">
-          ?האם אתה בטוח כי ברצונך למחוק מוצר זה לצמיתות
+          ?האם אתה בטוח כי ברצונך למחוק תפריט זה לצמיתות
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">
           <Button variant=" secondary" className="" onClick={handleClose}>
@@ -206,97 +207,12 @@ function ProductListManager(props) {
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-3  text-end">
-              מס' מוצרים: {products.length}
+              מס' תפריטים: {menus.length}
             </div>
 
-            <div className="col-3">
-              <Form.Select
-                aria-label="Default select example"
-                className="rounded-0  py-1"
-                required
-                onChange={e => setSelectedMenu(e.target.value)}
-              >
-                <option value="selectMenu">בחר תפריט</option>
-                {menus.map((menu) => (
-                  <option key={menu._id} value={menu._id} >
-                    {menu.hebrewName}
-                  </option>
-                ))}
-              </Form.Select>
-
-            </div>
-            <div className="col-6 text-start row d-flex justify-content-between ">
-              <div className="col-md-5 p-0">
-
-                {/* <Form.Label className="mb-1 lableForm"></Form.Label> */}
-                <Form.Select
-                  aria-label="Default select example"
-                  className="rounded-0  py-1"
-                  required
-                  onChange={e => setSelectedCategory(e.target.value)}
-                >
-                  <option value="selectCategory">בחר קטגוריה</option>
-                  {categories.map((category) => (
-                    <option key={category._id} value={category._id} >
-                      {category.hebrewName}
-                    </option>
-                  ))}
-                </Form.Select>
-              </div>
-              <div className="col-md-6 p-0">
-                <input
-                  placeholder="חפש מוצר"
-                  className="w-100 inputOf_Search bg-transparent border-0 border-bottom border-dark"
-                  onInput={event => setQuery(event.target.value)}
-                />
-              </div>
-            </div>
+          
           </div>
 
-          {/* <Table className='border-none' size="sm" >
-
-            <div className='row mr-4 mb-3 ltr' key={"header"}>
-              <div className='col-4  lableForm text-center pl-5'>אפשרויות</div>
-              <div className='col-2 lableForm' value="createDate" id="createDate" onClick={e => setSortType("createDate")}>עדכון אחרון</div>
-              <div className='col-2 lableForm' value="outOfStock" id="outOfStock" onClick={e => setSortType("outOfStock")}>מלאי</div>
-              <div className='col-2 lableForm' value="price" id="price" onClick={e => setSortType("price")}>מחיר</div>
-
-              <div className='col-2 lableForm' value='hebrewName' id='hebrewName' onClick={e => setSortType('hebrewName')}>שם מוצר</div>
-
-            </div>
-
-
-            <div className="overflow-auto border-0 productList-manager ltr" style={{ height: '480px' }}>
-
-              <tbody id="tableBody" >
-                {categoryList.map((item) => (
-                  <tr className='row m-auto bg-white mb-3 ' key={item._id} id={item._id}>
-                    <td className='col-4 '>
-                      <td className=' ' onClick={() => openDeleteMoodal(item._id)}><i className="fas fa-trash-alt "></i></td>
-                      <td className=''>|</td>
-                      <td className=' ' onClick={() => editItem(item)}>עדכון</td>
-
-                    </td>
-                    <td className='col-2'>{item.createDate}</td>
-                    <td className='col-2'>{item.outOfStock === true ? "במלאי" : "אזל מהמלאי"}</td>
-                    <td className='col-2'>{item.price}</td>
-
-                    <td className='col-2'>{item.hebrewName}</td>
-
-
-                  </tr>
-                ))
-                }
-              </tbody>
-
-
-            </div>
-
-          </Table>
-
-
-
-           */}
 
           <Table className="w-100">
             <thead>
@@ -307,25 +223,18 @@ function ProductListManager(props) {
                   id="hebrewName"
                   onClick={(e) => setSortType("hebrewName")}
                 >
-                  שם מוצר
+                  שם תפריט
                 </th>
                 <th
-                  className=" col-2 lableForm"
-                  value="price"
-                  id="price"
-                  onClick={(e) => setSortType("price")}
+                  className="col-3 lableForm "
+                  value="name"
+                  id="name"
+                  onClick={(e) => setSortType("name")}
                 >
-                  {" "}
-                  מחיר
+                  שם תפריט (אנגלית)
                 </th>
-                {/* <th
-                  className=" col-2 lableForm"
-                  value="outOfStock"
-                  id="outOfStock"
-                  onClick={(e) => setSortType("outOfStock")}
-                >
-                  מלאי
-                </th> */}
+
+
                 <th
                   className="col-3 lableForm"
                   value="createDate"
@@ -341,40 +250,13 @@ function ProductListManager(props) {
             </thead>
 
             <tbody className="">
-              {products
-                .filter(filteredSearch)
-                .filter(filteredByCategory).filter(filteredByMenu).map((item) => (
+              {menus
+               .map((item) => (
                   <>
-                    <tr className=" bg-white   col-12">
+                    <tr className=" bg-white  col-12">
                       <td className=" border-0 col-2">{item.hebrewName}</td>
-                      {item.priceList.length > 1 ?
-
-
-                        <td className=" border-0 col-2">
-
-
-                          {/* {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0)}{" "} */}
-                          {item.priceList.map((price) =>
-                            parseFloat(price.price) +
-                            "/"
-                          )}
-                          &#8362;
-
-                        </td>
-
-
-
-                        :
-                        <td className=" border-0 col-2">
-                          {parseFloat(item.priceList[0].price ? item.priceList[0].price : 0).toFixed(1)}{" "}
-                          &#8362;
-                        </td>
-                      }
-                      {/* <td className=" border-0 col-2">
-                      {item.outOfStock === true ? "במלאי" : "אזל מהמלאי"}
-                    </td> */}
+                      <td className=" border-0 col-3">{item.name}</td>
                       <td className=" border-0 col-3">{
-
                         item.createDate.toString().split('T')[0]
                       }</td>
                       <td
@@ -399,11 +281,7 @@ function ProductListManager(props) {
             </tbody>
           </Table>
         </div>
-        {/* <div className="col-md-1 p-0"></div> */}
-        {/* <div className="col-md-4  NewProduct  p-3 pb-0 bg-light">
-          <NewProduct product={productToEdit} />
-        </div> */}
-        {/* <div className='col-md-4  NewProduct  p-3 pb-0 bg-light' ><AddEdit /></div> */}
+       
       </div>
     </div>
   );
@@ -417,10 +295,10 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  deleteProduct: (id) => dispatch(actions.deleteProduct(id)),
-  updateProduct: (product) => dispatch(actions.updateProduct(product)),
-  copyProduct: (id) => dispatch(actions.copyProduct(id)),
-  getProductByID: (id) => dispatch(actions.getProductByID(id)),
-  getAllProducts: () => dispatch(actions.getAllProducts()),
+  deleteMenu: (id) => dispatch(actions.deleteMenu(id)),
+  updateMenu: (product) => dispatch(actions.updateMenu(product)),
+  copyMenu: (id) => dispatch(actions.copyMenu(id)),
+  getMenuByID: (id) => dispatch(actions.getMenuByID(id)),
+  getAllMenus: () => dispatch(actions.getAllMenus()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(ProductListManager);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuList);
