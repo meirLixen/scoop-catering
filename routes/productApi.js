@@ -148,7 +148,7 @@ router.post("/copyProduct/:id", async (req, res) => {
 router.get("/products", async (req, res) => {
   console.log("i am here products");
   Product.find()
-    .populate("menus")
+    //.populate("menus")
     .then((products) => {
       if (!products) null;
       res.send(products);
