@@ -25,19 +25,23 @@ export function NewProduct(props) {
       setFile(props.product.img);
       setImage(baseURL + props.product.img);
     }
-    if(!selectedOption||!selectedOption.length){
-      var a = []
-      props.product.menus.map((menu) => {
-       
-        a.push({ value: menu._id, label: menu.hebrewName });
+    if (!selectedOption || !selectedOption.length) {
+      var newMenuList = []
+
+      props.product.menus.map((menuID) => {
+        menus.map((menu) => {
+          if (menuID == menu._id)
+            newMenuList.push({ value: menu._id, label: menu.hebrewName })
+        })
+
       })
-      setSelectedOption(a)
+      setSelectedOption(newMenuList)
     }
-    
+
 
   }, [])
 
- 
+
 
   // handle onChange event of the dropdown
   const handleChange = e => {
@@ -59,7 +63,7 @@ export function NewProduct(props) {
       menuOption.push({ value: menu._id, label: menu.hebrewName })
 
     ))
-   
+
 
   }
   // const { createProduct } = props
@@ -88,7 +92,12 @@ export function NewProduct(props) {
         price = "";
         temp++;
       }
+
     });
+    var menuList = []
+    selectedOption.map((x) => {
+      menuList.push(x.value)
+    })
     const updateProduct = {
       _id: fields.Id,
       name: fields.name,
@@ -100,13 +109,18 @@ export function NewProduct(props) {
       display: fields.display,
       recommended: fields.recommended,
       priceList: priceList,
-      menus: selectedOption,
+      menus: menuList,
       img: file && file
 
     }
 
     props.updateProduct(updateProduct)
-
+    document.getElementById("message").style.display="block"
+    
+    window.setTimeout(function () {
+         setShow(false);
+       }, 5000);
+    
     //$('#EditModal').modal('toggle');
     //add product
 
@@ -493,6 +507,7 @@ export function NewProduct(props) {
                 }
 
               </button>
+              <div id="message" style={{display:"none"}}>המוצר עודכן בהצלחה</div>
             </div>
 
 
