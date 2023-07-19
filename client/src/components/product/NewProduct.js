@@ -114,8 +114,8 @@ export function NewProduct(props) {
 
     }
 
-    //props.updateProduct(updateProduct)
-    // document.getElementById("message").style.display="block"
+    props.updateProduct(updateProduct)
+    document.getElementById("message").style.display="block"
     
     // window.setTimeout(function () {
     //      setShow(false);

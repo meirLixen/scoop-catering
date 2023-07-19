@@ -30,7 +30,7 @@ function Orders(props) {
   }, [])
 
   useEffect(() => {
-    
+
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -121,7 +121,7 @@ function Orders(props) {
       <div className="row  rtl mt-2" style={{ height: "800px !important" }}>
         {/* <Search details={products} /> */}
 
-        <div className=" productList col-md-10 p-3 bg-light">
+        <div className=" productList col-md-12 p-3 bg-light">
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
@@ -198,7 +198,7 @@ function Orders(props) {
                   item.status !== "done" && (
                     <Fragment key={index}>
                       <tr className=" bg-white  col-12 ">
-                        <td className=" border-0 col-2">208090</td>
+                        <td className=" border-0 col-2">{index + 1}</td>
                         <td className=" border-0 col-2">
                           {item.userId.fullName}
                         </td>
@@ -209,7 +209,7 @@ function Orders(props) {
                         <td className=" border-0 col-2">
                           {item.shippingAddress}
                         </td>
-                        <td className=" border-0 col-2">{item.date.split('T')[0]}</td>
+                        <td className=" border-0 col-2">{item.date.split('T')[0] +"   "+ item.date.split('T')[1].split(".")[0]}</td>
                         <td className=" border-0 col-2">
                           {item.MethodsOfPayment}
                         </td>
@@ -225,7 +225,7 @@ function Orders(props) {
             </tbody>
           </Table>
         </div>
-        <div className="col-md-2 p-0">עריכת הזמנה:</div>
+
       </div>
     </div>
   );

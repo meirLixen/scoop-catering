@@ -141,7 +141,6 @@ function UsersList(props) {
                   <option>מס' הזמנות</option>
                   <option>שם לקוח</option>
                   <option>דוא"ל</option>
-                  <option>סיסמה</option>
                   <option>טלפון</option>
                   <option>טלפון נוסף</option>
                   <option>קוד קופון</option>
@@ -173,13 +172,7 @@ function UsersList(props) {
                   {" "}
                   דוא"ל
                 </th>
-                <th
-                  className=" lableForm col-2"
-                  value="outOfStock"
-                  id="outOfStock"
-                >
-                סיסמה
-                </th>
+               
                 <th
                   className=" lableForm col-1"
                   value="createDate"
@@ -211,7 +204,6 @@ function UsersList(props) {
                         : ""}
                     </td>
                     <td className=" border-0 col-2">{item.email}</td>
-                    <td className=" border-0 col-2">{item.password}</td>
                     <td className=" border-0 col-1">{item.phone}</td>
                     <td className=" border-0 col-1">
                       {item.anotherPhone ? item.anotherPhone : ""}
