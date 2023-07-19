@@ -115,11 +115,11 @@ export function NewProduct(props) {
     }
 
     //props.updateProduct(updateProduct)
-    document.getElementById("message").style.display="block"
+    // document.getElementById("message").style.display="block"
     
-    window.setTimeout(function () {
-         setShow(false);
-       }, 5000);
+    // window.setTimeout(function () {
+    //      setShow(false);
+    //    }, 5000);
     
     //$('#EditModal').modal('toggle');
     //add product
