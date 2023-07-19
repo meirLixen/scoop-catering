@@ -1639,8 +1639,9 @@ function ShabbatMenu(props) {
                       ))}
                   </div>
                 </div>
-                <div
-                  className=" col-12 rounded-custom-small customShadow px-3 pb-3 mb-3 pt-2"
+                {/* אולי תרצו גם */}
+                {/* <div
+                  className=" col-12 rounded-custom-small customShadow px-3 pb-3 mb-3 pt-2 "
                   style={{ backgroundColor: "rgb(195, 153, 87, 0.16)" }}
                 >
                   <h5 className="font-weight-bold ">{i18.t("moreOffers")}</h5>
@@ -1650,7 +1651,7 @@ function ShabbatMenu(props) {
                   >
                     <div className="row d-flex  px-0">
                       <div className="product_Pic col-4 d-flex align-items-center px-2">
-                        {/* <div className=' ml-auto bg-gold d-flex     justify-content-center align-items-center' style={{ width: '60%', height: '15px', position: 'absolute', top: 0, right: '1px' }}><p className='m-0 ' style={{ fontSize: '0.4rem' }}> {i18.t("recommended")}</p></div> */}
+                     
 
                         <img alt="" className=" w-100 " src={image1} />
                       </div>
@@ -1676,7 +1677,7 @@ function ShabbatMenu(props) {
                             </span>
                             <input
                               type="text"
-                              // defaultValue="1"
+                             
                               value={1}
                               className="AmountInput p-0 text-black bg-white    m-1 my-0 small_input_number fontNumber gold-border"
                             />
@@ -1702,7 +1703,7 @@ function ShabbatMenu(props) {
                   >
                     <div className="row d-flex px-0">
                       <div className="product_Pic col-4 d-flex align-items-center px-2">
-                        {/* <div className=' ml-auto bg-gold d-flex     justify-content-center align-items-center' style={{ width: '60%', height: '15px', position: 'absolute', top: 0, right: '1px' }}><p className='m-0 ' style={{ fontSize: '0.4rem' }}> {i18.t("recommended")}</p></div> */}
+                      
 
                         <img alt="" className=" w-100 " src={image1} />
                       </div>
@@ -1728,7 +1729,7 @@ function ShabbatMenu(props) {
                             </span>
                             <input
                               type="text"
-                              // defaultValue="1"
+                           
                               value={1}
                               className="AmountInput p-0 text-black bg-white    m-1 my-0 small_input_number fontNumber gold-border"
                             />
@@ -1753,8 +1754,7 @@ function ShabbatMenu(props) {
                   >
                     <div className="row d-flex px-0">
                       <div className="product_Pic col-4 d-flex align-items-center px-2">
-                        {/* <div className=' ml-auto bg-gold d-flex justify-content-center align-items-center' style={{ width: '60%', height: '15px', position: 'absolute', top: 0, right: '1px' }}><p className='m-0 ' style={{ fontSize: '0.4rem' }}> {i18.t("recommended")}</p></div> */}
-
+                       
                         <img alt="" className=" w-100 " src={image1} />
                       </div>
 
@@ -1779,7 +1779,7 @@ function ShabbatMenu(props) {
                             </span>
                             <input
                               type="text"
-                              // defaultValue="1"
+                             
                               value={1}
                               className="AmountInput p-0 text-black bg-white    m-1 my-0 small_input_number fontNumber gold-border"
                             />
@@ -1798,7 +1798,7 @@ function ShabbatMenu(props) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="  col-12 rounded-custom-small customShadow px-4 py-2 mb-3">
                   <div className=" text-center">
