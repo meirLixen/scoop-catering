@@ -95,7 +95,7 @@ function Orders(props) {
   };
 
   function deleteProduct() {
-    props.deleteProduct(idToDelete);
+    //props.deleteProduct(idToDelete);
     setShow(false);
   }
 

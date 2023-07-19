@@ -130,8 +130,8 @@ function CategoryListManager(props) {
 
   const editItem = async (product) => {
 
-    setProductToEdit(product)
-    setShowEditModal(true);
+    // setProductToEdit(product)
+    // setShowEditModal(true);
 
 
   };
