@@ -125,7 +125,7 @@ function Orders(props) {
           {/* <button onClick={e => openForm()}>adddddd</button> */}
           <div className="row d-flex titles  mb-5">
             <div className="col-6  text-end">
-              מס' הזמנות:{" "}
+              מס' הזמנות השבוע:{" "}
               {orders.filter((order) => order.status !== "done").length}
             </div>
             <div className="col-6  text-end">מס' הזמנות: {orders.length}</div>
@@ -160,7 +160,7 @@ function Orders(props) {
           <Table className="w-100">
             <thead>
               <tr className=" w-100 col-12" key={"header"}>
-                <th className=" lableForm col-2" value="orderNum" id="orderNum">
+                <th className=" lableForm col-1" value="orderNum" id="orderNum">
                   מס' הזמנה
                 </th>
 
@@ -188,17 +188,19 @@ function Orders(props) {
 
                 <th className=" lableForm  col-2">תאריך הזמנה</th>
                 <th className=" lableForm  col-2">אמצעי תשלום</th>
+                <th className=" lableForm  col-1">חשבונית</th>
+
                 {/* <th className=' lableForm  col-1'>חשבונית</th> */}
               </tr>
             </thead>
 
-            <tbody className="table-responsive">
+            <tbody className="">
               {orders.map(
                 (item, index) =>
                   item.status !== "done" && (
                     <Fragment key={index}>
                       <tr className=" bg-white  col-12 ">
-                        <td className=" border-0 col-2">{index + 1}</td>
+                        <td className=" border-0 col-1">{index + 1}</td>
                         <td className=" border-0 col-2">
                           {item.userId.fullName}
                         </td>
@@ -212,6 +214,9 @@ function Orders(props) {
                         <td className=" border-0 col-2">{item.date.split('T')[0] +"   "+ item.date.split('T')[1].split(".")[0]}</td>
                         <td className=" border-0 col-2">
                           {item.MethodsOfPayment}
+                        </td>
+                        <td className=" border-0 col-1">
+                         
                         </td>
                         {/* <td className=' border-0'>{item.createDate}</td> */}
                       </tr>

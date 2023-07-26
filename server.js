@@ -134,14 +134,14 @@ cron.schedule("0 5 * * sunday", function () {
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "mindysahar@gmail.com",
-    pass: "0583233770",
+    user: "benchamo.scoop.catering@gmail.com",
+    pass: "0584505023",
   },
 });
 
 let messageOptions = {
-  from: "mindysahar@gmail.com",
-  to: "shimonsahar@gmail.com",
+  from: "benchamo.scoop.catering@gmail.com",
+  to: "mindysahar@gmail.com",
   subject: "Scheduled Email",
   text: "Hi there. This email was automatically sent by us.",
 };

@@ -41,17 +41,6 @@ export function ContactUs(props) {
 
         {!isMobile && !isTablet && <TopPageDesktop />}
       </div>
-
-      {/* <div className="pageHeader">
-                <label >{i18.t('ContactUs')} </label>
-                {isTablet ? <img className="h-100 " src={'https://scoopcatering.co.il/headerBgImag.png'} /> : <img className="h-100 w-100" src={'https://scoopcatering.co.il/headerBgImag.png'} />}
-            </div>
-
-            <div className='location pt-3 text-end px-5' >
-                <div className='d-inline' onClick={() => props.history.push('/')}>{i18.t('ScoopCatering')}</div>
-                <div className='goldColor d-inline'> /{i18.t('ContactUs')}     </div>
-            </div>
-             */}
       <div className="pageContent">
         <div className="pageContent EventPageContent">
           <div

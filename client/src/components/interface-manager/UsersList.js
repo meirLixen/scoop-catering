@@ -188,7 +188,7 @@ function UsersList(props) {
               </tr>
             </thead>
 
-            <tbody className="table-responsive">
+            <tbody className="">
               {users.map((item, index) => (
                 <Fragment key={index}>
                   <tr className=" bg-white  col-12 ">
