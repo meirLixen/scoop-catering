@@ -12,7 +12,7 @@ import "../../App.css";
 
 
 // import Form from 'react-bootstrap/Form'
-const baseURL = "https://scoopcatering.co.il/"
+const baseURL = window.location.origin + "/"
 export function NewProduct(props) {
   let temp = 0;
   let menuOption = []
@@ -22,8 +22,14 @@ export function NewProduct(props) {
   const [selectedOption, setSelectedOption] = useState([]);
   useEffect(() => {
     if (props.action == "edit") {
-      setFile(props.product.img);
-      setImage(baseURL + props.product.img);
+      if(props.product.img){
+        setFile(props.product.img);
+        setImage(baseURL + props.product.img);
+      }
+     else{
+      setFile("generalProduct.png");
+        setImage(baseURL + "generalProduct.png");
+     }
     }
     if (!selectedOption || !selectedOption.length) {
       var newMenuList = []
@@ -115,12 +121,12 @@ export function NewProduct(props) {
     }
 
     //props.updateProduct(updateProduct)
-    document.getElementById("message").style.display="block"
-    
+    document.getElementById("message").style.display = "block"
+
     // window.setTimeout(function () {
     //      setShow(false);
     //    }, 5000);
-    
+
     //$('#EditModal').modal('toggle');
     //add product
 
@@ -324,7 +330,7 @@ export function NewProduct(props) {
       >
         {() => (
           <Form className="" style={{ height: "590px", direction: "rtl" }} id="productForm">
-            <div className="  overflow-auto customOverflow" style={{ height: "560px" }}>
+            <div className="  overflow-auto customOverflow" style={{ height: "560px", overflowX: "hidden !important" }}>
               <div className="text-end">
                 <div className="form-group">
                   <Field
@@ -485,6 +491,7 @@ export function NewProduct(props) {
                 </div>
 
                 <span className="hiddenFileInput" style={{ backgroundImage: `url(${image})` }}>
+              
 
                   <Field
                     type="file"
@@ -498,7 +505,7 @@ export function NewProduct(props) {
 
               </div>
               <button
-                className="btn goldButton "
+                className="btn goldButton mb-3 mt-2"
                 id="addProduct"
                 type="submit"
               >
@@ -507,7 +514,7 @@ export function NewProduct(props) {
                 }
 
               </button>
-              <div id="message" style={{display:"none"}}>המוצר עודכן בהצלחה</div>
+              <div id="message" style={{ display: "none" }}>המוצר עודכן בהצלחה</div>
             </div>
 
 

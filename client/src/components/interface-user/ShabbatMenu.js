@@ -29,9 +29,8 @@ let previousClick = "empty";
 let previousClickIndex;
 let previousClickName;
 let currentClass;
-// const baseURL = "https://scoopcatering.co.il/"
-// const baseURL = process.env.IMAGES_BASE_URL;
-const baseURL = "https://scoopcatering.co.il/"
+
+const baseURL = window.location.origin + "/"
 
 function ShabbatMenu(props) {
 
@@ -41,7 +40,7 @@ function ShabbatMenu(props) {
 
   //const [cart, setCart] = useLocalStorage("cart", []);
   const { language } = props;
-  const { products,menus,categories } = props;
+  const { products, menus, categories } = props;
   let filteredProducts = [];
   const [side] = useState("");
   const [align] = useState("");
