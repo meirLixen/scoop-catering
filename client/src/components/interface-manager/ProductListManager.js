@@ -14,6 +14,7 @@ function ProductListManager(props) {
 
   const [show, setShow] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const [productToEdit, setProductToEdit] = useState();
 
@@ -34,7 +35,7 @@ function ProductListManager(props) {
   }, [])
 
   useEffect(() => {
-  
+
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -127,7 +128,9 @@ function ProductListManager(props) {
       setCategoryList(list);
     }
   };
-
+  const addProduct = async () => {
+    setShowAddModal(true)
+  }
   const editItem = async (product) => {
 
     setProductToEdit(product)
@@ -169,17 +172,21 @@ function ProductListManager(props) {
   return (
     <div className="container px-0  pb-0">
 
-      <Modal show={showEditModal} onHide={()=>setShowEditModal(false)} animation={false} id="EditModal">
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} animation={false} id="EditModal">
         <Modal.Header closeButton className="bg-light">
           <Modal.Title></Modal.Title>
         </Modal.Header>
-          <div className="NewProduct text-center p-3 pb-0 bg-light">
-            <NewProduct product={productToEdit} action="edit" />
-          </div>
-
-
-
-
+        <div className="NewProduct text-center p-3 pb-0 bg-light">
+          <NewProduct product={productToEdit} action="edit" />
+        </div>
+      </Modal>
+      <Modal show={showAddModal} onHide={() => setShowAddModal(false)} animation={false} id="AddModal">
+        <Modal.Header closeButton className="bg-light">
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <div className="NewProduct text-center p-3 pb-0 bg-light">
+          <NewProduct action="add" />
+        </div>
       </Modal>
 
       <Modal show={show} onHide={handleClose} animation={false}>
@@ -204,7 +211,7 @@ function ProductListManager(props) {
 
         <div className=" productList col-md-12 p-3 bg-light">
           {/* <button onClick={e => openForm()}>adddddd</button> */}
-          <div className="row d-flex titles  mb-5">
+          <div className="row d-flex titles  mb-3">
             <div className="col-3  text-end">
               מס' מוצרים: {products.length}
             </div>
@@ -245,12 +252,15 @@ function ProductListManager(props) {
               </div>
               <div className="col-md-6 p-0">
                 <input
-                  placeholder="חפש מוצר"
+                  placeholder="הזן שם מוצר לחיפוש"
                   className="w-100 inputOf_Search bg-transparent border-0 border-bottom border-dark"
                   onInput={event => setQuery(event.target.value)}
                 />
               </div>
             </div>
+          </div>
+          <div className="mb-3 text-end">
+            <button onClick={addProduct} style={{ border: "1px solid #ced4da !important" }}>הוספת מוצר חדש</button>
           </div>
 
           {/* <Table className='border-none' size="sm" >
