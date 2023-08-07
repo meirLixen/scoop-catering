@@ -22,19 +22,23 @@ export function NewProduct(props) {
   const [selectedOption, setSelectedOption] = useState([]);
   useEffect(() => {
     if (props.action == "edit") {
-      if(props.product.img){
+      if (props.product && props.product.img) {
         setFile(props.product.img);
         setImage(baseURL + props.product.img);
       }
-     else{
-      setFile("generalProduct.png");
+      else {
+        setFile("generalProduct.png");
         setImage(baseURL + "generalProduct.png");
-     }
+      }
+    }
+    else {
+      setFile("generalProduct.png");
+      setImage(baseURL + "generalProduct.png");
     }
     if (!selectedOption || !selectedOption.length) {
       var newMenuList = []
 
-      props.product.menus.map((menuID) => {
+      props.product && props.product.menus.map((menuID) => {
         menus.map((menu) => {
           if (menuID == menu._id)
             newMenuList.push({ value: menu._id, label: menu.hebrewName })
@@ -104,52 +108,54 @@ export function NewProduct(props) {
     selectedOption.map((x) => {
       menuList.push(x.value)
     })
-    const updateProduct = {
-      _id: fields.Id,
-      name: fields.name,
-      hebrewName: fields.hebrewName,
-      details: fields.description,
-      hebrewDetails: fields.hebrewDescription,
-      categoryID: fields.categoryId,
-      outOfStock: fields.outOfStock,
-      display: fields.display,
-      recommended: fields.recommended,
-      priceList: priceList,
-      menus: menuList,
-      img: file && file
+    if (props.action == "edit") {
+      const updateProduct = {
+        _id: fields.Id,
+        name: fields.name,
+        hebrewName: fields.hebrewName,
+        details: fields.description,
+        hebrewDetails: fields.hebrewDescription,
+        categoryID: fields.categoryId,
+        outOfStock: fields.outOfStock,
+        display: fields.display,
+        recommended: fields.recommended,
+        priceList: priceList,
+        menus: menuList,
+        img: file && file
 
+      }
+
+      //props.updateProduct(updateProduct)
+      document.getElementById("editMessage").style.display = "block"
+      //close popup
+    }
+    else {
+      const newProduct = {
+        _id: fields.Id,
+        name: fields.name,
+        hebrewName: fields.hebrewName,
+        details: fields.description,
+        hebrewDetails: fields.hebrewDescription,
+        categoryID: fields.categoryId,
+        outOfStock: fields.outOfStock,
+        display: fields.display,
+        recommended: fields.recommended,
+        priceList: priceList,
+        menus: menuList,
+        img: file && file
+
+      }
+
+      // const product = await props.createProduct(newProduct)
+      document.getElementById("addMessage").style.display = "block"
+      window.scrollBy(0, 50)
+      //close popup
     }
 
-    //props.updateProduct(updateProduct)
-    document.getElementById("message").style.display = "block"
 
-    // window.setTimeout(function () {
-    //      setShow(false);
-    //    }, 5000);
-
-    //$('#EditModal').modal('toggle');
     //add product
 
-    // const newProduct = {
-    //   name: fields.name,
-    //   hebrewName: fields.hebrewName,
-    //   details: fields.description,
-    //   hebrewDetails: fields.hebrewDescription,
-    //   categoryID: fields.categoryId,
-    //   outOfStock: fields.outOfStock,
-    //   display: fields.display,
-    //   recommended: fields.recommended,
-    //   priceList: priceList,
-    //   img: file && file.name
-    // }
 
-
-    // const product = await props.createProduct(newProduct)
-
-    // setShow(true);
-    // window.setTimeout(function () {
-    //   setShow(false);
-    // }, 5000);
 
     // // clear all input values in the form
     // document.getElementById("productForm").reset();
@@ -309,23 +315,20 @@ export function NewProduct(props) {
           "עריכת מוצר" : "הוספת מוצר חדש"
         }
       </h4>
-
       <Formik
-
         initialValues={{
-          Id: props.product._id,
-          name: props.product.name,
-          hebrewName: props.product.hebrewName,
-          description: props.product.details,
-          hebrewDescription: props.product.hebrewDetails,
-          amountId0: props.product.priceList[0].amount,
-          price0: props.product.priceList[0].price,
-          categoryId: props.product.categoryID,
-          outOfStock: props.product.outOfStock,
-          display: props.product.display,
-          recommended: props.product.recommended,
+          Id: props.product && props.product._id,
+          name: props.product && props.product.name,
+          hebrewName: props.product && props.product.hebrewName,
+          description: props.product && props.product.details,
+          hebrewDescription: props.product && props.product.hebrewDetails,
+          amountId0: props.product && props.product.priceList[0].amount,
+          price0: props.product && props.product.priceList[0].price,
+          categoryId: props.product && props.product.categoryID,
+          outOfStock: props.product && props.product.outOfStock,
+          display: props.product && props.product.display,
+          recommended: props.product && props.product.recommended,
         }}
-
         onSubmit={onSubmit}
       >
         {() => (
@@ -341,7 +344,6 @@ export function NewProduct(props) {
                     pl
                   />
                 </div>
-
                 <div className="form-group">
                   <lable className="lableForm">שם מוצר:</lable>
                   <Field
@@ -380,10 +382,9 @@ export function NewProduct(props) {
                     name="description"
                   />
                 </div>
-
                 {/* <div className="pricesDiv"> */}
                 <div
-                  className="d-flex  row align-items-center pl-2"
+                  className="d-flex row align-items-center pl-2"
                   id="productPrice"
                 >
                   <div className="form-group col-6">
@@ -491,7 +492,7 @@ export function NewProduct(props) {
                 </div>
 
                 <span className="hiddenFileInput" style={{ backgroundImage: `url(${image})` }}>
-              
+
 
                   <Field
                     type="file"
@@ -504,8 +505,10 @@ export function NewProduct(props) {
                 </span>
 
               </div>
+             
+              <div className='mb-3 mt-2'>
               <button
-                className="btn goldButton mb-3 mt-2"
+                className="btn goldButton  my-2"
                 id="addProduct"
                 type="submit"
               >
@@ -514,7 +517,11 @@ export function NewProduct(props) {
                 }
 
               </button>
-              <div id="message" style={{ display: "none" }}>המוצר עודכן בהצלחה</div>
+                <div id="editMessage" style={{ display: "none" }}>המוצר עודכן בהצלחה</div>
+                <div id="addMessage" style={{ display: "none" }}>המוצר התווסף בהצלחה</div>
+              </div>
+
+
             </div>
 
 

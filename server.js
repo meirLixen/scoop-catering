@@ -56,7 +56,7 @@ app.use((req, res, next) => {
     res.send(`
     <form action="/" method="post" style="text-align: center;">
     <label for="scoopCode" >Enter code:</label><br>
-    <input type="text" id="scoopCode" name="scoopCode"><br><br>
+    <input type="password" id="scoopCode" name="scoopCode"><br><br>
     <input type="submit" value="Send">
   </form>
     `)
