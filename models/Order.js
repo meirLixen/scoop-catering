@@ -1,6 +1,7 @@
 
 const mongoose = require('mongoose')
 const { Product } = require('./Product')
+const { Menu } = require('./Menu')
 const { User } = require('./User')
 
 const orderSchema = new mongoose.Schema({
@@ -20,6 +21,9 @@ const orderSchema = new mongoose.Schema({
     },
     CostToPay: {
         type: String
+    },
+    orderType:{
+         type: mongoose.Schema.Types.ObjectId, ref: "Menu" 
     },
     MethodsOfShipping: {
         type: String,

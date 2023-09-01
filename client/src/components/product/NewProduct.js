@@ -125,13 +125,17 @@ export function NewProduct(props) {
 
       }
 
-      //props.updateProduct(updateProduct)
+      props.updateProduct(updateProduct)
+
       document.getElementById("editMessage").style.display = "block"
+      setTimeout(() => {
+        props.closeModal()
+      }, 2000)
       //close popup
     }
     else {
       const newProduct = {
-        _id: fields.Id,
+       
         name: fields.name,
         hebrewName: fields.hebrewName,
         details: fields.description,
@@ -146,9 +150,11 @@ export function NewProduct(props) {
 
       }
 
-      // const product = await props.createProduct(newProduct)
+       const product = await props.createProduct(newProduct)
       document.getElementById("addMessage").style.display = "block"
-      window.scrollBy(0, 50)
+      setTimeout(() => {
+        props.closeModal()
+      }, 2000)
       //close popup
     }
 
@@ -477,6 +483,7 @@ export function NewProduct(props) {
                       name="display"
                       id="newDisplay"
                       className=""
+                      value="true"
                     />
                     <lable className="mr-1 lableForm my-0">תצוגה באתר</lable>
                   </div>
@@ -490,6 +497,8 @@ export function NewProduct(props) {
                     <lable className="mr-1 lableForm my-0">מומלץ</lable>
                   </div>
                 </div>
+                <div><lable className="mr-1 lableForm my-0">תמונת מוצר</lable></div>
+
 
                 <span className="hiddenFileInput" style={{ backgroundImage: `url(${image})` }}>
 
@@ -505,18 +514,18 @@ export function NewProduct(props) {
                 </span>
 
               </div>
-             
-              <div className='mb-3 mt-2'>
-              <button
-                className="btn goldButton  my-2"
-                id="addProduct"
-                type="submit"
-              >
-                {props.action == "edit" ?
-                  "בצע עדכון" : "העלה מוצר"
-                }
 
-              </button>
+              <div className='mb-3 mt-2'>
+                <button
+                  className="btn goldButton  my-2"
+                  id="addProduct"
+                  type="submit"
+                >
+                  {props.action == "edit" ?
+                    "בצע עדכון" : "העלה מוצר"
+                  }
+
+                </button>
                 <div id="editMessage" style={{ display: "none" }}>המוצר עודכן בהצלחה</div>
                 <div id="addMessage" style={{ display: "none" }}>המוצר התווסף בהצלחה</div>
               </div>

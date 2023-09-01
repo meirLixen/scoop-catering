@@ -21,24 +21,21 @@ router.get("/menus", async (req, res) => {
 
 //add menu
 router.post("/menu/", async (req, res) => {
-   
   try {
-    //const category = await Category.findOne({ _id: req.body.categoryID });
+ 
     const newMenu = new Menu(req.body);
     await newMenu.save();
-   // await category.products.push(newProduct);
-   // await category.save();
-
-    res.json({ status: 201, menu: newMenu });
+   
+    res.json({ status: 201, product: newMenu });
   } catch (err) {
     res.json({ status: 500, error: err });
   }
 });
 
-// edit product
-router.post("/products/:id", async (req, res) => {
+// edit menu
+router.post("/menus/:id", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = Object.keys(new Product());
+  const allowedUpdates = Object.keys(new Menu());
   const isValidOpreration = updates.every((update) => {
     allowedUpdates.includes(update);
   });
@@ -46,24 +43,24 @@ router.post("/products/:id", async (req, res) => {
     return res.status(404).send("invalid update");
   }
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    const menu = await Menu.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
-    if (!product) {
-      res.status(404).send("product not found");
+    if (!menu) {
+      res.status(404).send("menu not found");
     }
-    res.send(product);
+    res.send(menu);
   } catch (err) {
     console.error(err);
   }
 });
 
-//delete product
-router.delete("/product/:id", async (req, res) => {
-  Product.findByIdAndDelete(req.params.id, (err, product) => {
+//delete menu
+router.delete("/menu/:id", async (req, res) => {
+  Menu.findByIdAndDelete(req.params.id, (err, menu) => {
     if (err) res.status(400).send(err);
-    res.status(200).send(product);
+    res.status(200).send(menu);
   });
 });
 
@@ -77,32 +74,32 @@ router.delete("/product/:id", async (req, res) => {
 
 // })
 
-//copy product
-router.post("/copyProduct/:id", async (req, res) => {
+//copy menu
+router.post("/copyMenu/:id", async (req, res) => {
   const id = req.params.id;
-  Product.findById(id)
-    .then((product) => {
-      if (!product) {
-        return res.status(404).send("product not found");
+  Menu.findById(id)
+    .then((menu) => {
+      if (!menu) {
+        return res.status(404).send("menu not found");
       }
       let copy = {
-        name: product.name,
-        hebrewName: product.hebrewName,
-        price: product.price,
-        outOfStock: product.outOfStock,
-        display: product.display,
-        description: product.description,
-        hebrewDescription: product.hebrewDescription,
-        categoryID: product.categoryID,
+        name: menu.name,
+        hebrewName: menu.hebrewName,
+        price: menu.price,
+        outOfStock: menu.outOfStock,
+        display: menu.display,
+        description: menu.description,
+        hebrewDescription: menu.hebrewDescription,
+        categoryID: menu.categoryID,
       };
-      const nproduct = new Product(copy);
+      const nMenu = new Menu(copy);
       try {
-        const newProduct = nproduct.save(function (err, product) {
+        const newMenu = nMenu.save(function (err, menu) {
           if (err) {
             console.error(err);
             return err;
           }
-          res.json({ status: 201, product: product });
+          res.json({ status: 201, menu: menu });
         });
       } catch (err) {
         res.json({ status: 500, error: err });
@@ -115,15 +112,15 @@ router.post("/copyProduct/:id", async (req, res) => {
 
 
 
-// get product by id
-router.get("/product/:id", async (req, res) => {
+// get menu by id
+router.get("/menu/:id", async (req, res) => {
   const id = req.params.id;
-  Product.findById(id)
-    .then((product) => {
-      if (!product) {
-        return res.status(404).send("product not found");
+  Menu.findById(id)
+    .then((menu) => {
+      if (!menu) {
+        return res.status(404).send("menu not found");
       }
-      res.send(product);
+      res.send(menu);
     })
     .catch((err) => {
       res.status(500).send(err);

@@ -851,7 +851,7 @@ form .icon-ltr:focus {
   box-shadow: 0 0px 4px 0px rgb(0 0 0 / 25%);
   border-top: 0.7rem solid #c59950;
   /* border-top: 10px solid #C59950; */
-  border-radius: 10px ;
+  border-radius: 10px;
 }
 
 .leftColumn {
@@ -1500,12 +1500,15 @@ small {
   height: 35px;
   /* height: 50%; */
 }
-.nav-link{
-  color: #495057!important;
+
+.nav-link {
+  color: #495057 !important;
 }
-.nav-link.active{
-  color: #c59950!important;
+
+.nav-link.active {
+  color: #c59950 !important;
 }
+
 .form-check-input:checked {
   background-color: #c39957 !important;
   border-color: #c39957 !important;
@@ -1541,11 +1544,13 @@ small {
 
 .sidColumn::-webkit-scrollbar {
   width: 0px !important;
- 
+
 }
-.categoryList::-webkit-scrollbar{
+
+.categoryList::-webkit-scrollbar {
   display: none !important;
 }
+
 .overflow-checkout::-webkit-scrollbar {
   width: 5px !important;
 }
@@ -1598,6 +1603,27 @@ small {
   margin-right: 37%;
   user-select: none;
 
+}
+
+.hiddenCategoryImage>input {
+  height: 100%;
+  width: 100;
+  opacity: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hiddenCategoryImage {
+  border: 1px solid #ccc;
+  height: 100px;
+  background-color: #e3e3e3;
+  display: inline-block;
+  overflow: hidden;
+  cursor: pointer;
+  background: center center no-repeat;
+  background-size: 100%;
+  margin-right: 37%;
+  user-select: none;
 }
 
 .errorInput {
@@ -1756,10 +1782,12 @@ button.shippingOption:hover {
   }
 
 }
-.addPadding{
+
+.addPadding {
   padding-top: 15vh;
 }
-.ctegorySection{
+
+.ctegorySection {
   display: block;
   height: 100px;
   margin-top: -50px;
@@ -1767,29 +1795,33 @@ button.shippingOption:hover {
 }
 
 @media screen and (max-width: 1024px) {
- .stickyBox {
-      display: none !important;
+  .stickyBox {
+    display: none !important;
   }
-  .categoryList{
+
+  .categoryList {
     border-radius: 0px !important;
   }
+
   /* .middleColumn{
     width: 100% !important;
   } */
-  .pageNuvMenu{
-    top:0 !important
+  .pageNuvMenu {
+    top: 0 !important
   }
+
   /* .topPage{
     display: none !important;
   } */
-  .mobileView{
+  .mobileView {
     display: block !important;
   }
-  
-  .middleColumn{
+
+  .middleColumn {
     display: none !important;
   }
- .TopPageDesktop{
-  height: 80px !important;
- }
+
+  .TopPageDesktop {
+    height: 80px !important;
+  }
 }

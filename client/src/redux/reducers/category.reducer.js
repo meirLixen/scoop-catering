@@ -13,6 +13,19 @@ const categoryReducer = {
     },
     setCategory(state, action) {
         state.currentCategory = action.payload;
+
+        console.log("state.currentCategory", state.currentCategory);
+        const index = state.categories.map((category) => category._id).indexOf(state.currentCategory._id);
+        if (index !== -1) {
+            state.categories[index] = state.currentCategory;
+        }
+        // else {
+        //     state.categories.push(action.payload)
+        // }
+
+
+
+
     },
     deleteCategoryFromCategories(state, action) {
         const categoryId = action.payload;

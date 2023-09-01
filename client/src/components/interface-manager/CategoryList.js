@@ -7,18 +7,31 @@ import Table from "react-bootstrap/Table";
 import { connect } from "react-redux";
 import "../../App.css";
 import { actions } from "../../redux/actions/action";
-import NewProduct from "../product/NewProduct";
+import AddEditCategory from "./AddEditCategory";
 
 function CategoryListManager(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
 
   const [show, setShow] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+
   const [idToDelete, setIdToDelete] = useState();
-  const [productToEdit, setProductToEdit] = useState();
+  const [categoryToEdit, setCategoryToEdit] = useState();
 
 
   const handleClose = () => setShow(false);
+
+
+  const closeEditModal = () => {
+    setShowEditModal(false)
+  }
+  const closeAddModal = () => {
+    setShowAddModal(false)
+  }
+  const addCategory = async () => {
+    setShowAddModal(true)
+  }
   const { menus } = props;
   const { products } = props;
   const { categories } = props;
@@ -34,7 +47,7 @@ function CategoryListManager(props) {
   }, [])
 
   useEffect(() => {
-  
+
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -43,9 +56,9 @@ function CategoryListManager(props) {
       };
       const sortProperty = types[type];
       if (categoryList.length)
-        setCategoryList(products)
+        setCategoryList(categories)
       // eslint-disable-next-line
-      const sorted = [...products].sort((a, b) => {
+      const sorted = [...categories].sort((a, b) => {
         var regex = /^[a-zA-Z]+$/;
         if ([sortProperty] !== "" && [sortProperty] !== undefined) {
           if (
@@ -128,10 +141,10 @@ function CategoryListManager(props) {
     }
   };
 
-  const editItem = async (product) => {
+  const editItem = async (category) => {
 
-    // setProductToEdit(product)
-    // setShowEditModal(true);
+    setCategoryToEdit(category)
+    setShowEditModal(true);
 
 
   };
@@ -141,45 +154,39 @@ function CategoryListManager(props) {
     setShow(true);
 
   }
-  function deleteProduct() {
+  function deleteCategory() {
     const menus = idToDelete.menus.filter(e => e !== selectedMenu);
-    const updateProduct = {
+    const updateCategory = {
       _id: idToDelete._id,
       name: idToDelete.name,
       hebrewName: idToDelete.hebrewName,
-      details: idToDelete.details,
-      hebrewDetails: idToDelete.hebrewDetails,
-      categoryID: idToDelete.categoryID,
-      outOfStock: idToDelete.outOfStock,
-      display: idToDelete.display,
-      recommended: idToDelete.recommended,
-      priceList: idToDelete.priceList,
       img: idToDelete.img,
       menus: menus
     }
 
-
-
-    // props.updateProduct(updateProduct)
-    //props.deleteProduct(idToDelete);
+    //props.deleteCategory(idToDelete);
     setShow(false);
-   
+
   }
 
   return (
     <div className="container px-0  pb-0">
 
-      <Modal show={showEditModal} onHide={()=>setShowEditModal(false)} animation={false} id="EditModal">
+      <Modal show={showEditModal} onHide={closeEditModal} animation={false} id="EditModal">
         <Modal.Header closeButton className="bg-light">
           <Modal.Title></Modal.Title>
         </Modal.Header>
-          <div className="NewProduct text-center p-3 pb-0 bg-light">
-            <NewProduct product={productToEdit} action="edit" />
-          </div>
-
-
-
-
+        <div className=" text-center p-3 pb-0 bg-light">
+          <AddEditCategory category={categoryToEdit} action="edit" closeModal={closeEditModal} />
+        </div>
+      </Modal>
+      <Modal show={showAddModal} onHide={closeAddModal} animation={false} id="AddModal">
+        <Modal.Header closeButton className="bg-light">
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <div className=" text-center p-3 pb-0 bg-light">
+          <AddEditCategory action="add" closeModal={closeAddModal} />
+        </div>
       </Modal>
 
       <Modal show={show} onHide={handleClose} animation={false}>
@@ -193,25 +200,27 @@ function CategoryListManager(props) {
           <Button variant=" secondary" className="" onClick={handleClose}>
             לא
           </Button>
-          <Button className="btn goldButton  rounded-0" onClick={deleteProduct}>
+          <Button className="btn goldButton  rounded-0" onClick={deleteCategory}>
             כן
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* <h1>ממשק מנהל</h1> */}
+     
       <div className="d-flex     justify-content-between rtl mt-2" style={{ height: "800px !important" }}>
-        {/* <Search details={products} /> */}
+  
 
         <div className=" productList col-md-12 p-3 bg-light">
-          {/* <button onClick={e => openForm()}>adddddd</button> */}
-          <div className="row d-flex titles  mb-5">
+       
+          <div className="row d-flex titles  mb-3">
             <div className="col-3  text-end">
               מס' קטגוריות: {categories.length}
             </div>
 
-          
-          </div>
 
+          </div>
+          <div className="mb-3 text-end">
+            <button onClick={addCategory} style={{ border: "1px solid #ced4da !important" }}>הוספת קטגוריה חדשה</button>
+          </div>
 
           <Table className="w-100">
             <thead>
@@ -232,7 +241,7 @@ function CategoryListManager(props) {
                 >
                   שם קטגוריה (אנגלית)
                 </th>
-               
+
                 <th
                   className="col-3 lableForm"
                   value="createDate"
@@ -242,29 +251,29 @@ function CategoryListManager(props) {
                   עדכון אחרון
                 </th>
 
-                <th className="col-1 lableForm  "></th>
+                {/* <th className="col-1 lableForm  "></th> */}
                 <th className="col-1 lableForm  "></th>
               </tr>
             </thead>
 
             <tbody className="">
               {categories
-               .map((item) => (
+                .map((item) => (
                   <>
                     <tr className=" bg-white   col-12">
                       <td className=" border-0 col-2">{item.hebrewName}</td>
                       <td className=" border-0 col-3">{item.name}</td>
-                    
+
                       <td className=" border-0 col-3">{
 
                         item.createDate.toString().split('T')[0]
                       }</td>
-                      <td
+                      {/* <td
                         className="border-0 bg-transparent col-1"
                         onClick={() => openDeleteMoodal(item)}
                       >
                         <i className="fas fa-trash-alt "></i>
-                      </td>
+                      </td> */}
                       <td
                         className="border-0 bg-transparent col-1"
                         onClick={() => editItem(item)}
@@ -281,11 +290,7 @@ function CategoryListManager(props) {
             </tbody>
           </Table>
         </div>
-        {/* <div className="col-md-1 p-0"></div> */}
-        {/* <div className="col-md-4  NewProduct  p-3 pb-0 bg-light">
-          <NewProduct product={productToEdit} />
-        </div> */}
-        {/* <div className='col-md-4  NewProduct  p-3 pb-0 bg-light' ><AddEdit /></div> */}
+      
       </div>
     </div>
   );
@@ -300,7 +305,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => ({
   deleteCategory: (id) => dispatch(actions.deleteCategory(id)),
-  updateCategory: (product) => dispatch(actions.updateCategory(product)),
+  updateCategory: (category) => dispatch(actions.updateCategory(category)),
   copyCategory: (id) => dispatch(actions.copyCategory(id)),
   getCategoryByID: (id) => dispatch(actions.getCategoryByID(id)),
   getAllCategories: () => dispatch(actions.getAllCategories()),
