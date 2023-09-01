@@ -128,6 +128,12 @@ function ProductListManager(props) {
       setCategoryList(list);
     }
   };
+  const closeEditModal = () => {
+    setShowEditModal(false)
+  }
+  const closeAddModal = () => {
+    setShowAddModal(false)
+  }
   const addProduct = async () => {
     setShowAddModal(true)
   }
@@ -172,20 +178,20 @@ function ProductListManager(props) {
   return (
     <div className="container px-0  pb-0">
 
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)} animation={false} id="EditModal">
+      <Modal show={showEditModal} onHide={closeEditModal} animation={false} id="EditModal">
         <Modal.Header closeButton className="bg-light">
           <Modal.Title></Modal.Title>
         </Modal.Header>
         <div className="NewProduct text-center p-3 pb-0 bg-light">
-          <NewProduct product={productToEdit} action="edit" />
+          <NewProduct product={productToEdit} action="edit" closeModal={closeEditModal} />
         </div>
       </Modal>
-      <Modal show={showAddModal} onHide={() => setShowAddModal(false)} animation={false} id="AddModal">
+      <Modal show={showAddModal} onHide={closeAddModal} animation={false} id="AddModal">
         <Modal.Header closeButton className="bg-light">
           <Modal.Title></Modal.Title>
         </Modal.Header>
         <div className="NewProduct text-center p-3 pb-0 bg-light">
-          <NewProduct action="add" />
+          <NewProduct action="add" closeModal={closeAddModal} />
         </div>
       </Modal>
 
@@ -345,7 +351,7 @@ function ProductListManager(props) {
                   עדכון אחרון
                 </th>
 
-                <th className="col-1 lableForm  "></th>
+                {/* <th className="col-1 lableForm  "></th> */}
                 <th className="col-1 lableForm  "></th>
               </tr>
             </thead>
@@ -387,12 +393,12 @@ function ProductListManager(props) {
 
                         item.createDate.toString().split('T')[0]
                       }</td>
-                      <td
+                      {/* <td
                         className="border-0 bg-transparent col-1"
                         onClick={() => openDeleteMoodal(item)}
                       >
                         <i className="fas fa-trash-alt "></i>
-                      </td>
+                      </td> */}
                       <td
                         className="border-0 bg-transparent col-1"
                         onClick={() => editItem(item)}

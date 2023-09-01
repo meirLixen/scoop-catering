@@ -34,34 +34,38 @@ const categories = path.join(__dirname, "public", "images", "categories");
 const icons = path.join(__dirname, "public", "images", "icons");
 const backgrounds = path.join(__dirname, "public", "images", "backgrounds");
 
-//app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
-app.use((req, res, next) => {
+
+// app.use((req, res, next) => {
  
-  const cookie = req.cookies ? req.cookies['scoopCode'] : null;
-  const body = req.body ? req.body['scoopCode'] : null;
+//   const cookie = req.cookies ? req.cookies['scoopCode'] : null;
+//   const body = req.body ? req.body['scoopCode'] : null;
 
-  if (cookie && cookie === "1234q^abcd") {
-    next();
-  } else if (body) {
+//   if (cookie && cookie === "1234q^abcd") {
+//     next();
+//   } else if (body) {
    
-    if (body === "1234q^abcd") {
-      res.cookie('scoopCode', body, { maxAge: 900000, httpOnly: true });
-      res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-    } else {
-      res.send("invalid code")
-    }
-  } else {
+//     if (body === "1234q^abcd") {
+//       res.cookie('scoopCode', body, { maxAge: 900000, httpOnly: true });
+//       res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+//     } else {
+//       res.send("invalid code")
+//     }
+//   } else {
    
-    res.send(`
-    <form action="/" method="post" style="text-align: center;">
-    <label for="scoopCode" >Enter code:</label><br>
-    <input type="password" id="scoopCode" name="scoopCode"><br><br>
-    <input type="submit" value="Send">
-  </form>
-    `)
-  }
-})
+//     res.send(`
+//     <form action="/" method="post" style="text-align: center;">
+//     <label for="scoopCode" >Enter code:</label><br>
+//     <input type="password" id="scoopCode" name="scoopCode"><br><br>
+//     <input type="submit" value="Send">
+//   </form>
+//     `)
+//   }
+// })
+
+
+
+
 app.use(express.static(products));
 app.use(express.static(categories));
 app.use(express.static(icons));

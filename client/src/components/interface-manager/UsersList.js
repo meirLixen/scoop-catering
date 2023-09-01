@@ -184,6 +184,8 @@ function UsersList(props) {
                 <th className=" lableForm  col-1">טלפון נוסף </th>
 
                 <th className=" lableForm  col-1">קוד קופון </th>
+                <th className=" lableForm  col-1"> סוג משתמש</th>
+
                 {/* <th className=' lableForm  col-1'>חשבונית</th> */}
               </tr>
             </thead>
@@ -212,6 +214,7 @@ function UsersList(props) {
                     <td className=" border-0 col-1">
                       {item.codeCupon ? item.codeCupon : ""}
                     </td>
+                    <td className=" border-0 col-1">{item.userType}</td>
 
                     {/* <td className=' border-0'>{item.createDate}</td> */}
                   </tr>

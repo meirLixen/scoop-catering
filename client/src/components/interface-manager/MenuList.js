@@ -7,19 +7,30 @@ import Table from "react-bootstrap/Table";
 import { connect } from "react-redux";
 import "../../App.css";
 import { actions } from "../../redux/actions/action";
-import NewProduct from "../product/NewProduct";
+import AddEditMenu from "./AddEditMenu";
 
 
 function MenuList(props) {
   // const [isAddMode, setIsAddMode] = useState(true);
 
   const [show, setShow] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
-  const [productToEdit, setProductToEdit] = useState();
-
+  const [menuToEdit, setMenuToEdit] = useState();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const handleClose = () => setShow(false);
+  const addMenu = async () => {
+    setShowAddModal(true)
+  }
+  const closeEditModal = () => {
+    setShowEditModal(false)
+  
+  }
+  const closeAddModal = () => {
+    setShowAddModal(false)
+  }
   const { menus } = props;
   const { products } = props;
   const { categories } = props;
@@ -35,7 +46,7 @@ function MenuList(props) {
   }, [])
 
   useEffect(() => {
-  
+
     const sortArray = (type) => {
       const types = {
         hebrewName: "hebrewName",
@@ -86,7 +97,7 @@ function MenuList(props) {
       });
     }
     // eslint-disable-next-line
-  }, [props]);
+  }, [props, props.menus]);
   const filteredSearch = (item) => {
     if (query === '') {
       return item;
@@ -129,10 +140,10 @@ function MenuList(props) {
     }
   };
 
-  const editItem = async (product) => {
-
-    // setProductToEdit(product)
-    // setShowEditModal(true);
+  const editItem = async (menu) => {
+    console.log("edit menu");
+    setMenuToEdit(menu)
+    setShowEditModal(true);
 
 
   };
@@ -142,45 +153,30 @@ function MenuList(props) {
     setShow(true);
 
   }
-  function deleteProduct() {
-    const menus = idToDelete.menus.filter(e => e !== selectedMenu);
-    const updateProduct = {
-      _id: idToDelete._id,
-      name: idToDelete.name,
-      hebrewName: idToDelete.hebrewName,
-      details: idToDelete.details,
-      hebrewDetails: idToDelete.hebrewDetails,
-      categoryID: idToDelete.categoryID,
-      outOfStock: idToDelete.outOfStock,
-      display: idToDelete.display,
-      recommended: idToDelete.recommended,
-      priceList: idToDelete.priceList,
-      img: idToDelete.img,
-      menus: menus
-    }
-
-
-
-    // props.updateProduct(updateProduct)
-    //props.deleteProduct(idToDelete);
-    setShow(false);
-   
+  function deleteMenu() {
+    props.deleteMenu(idToDelete);
+    handleClose();
   }
+
 
   return (
     <div className="container px-0  pb-0">
 
-      <Modal show={showEditModal} onHide={()=>setShowEditModal(false)} animation={false} id="EditModal">
+      <Modal show={showEditModal} onHide={closeEditModal} animation={false} id="EditModal">
         <Modal.Header closeButton className="bg-light">
           <Modal.Title></Modal.Title>
         </Modal.Header>
-          <div className="NewProduct text-center p-3 pb-0 bg-light">
-            <NewProduct product={productToEdit} action="edit" />
-          </div>
-
-
-
-
+        <div className=" text-center p-3 pb-0 bg-light">
+          <AddEditMenu menu={menuToEdit} action="edit" closeModal={closeEditModal} />
+        </div>
+      </Modal>
+      <Modal show={showAddModal} onHide={closeAddModal} animation={false} id="AddModal">
+        <Modal.Header closeButton className="bg-light">
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <div className=" text-center p-3 pb-0 bg-light">
+          <AddEditMenu action="add" closeModal={closeAddModal} />
+        </div>
       </Modal>
 
       <Modal show={show} onHide={handleClose} animation={false}>
@@ -194,7 +190,7 @@ function MenuList(props) {
           <Button variant=" secondary" className="" onClick={handleClose}>
             לא
           </Button>
-          <Button className="btn goldButton rounded-0" onClick={deleteProduct}>
+          <Button className="btn goldButton rounded-0" onClick={deleteMenu}>
             כן
           </Button>
         </Modal.Footer>
@@ -205,12 +201,15 @@ function MenuList(props) {
 
         <div className=" productList col-md-12 p-3 bg-light">
           {/* <button onClick={e => openForm()}>adddddd</button> */}
-          <div className="row d-flex titles  mb-5">
+          <div className="row d-flex titles  mb-3">
             <div className="col-3  text-end">
               מס' תפריטים: {menus.length}
             </div>
 
-          
+
+          </div>
+          <div className="mb-3 text-end">
+            <button onClick={addMenu} style={{ border: "1px solid #ced4da !important" }}>הוספת תפריט חדש</button>
           </div>
 
 
@@ -251,7 +250,7 @@ function MenuList(props) {
 
             <tbody className="">
               {menus
-               .map((item) => (
+                .map((item) => (
                   <>
                     <tr className=" bg-white  col-12">
                       <td className=" border-0 col-2">{item.hebrewName}</td>
@@ -281,7 +280,7 @@ function MenuList(props) {
             </tbody>
           </Table>
         </div>
-       
+
       </div>
     </div>
   );
@@ -296,7 +295,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => ({
   deleteMenu: (id) => dispatch(actions.deleteMenu(id)),
-  updateMenu: (product) => dispatch(actions.updateMenu(product)),
+  updateMenu: (menu) => dispatch(actions.updateMenu(menu)),
   copyMenu: (id) => dispatch(actions.copyMenu(id)),
   getMenuByID: (id) => dispatch(actions.getMenuByID(id)),
   getAllMenus: () => dispatch(actions.getAllMenus()),

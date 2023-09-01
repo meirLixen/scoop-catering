@@ -29,7 +29,18 @@ router.post("/categories/:id", async (req, res) => {
   if (isValidOpreration) {
     return res.status(404).send("invalid update");
   }
-  res.send(category);
+  try {
+    const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!category) {
+      res.status(404).send("category not found");
+    }
+    res.send(category);
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // delete category

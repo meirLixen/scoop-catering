@@ -2,11 +2,11 @@ import thunk from "redux-thunk";
 import { getAllProducts, createProduct, deleteProduct, updateProduct, copyProduct, getProductByID } from './product'
 import { getAllUsers, createUser } from './user'
 import { getAllOrders, createOrder, deleteOrder } from './order'
-import { getAllCategories } from './category'
-import { getAllMenus } from "./menu";
+import { getAllCategories, createCategory, updateCategory } from './category'
+import { getAllMenus, createMenu, deleteMenu, updateMenu, getMenuByID } from "./menu";
 import { getAllAmounts } from './amount'
 import { getAllProductsOnOrder } from "./productOnOrder";
-import {updateUser} from "./user"
+import { updateUser } from "./user"
 // import { setSearchWord } from './searchWord';
 
 
@@ -24,7 +24,11 @@ const AppMiddleware = [
     createUser,
     updateUser,
 
-
+    createMenu,
+    deleteMenu,
+    updateMenu,
+    createCategory,
+    updateCategory,
     getAllOrders,
     createOrder,
     deleteOrder,

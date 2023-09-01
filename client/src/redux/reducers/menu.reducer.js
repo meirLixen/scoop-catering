@@ -14,6 +14,16 @@ const menuReducer = {
   },
   setMenu(state, action) {
     state.currentMenu = action.payload;
+    console.log("state.currentMenu", state.currentMenu);
+    const index = state.menus.map((menu) => menu._id).indexOf(state.currentMenu._id);
+    if (index !== -1) {
+      state.menus[index] = state.currentMenu;
+    }
+    else {
+      state.menus.push(state.currentMenu.product)
+    }
+
+
   },
   deleteMenuFromMenus(state, action) {
     const menuId = action.payload;

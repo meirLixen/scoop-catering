@@ -7,10 +7,11 @@ import { Preview, print } from "react-html2pdf";
 import { connect } from "react-redux";
 import "../../App.css";
 import { actions } from "../../redux/actions/action";
-
+import Form from "react-bootstrap/Form";
 function OrderSummary(props) {
-  const { productsOnOrder } = props;
+  const { productsOnOrder, menus } = props;
   const [data, setData] = useState([]);
+  const [selectedMenu, setSelectedMenu] = useState("selectMenu")
   const [sortType, setSortType] = useState("productId");
 
   if (!props.productsOnOrder || !props.productsOnOrder.length) {
@@ -25,7 +26,7 @@ function OrderSummary(props) {
 
 
   useEffect(() => {
-  
+
     const sortArray = (type) => {
       const types = {
         productId: "productId",
@@ -62,8 +63,21 @@ function OrderSummary(props) {
   // } else {
   return (
     <>
+      <Form.Select
+        aria-label="Default select example"
+        className="rounded-0  py-1 my-4 mr-4 col-2 ml-auto rtl"
+        required
+        onChange={e => setSelectedMenu(e.target.value)}
+      >
+        <option value="selectMenu">בחר תפריט</option>
+        {menus.map((menu) => (
+          <option key={menu._id} value={menu._id} >
+            {menu.hebrewName}
+          </option>
+        ))}
+      </Form.Select>
       <Tabs
-        defaultActiveKey="home"
+        defaultActiveKey={categories[0] && categories[0]._id}
         transition={false}
         id="noanim-tab-example"
         dir="rtl"
@@ -71,14 +85,16 @@ function OrderSummary(props) {
         {categories &&
           categories.length &&
           categories.map((category) => (
-            <Tab eventKey={category._id} title={category.hebrewName}>
+            <Tab eventKey={category._id} title={category.hebrewName} >
               <Preview id={"to" + category._id}>
                 <div className="m-3"> סיכום הזמנות : {category.hebrewName}</div>
 
                 <div className="col-md-12 productList ">
+
                   <Table bordered hover size="sm" className="w-50 m-auto">
                     <thead>
                       <tr>
+                       
                         <th onClick={(e) => setSortType("amount")}>כמות</th>
                         <th onClick={(e) => setSortType("productId")}>מוצר</th>
                       </tr>
@@ -105,7 +121,7 @@ function OrderSummary(props) {
 
               <button
                 className="mt-3"
-                onClick={() => print("a", "to" + category._id)}
+                onClick={() => print(category.hebrewName, "to" + category._id)}
               >
                 {" "}
                 הורדה{" "}
@@ -123,6 +139,7 @@ const mapStateToProps = (state) => {
   return {
     categories: state.categoryReducer.categories,
     productsOnOrder: state.productsOnOrderReducer.productsOnOrder,
+    menus: state.menuReducer.menus,
   };
 };
 const mapDispatchToProps = (dispatch) => ({

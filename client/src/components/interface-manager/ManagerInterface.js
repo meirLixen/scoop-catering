@@ -44,7 +44,7 @@ export function ManagerInterface(props) {
               <Tab eventKey="orderList" title="הזמנות">
                 <Orders />
               </Tab>
-              <Tab eventKey="OrderSummary" title="סיכום הזמנות">
+              <Tab eventKey="OrderSummary" title="סיכום הזמנות"  >
                 <OrderSummary />
               </Tab>
             </Tabs>
