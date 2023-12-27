@@ -16,7 +16,7 @@ export default function PrivateRoute({
       render={(props) => {
         if (allowAdminOnly) {
           const userType = userDetails?.userType;
-          return userType && userType !== "user" ? (
+          return userType && userType === "admin" ? (
             <Component {...props} />
           ) : (
             <div>אין לך הרשאה לעמוד זה</div>
