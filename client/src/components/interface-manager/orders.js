@@ -197,7 +197,14 @@ function Orders(props) {
             <tbody className="">
               {orders.map(
                 (item, index) =>
-                  item.status !== "done" && (
+                item.date  > new Date(new Date().setDate(new Date().getDate() - new Date().getDay()))&&
+                item.date<new Date(new Date().setDate(new Date().getDate() - new Date().getDay()+6))||
+                item.date  == new Date(new Date().setDate(new Date().getDate() - new Date().getDay()))||
+                item.date == new Date(new Date().setDate(new Date().getDate() - new Date().getDay()+6))
+                
+                && (
+                
+                  //item.status !== "done" && (
                     <Fragment key={index}>
                       <tr className=" bg-white  col-12 ">
                         <td className=" border-0 col-1">{index + 1}</td>
