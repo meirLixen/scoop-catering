@@ -188,7 +188,7 @@ export function Nuv(props) {
             </Nav.Link>
 
 
-            {userDetails.userType !== "user" &&
+            {userDetails.userType === "admin" &&
               <Nav.Link
                 id="manager"
                 className=" hoverLink"
