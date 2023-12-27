@@ -197,10 +197,10 @@ function Orders(props) {
             <tbody className="">
               {orders.map(
                 (item, index) =>
-                item.date  > new Date(new Date().setDate(new Date().getDate() - new Date().getDay()))&&
-                item.date<new Date(new Date().setDate(new Date().getDate() - new Date().getDay()+6))||
-                item.date  == new Date(new Date().setDate(new Date().getDate() - new Date().getDay()))||
-                item.date == new Date(new Date().setDate(new Date().getDate() - new Date().getDay()+6))
+                new Date(item.date) > new Date(new Date().setDate(new Date().getDate() - new Date().getDay()))&&
+                new Date(item.date) < new Date(new Date().setDate(new Date().getDate() - new Date().getDay()+6))||
+                new Date(item.date) == new Date(new Date().setDate(new Date().getDate() - new Date().getDay()))||
+                new Date(item.date) == new Date(new Date().setDate(new Date().getDate() - new Date().getDay()+6))
                 
                 && (
                 
